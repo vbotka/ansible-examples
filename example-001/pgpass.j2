@@ -1,0 +1,5 @@
+{% for item in pg_clients %}
+{% for user in item.postgres_users %}
+{{ pg_hostname }}:{{ pg_port }}:{{ pg_database }}:{{ user.name }}:{{ user.pass }}
+{% endfor %}
+{% endfor %}

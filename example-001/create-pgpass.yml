@@ -1,0 +1,35 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    pg_hostname: srv.example.com
+    pg_port: 5432
+    pg_database: db001
+    pg_clients:
+      - client1:
+        postgres_users:
+          - name: user1
+            pass: mypassword1
+          - name: user3
+            pass: mypassword2
+        postgres_user_priv_ssh_key: |   
+            a
+            multiline
+            var
+        postgres_user_pub_ssh_key: "ssh-rsa blahblahblah"
+      - client2:
+        postgres_users:
+          - name: user3
+            pass: mypassword3
+          - name: user4
+            pass: mypassword4
+        postgres_user_priv_ssh_key: |   
+            a.n.other
+            multiline
+            var
+        postgres_user_pub_ssh_key: "ssh-rsa blahblahblahdeblah"
+  tasks:
+    - template:
+        src: pgpass.j2
+        dest: .pgpass
