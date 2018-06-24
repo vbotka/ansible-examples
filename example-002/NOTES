@@ -1,0 +1,5 @@
+JMESPath Tutorial
+http://jmespath.org/tutorial.html
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#json-query-filter
+https://stackoverflow.com/questions/47218038/get-api-call-from-ansible-using-jquery-jmespath

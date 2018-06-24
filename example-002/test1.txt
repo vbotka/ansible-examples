@@ -1,0 +1,8 @@
+
+
+ctrl_interface /run/wpa_supplicant
+ctrl_interface_group adm
+fast_reauth 0
+update_config 1
+xxx x1
+xxx x2

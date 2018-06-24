@@ -1,0 +1,5 @@
+{{ config | json_query('config[0].value') }}
+
+{% for item in config %}
+{{ item.param }} {{ item.value }}
+{% endfor %}
