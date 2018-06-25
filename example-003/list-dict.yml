@@ -1,0 +1,18 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    CSI:
+      integration:
+        files:
+          - file1:
+              dest: "/tmp/dir1"
+              path: "/etc/flow-manager/secret"
+          - file2:
+              dest: "/tmp/dir2"
+              path: "/etc/flow-manager/secret"
+  tasks:
+    - debug:
+        msg: "src: {{ item.value.path}} dest: {{ item.value.dest }}"
+      with_dict: "{{ CSI.integration.files }}"
