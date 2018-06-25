@@ -1,0 +1,16 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    test_var:
+      - "foo         "
+      - "bar             "
+      
+  tasks:
+    - debug:
+        msg: ">{{ item }}<"
+      with_items: "{{ test_var }}"
+    - debug:
+        msg: ">{{ item }}<"
+      with_items: "{{ test_var | map('trim') | list }}"
