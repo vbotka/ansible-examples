@@ -1,0 +1,18 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    facts:
+      finance:
+        files:
+          - file1:
+              dest: "/tmp/dir1"
+              path: "/etc/finance/file1"
+          - file2:
+              dest: "/tmp/dir2"
+              path: "/etc/finance/file2"
+  tasks:
+    - debug:
+        msg: "src: {{ item.value.path}} dest: {{ item.value.dest }}"
+      with_dict: "{{ facts.finance.files }}"
