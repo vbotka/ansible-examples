@@ -1,0 +1,22 @@
+---
+
+- name: "Example of with_sequence loop"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    container_count: 5
+
+  tasks:
+    - name: Generate conf
+      lineinfile:
+        path: "./file.conf"
+        line: "server srv{{ idx + 1 }}.abc.com"
+        state: "present"
+        create: "yes"
+      with_sequence: count="{{ container_count }}"
+      loop_control:
+        index_var: idx
+
+# EOF
