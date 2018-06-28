@@ -1,0 +1,8 @@
+Feature request: make synchronize module idempotent by using the rsync "--dry-run" flag #37501
+https://github.com/ansible/ansible/issues/37501
+
+rsync changes owner,group and permissions of the destination
+directory. If the destination directory is created in the play before
+the synchronize task and owner,group and/or permissions are set it may
+potentially make following synchronize task to change it. This might
+seem like synchronize module is not idempotent.

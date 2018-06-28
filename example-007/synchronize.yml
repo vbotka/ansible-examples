@@ -1,0 +1,22 @@
+---
+
+- name: "Example of synchronize."
+  hosts: srv
+
+  vars:
+    source_path: "/scratch/le-utils/"
+    source_dest: "/scratch/test-007"
+
+  tasks:
+    - name: "Create {{ source_dest }}"
+      file:
+        path: "{{ source_dest }}"
+        state: directory
+    - name: "Copy {{ source_path }} to {{ source_dest }}"
+      synchronize:
+        src: "{{ source_path }}"
+        dest: "{{ source_dest }}"
+        rsync_opts:
+          - "--exclude=.git"
+
+# EOF
