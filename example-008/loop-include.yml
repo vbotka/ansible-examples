@@ -1,0 +1,20 @@
+---
+
+- name: 'Loop include_tasks'
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    my_list:
+      - 'foo'
+      - 'bar'
+
+  tasks:
+    - include_tasks: debug.yml
+      loop: '{{ my_list }}'
+      loop_control:
+        loop_var: item
+
+# EOF
+...

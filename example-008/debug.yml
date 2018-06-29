@@ -1,0 +1,6 @@
+---
+
+- debug: msg="item [ {{ item }} ]"
+
+# EOF
+...
