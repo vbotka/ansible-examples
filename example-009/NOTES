@@ -1,0 +1,3 @@
+Ansible: Loop over a list of services and disable those from a list of
+unwanted services which are actually present
+https://stackoverflow.com/questions/51137660/ansible-loop-over-a-list-of-services-and-disable-those-from-a-list-of-unwanted

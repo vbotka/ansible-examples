@@ -1,0 +1,15 @@
+---
+
+- name: 'Test service_facts'
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: populate service facts
+      service_facts:
+    - debug:
+        var: ansible_facts.services
+
+# EOF
+...

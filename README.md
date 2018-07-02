@@ -16,6 +16,7 @@ License
 - Example 6. Test with_sequence, loop_control and index_var.
 - Example 7. Test if synchronize module is idempotent.
 - Example 8. Loop include_tasks.
+- Example 9. Test service_facts.
 
 
 Author Information
