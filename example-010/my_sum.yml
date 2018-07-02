@@ -1,0 +1,24 @@
+---
+
+- name: 'Test calculation with Jinja'
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    var:
+      - name: object1
+        value: 1
+        oper: 2
+      - name: objectN
+        value: 40
+        oper: 8
+
+  tasks:
+    - set_fact:
+        my_sum: "{% set ns = namespace(sum=0) %}{% for e in var %}{% set ns.sum = ns.sum + e.value * e.oper %}{% endfor %}{{ ns.sum }}"
+    - debug:
+        var: my_sum
+
+# EOF
+...
