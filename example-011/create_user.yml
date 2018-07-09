@@ -1,0 +1,16 @@
+---
+
+- name: 'Test user module'
+  hosts: vm3
+  gather_facts: no
+
+  tasks:
+    - name: Create user
+      user:
+        name: test
+        system: yes
+        createhome: no
+        home: /home/test 
+
+# EOF
+...

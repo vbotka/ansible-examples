@@ -1,0 +1,2 @@
+regression in user module on FreeBSD 11.1 target starting with v2.6.0: always 'changed' #42484
+https://github.com/ansible/ansible/issues/42484
