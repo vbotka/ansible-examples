@@ -1,0 +1,43 @@
+---
+
+- name: 'Test block indentation'
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+
+    count: [1,2,3]
+    countN: 3
+
+  tasks:
+
+    - name: "Test block indentation 1"
+      block:
+      - debug:
+          msg: 'item No.{{ item }}'
+        loop: '{{ count }}'
+
+    - name: "Test block indentation 2"
+      block:
+        - debug:
+            msg: 'item No.{{ item }}'
+          loop: '{{ count }}'
+
+    - name: "Test block with_sequence 1"
+      block:
+        - debug:
+            msg: 'item No.{{ idx }}'
+          with_sequence: count='{{ countN }}'
+          loop_control:
+            index_var: idx
+
+    - name: "Test block with_sequence 2"
+      block:
+      - debug:
+          msg: 'item No.{{ idx }}'
+        with_sequence: count='{{ countN }}'
+        loop_control:
+          index_var: idx
+
+# EOF
+...
