@@ -14,6 +14,7 @@ Various examples of Ansbile code.
 - Example  9. Test service_facts.
 - Example 10. Test calculation with Jinja.
 - Example 11. Test user module with Ansible 2.6.1 and FreeBSD 11.2
+- Example 12. Select items from dictionary.
 
 
 License

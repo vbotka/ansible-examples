@@ -1,0 +1,37 @@
+---
+
+# From the dictionary 'package' select packages, listed in 'packages'.
+
+- name: 'Select items from dictionary'
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    packages:
+      required:
+        - p02
+        - p04
+    package:
+      p01:
+        par1: 'p01.par1'
+        par2: 'p01.par2'
+      p02:
+        par1: 'p02.par1'
+        par2: 'p02.par2'
+      p03:
+        par1: 'p03.par1'
+        par2: 'p03.par2'
+      p04:
+        par1: 'p04.par1'
+        par2: 'p04.par2'
+      p05:
+        par1: 'p05.par1'
+        par2: 'p05.par2'
+
+  tasks:
+    - debug:
+        msg: '{{ item }} {{ package[ item ].par1 }}'
+      loop: '{{ packages.required }}'
+      
+# EOF
+...
