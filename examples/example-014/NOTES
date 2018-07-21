@@ -1,0 +1,8 @@
+Ansible Playbook- Parallel Execution
+https://stackoverflow.com/questions/51296495/ansible-playbook-parallel-execution/
+
+Bug
+delegate_to with remote_user on ansible 2.0
+https://github.com/ansible/ansible/issues/13323
+
+--

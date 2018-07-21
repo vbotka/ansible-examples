@@ -1,0 +1,19 @@
+---
+
+- name: 'Test loop delegate_to'
+  hosts: localhost
+  strategy: free
+  gather_facts: no
+  vars:
+    my_servers:
+      - { host: vm2, sleep: 3 }
+      - { host: vm3, sleep: 1 }
+  tasks:
+    - name: "task 1"
+      debug:
+        msg: 'Task1: Running at {{ ansible_host }}'
+    - include_tasks: task2.yml
+      loop: "{{ my_servers }}"
+
+# EOF
+...

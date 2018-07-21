@@ -1,0 +1,13 @@
+---
+
+- name: "Sleep {{ item.sleep }} sec. and print hostname"
+  become: yes
+  block:
+    - debug:
+        msg: 'Task2: Running at {{ ansible_host }}'
+#    - command: "sleep {{ item.sleep }}"
+#      fatal: [localhost]: UNREACHABLE! => changed=false 
+#      msg: 'SSH Error: data could not be sent to remote host "vm2"
+  delegate_to: "{{ item.host }}"
+
+...

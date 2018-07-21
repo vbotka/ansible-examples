@@ -16,6 +16,7 @@ Various examples of Ansbile code.
 - Example 11. Test user module with Ansible 2.6.1 and FreeBSD 11.2
 - Example 12. Select items from dictionary.
 - Example 13. Test indentation of a block.
+- Example 14. Test loop include_tasks and delegate_to.
 
 
 License
