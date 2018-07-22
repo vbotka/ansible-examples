@@ -1,0 +1,7 @@
+---
+
+- import_playbook: play1.yml
+- import_playbook: play2.yml
+
+# EOF
+...

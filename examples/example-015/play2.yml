@@ -1,0 +1,8 @@
+- hosts:
+    - vm2
+    - vm3
+  strategy: free
+  tasks:
+    - command: sleep 2
+    - debug:
+        msg: 'play2: {{ ansible_host }}'

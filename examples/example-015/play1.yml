@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: 'play1: {{ ansible_host }}'
