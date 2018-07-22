@@ -17,6 +17,7 @@ Various examples of Ansbile code.
 - Example 12. Select items from dictionary.
 - Example 13. Test indentation of a block.
 - Example 14. Test loop include_tasks and delegate_to.
+- Example 15. Test import_playbook.
 
 
 License
