@@ -1,0 +1,22 @@
+---
+
+- name: "Test map extract"
+  hosts: localhost
+  gather_facts: no
+  vars:
+    v_hosts:
+      - { hostname: vm1, name: VMName1 }
+      - { hostname: vm2, name: VMName2 }
+      - { hostname: vm3, name: VMName3 }
+      - { hostname: vm4, name: VMName4 }
+      - { hostname: vm5, name: VMName5 }
+    select: [0,1,2]
+
+  tasks:
+    - name: "Select hosts"
+      debug:
+        msg: "{{ item.hostname }} {{ item.name }}"
+      loop:  "{{ select | map('extract', v_hosts)|list }}"
+
+# EOF
+...
