@@ -1,0 +1,33 @@
+---
+
+- name: "Magic variables"
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    msg: |
+      hostvars
+      {{ hostvars | to_yaml }}
+      group_names [ {{ group_names }} ]
+      groups
+      {{ groups | to_yaml }}
+      environment [ {{ environment }} ]
+      inventory_hostname [ {{ inventory_hostname }} ]
+      inventory_hostname_short [ {{ inventory_hostname_short }} ]
+      play_hosts [ {{ play_hosts }} ]
+      ansible_play_batch [ {{ ansible_play_batch }} ]
+      ansible_play_hosts [ {{ ansible_play_hosts }} ]
+      ansible_playbook_python [ {{ ansible_playbook_python }} ]
+      playbook_dir [ {{ playbook_dir }} ]
+      ansible_check_mode [ {{ ansible_check_mode }} ]
+ 
+  tasks:
+    - name: "Magic variables"
+      debug:
+        msg: "{{ msg.split('\n') }}"
+
+    - debug:
+        msg: "{{ ansible_inventory_sources }}"
+
+# EOF
+...

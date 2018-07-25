@@ -1,0 +1,7 @@
+Magic Variables, and How To Access Information About Other Hosts
+https://docs.ansible.com/ansible/2.5/user_guide/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts
+
+Overriding ansible config with extra vars
+https://stackoverflow.com/questions/51490948/overriding-ansible-config-with-extra-vars/51524841#51524841
+
+--

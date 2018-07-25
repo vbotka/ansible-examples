@@ -19,6 +19,7 @@ Various examples of Ansbile code.
 - Example 14. Test loop include_tasks and delegate_to.
 - Example 15. Test import_playbook.
 - Example 16. Test map extract.
+- Example 17. Print magic variables.
 
 
 License
