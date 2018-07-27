@@ -1,0 +1,5 @@
+- hosts:
+    - vm2
+    - vm3
+  roles:
+    - role1

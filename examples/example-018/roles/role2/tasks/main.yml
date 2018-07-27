@@ -1,0 +1,7 @@
+---
+# tasks file for role2
+
+- set_fact:
+    test_var_2: 'This is test_var_2 from role2.'
+- debug:
+    msg: 'role2: {{ test_var_2 }}'
