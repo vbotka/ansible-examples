@@ -1,10 +1,26 @@
 ---
-# tasks file for role1
+# tasks for role1
 
-- name: Include role2
+- name: "....................... Include role2: Example 01 ..........."
   include_role:
     name: role2
 - debug:
     msg: 'role1: {{ test_var_2 }}'
 - debug:
     var: test_var_2
+
+- name: "....................... Include role2: Example 02 ..........."
+  include_role:
+    name: role2
+    tasks_from: task1.yml
+- debug:
+    msg: 'role1: {{ test_var_2 }}'
+
+- name: "....................... Include role2: Example 03 ..........."
+  include_role:
+    name: role2
+    tasks_from: task2.yml
+  vars:
+    test_var_1: 'This is test_var_1 from role1'
+
+# EOF
