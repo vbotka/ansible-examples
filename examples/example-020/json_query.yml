@@ -1,0 +1,79 @@
+- hosts: localhost
+  vars:
+    stdout:
+      "TABLE_cdp_neighbor_brief_info": {
+            "ROW_cdp_neighbor_brief_info": [
+                {
+                    "capability": [
+                        "switch", 
+                        "IGMP_cnd_filtering"
+                    ], 
+                    "device_id": "osw1J15", 
+                    "ifindex": "83886080", 
+                    "intf_id": "mgmt0", 
+                    "platform_id": "cisco WS-C2960X-48TS-LL", 
+                    "port_id": "GigabitEthernet0/45", 
+                    "ttl": "160"
+                }, 
+                {
+                    "capability": [
+                        "router", 
+                        "switch", 
+                        "Supports-STP-Dispute"
+                    ], 
+                    "device_id": "spine01", 
+                    "ifindex": "436232192", 
+                    "intf_id": "Ethernet1/49", 
+                    "platform_id": "N9K-C9508", 
+                    "port_id": "Ethernet1/11", 
+                    "ttl": "159"
+                }, 
+                {
+                    "capability": [
+                        "router", 
+                        "switch", 
+                        "Supports-STP-Dispute"
+                    ], 
+                    "device_id": "spine02", 
+                    "ifindex": "436232704", 
+                    "intf_id": "Ethernet1/50", 
+                    "platform_id": "N9K-C9508", 
+                    "port_id": "Ethernet1/11", 
+                    "ttl": "127"
+                }, 
+                {
+                    "capability": [
+                        "router", 
+                        "switch", 
+                        "IGMP_cnd_filtering", 
+                        "Supports-STP-Dispute"
+                    ], 
+                    "device_id": "leaf1J1402", 
+                    "ifindex": "436234240", 
+                    "intf_id": "Ethernet1/53", 
+                    "platform_id": "N9K-C93180YC-EX", 
+                    "port_id": "Ethernet1/53", 
+                    "ttl": "175"
+                }, 
+                {
+                    "capability": [
+                        "router", 
+                        "switch", 
+                        "IGMP_cnd_filtering", 
+                        "Supports-STP-Dispute"
+                    ], 
+                    "device_id": "leaf1J1402", 
+                    "ifindex": "436234752", 
+                    "intf_id": "Ethernet1/54", 
+                    "platform_id": "N9K-C93180YC-EX", 
+                    "port_id": "Ethernet1/54", 
+                    "ttl": "175"
+                }
+            ]
+        }
+
+  tasks:
+    - name:
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ stdout | json_query('TABLE_cdp_neighbor_brief_info.ROW_cdp_neighbor_brief_info[*].intf_id') }}"
