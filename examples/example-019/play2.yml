@@ -1,0 +1,12 @@
+- hosts: localhost
+  tasks:
+    - name: "play2:task1"
+      debug: msg="play2:task1"
+      tags:
+        - play2
+        - play2_task1
+    - name: "play2:task2"
+      debug: msg="play2:task2"
+      tags:
+        - play2
+        - play2_task2

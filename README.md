@@ -21,6 +21,7 @@ Various examples of Ansbile code.
 - Example 16. Test map extract.
 - Example 17. Print magic variables.
 - Example 18. Test include_role.
+- Example 19. Test import_playbook and tags.
 
 
 License
