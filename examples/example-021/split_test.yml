@@ -1,0 +1,8 @@
+- hosts: localhost
+  vars:
+    lines:
+      - "ScriptAlias /cgi-bin/ \"/var/www/cgi-bin/\""
+  tasks:
+    - debug:
+        msg: "{{ item.split(' ')[2] }}"
+      loop: "{{ lines }}"

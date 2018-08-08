@@ -23,6 +23,7 @@ Various examples of Ansbile code.
 - Example 18. Test include_role.
 - Example 19. Test import_playbook and tags.
 - Example 20. Test json_query.
+- Example 21. Test split method.
 
 
 License
