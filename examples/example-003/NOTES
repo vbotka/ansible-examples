@@ -1,1 +1,6 @@
-https://serverfault.com/questions/918063/iterating-over-an-unknown-number-of-custom-ansible-facts/918123#918123
+https://serverfault.com/questions/918063/iterating-over-an-unknown-number-of-custom-ansible-facts/
+
+list-dict2.yml
+Ansible | Access multi dimensional variable for when conditional in nested loop task
+https://serverfault.com/questions/925452/ansible-access-multi-dimensional-variable-for-when-conditional-in-nested-loop/
+--
