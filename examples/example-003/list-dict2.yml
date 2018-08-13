@@ -1,51 +1,17 @@
 - hosts: localhost
   vars:
-    result_CornerConfiguration: {
-    changed: true,
-    msg: "All items completed",
-    results: [
-        {
-            "_ansible_ignore_errors": null,
-            "_ansible_item_label": [
-                "user",
-                "wvous-bl-corner"
-            ],
-            "_ansible_item_result": true,
-            "_ansible_no_log": false,
-            "_ansible_parsed": true,
-            "changed": true,
-            "cmd": "defaults read /Users/user/Library/Preferences/com.apple.dock wvous-bl-corner",
-            "delta": "0:00:00.024526",
-            "end": "2018-08-08 14:12:46.834554",
-            "failed": false,
-            "invocation": {
-                "module_args": {
-                    "_raw_params": "defaults read /Users/user/Library/Preferences/com.apple.dock wvous-bl-corner",
-                    "_uses_shell": true,
-                    "argv": null,
-                    "chdir": null,
-                    "creates": null,
-                    "executable": null,
-                    "removes": null,
-                    "stdin": null,
-                    "warn": true
-                }
-            },
-            "item": [
-                "user",
-                "wvous-bl-corner"
-            ],
-            "rc": 0,
-            "start": "2018-08-08 14:12:46.810028",
-            "stderr": "",
-            "stderr_lines": [],
-            "stdout": "1",
-            "stdout_lines": [
-                "1"
-            ]
-        }
-    ]
-}    
+    result_CornerConfiguration:
+      results:
+        - stdout: "1"
+        - stdout: "2"
+        - stdout: "3"
+
   tasks:
     - debug:
         msg: "{{ result_CornerConfiguration.results[0]['stdout'] }}"
+
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ result_CornerConfiguration | json_query('results[*][stdout]') }}"
+
+# EOF
