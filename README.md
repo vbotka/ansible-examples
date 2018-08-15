@@ -25,6 +25,7 @@ Various examples of Ansbile code.
 - Example 20. Test json_query.
 - Example 21. Test split method.
 - Example 22. Dynamic vars with set_fact.
+- Example 23. Test names in a block.
 
 License
 -------

@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - name: Block of tasks
+      block:
+        - name: Debug message
+          debug:
+            msg: "message 001"
+# EOF
