@@ -24,7 +24,7 @@ Various examples of Ansbile code.
 - Example 19. Test import_playbook and tags.
 - Example 20. Test json_query.
 - Example 21. Test split method.
-
+- Example 22. Dynamic vars with set_fact.
 
 License
 -------
