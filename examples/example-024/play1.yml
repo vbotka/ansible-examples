@@ -1,0 +1,12 @@
+- hosts: localhost
+  tasks:
+  - include_role:
+      name: my_role1
+    vars:
+      role_id: "id_1"
+      first_param: "first"
+  - include_role:
+      name: my_role1
+    vars:
+      role_id: "id_2"
+      second_param: "second"

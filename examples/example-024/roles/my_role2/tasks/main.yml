@@ -1,0 +1,9 @@
+---
+# tasks
+
+- include_vars: "{{ role_id }}"
+- debug: msg="{{ role_id }}.first_param [ {{ first_param|default('undefined') }} ]"
+- debug: msg="{{ role_id }}.second_param [ {{ second_param|default('undefined') }} ]"
+
+# EOF
+...
