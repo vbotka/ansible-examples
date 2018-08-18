@@ -1,0 +1,23 @@
+- hosts: localhost
+  vars:
+    cluster_name: test
+    domain_suffix: blah
+    subnet_mgmt: 1.2.3
+    myhosts:
+      - { id: "001", ip_suffix: "101", sub: [1,2,3] }
+  tasks:
+    - set_fact:
+        hosts:
+          - name: "{{ cluster_name }}-{{ item.id }}.{{ domain_suffix }}"
+            address: "{{ subnet_mgmt  }}.{{ item.ip_suffix }}"
+            array: "{{ item.sub }}"
+      loop: "{{ myhosts }}"
+    - debug:
+        msg: "{{ item.0.name }} {{ item.1 }}"
+      with_subelements:
+        - "{{ hosts }}"
+        - array
+# since 2.7
+#      loop: "{{ hosts|subelements('array') }}"
+
+# EOF
