@@ -1,0 +1,13 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    my_device: '/dev/sda'
+  tasks:
+    - parted:
+        device: "{{ my_device }}"
+        state: info
+      register: my_info
+    - debug:
+        msg: "{{ my_info }}"

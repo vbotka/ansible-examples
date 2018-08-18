@@ -27,6 +27,7 @@ Various examples of Ansbile code.
 - Example 22. Dynamic vars with set_fact.
 - Example 23. Test names in a block.
 - Example 24. Test include_role and include_vars.
+- Example 25. Test parted (Linux only).
 
 License
 -------
