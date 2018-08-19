@@ -1,0 +1,12 @@
+- hosts: localhost
+  vars:
+    my_list:
+      - name: "asd-ASX030-vc-0"
+        key_2: [ "A", "B" ]
+      - name: "asd-ASX030-vc-1"
+        key_2: [ "C", "D" ]
+  tasks:
+    - debug:
+        msg: "{{ item.name }} = {{ item.key_2 }}"
+      loop: "{{ my_list }}"
+# EOF
