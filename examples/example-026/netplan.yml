@@ -1,0 +1,9 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    lp_netplan_root: "/scratch"
+    lp_netplan: True
+  roles:
+    - vbotka.linux_postinstall
