@@ -1,0 +1,24 @@
+---
+- hosts: webserver_host
+  name: Create a temporary file and register temp_file
+  gather_facts: no
+  tasks:
+    - name: Create a temporary file
+      tempfile:
+        state: file
+      register: temp_file
+    - debug: var=temp_file.path
+# TODO: use Redis
+#   - name: "Add {{ ansible_host }} {{ temp_file.path }} to temp_file_dict"
+#     set_fact:
+#       temp_file_dict: "{{ temp_file_dict|default({}) | combine({ ansible_host: temp_file.path}) }}"
+#   - debug: var=temp_file_dict
+
+- hosts: nfs_server
+  name: Print variables defined earlier
+  gather_facts: no
+  tasks:
+    - debug: var=hostvars["{{ item }}"]['temp_file']['path']
+      loop: "{{ hostvars['localhost']['groups']['webserver_host'] }}"
+# EOF
+...

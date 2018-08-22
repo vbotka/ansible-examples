@@ -30,6 +30,7 @@ Various examples of Ansbile code.
 - Example 25. Test parted (Linux only).
 - Example 26. Test from_yaml to_nice_json (netplan conf).
 - Example 27. ansible-invetory utility.
+- Example 28. Test hostvars.
 
 
 License

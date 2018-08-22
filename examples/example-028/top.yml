@@ -1,0 +1,18 @@
+- hosts: localhost
+  name: Define hosts
+  gather_facts: no
+
+  vars:
+    webserver: 192.168.1.12
+    nfs: 192.168.1.13
+
+  tasks:
+    - name: Add webserver
+      add_host:
+        hostname: "{{ webserver }}"
+        groups: "webserver_host"
+    - name: Add nfs server
+      add_host:
+        hostname: "{{ nfs }}"
+        groups: "nfs_server"
+#       webserver: "{{ webserver }}"
