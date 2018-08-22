@@ -1,0 +1,24 @@
+Dynamic inventory in yaml format
+https://serverfault.com/questions/927125/dynamic-inventory-in-yaml-format
+
+-i, --inventory, --inventory-file
+    specify inventory host path or comma separated host
+    list. --inventory-file is deprecated
+
+1) Host path
+> ./inventory.sh > /tmp/my_inventory.yml && ansible-inventory --inventory /tmp/my_inventory.yml --graph
+@all:
+  |--@stage:
+  |  |--18.66.1.28
+  |--@ungrouped:
+
+2) Comma separated host list
+> ansible-inventory --inventory a,b,c,d --graph
+@all:
+  |--@ungrouped:
+  |  |--a
+  |  |--b
+  |  |--c
+  |  |--d
+
+--

@@ -26,8 +26,11 @@ Various examples of Ansbile code.
 - Example 21. Test split method.
 - Example 22. Dynamic vars with set_fact.
 - Example 23. Test names in a block.
-- Example 24. Test include_role and include_vars.
+- Example 24. Include_role and include_vars.
 - Example 25. Test parted (Linux only).
+- Example 26. Test from_yaml to_nice_json (netplan conf).
+- Example 27. ansible-invetory utility.
+
 
 License
 -------
