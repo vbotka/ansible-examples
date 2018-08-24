@@ -1,0 +1,23 @@
+# Invalid deprecation warning message with certain types of syntax errors
+# https://github.com/ansible/ansible/issues/28672
+# " ... include was special and allowed for 'variables' to be included
+# at the same level as keywords, which is of course confusing .. so
+# anything NOT recognized as a keyword is assumed to be a variable
+# .. including misspelled keywords."
+
+- import_tasks: vars.yml
+  whhen: true
+
+# [WARNING]: Ignoring invalid attribute: whhen
+
+- include_tasks: vars.yml
+  whhen: true
+
+# [DEPRECATION WARNING]: Specifying include variables at the top-level
+# of the task is deprecated. Please see:
+# https://docs.ansible.com/ansible/playbooks_roles.html#task-include-files-and-encouraging-reuse
+# for currently supported syntax regarding included files and
+# variables. This feature will be removed in version 2.7. Deprecation
+# warnings can be disabled by setting deprecation_warnings=False in
+# ansible.cfg.
+

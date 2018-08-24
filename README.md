@@ -31,6 +31,7 @@ Various examples of Ansbile code.
 - Example 26. Test from_yaml to_nice_json (netplan conf).
 - Example 27. ansible-invetory utility.
 - Example 28. Test hostvars.
+- Example 29. Invalid deprecation warning message with certain types of syntax errors.
 
 
 License
