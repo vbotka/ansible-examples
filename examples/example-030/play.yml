@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_distribution_version
+    - assert:
+        that:
+          - ansible_distribution_version is version('2.6', '>=')
+        msg: "Ansible 2.6 or newer is needed"
+        notify: end play
+    - name: use argv to send the command as a list.  Be sure to leave command empty
+      command:
+      args:
+        argv:
+          - cat
+          - /etc/passwd
+      register: result
+    - debug: msg="{{ result.stdout.split('\n') }}"
+  handlers:
+    - name: end play
+      meta: end_play

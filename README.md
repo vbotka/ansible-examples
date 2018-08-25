@@ -32,6 +32,7 @@ Various examples of Ansbile code.
 - Example 27. ansible-invetory utility.
 - Example 28. Test hostvars.
 - Example 29. Invalid deprecation warning message with certain types of syntax errors.
+- Example 30. Test command argv form in 2.6 .
 
 
 License
