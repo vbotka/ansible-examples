@@ -1,10 +1,10 @@
 - hosts: localhost
   gather_facts: yes
   tasks:
-    - debug: var=ansible_distribution_version
+    - debug: var=ansible_version.full
     - assert:
         that:
-          - ansible_distribution_version is version('2.6', '>=')
+          - ansible_version.full is version('2.6', '>=')
         msg: "Ansible 2.6 or newer is needed"
         notify: end play
     - name: use argv to send the command as a list.  Be sure to leave command empty
