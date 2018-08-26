@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    facts:
+      finance:
+        files:
+          - file1:
+              dest: "/tmp/dir1"
+              path: "/etc/finance/file1"
+          - file2:
+              dest: "/tmp/dir2"
+              path: "/etc/finance/file2"
+      marketing:
+        files:
+          - file1: 
+              dest: "/etc/dir1"
+              path: "/etc/marketing/file1"
+          - file2:
+              dest: "/tmp/dir2"
+              path: "/etc/marketing/file2"
+      sales:
+        files:
+          - file1: 
+              dest: "/etc/dir1"
+              path: "/etc/sales/file1"
+          - file2:
+              dest: "/tmp/dir2"
+              path: "/etc/sales/file2"
+
+  tasks:
+
+    - include_tasks: inner.yml
+      loop: "{{ lookup('dict',facts) }}"
+      loop_control:
+        loop_var: outer_item

@@ -1,0 +1,51 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    facts:
+      units:
+        finance:
+          files:
+            - file1:
+                dest: "/tmp/dir1"
+                path: "/etc/finance/file1"
+            - file2:
+                dest: "/tmp/dir2"
+                path: "/etc/finance/file2"
+        marketing:
+          files:
+            - file1: 
+                dest: "/etc/dir1"
+                path: "/etc/marketing/file1"
+            - file2:
+                dest: "/tmp/dir2"
+                path: "/etc/marketing/file2"
+        sales:
+          files:
+            - file1: 
+                dest: "/etc/dir1"
+                path: "/etc/sales/file1"
+            - file2:
+                dest: "/tmp/dir2"
+                path: "/etc/sales/file2"
+
+  tasks:
+
+    - name:
+      vars:
+        msg: "{{ facts.units | to_yaml }}"
+      debug:
+        msg: "{{ msg.split('\n') }}"
+
+    - debug: msg="{{ facts.units['sales'].files }}"
+
+    - debug: msg="{{ facts | json_query('units.files') }}"
+    - debug: msg="{{ facts | json_query('units[?files==`sales`]') }}"
+
+    - debug: msg="{{ facts | json_query('facts[?units==`sales`]') }}"
+
+#    - debug: msg="{{ facts | json_query('units[*]') }}"
+
+#    - debug: msg="{{ item }}"
+#      loop: "{{ facts | json_query('units[*].files') }}"
+
+#            msg: "src: {{ item.path}} dest: {{ item.dest }}"
