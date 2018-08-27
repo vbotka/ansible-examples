@@ -1,0 +1,4 @@
+Ansible 2.6.2 doesn't sudoing into root use
+https://github.com/ansible/ansible/issues/44493
+
+--
