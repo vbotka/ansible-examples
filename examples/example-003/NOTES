@@ -7,4 +7,8 @@ https://serverfault.com/questions/925452/ansible-access-multi-dimensional-variab
 list-dict3.yml
 Yet another Ansible iteration
 https://stackoverflow.com/questions/51894009/yet-another-ansible-iteration/51915447#51915447
+
+list-dict[4-7].yml
+Ansible Loop Over Custom Facts
+https://serverfault.com/questions/927855/ansible-loop-over-custom-facts/
 --

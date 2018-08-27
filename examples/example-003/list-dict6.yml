@@ -1,9 +1,9 @@
 - hosts: localhost
   gather_facts: no
   vars:
-    facts:
-      units:
-        finance:
+    ansible_local:
+      finance:
+        facts:
           files:
             - file1:
                 dest: "/tmp/dir1"
@@ -11,7 +11,8 @@
             - file2:
                 dest: "/tmp/dir2"
                 path: "/etc/finance/file2"
-        marketing:
+      marketing:
+        facts:
           files:
             - file1: 
                 dest: "/etc/dir1"
@@ -19,7 +20,8 @@
             - file2:
                 dest: "/tmp/dir2"
                 path: "/etc/marketing/file2"
-        sales:
+      sales:
+        facts:
           files:
             - file1: 
                 dest: "/etc/dir1"
@@ -27,14 +29,9 @@
             - file2:
                 dest: "/tmp/dir2"
                 path: "/etc/sales/file2"
-  tasks:
-    - name:
-      vars:
-        msg: "{{ facts.units | to_yaml }}"
-      debug:
-        msg: "{{ msg.split('\n') }}"
-    - debug: msg="{{ facts.units['sales'].files }}"
-    - debug: msg="{{ facts | json_query('units.files') }}"
-    - debug: msg="{{ facts | json_query('units[?files==`sales`]') }}"
-    - debug: msg="{{ facts | json_query('facts[?units==`sales`]') }}"
 
+  tasks:
+    - include_tasks: inner6.yml
+      loop: "{{ lookup('dict',ansible_local) }}"
+      loop_control:
+        loop_var: outer_item

@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars7.json
+
+  tasks:
+    - debug:
+        msg: "src: {{ item.path}} dest: {{ item.dest }}"
+      loop: "{{ ansible_local | json_query('[*.facts.files.*]') | flatten }}"

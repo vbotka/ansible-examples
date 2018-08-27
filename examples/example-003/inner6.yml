@@ -1,0 +1,3 @@
+- debug:
+    msg: "dest: {{ item.value.dest }} path: {{ item.value.path }}"
+  with_dict: "{{ outer_item.value.facts.files }}"

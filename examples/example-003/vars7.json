@@ -1,0 +1,32 @@
+{
+   "ansible_local":{  
+     "finance":{  
+        "facts":{  
+           "files":{  
+              "file1":{  
+                 "dest":"/tmp/dir1",
+                 "path":"/etc/finance/file1"
+              },
+              "file2":{  
+                 "dest":"/tmp/dir2",
+                 "path":"/etc/finance/file2"
+              }
+           }
+        }
+     },
+     "marketing":{  
+        "facts":{  
+           "files":{  
+              "file1":{  
+                 "dest":"/tmp/dir1",
+                 "path":"/etc/finance/file1"
+              },
+              "file2":{  
+                 "dest":"/tmp/dir2",
+                 "path":"/etc/finance/file2"
+              }
+           }
+        }
+     }
+   }
+}
