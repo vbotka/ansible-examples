@@ -2,19 +2,11 @@
     - localhost
 
   vars:
-    role3_selectors:
-      - role3
-      - all_roles
-    role4_selectors:
-      - role4
-      - all_roles
+    role3_selectors: [ role3, all_roles ]
+    role4_selectors: [ role4, all_roles ]
 
   tasks:
-    - name: Import role3 when selector match
-      import_role:
-        name: role3
+    - import_role: name=role3
       when: selector|default('') in role3_selectors
-    - name: Import role4 when selector match
-      import_role:
-        name: role4
+    - import_role: name=role4
       when: selector|default('') in role4_selectors
