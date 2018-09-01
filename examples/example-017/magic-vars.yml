@@ -25,9 +25,11 @@
     - name: "Magic variables"
       debug:
         msg: "{{ msg.split('\n') }}"
+      tags: always
 
     - debug:
         msg: "{{ ansible_inventory_sources }}"
+      tags: always
 
 # EOF
 ...

@@ -34,6 +34,7 @@ Various examples of Ansbile code.
 - Example 29. Invalid deprecation warning message with certain types of syntax errors.
 - Example 30. Test command argv form in 2.6 .
 - Example 31. Debug tools.
+- Example 32. Test filters.
 
 
 License

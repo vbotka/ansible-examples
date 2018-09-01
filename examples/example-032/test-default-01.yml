@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    this_role: "THIS-ROLE"
+  tasks:
+    - name: "Setup completed_roles list"
+      set_fact:
+        completed_roles: "{{ completed_roles|default('') }} {{ this_role }}"
+    - debug:
+        var : completed_roles
+
