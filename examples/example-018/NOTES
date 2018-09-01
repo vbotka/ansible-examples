@@ -1,5 +1,8 @@
 Variable not existing outside the role it is defined
 https://stackoverflow.com/questions/51557675/variable-not-existing-outside-the-role-it-is-defined
 
+play3.yml
+Ansible: check supplied tags are valid before running a playbook
+https://serverfault.com/questions/928861/ansible-check-supplied-tags-are-valid-before-running-a-playbook/
 
 --

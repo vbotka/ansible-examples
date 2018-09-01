@@ -1,0 +1,7 @@
+---
+# tasks
+
+- debug:
+    msg: 'role4'
+
+# EOF
