@@ -1,11 +1,15 @@
 Dynamic inventory in yaml format
+================================
+https://docs.ansible.com/ansible/2.6/dev_guide/developing_inventory.html
 https://serverfault.com/questions/927125/dynamic-inventory-in-yaml-format
+https://docs.ansible.com/ansible/2.6/user_guide/intro_inventory.html
 
--i, --inventory, --inventory-file
+    -i, --inventory, --inventory-file
     specify inventory host path or comma separated host
     list. --inventory-file is deprecated
 
 1) Host path
+------------
 > ./inventory.sh > /tmp/my_inventory.yml && ansible-inventory --inventory /tmp/my_inventory.yml --graph
 @all:
   |--@stage:
@@ -13,6 +17,7 @@ https://serverfault.com/questions/927125/dynamic-inventory-in-yaml-format
   |--@ungrouped:
 
 2) Comma separated host list
+----------------------------
 > ansible-inventory --inventory a,b,c,d --graph
 @all:
   |--@ungrouped:
@@ -20,5 +25,18 @@ https://serverfault.com/questions/927125/dynamic-inventory-in-yaml-format
   |  |--b
   |  |--c
   |  |--d
+
+3) Dynamic inventory
+--------------------
+https://docs.ansible.com/ansible/2.6/dev_guide/developing_inventory.html
+> ansible-inventory --inventory ./dyn-inventory.sh --graph
+@all:
+  |--@group001:
+  |  |--@group002:
+  |  |  |--host003
+  |  |  |--host004
+  |  |--host001
+  |  |--host002
+  |--@ungrouped:
 
 --
