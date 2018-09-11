@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    string: ""
+    app_kafka_topic:
+      cleanup.policy      :
+      - "delete"
+      retention_ms        :
+      - "146800000"
+      partitions          :
+      - "6"
+      replication_factor  :
+      - "2"
+  tasks:
+    - set_fact:
+        string: "{{ string }}{{ (index > 0)|ternary(',','') }}{{ item.key }}={{ item.value[0] }}"
+      loop: "{{  app_kafka_topic|dict2items }}"
+      loop_control:
+        index_var: index
+    - debug:
+        var: string
+ 

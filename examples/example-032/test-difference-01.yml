@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    web_servers:
+      - web-server-01
+      - web-server-02
+      - web-server-09
+    inventory_hostname:
+      - web-server-02
+  tasks:
+    - set_fact:
+        delegate_to_hosts: "{{ web_servers | difference(inventory_hostname) }}"
+    - debug:
+        msg : "{{ delegate_to_hosts }}"

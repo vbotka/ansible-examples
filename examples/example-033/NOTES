@@ -1,0 +1,20 @@
+
+
+extra_vars.yml
+--------------
+
+> ansible-playbook -e '{"default_kafka_settings": ["partitions":"1","replication_factor":"2"]}'  extra_vars.yml
+ok: [localhost] => (item={u'partitions': u'1'}) => {
+    "msg": {
+        "partitions": "1"
+    }
+}
+ok: [localhost] => (item={u'replication_factor': u'2'}) => {
+    "msg": {
+        "replication_factor": "2"
+    }
+}
+
+
+
+--

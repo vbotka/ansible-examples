@@ -35,6 +35,8 @@ Various examples of Ansbile code.
 - Example 30. Test command argv form in 2.6 .
 - Example 31. Debug tools.
 - Example 32. Test filters.
+- Example 33. Precedence of the variables.
+- Example 34. Passwords.
 
 
 License

@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: ~/bin/get-passwd user9
+      register: password
+    - debug:
+        msg: "passwd:{{ password.stdout }}"

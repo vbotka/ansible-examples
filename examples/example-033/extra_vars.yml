@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    default_kafka_settings: {}
+  tasks:
+    - debug:
+        msg : "{{ item }}"
+      loop: "{{ default_kafka_settings }}"
