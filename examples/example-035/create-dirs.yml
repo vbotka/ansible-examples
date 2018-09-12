@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dirs:
+      - /scratch/tmp/01
+      - /scratch/tmp/01/a/b/c
+      - /scratch/tmp/01/b/c/d
+      - /scratch/tmp/01/c/d/e
+  tasks:
+    - name: Create directories
+      command: mkdir -p "{{ item }}"
+      args:
+        creates: "{{ item }}"
+      loop: "{{ dirs }}"

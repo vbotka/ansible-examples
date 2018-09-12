@@ -37,6 +37,7 @@ Various examples of Ansbile code.
 - Example 32. Test filters.
 - Example 33. Precedence of the variables.
 - Example 34. Passwords.
+- Example 35. Test command creates directories.
 
 
 License
