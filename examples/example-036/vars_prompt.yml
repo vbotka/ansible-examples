@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    - name: "git_email"
+      prompt: "Please enter your git email address."
+      private: no
+  tasks:
+    - debug: msg="{{ git_email }}"
