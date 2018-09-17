@@ -1,0 +1,13 @@
+- name: Play-01
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        token: "MY-TOKEN"
+    - debug: msg="{{ token }}"
+
+- name: Play-02
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug: msg="{{ token|default('UNDEFINED') }}"

@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - shell: "ps -eo pid,ppid | grep ^`echo $$` | cut -d ' ' -f 2"
+      register: result
+    - debug:
+        msg: "{{ result.stdout.split('\n') }}"
+    - shell: "ps -aux | grep {{ result.stdout }}"
+      register: result
+    - debug:
+        msg: "{{ result.stdout.split('\n') }}"
