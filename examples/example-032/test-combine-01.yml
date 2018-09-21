@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    new_svr: 'IEWS'
+    System:
+      atr1: 47
+      config:
+        - nodes:
+            - logger:
+                id: 'all'
+                svr: 'IEW'
+            - Database:
+                constr: 'login/pass@db'
+      atr2: 'some value'
+  tasks:
+    - debug:
+        msg: "{{ System }}"
+    - debug:
+        msg: "{{ System | json_query('config[].nodes[].logger.svr') }}"
+    - set_fact:
+        System: "{{ System | combine({'config':[{'nodes':[{'logger':{'svr':new_svr }}]}]}, recursive=True) }}"
+    - debug:
+        msg: "{{ System }}"
+    - debug:
+        msg: "{{ System | json_query('config[].nodes[].logger.svr') }}"
