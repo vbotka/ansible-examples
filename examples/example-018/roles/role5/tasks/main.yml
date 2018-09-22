@@ -1,0 +1,11 @@
+---
+# tasks
+
+- command: date
+  register: myoutput
+- set_fact:
+    log: "{{ log + [myoutput.stdout] }}"
+#- debug:
+#    msg: "{{ log }}"
+
+# EOF
