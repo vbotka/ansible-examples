@@ -1,0 +1,13 @@
+- hosts: localhost
+  tasks:
+  - name: Find patterns
+    find:
+      paths: /scratch/tmp
+      patterns: '[j]{2}.[j]{2}'
+      use_regex: yes
+    register: find_results
+#  - debug: var=find_results
+  - debug: msg="{{ item.path }}"
+    loop: "{{ find_results.files }}"
+#  - shell: "echo {{ item.path }} >> /tmp/results.txt"
+#    with_items: "{{ find_results.files }}"
