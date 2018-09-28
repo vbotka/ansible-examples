@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    node_type: "typeB"
+    modules:
+      - type: "typeA"
+        list: [ "module1", "module2" ]
+      - type: "typeB"
+        list: [ "module3", "module4" ]
+  tasks:
+    - name: "Only loop for modules"
+      debug:
+        msg: "Module = {{ item.1 }}"
+      with_subelements:
+        - "{{ modules }}"
+        - list
+      when: item.0.type == node_type
+# EOF
+...
