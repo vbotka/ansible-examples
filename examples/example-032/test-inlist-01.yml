@@ -8,7 +8,7 @@
                   { "vpc_name": "C_VPC", "client_name": "C" }]
   tasks:
     - set_fact:
-        ecs_diff: "{{ ecs_diff | combine(item) }}"
+        ecs_diff: "{{ ecs_diff + [item] }}"
       loop: "{{ ecs_objects }}"
       when: item.vpc_name not in vpc_names
     - debug:
