@@ -3,4 +3,8 @@ test-combine-01.yml
 Changing list value in Ansible.
 https://stackoverflow.com/questions/52401239/changing-list-value-in-ansible/
 
+test-inlist-01.yml
+Getting the difference from two arrays Ansible
+https://stackoverflow.com/questions/52573961/getting-the-difference-from-two-arrays-ansible
+
 --
