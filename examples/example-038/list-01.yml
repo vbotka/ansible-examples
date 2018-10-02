@@ -1,0 +1,13 @@
+- hosts: localhost
+  vars:
+    rtags:
+      - ['03fb9e77138602b41fe', 'cfccd2850c34502ff', 'v0.2.1']
+      - ['2b41feb8f667f04cc89', '1575c845a43685b67', 'v0.2.2']
+      - ['f667f04cc8998a1fd00', 'c5cfccd2850c34502', 'v0.2.1']
+  tasks:
+    - set_fact:
+        rtags_ver: "{{ rtags_ver|default([]) + [item] }}"
+      loop: "{{ rtags }}"
+      when: item[2] == 'v0.2.1'
+    - debug:
+        msg: "{{ rtags_ver }}"

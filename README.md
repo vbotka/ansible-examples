@@ -40,7 +40,7 @@ Various examples of Ansbile code.
 - Example 35. Test command creates directories.
 - Example 36. Test vars_prompt.
 - Example 37. Test find module.
-
+- Example 38. Strings and Lists.
 
 License
 -------
