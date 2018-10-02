@@ -1,0 +1,13 @@
+- hosts: all
+  gather_facts: no
+
+  vars:
+    group_A: [ vm1, vm2 ]
+    group_B: [ vm3 ]
+
+  tasks:
+    - debug: msg="ansible_host [ {{ ansible_host }} ]"
+    - debug: msg="{{ ansible_host }} is member of group_A"
+      when: ansible_host in group_A
+    - debug: msg="{{ ansible_host }} is member of group_B"
+      when: ansible_host in group_B
