@@ -1,0 +1,7 @@
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - debug: msg="groups [ {{ groups }} ]"
+    - debug: msg="groups.test [ {{ groups.test }} ]"
+    - debug: msg="group_names [ {{ group_names }} ]"

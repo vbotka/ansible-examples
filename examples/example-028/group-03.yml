@@ -1,0 +1,6 @@
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - debug: msg="{{ ansible_host }} is member of the group test."
+      when: ansible_host in groups.test
