@@ -11,4 +11,8 @@ https://stackoverflow.com/questions/51894009/yet-another-ansible-iteration/51915
 list-dict[4-7].yml
 Ansible Loop Over Custom Facts
 https://serverfault.com/questions/927855/ansible-loop-over-custom-facts/
+
+list-dict9.yml
+https://stackoverflow.com/questions/52674767/ansible-loop-over-a-variable-with-a-number-of-times-it-must-be-re-executed
+
 --

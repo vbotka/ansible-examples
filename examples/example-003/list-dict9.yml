@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    services:
+      - serviceA:
+          number: 4
+          disk:
+            size: 30 # GB
+          vnet:
+            name: vnetA
+          ports:
+            - 22
+      - serviceB:
+          number: 2
+          disk:
+            size: 31 # GB
+          vnet:
+            name: vnetB
+          ports:
+            - 22
+            - 80
+  tasks:
+    - include_tasks: create-vm.yml
+      loop: "{{ services }}"
+      loop_control:
+        index_var: index1

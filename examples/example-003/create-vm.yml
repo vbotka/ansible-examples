@@ -1,0 +1,11 @@
+- name: "Get number of VMs"
+  set_fact:
+    number_vms: "{{ item | json_query('*.number') }}"
+    disk_size: "{{ item | json_query('*.disk.size') }}"
+    vnet_name: "{{ item | json_query('*.vnet.name') }}"
+    ports: "{{ item | json_query('*.ports') }}"
+- name: "Create vm"
+  debug: msg="vm-{{ index1 }}-{{ index2 }}, {{ disk_size }}, {{ vnet_name }}, {{ ports }}"
+  with_sequence: start=1 end={{ number_vms[0] }}
+  loop_control:
+    loop_var: index2
