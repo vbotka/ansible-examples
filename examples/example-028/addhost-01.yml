@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    group1: []
+  tasks:
+#    - add_host:
+#        name: hostname1
+#        ansible_ssh_user: ANSIBLE_SSH_USER
+#        ansible_ssh_pass: ANSIBLE_SSH_PASS
+#    - debug: var=hostvars["hostname1"]
+    - add_host:
+        name: hostname1
+        inventory_dir: "{{ playbook_dir }}/inventory-dir"
+        inventory_file: hosts
+    - debug: var=hostvars
+#    - debug: var=hostvars["hostname1"]

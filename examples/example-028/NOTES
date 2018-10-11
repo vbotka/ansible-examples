@@ -1,4 +1,8 @@
+
 Refer to keys in ansible's hostvars dictionary with a variable names, not strings
 https://stackoverflow.com/questions/51960274/refer-to-keys-in-hostvars-dictionary-with-a-variable-names-not-strings#51960274
 
+addhost-01.yml
+ansible add_host set variables from file
+https://stackoverflow.com/questions/52751797/ansible-add-host-set-variables-from-file
 --
