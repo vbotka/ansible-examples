@@ -1,0 +1,10 @@
+---
+# tasks
+
+- debug: msg="main"
+- import_tasks: task1.yml
+- import_tasks: task2.yml
+- import_tasks: task3.yml
+
+# EOF
+...
