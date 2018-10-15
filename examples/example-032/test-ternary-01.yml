@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    item0: 'gitlab'
+  tasks:
+    - set_fact:
+       nesting1: "{{ (item0 == 'gitlab') | ternary(true, omit) }}"
+    - debug:
+        msg: "{{ nesting1|default('NOT SET') }}"
+    - set_fact:
+        nesting0: "{{ (item0 == 'github') | ternary(true, omit) }}"
+    - debug:
+        msg: "{{ nesting0|default('NOT SET') }}"

@@ -7,4 +7,7 @@ test-inlist-01.yml
 Getting the difference from two arrays Ansible
 https://stackoverflow.com/questions/52573961/getting-the-difference-from-two-arrays-ansible
 
+test-ternary-01.yml
+Ansible templating yaml inside a task
+https://stackoverflow.com/questions/52816797/ansible-templating-yaml-inside-a-task
 --
