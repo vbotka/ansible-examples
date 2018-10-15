@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - debug: msg="{{ item }}"
+      loop: "{{ lookup('fileglob', 'plugins/*', wantlist=True) }}"
