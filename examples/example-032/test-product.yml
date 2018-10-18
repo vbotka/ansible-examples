@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    rules: []
+    app_rules:
+      - ports: 80
+        proto: TCP
+      - ports: 443
+        proto: TCP
+    addresses:
+      - ip: 172.1.2.3
+        rule_desc: this is 1.2.3
+      - ip: 173.1.2.4
+        rule_desc: this is 1.2.4
+  tasks:
+    - set_fact:
+        rules: "{{ rules + [ item.0 | combine(item.1)] }}"
+      loop: "{{ app_rules | product(addresses) | list }}"
+    - name: Print roles
+      vars:
+        msg: |
+          {{ rules | to_nice_yaml }}
+      debug:
+        msg: "{{ msg.split('\n') }}"

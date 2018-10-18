@@ -1,4 +1,8 @@
 
+test-product.yml
+Ansible: iterating over list of dictionaries within iteration of another list of dictionaries
+https://stackoverflow.com/questions/52864021/ansible-iterating-over-list-of-dictionaries-within-iteration-of-another-list-of/
+
 test-combine-01.yml
 Changing list value in Ansible.
 https://stackoverflow.com/questions/52401239/changing-list-value-in-ansible/
