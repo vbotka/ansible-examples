@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: no  
+
+  vars:
+    world:
+      - first_greet: 'Aloha'
+        second_greet:
+          - nepali: 'Namaste'
+            english: 'Hello'
+        third_greet:
+          - russian: 'Privet'
+            chinese: 'Nihau'
+
+  tasks:
+    - set_fact: msg1="{{ lookup('subelements', world, 'second_greet') }}"
+    - debug: msg="{{ msg1 }}"
+
+#    - set_fact: msg2="{{ lookup('subelements', msg1, 'third_greet') }}"
+#    - debug: msg="{{ msg2 }}"
+#
+# ERROR: subelements lookup expects a dictionary
+# fatal: [localhost]: FAILED! => {"msg": "An unhandled exception
+# occurred while running the lookup plugin 'subelements'. Error was a
+# <class 'ansible.errors.AnsibleError'>, original message: subelements
+# lookup expects a dictionary, got '({u'third_greet': [{u'russian':
+# u'Privet', u'chinese': u'Nihau'}], u'first_greet': u'Aloha'},
+# {u'nepali': u'Namaste', u'english': u'Hello'})'"}
+
+    - set_fact: msg2="{{ lookup('subelements', world, 'third_greet') }}"
+    - debug: msg="{{ msg2 }}"

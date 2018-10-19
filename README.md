@@ -42,6 +42,7 @@ Various examples of Ansbile code.
 - Example 37. Test find module.
 - Example 38. Strings and Lists.
 - Example 39. Test lookup.
+- Example 40. Subelements.
 
 License
 -------
