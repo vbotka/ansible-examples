@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no  
+  vars:
+    test:
+      one: _one
+      two: _two
+      three: _three
+  tasks:
+    - debug: msg="{{ test|dictsort }}"
+    - debug: msg="{{ test|dictsort|map('join', '=')|join(', ') }}"
+    - debug: msg="{% for k, v in test.iteritems() %}{{ k }}="{{ v }}"{% if not loop.last %}, {% endif %}{% endfor %}"
