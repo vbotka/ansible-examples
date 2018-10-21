@@ -1,4 +1,8 @@
 
+map-02.yml
+How to get a list of mount points from facts gathered by ansible on Linux host?
+https://groups.google.com/forum/#!topic/ansible-project/AqEHtof22k0
+
 map-01.yml
 How to convert a dictionary to a list with key=value elements or to a string with key=value elements?
 https://groups.google.com/forum/#!topic/ansible-project/EsbGSBuMFwM

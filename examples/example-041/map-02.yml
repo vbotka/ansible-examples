@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - debug: msg="{{ ansible_mounts }}"
+    - debug: msg="{{ ansible_mounts | map(attribute='mount') | list }}"
