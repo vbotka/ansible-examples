@@ -1,0 +1,6 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-1.json
+  tasks:
+    - debug: var=results|json_query('[?name==`hc1`].id')
