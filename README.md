@@ -44,6 +44,7 @@ Various examples of Ansbile code.
 - Example 39. Lookup.
 - Example 40. Subelements.
 - Example 41. Map.
+- Example 42. ZFS.
 
 License
 -------

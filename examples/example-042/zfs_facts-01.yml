@@ -1,0 +1,12 @@
+- hosts: pland
+  gather_facts: no
+
+  tasks:
+    - name: Check mount point
+      zfs_facts:
+        dataset: zroot/ezjail
+      register: command_result
+      ignore_errors: true
+
+    - debug: var=ansible_zfs_datasets
+      when: not command_result.failed
