@@ -1,3 +1,8 @@
+
+json_query-03.yml
+Get Field with equal condition from json generated ansible 2.5.2 uri module
+https://groups.google.com/forum/#!topic/ansible-project/5UyUBCoNseg
+
 How to access duplicate values in a JSON array and set each to a unique variable in ansible?
 https://stackoverflow.com/questions/51660804/how-to-access-duplicate-values-in-a-json-array-and-set-each-to-a-unique-variable
 --
