@@ -1,0 +1,12 @@
+---
+
+- hosts: test99
+  pre_tasks:
+    - debug: var=play_hosts
+      delegate_to: localhost
+      register: result
+    - debug: var=result
+      delegate_to: localhost
+
+# EOF
+...
