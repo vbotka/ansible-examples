@@ -1,4 +1,4 @@
-- hosts: vm2
+- hosts: localhost
   tasks:
     - name: List all vars
       vars: 

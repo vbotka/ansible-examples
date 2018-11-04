@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  name: Print ansible_default_ipv4
+  gather_facts: yes
+  tasks:
+    - debug: var=hostvars
+    - debug: var=ansible.vars.hostvars
+
+# EOF
+...

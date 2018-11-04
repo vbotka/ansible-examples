@@ -1,0 +1,22 @@
+---
+
+- hosts: localhost
+  name: Print ansible_hostname
+  gather_facts: no
+  tasks:
+    - debug: var=ansible_hostname
+
+- hosts: localhost
+  name: Print ansible_hostname
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_hostname
+
+- hosts: localhost
+  name: Print ansible_hostname
+  gather_facts: no
+  tasks:
+    - debug: var=ansible_hostname
+
+# EOF
+...
