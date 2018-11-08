@@ -45,6 +45,7 @@ Various examples of Ansbile code.
 - Example 40. Subelements.
 - Example 41. Map.
 - Example 42. ZFS.
+- Example 43. json_query filter contains.
 
 License
 -------

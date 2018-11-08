@@ -1,0 +1,38 @@
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    hostgroups:
+      - name: a-node
+        roles:
+          - aaa
+          - bbb
+          - ccc
+          - ddd
+          - eee
+      - name: b-node
+        roles:
+          - ccc
+          - ddd
+      - name: c-node
+        roles:
+          - ccc
+          - ddd
+          - zzz
+      - name: d-node
+        roles:
+          - ccc
+          - ddd
+    role_groups: {}
+  tasks:
+    - set_fact:
+        role_list: "{{ hostgroups|json_query('[].roles')|flatten|unique }}"
+    - set_fact:
+        role_groups: "{{ role_groups|combine( { item:  hostgroups|json_query(query) } ) }}"
+      vars:
+        query: "[?roles.contains(@, '{{ item }}')].name"
+      loop: "{{ role_list  }}"
+    - debug:
+        var: role_groups
+
+# EOF
