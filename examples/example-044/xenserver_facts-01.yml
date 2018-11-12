@@ -1,0 +1,15 @@
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Gather facts about packages
+      package_facts:
+    - fail:
+        msg: "python-os-xenapi is not installed. End of play."
+      when: ansible_facts.packages['python-os-xenapi'] is not defined
+    - name: Gather facts from xenserver
+      xenserver_facts:
+    - debug:
+        var: xs_vms
+
+# EOF
