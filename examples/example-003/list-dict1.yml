@@ -13,6 +13,5 @@
               dest: "/tmp/dir2"
               path: "/etc/finance/file2"
   tasks:
-    - debug:
-        msg: "src: {{ item.value.path}} dest: {{ item.value.dest }}"
-      with_dict: "{{ facts.finance.files }}"
+    - include_tasks: list-dict1-task.yml
+      loop: "{{ facts.finance.files }}"

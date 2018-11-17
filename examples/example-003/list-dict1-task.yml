@@ -1,0 +1,5 @@
+- debug:
+    msg: "file: {{ conf.key }} src: {{ conf.value.path}} dest: {{ conf.value.dest }}"
+  loop: "{{ item|dict2items }}"
+  loop_control:
+    loop_var: conf

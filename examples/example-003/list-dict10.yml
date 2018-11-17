@@ -1,0 +1,11 @@
+- hosts: localhost
+  vars:
+    my_conf:
+      file1:
+        - [ "key1", "val1" ]
+        - [ "key2", "val2" ]
+        - [ "key3", "val3", "absent" ]
+  tasks:
+    - include_tasks: list-dict10-task.yml
+#   - debug: msg="{{ item }}"
+      loop: "{{ my_conf | dict2items }}"

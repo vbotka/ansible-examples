@@ -1,0 +1,7 @@
+- debug:
+  # msg: "file: {{ conf.key }} key: {{ conf.value[0]}} val: {{ conf.value[1] }}"
+  # msg: "{{ item.key }} {{ conf }}"
+    msg: "{{ item.key }} {{ conf[0] }} {{ conf[1] }} {{ conf[2]|default('present') }}"
+  loop: "{{ item.value }}"
+  loop_control:
+    loop_var: conf
