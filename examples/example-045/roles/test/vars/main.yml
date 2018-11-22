@@ -1,0 +1,6 @@
+---
+files_templates:
+  - file: /scratch/tmp/file1
+    template: template1.j2
+  - file: /scratch/tmp/file2
+    template: template2.j2

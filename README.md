@@ -47,6 +47,7 @@ Various examples of Ansbile code.
 - Example 42. ZFS.
 - Example 43. json_query filter contains.
 - Example 44. Xen
+- Example 45. Iterate blockinfile from templates.
 
 License
 -------

@@ -1,0 +1,7 @@
+---
+- blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.template }}"
+    create: yes
+    path: "{{ item.file }}"
+    block: "{{ lookup('template', item.template) }}"
+  loop: "{{ files_templates }}"
