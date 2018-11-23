@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    interfaces:
+      - Vlan0:
+          ipv4:
+            10.45.230.250:
+              prefix_length: 24
+      - Vlan1:
+          ipv4:
+            10.45.230.251:
+              prefix_length: 24
+      - Vlan2:
+          ipv4:
+            10.45.230.252:
+              prefix_length: 24
+  tasks:
+    - name: List selected variables
+      vars:
+        msg: |
+          vlan {{ item|dict2items|json_query('[].key') }}
+          ip {{ item|dict2items|json_query('[].value.ipv4|[0]')|dict2items|json_query('[].key') }}
+          prefix {{ item|dict2items|json_query('[].value.ipv4|[0]')|dict2items|json_query('[].value.prefix_length') }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
+      loop: "{{ interfaces }}"
