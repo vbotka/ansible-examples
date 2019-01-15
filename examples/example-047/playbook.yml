@@ -1,0 +1,23 @@
+- hosts: jails-01
+  strategy: linear
+  vars:
+    lock_file: /var/lock/my_ansible_hostname.lock
+  tasks:
+    - name: delete lock_file
+      file:
+        path: "{{ lock_file }}"
+        state: absent
+      run_once: true
+      delegate_to: localhost
+    - name: select host
+      shell: "echo {{ ansible_hostname }}  > {{ lock_file }}"
+      args:
+        creates: "{{ lock_file }}"
+      delegate_to: localhost
+    - name: winner takes it all
+      fail:
+        msg: "Too late. Other thread is running. End of play."
+      when: lookup('file', lock_file) != ansible_hostname
+    - name: go ahead
+      debug:
+        msg: "{{ ansible_hostname }} goes ahead ... "
