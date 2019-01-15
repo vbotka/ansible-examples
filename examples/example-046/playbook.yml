@@ -1,0 +1,10 @@
+- hosts: jails-01
+  gather_facts: yes
+  tasks:
+    - name: user
+      shell: echo "$LOGNAME user"  >> /tmp/audit_list
+      delegate_to: localhost
+      run_once: true
+    - name: remote hosts 
+      shell:  echo "remote host is {{ansible_fqdn}}" >> /tmp/audit_list
+      delegate_to: localhost
