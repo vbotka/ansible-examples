@@ -12,7 +12,7 @@
     - name: select host
       shell: "echo {{ ansible_hostname }}  > {{ lock_file }}"
       args:
-        creates: "{{ lock_file }}"
+        creates: "{{ lock_file }}" # Note
       delegate_to: localhost
     - name: winner takes it all
       fail:
@@ -21,3 +21,82 @@
     - name: go ahead
       debug:
         msg: "{{ ansible_hostname }} goes ahead ... "
+
+# Note: The hosts start with this task till the first one creates the
+# file. Most likely the last started with this task will be the
+# winner. See the log bellow.
+#
+# changed: [test_03 -> localhost] => {
+#     "changed": true, 
+#     "cmd": "echo test_03 > /var/lock/my_ansible_hostname.lock", 
+#     "delta": "0:00:00.022184", 
+#     "end": "2019-01-16 09:18:56.536275", 
+#     "invocation": {
+#         "module_args": {
+#             "_raw_params": "echo test_03 > /var/lock/my_ansible_hostname.lock", 
+#             "_uses_shell": true, 
+#             "argv": null, 
+#             "chdir": null, 
+#             "creates": "/var/lock/my_ansible_hostname.lock", 
+#             "executable": null, 
+#             "removes": null, 
+#             "stdin": null, 
+#             "warn": true
+#         }
+#     }, 
+#     "rc": 0, 
+#     "start": "2019-01-16 09:18:56.514091", 
+#     "stderr": "", 
+#     "stderr_lines": [], 
+#     "stdout": "", 
+#     "stdout_lines": []
+# }
+# changed: [test_01 -> localhost] => {
+#     "changed": true, 
+#     "cmd": "echo test_01 > /var/lock/my_ansible_hostname.lock", 
+#     "delta": "0:00:00.025312", 
+#     "end": "2019-01-16 09:18:56.552668", 
+#     "invocation": {
+#         "module_args": {
+#             "_raw_params": "echo test_01 > /var/lock/my_ansible_hostname.lock", 
+#             "_uses_shell": true, 
+#             "argv": null, 
+#             "chdir": null, 
+#             "creates": "/var/lock/my_ansible_hostname.lock", 
+#             "executable": null, 
+#             "removes": null, 
+#             "stdin": null, 
+#             "warn": true
+#         }
+#     }, 
+#     "rc": 0, 
+#     "start": "2019-01-16 09:18:56.527356", 
+#     "stderr": "", 
+#     "stderr_lines": [], 
+#     "stdout": "", 
+#     "stdout_lines": []
+# }
+# ok: [test_02 -> localhost] => {
+#     "changed": false, 
+#     "cmd": "echo test_02 > /var/lock/my_ansible_hostname.lock", 
+#     "invocation": {
+#         "module_args": {
+#             "_raw_params": "echo test_02 > /var/lock/my_ansible_hostname.lock", 
+#             "_uses_shell": true, 
+#             "argv": null, 
+#             "chdir": null, 
+#             "creates": "/var/lock/my_ansible_hostname.lock", 
+#             "executable": null, 
+#             "removes": null, 
+#             "stdin": null, 
+#             "warn": true
+#         }
+#     }, 
+#     "rc": 0, 
+#     "stdout": "skipped, since /var/lock/my_ansible_hostname.lock exists", 
+#     "stdout_lines": [
+#         "skipped, since /var/lock/my_ansible_hostname.lock exists"
+#     ]
+# }
+
+# EOF
