@@ -50,6 +50,7 @@ Various examples of Ansbile code.
 - Example 45. Iterate blockinfile from templates.
 - Example 46. run_once.
 - Example 47. Run the playbook only on one host per group.
+- Example 48. Test getenv module.
 
 License
 -------

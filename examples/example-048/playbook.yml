@@ -1,0 +1,43 @@
+- hosts: localhost
+  vars:
+    user: admin
+    user_list: [ "admin", "foo", "bar" ]
+
+  tasks:
+    - getent:
+        database: passwd
+        key: root
+    - debug:
+        var: getent_passwd
+
+    - getent:
+        database: passwd
+        key: foo
+        fail_key: no
+    - debug:
+        var: getent_passwd
+
+    - getent:
+        database: passwd
+    - debug:
+        var: getent_passwd
+
+    - debug:
+        var: getent_passwd.keys()|list
+
+    - debug:
+        msg: "{{ user in user_list }}"
+
+    - debug:
+        msg: "user admin exists in user_list"
+      when: user in user_list
+
+    - debug:
+        msg: "user admin exists in /etc/passwd"
+      when: user in getent_passwd.keys()
+
+    - debug:
+        msg: "user foo does not exist in /etc/passwd"
+      when: not 'foo' in getent_passwd.keys()
+
+# EOF
