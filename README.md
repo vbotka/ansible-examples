@@ -51,6 +51,7 @@ Various examples of Ansbile code.
 - Example 46. run_once.
 - Example 47. Run the playbook only on one host per group.
 - Example 48. Test getenv module.
+- Example 49. Variable precedence complex.
 
 License
 -------

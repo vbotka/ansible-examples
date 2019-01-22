@@ -1,0 +1,22 @@
+
+
+> ansible-playbook playbook.yml 
+
+PLAY [localhost] ****************************************************************************
+
+TASK [Gathering Facts] **********************************************************************
+ok: [127.0.0.1]
+
+TASK [test : default vars for Debian Ubuntu bionic] *****************************************
+ok: [127.0.0.1] => (item=/ansible-examples/examples/example-049/roles/test/vars/default/default.yml)
+
+TASK [test : vars for Debian Ubuntu bionic] *************************************************
+
+TASK [test : debug] *************************************************************************
+ok: [127.0.0.1] => {
+    "test_var_001": "vars-default.yml"
+}
+
+PLAY RECAP **********************************************************************************
+127.0.0.1                  : ok=3    changed=0    unreachable=0    failed=0
+
