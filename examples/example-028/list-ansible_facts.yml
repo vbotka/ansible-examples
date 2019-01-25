@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - name: List ansible_facts
+      vars: 
+        msg: |
+            HOST Variables ("ansible_facts"):
+            --------------------------------
+            {{ ansible_facts | to_nice_json }} 
+      debug:
+        msg: "{{ msg.split('\n') }}"
