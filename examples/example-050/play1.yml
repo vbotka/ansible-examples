@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - debug: msg="play1 {{ test_var|default('UNDEFINED') }}"
+    - set_fact:
+        test_var: play1
+    - debug: msg="play1 {{ test_var }}"
+    - command: date
+      register: test_date

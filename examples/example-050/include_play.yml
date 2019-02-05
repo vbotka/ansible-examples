@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    test_var: import
+- include: play1.yml
+- include: play2.yml
+
+# EOF
+...

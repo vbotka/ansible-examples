@@ -1,0 +1,7 @@
+- hosts: localhost
+  tasks:
+    - debug: msg="play2 test_date {{ test_date.stdout|default('UNDEFINED') }}"
+    - debug: msg="play2 test_var {{ test_var|default('UNDEFINED') }}"
+    - set_fact:
+        test_var: play2
+    - debug: msg="play2 {{ test_var }}"
