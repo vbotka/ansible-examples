@@ -53,6 +53,7 @@ Various examples of Ansbile code.
 - Example 48. Test getenv module.
 - Example 49. Variable precedence complex.
 - Example 50. Share variables between playbooks.
+- Example 51. Test uri module. Ansible Galaxy API list platforms.
 
 License
 -------

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+    - uri:
+        url:  https://galaxy.ansible.com/api/v1/platforms/
+      register: platforms
+    - debug:
+        var: platforms
+
+# EOF
+...
