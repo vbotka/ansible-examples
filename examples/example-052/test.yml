@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    CHECKSLIST:
+      - check1
+      - check2
+      - check3  
+  tasks:
+  - name: Check All
+    include_tasks: "{{ item }}.yml"
+    with_items: "{{ CHECKSLIST }}"
+
+# EOF
+...

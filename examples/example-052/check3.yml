@@ -1,0 +1,8 @@
+---
+- block:
+    - command: /bin/false
+      register: result
+  rescue:
+    - debug: msg="check3 failed."
+    - debug: var=result
+  tags: backup
