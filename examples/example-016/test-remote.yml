@@ -1,0 +1,6 @@
+- set_fact:
+    my_group: "cluster_{{ item }}"
+- command: hostname
+  register: result
+  delegate_to: "{{ groups[my_group][0] }}"
+- debug: var=result.stdout

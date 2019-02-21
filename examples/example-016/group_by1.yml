@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - group_by:
+        key: "cluster_{{ cluster_number }}"
+    - include_tasks: test-remote.yml
+      loop:  "{{ cluster_numbers }}"
+      run_once: true

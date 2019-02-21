@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - group_by:
+        key: "cluster_{{ cluster_number }}"
+    - debug:
+        var: groups['cluster_{{ item }}'][0]
+      loop:  "{{ cluster_numbers }}"
+      run_once: true
+      
