@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+    - fail:
+        msg: "Exit: {{ exit_var }}. End of play."
+      when: exit_var

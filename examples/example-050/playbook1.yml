@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - set_fact:
+        exit_var: true
