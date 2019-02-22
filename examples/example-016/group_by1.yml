@@ -5,6 +5,9 @@
   tasks:
     - group_by:
         key: "cluster_{{ cluster_number }}"
-    - include_tasks: test-remote.yml
-      loop:  "{{ cluster_numbers }}"
+    - block:
+        - set_fact:
+            cluster_numbers: "{{ hostvars|json_query('*.cluster_number')|unique }}"
+        - include_tasks: test-remote.yml
+          loop:  "{{ cluster_numbers }}"
       run_once: true
