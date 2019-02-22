@@ -3,6 +3,9 @@
 - hosts: all
   gather_facts: no
   tasks:
+    - debug:
+        msg: "{{ hostvars|json_query('*.cluster_number')|unique }}"
+      run_once: true 
     - group_by:
         key: "cluster_{{ cluster_number }}"
     - debug:
