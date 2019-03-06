@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: yes
+  vars:
+    my_command: ""
+  tasks:
+    - name: List all hosts
+      debug:
+        msg: "{{ groups.all }}"
+#    - set_fact:
+#        my_command: "init-cluster -cluster-name lbcluster -dbname {{ dbname }}
+#                     -dbtype postgresql -dbhost {{ dbhost }} -dbport {{ dbport }}
+#                     -dbuser {{ dbuser }} -dbpass {{ dbpass }} -zk-servers {{ zk-servers }}
+#                     -storage-strategy {{ storage-strategy }}
+#                     -storage-hdfs-uri hdfs://{{ hdfs-namenode }}:8020
+#                     -storage-hdfs-root /root
+#                     -overwrite"
+    - set_fact:
+        my_command: "{{ my_command + ' -node-id ' + item }}"
+      loop: "{{ groups.all }}"
+    - debug:
+        var: my_command
+
+# Ansible Add parameters based on number of hosts
+# https://stackoverflow.com/questions/55021552/ansible-add-parameters-based-on-number-of-hosts/
