@@ -55,6 +55,7 @@ Various examples of Ansbile code.
 - Example 50. Share variables between playbooks.
 - Example 51. Test uri module. Ansible Galaxy API list platforms.
 - Example 52. Blocks. Test rescue.
+- Example 53. Vault.
 
 License
 -------

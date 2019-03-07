@@ -1,0 +1,6 @@
+- hosts: routers
+  tasks:
+  - debug: var=test
+
+# Using vault in playbooks
+# https://stackoverflow.com/questions/55048340/using-vault-in-playbooks/
