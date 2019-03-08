@@ -1,6 +1,10 @@
 - hosts: routers
   tasks:
   - debug: var=test
+  - debug: var=routers_vars_test1
 
 # Using vault in playbooks
 # https://stackoverflow.com/questions/55048340/using-vault-in-playbooks/
+
+# Can't run enable in playbook
+# https://stackoverflow.com/questions/55055732/cant-run-enable-in-playbook
