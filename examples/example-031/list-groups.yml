@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: List all vars
+      vars: 
+        msg: |
+          GROUP NAMES Variables (group_names)
+          {{ group_names | to_nice_json }}
+          GROUPS Variables (groups)
+          {{ groups | to_nice_json }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
