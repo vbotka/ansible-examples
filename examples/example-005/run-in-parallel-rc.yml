@@ -1,0 +1,28 @@
+---
+
+- name: Run tasks in parallel
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Pretend to create instances
+      command: "sleep {{ item }}"  # Instead of calling a long running operation at a cloud provider, we just sleep.
+      with_items:
+        - 6
+        - 8
+        - 7
+      register: _create_instances
+      async: 600  # Maximum runtime in seconds. Adjust as needed.
+      poll: 0  # Fire and continue (never poll)
+
+    - name: Wait for creation to finish
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: _jobs
+      until: _jobs.finished
+      delay: 5  # Check every 5 seconds. Adjust as you like.
+      retries: 10  # Retry up to 10 times. Adjust as needed.
+      with_items: "{{ _create_instances.results }}"
+
+    - debug:
+        msg: "{{ _jobs|json_query('results[].[invocation.module_args._raw_params, rc]') }}"

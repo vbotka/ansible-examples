@@ -1,2 +1,6 @@
+run-in-parallel-rc.yml
+Ansible: register both job id and exit code
+https://stackoverflow.com/questions/55158564/ansible-register-both-job-id-and-exit-code
+
 run-in-parallel.yml
 https://github.com/betrcode/ansible-run-in-parallel
