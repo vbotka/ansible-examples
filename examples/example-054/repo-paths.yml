@@ -1,0 +1,6 @@
+- debug: msg="./{{ item.0 }}/{{ item.1 }}/{{ item.2 }}/{{ item.3 }}"
+  with_nested:
+    - "{{ repo.os_list }}"
+    - "{{ repo.major_distribution_list }}"
+    - "{{ repo.name }}"
+    - "{{ repo.archs }}"

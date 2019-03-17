@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  vars:
+    repos:
+      - name: repo1
+        os_list:
+          - centos
+          - rhel
+        major_distribution_list:
+          - 6
+          - 7
+          - 8    
+        archs:
+          - noarch
+          - x86_64
+  tasks:
+    - include_tasks: repo-paths.yml
+      loop: "{{ repos }}"
+      loop_control:
+        loop_var: repo
+
+# How to iterate over multiple lists of a dicts in Ansible?
+# https://stackoverflow.com/questions/55203499/how-to-iterate-over-multiple-lists-of-a-dicts-in-ansible/
