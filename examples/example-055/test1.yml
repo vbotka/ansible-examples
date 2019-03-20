@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+#    - name: "Include var"
+#      set_fact:
+#        ram_list: "{{ ram_list | default([]) + [ lookup('file',item) | from_yaml ]}}"
+#      with_items:
+#        - service_1.yml
+#        - service_2.yml
+#    - debug:
+#        var: ram_list
+    - name: "Include var"
+      include_tasks: create-ramlist.yml
+      loop:
+        - service_1.yml
+        - service_2.yml
+    - debug:
+        var: ram_list
+
+# Assigning a variable to another variable in the current list / file in Ansible
+# https://stackoverflow.com/questions/55265509/assigning-a-variable-to-another-variable-in-the-current-list-file-in-ansible/

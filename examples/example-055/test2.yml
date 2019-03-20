@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        some_time: "{{ 1 * 24 * 60 * 60 }}"
+    - debug:
+        var: some_time
+...
+
+# Performing arithmetic operation in YAML?
+# https://stackoverflow.com/questions/25516945/performing-arithmetic-operation-in-yaml

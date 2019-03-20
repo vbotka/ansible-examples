@@ -57,6 +57,7 @@ Various examples of Ansbile code.
 - Example 52. Blocks. Test rescue.
 - Example 53. Vault.
 - Example 54. Nested loops.
+- Example 55. Arithmetics.
 
 License
 -------

@@ -1,0 +1,7 @@
+---
+- include_vars: "{{ item }}"
+- set_fact:    
+    ram_list: "{{ ram_list | default([]) + [ {'name': name,
+                                              'ram_max': ram_max,
+                                              'ram_min': ram_min} ] }}"
+...

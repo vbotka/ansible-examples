@@ -1,0 +1,5 @@
+---
+name: service_2
+ram_min: 2048
+ram_max: "{{ ( ram_min + 256 ) | int }}"
+...
