@@ -1,0 +1,13 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - set_fact:
+        test_var3: play1_test_var1
+
+- hosts: test_02
+  gather_facts: false
+  tasks:
+    - debug:
+        var: hostvars['test_01'].test_var3

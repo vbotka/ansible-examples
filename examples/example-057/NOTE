@@ -1,0 +1,41 @@
+XML parsing issue in Ansible
+----------------------------
+https://stackoverflow.com/questions/55416118/xml-parsing-issue-in-ansible/
+
+The assumption is wrong:
+
+"Please note the variable which is SPLAT is output from the host from
+previous task which I am using in my second task".
+
+This is a sequence of two playbooks, not a sequence of two tasks. The
+scope of the variables is a playbook. Second playbook knows nothing
+about hostvars['win'] until Caching Facts is used.
+
+Without caching the play below
+
+- hosts: test_01
+  tasks:
+    - set_fact:
+        test_var1: play1_test_var1
+
+- hosts: test_02
+  gather_facts: false
+  tasks:
+    - debug:
+        var: hostvars['test_01'].test_var1
+gives:
+
+ok: [test_02] => {
+"test_var1": "VARIABLE IS NOT DEFINED!"
+With caching
+
+> cat ansible.cfg
+[defaults]
+fact_caching = jsonfile
+fact_caching_connection = /scratch/ansible-cachedir
+fact_caching_timeout = 86400
+the same play gives
+
+ok: [test_02] => {
+"msg": "play1_test_var1"
+--
