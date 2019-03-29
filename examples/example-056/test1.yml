@@ -1,0 +1,44 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    lists:
+      - [ a, b, c ]
+      - [ 1, 2, 3 ]
+      - [ V, W, Z ]
+  tasks:
+    - debug:
+        msg: "No.1a: {{ item.0 }} - {{ item.1 }} - {{ item.2 }}"
+      with_together:
+        - "{{ lists.0 }}"
+        - "{{ lists.1 }}"
+        - "{{ lists.2 }}"
+    - debug:
+        msg: "No.1b: {{ item.0 }} - {{ item.1 }} - {{ item.2 }}"
+      loop: "{{ lists.0|zip(lists.1, lists.2)|list }}"
+    - debug:
+        msg: "No.2: {{ item.0 }} - {{ item.1 }}"
+      loop: "{{ lists.0|zip(lists.1)|list }}"
+    - debug:
+        msg: "No.3: {{ item.0 }} - {{ item.1 }}"
+      loop: "{{ lists.0|zip(lists.1)|zip(lists.2)|list }}"
+    - debug:
+        msg: "No.4: {{ [item|int]|map('extract', lists)|list|flatten }}"
+      with_sequence: start=0 end="{{ lists|length -1 }}"
+# No-Go
+    - set_fact:
+        my_zip: "{{ my_zip|default([]) + lists.0 }}"
+    - debug:
+        msg: "No.5: {{ my_zip }}"
+    - set_fact:
+        my_zip: "{{ my_zip|zip([item|int]|map('extract', lists)|list)|list  }}"
+      with_sequence: start=1 end="{{ lists|length -2 }}"
+    - debug:
+        msg: "No.5: {{ my_zip }}"
+
+# EOF
+...
+
+# loop + zip when combining more than two lists?
+# https://stackoverflow.com/questions/55407094/ansible-whats-the-proper-syntax-for-loop-zip-when-combining-more-than-two-l

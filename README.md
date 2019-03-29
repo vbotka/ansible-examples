@@ -58,6 +58,7 @@ Various examples of Ansbile code.
 - Example 53. Vault.
 - Example 54. Nested loops.
 - Example 55. Arithmetics.
+- Example 56. Zip filter.
 
 License
 -------
