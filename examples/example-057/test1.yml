@@ -1,13 +1,74 @@
 ---
 
-- hosts: test_01
-  gather_facts: false
-  tasks:
-    - set_fact:
-        test_var3: play1_test_var1
-
-- hosts: test_02
+- name: Play 1
+  hosts: test_01
   gather_facts: false
   tasks:
     - debug:
-        var: hostvars['test_01'].test_var3
+        var: ansible_facts.os_family
+    - set_fact:
+        test_var1: play1_test_var1
+    - command: hostname
+      register: hostname
+  tags: play1
+
+- name: Play 2
+  hosts: test_02
+  gather_facts: false
+  tasks:
+    # With “Fact Caching” disabled, in order to do this, Ansible must
+    # have already talked to ‘test_01’ in the current play, or another
+    # play up higher in the playbook.
+    - debug:
+        var: hostvars['test_01']['ansible_facts']['os_family']
+    - debug:
+        var: hostvars['test_01'].test_var1
+    - debug:
+        var: hostvars['test_01'].hostname.stdout
+  tags: play2
+
+
+# Example fact_caching = jsonfile
+# ===============================
+# > ansible-playbook test1.yml -t play2 | grep hostvars
+#     "hostvars['test_01']['ansible_facts']['os_family']": "FreeBSD"
+#     "hostvars['test_01'].test_var1": "VARIABLE IS NOT DEFINED!"
+#     "hostvars['test_01'].hostname.stdout": "VARIABLE IS NOT DEFINED!"
+
+# Registering variables
+# =====================
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#registering-variables
+#
+# Registered variables are valid on the host the remainder of the
+# playbook run, which is the same as the lifetime of “facts” in
+# Ansible. Effectively registered variables are just like facts.
+
+# Caching Facts
+# =============
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
+#
+# As shown elsewhere in the docs, it is possible for one server to
+# reference variables about another, like so:
+#
+# {{ hostvars['asdf.example.com']['ansible_facts']['os_family'] }}
+#
+# With “Fact Caching” disabled, in order to do this, Ansible must have
+# already talked to ‘asdf.example.com’ in the current play, or another
+# play up higher in the playbook. This is the default configuration of
+# ansible.
+#
+# With fact caching enabled, it is possible for machine in one group
+# to reference variables about machines in the other group, despite
+# the fact that they have not been communicated with in the current
+# execution of /usr/bin/ansible-playbook.
+#
+# To benefit from cached facts, you will want to change the gathering
+# setting to smart or explicit or set gather_facts to False in most
+# plays.
+
+# > cat ansible.cfg
+# [defaults]
+# gathering = smart
+# fact_caching = jsonfile
+# fact_caching_connection = /scratch/ansible-cachedir
+# fact_caching_timeout = 86400
