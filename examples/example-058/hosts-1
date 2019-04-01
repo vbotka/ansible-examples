@@ -1,0 +1,6 @@
+localhost
+
+[routers]
+localhost
+
+[routers:vars]

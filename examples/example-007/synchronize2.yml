@@ -1,0 +1,10 @@
+---
+
+- hosts: test_01
+  tasks:
+    - synchronize:
+        mode: pull
+        src: /scratch/tmp/ansible-test-file
+        dest: /scratch/tmp
+
+# EOF

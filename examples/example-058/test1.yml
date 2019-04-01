@@ -1,0 +1,11 @@
+---
+
+- hosts: test_jails
+  gather_facts: true
+  tasks:
+    - set_stats:
+        data:
+          infoblox:
+            hostname: "{{ ansible_hostname }}"
+        aggregate: no
+        per_host: yes
