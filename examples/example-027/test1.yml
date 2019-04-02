@@ -1,0 +1,8 @@
+---
+
+- hosts: test_jails
+  gather_facts: false
+  tasks:
+    - debug:
+        var: play_hosts
+      run_once: true

@@ -1,0 +1,18 @@
+---
+
+- hosts: test_jails
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_cron_schedule: "{{ my_cron_schedule|default([]) | combine(
+                              {item :{
+                                 'my_cron_hour':(24|random),
+                                 'my_cron_minute':(60|random)}}) }}"
+      loop: "{{ play_hosts }}"
+      run_once: true
+    - debug:
+        var: my_cron_schedule
+      run_once: true
+
+# Is it possible in Ansible to generate a hashing number from a string?
+# https://stackoverflow.com/questions/55471357/is-it-possible-in-ansible-to-generate-a-hashing-number-from-a-string/

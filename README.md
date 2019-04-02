@@ -61,6 +61,7 @@ Various examples of Ansbile code.
 - Example 56. Zip filter.
 - Example 57. Cache facts.
 - Example 58. set_stats.
+- Example 59. random filter.
 
 License
 -------
