@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - debug:
+        msg: "{{ ansible_hostname: (100 |random(seed=ansible_hostname)) }}"
+      with_sequence: start=0 count=10
+
+# Idempotent random number
+# https://ansibledaily.com/idempotent-random-number/
