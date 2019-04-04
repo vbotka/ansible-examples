@@ -62,6 +62,8 @@ Various examples of Ansbile code.
 - Example 57. Cache facts.
 - Example 58. set_stats.
 - Example 59. random filter.
+- Example 60. Test jq lightweight and flexible command-line JSON processor.
+- Example 61. MySQL command.
 
 License
 -------

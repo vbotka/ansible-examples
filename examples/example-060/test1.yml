@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  become: true
+  tasks:
+    - name: "apparmor: List profiles"
+      shell: "aa-status --json | jq .profiles | jq to_entries"
+      register: result
+      changed_when: false
+      when: ansible_system == "Linux"
+    - debug:
+        var: result

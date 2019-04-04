@@ -1,0 +1,17 @@
+---
+
+- hosts: pland
+  gather_facts: false
+  tasks:
+    - command: 'mysql -e "SHOW DATABASES;"'
+      register: result
+    - debug:
+        var: result
+    - command: |
+        mysql -e "SHOW DATABASES;"
+      register: result
+    - debug:
+        var: result
+
+# Ansible playbook gets stuck trying to perform mysql operations
+# https://stackoverflow.com/questions/55517825/ansible-playbook-gets-stuck-trying-to-perform-mysql-operations
