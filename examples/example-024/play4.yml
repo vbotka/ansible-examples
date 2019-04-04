@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_roles:
+      - my_role4
+      - my_role5
+      - my_role6
+
+  tasks:
+  - include_tasks: include_role.yml
+    loop: "{{ my_roles }}"
+  - debug:
+      var: failed_roles|default([])
+
+# How to deal with errors coming from roles
+# https://stackoverflow.com/questions/55521078/how-to-deal-with-errors-coming-from-roles

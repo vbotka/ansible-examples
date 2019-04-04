@@ -1,0 +1,8 @@
+---
+# tasks
+
+- command: /bin/false
+#  ignore_errors: yes
+  
+# EOF
+...

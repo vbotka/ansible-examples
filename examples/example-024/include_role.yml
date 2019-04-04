@@ -1,0 +1,7 @@
+- name: include roles
+  block:
+    - include_role:
+        name: "{{ item }}"
+  rescue:
+    - set_fact:
+        failed_roles: "{{ failed_roles|default([]) + [ item ] }}"

@@ -1,0 +1,7 @@
+---
+# tasks
+
+- command: /bin/true
+  
+# EOF
+...
