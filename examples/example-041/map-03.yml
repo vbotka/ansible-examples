@@ -1,0 +1,23 @@
+- hosts: localhost
+  vars:
+    mount_src: /dev/sdb
+    mount_path: /export
+  tasks:
+    - name: Create list of mounted devices
+      set_fact:
+        mounted_devices: "{{ ansible_mounts|json_query('[].device') }}"
+    - name: Create File System
+      filesystem:
+        fstype: ext4
+        dev: "{{ mount_src }}"
+      when: mount_src not in mounted_devices
+    - name: Mount File System
+      mount:
+        path: "{{ mount_path }}"
+        src: "{{ mount_src }}"
+        fstype: ext4
+        state: mounted
+      when: mount_src not in mounted_devices
+
+# Detect and mount filesystem in Ansible
+# https://stackoverflow.com/questions/55511770/detect-and-mount-filesystem-in-ansible/

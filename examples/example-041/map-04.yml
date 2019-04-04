@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - command: 'lsblk -lno NAME'
+      register: results
+    - name: Create list of block devices
+      set_fact:
+        block_devices: "{{ block_devices|default([]) + [ item ] }}"
+      loop: "{{ results.stdout_lines }}"
+    - debug:
+        var: block_devices
