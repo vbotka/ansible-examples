@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - debug:
+        var: ansible_os_family
+    - include_role:
+        name: my_role7
+        tasks_from: task1.yml
+    - include_role:
+        name: my_role7
+        tasks_from: task1.yml
+        vars_from: "{{ ansible_os_family }}"

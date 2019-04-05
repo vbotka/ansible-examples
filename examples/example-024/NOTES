@@ -1,3 +1,58 @@
+PLAYS
+=====
+
+play4.yml
+---------
+test loop block/rescue include_role and debug failed_roles
+
+play5.yml
+---------
+test vars_from
+
+
+ROLES
+=====
+
+my_role
+-------
+- include_vars: "{{ role_id }}"
+- debug: msg="{{ role_id }}.first_param [ {{ first_param }} ]"
+- debug: msg="{{ role_id }}.second_param [ {{ second_param }} ]"
+
+my_role1
+--------
+- debug: msg="{{ role_id }}.first_param [ {{ first_param }} ]"
+- debug: msg="{{ role_id }}.second_param [ {{ second_param }} ]"
+
+my_role2
+--------
+- include_vars: "{{ role_id }}"
+- debug: msg="{{ role_id }}.first_param [ {{ first_param|default('undefined') }} ]
+- debug: msg="{{ role_id }}.second_param [ {{ second_param|default('undefined') }} ]"
+
+my_role3
+--------
+- debug: msg="main"
+- import_tasks: task1.yml
+- import_tasks: task2.yml
+- import_tasks: task3.yml
+
+my_role4,6
+----------
+- command: /bin/true
+
+my_role5
+--------
+- command: /bin/false
+
+my_role7
+--------
+- debug: var=test_var
+
+
+NOTES
+=====
+
 Ansible variable for roles used several times
 https://serverfault.com/questions/926732/ansible-variable-for-roles-used-several-times
 

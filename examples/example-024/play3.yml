@@ -1,6 +1,4 @@
 - hosts: localhost
-#  roles:
-#    - my_role3
   tasks:
     - include_role:
         name: my_role3

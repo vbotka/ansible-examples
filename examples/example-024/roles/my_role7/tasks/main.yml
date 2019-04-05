@@ -1,0 +1,4 @@
+- import_tasks: vars.yml
+  tags: [lp_vars, always]
+
+- import_tasks: task1.yml
