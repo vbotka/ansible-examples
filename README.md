@@ -64,6 +64,7 @@ Various examples of Ansbile code.
 - Example 59. random filter.
 - Example 60. Test jq lightweight and flexible command-line JSON processor.
 - Example 61. MySQL command.
+- Example 62. Select match dynamic vars.
 
 License
 -------

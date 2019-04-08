@@ -1,0 +1,24 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+  vars:
+    env: jails
+  tasks:
+    - debug:
+        msg: "{{ groups.keys()|select('match', 'test_' + env)|list }}"
+    - template:
+        src: template.j2
+        dest: test1.txt
+
+
+# ok: [test_01] => {
+#     "msg": [
+#         "test_jails"
+#     ]
+#
+# cat test1.txt 
+# test_jails
+#
+# how to use variables in jinja2 template inside hosts specification in ansible
+# https://stackoverflow.com/questions/55567402/how-to-use-variables-in-jinja2-template-inside-hosts-specification-in-ansible/

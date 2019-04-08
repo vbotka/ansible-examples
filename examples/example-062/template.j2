@@ -1,0 +1,3 @@
+{% for item in groups.keys()|select('match', 'test_' + env)|list %}
+{{ item }}
+{% endfor %}
