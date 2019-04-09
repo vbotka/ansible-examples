@@ -1,0 +1,54 @@
+
+Normalize a flat data structure with ansible
+https://stackoverflow.com/questions/55594760/normalize-a-flat-data-structure-with-ansible/
+
+
+The play below
+
+tasks:
+  - set_fact:
+      devices1: "{{ devices1|default([]) + [ item ] }}"
+    with_together:
+      - "{{ input|dict2items|sort|selectattr('key', 'search', 'device_name')|list }}"
+      - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_id')|list }}"
+      - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_size')|list }}"
+      - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_type')|list }}"
+  - include_tasks: loop-devices.yml
+    loop: "{{ devices1 }}"
+  - debug:
+      var: devices2
+
+with include file loop-devices.yml
+
+- set_fact:
+    dev: {}
+- set_fact:
+    dev: "{{ dev|combine({dev_item.key.split('.').2:dev_item.value}) }}"
+  loop: "{{ item }}"
+  loop_control:
+    loop_var: dev_item
+- set_fact:
+    devices2: "{{ devices2|default([]) + [ dev ] }}"
+
+gives:
+
+"devices2": [
+    {
+        "device_name": "/dev/xvdc", 
+        "volume_id": "vol-00000000000000000", 
+        "volume_size": "120", 
+        "volume_type": "standard"
+    }, 
+    {
+        "device_name": "/dev/xvde", 
+        "volume_id": "vol-11111111111111111", 
+        "volume_size": "80", 
+        "volume_type": "standard"
+    }, 
+    {
+        "device_name": "/dev/xvdf", 
+        "volume_id": "vol-22222222222222222", 
+        "volume_size": "50", 
+        "volume_type": "standard"
+    }
+]

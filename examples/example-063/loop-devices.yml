@@ -1,0 +1,10 @@
+- set_fact:
+    dev: {}
+- set_fact:
+    dev: "{{ dev|combine({dev_item.key.split('.').2:dev_item.value}) }}"
+  loop: "{{ item }}"
+  loop_control:
+    loop_var: dev_item
+- set_fact:
+    devices2: "{{ devices2|default([]) + [ dev ] }}"
+

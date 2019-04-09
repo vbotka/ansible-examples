@@ -1,0 +1,23 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+  vars_files:
+    test-063-data.yml
+  tasks:
+    - set_fact:
+        devices1: "{{ devices1|default([]) + [ item ] }}"
+      with_together:
+        - "{{ input|dict2items|sort|selectattr('key', 'search', 'device_name')|list }}"
+        - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_id')|list }}"
+        - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_size')|list }}"
+        - "{{ input|dict2items|sort|selectattr('key', 'search', 'volume_type')|list }}"
+    - include_tasks: loop-devices.yml
+      loop: "{{ devices1 }}"
+    - debug:
+        var: devices2
+
+#     - debug:
+#         msg: "{{ input }}"
+#     - debug:
+#         msg: "{{ input|sort }}"

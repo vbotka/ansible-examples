@@ -1,0 +1,15 @@
+input:
+  {
+    "ebs_block_device.0000000000.device_name": "/dev/xvdc",
+    "ebs_block_device.0000000000.volume_id": "vol-00000000000000000",
+    "ebs_block_device.0000000000.volume_size": "120",
+    "ebs_block_device.0000000000.volume_type": "standard",
+    "ebs_block_device.1111111111.device_name": "/dev/xvde",
+    "ebs_block_device.1111111111.volume_id": "vol-11111111111111111",
+    "ebs_block_device.1111111111.volume_size": "80",
+    "ebs_block_device.1111111111.volume_type": "standard",
+    "ebs_block_device.2222222222.device_name": "/dev/xvdf",
+    "ebs_block_device.2222222222.volume_id": "vol-22222222222222222",
+    "ebs_block_device.2222222222.volume_size": "50",
+    "ebs_block_device.2222222222.volume_type": "standard",
+  }
