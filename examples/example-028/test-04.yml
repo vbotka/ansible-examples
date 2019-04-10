@@ -1,0 +1,11 @@
+- hosts: test_jails
+  gather_facts: yes
+  tasks:
+    - debug:
+        var: hostvars[item].ansible_nodename
+      loop: "{{ play_hosts }}"
+      run_once: true
+
+# Join results in debug output from multiple hosts- ansible
+# https://stackoverflow.com/questions/55616592/join-results-in-debug-output-from-multiple-hosts-ansible/
+
