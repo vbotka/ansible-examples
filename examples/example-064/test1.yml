@@ -1,0 +1,10 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - debug: var=bot_os_user
+    - debug: var=my_ansible_user
+
+# How to use template variables in group_vars
+# https://superuser.com/questions/1423681/how-to-use-template-variables-in-group-vars/

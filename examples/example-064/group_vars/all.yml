@@ -1,0 +1,1 @@
+my_ansible_user: "{{ bot_os_user }}"
