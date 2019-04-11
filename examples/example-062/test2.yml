@@ -1,0 +1,20 @@
+---
+
+- hosts: test_jails
+  gather_facts: true
+  tasks:
+    - set_fact:
+        my_list: "{{ hostvars[inventory_hostname].keys() |
+                     select('match', '^.*_python_.*$') |
+                     list }}"
+    - debug:
+        msg: "{{ inventory_hostname }} {{ item }} [ {{ lookup('vars', item) }} ]"
+      loop: "{{ my_list }}"
+      run_once: true
+
+# > ansible-playbook test2.yml | grep msg
+#     "msg": "test_01 ansible_selinux_python_present [ False ]"
+#     "msg": "test_01 ansible_python_interpreter [ /usr/local/bin/python3.6 ]"
+#     "msg": "test_01 ansible_python_version [ 3.6.7 ]"
+      
+...
