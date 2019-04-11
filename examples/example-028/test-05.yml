@@ -1,0 +1,19 @@
+- hosts: test_jails
+  gather_facts: yes
+  tasks:
+    - name: Check the space in /
+      shell: df -h /  | grep [0-9]%  | awk '{ print 0+$4 }'
+      register: space
+    - debug:
+        msg: "{{ hostvars|json_query(my_query) }}"
+      vars:
+        my_query: "*.space"
+      run_once: true
+    - debug:
+        msg: "{{ hostvars|json_query(my_query) }}"
+      vars:
+        my_query: "*.space.stdout"
+      run_once: true
+
+# Join results in debug output from multiple hosts- ansible
+# https://stackoverflow.com/questions/55616592/join-results-in-debug-output-from-multiple-hosts-ansible/
