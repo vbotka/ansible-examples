@@ -1,0 +1,4 @@
+---
+- import_tasks: vars.yml
+- debug: var=test_var_1
+...

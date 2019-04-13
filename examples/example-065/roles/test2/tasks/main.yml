@@ -1,0 +1,8 @@
+---
+- set_fact:
+    al_os_vars_path: "{{ role_path }}"
+- include_role:
+    name: vbotka.ansible_lib
+    tasks_from: al_include_os_vars_path.yml
+- debug: var=test_var_1
+...

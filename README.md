@@ -67,7 +67,7 @@ Various examples of Ansbile code.
 - Example 62. Select match dynamic vars.
 - Example 63. with_together
 - Example 64. group_vars
-- Example 65.
+- Example 65. Test include_role vbotka.ansible_lib
 
 License
 -------

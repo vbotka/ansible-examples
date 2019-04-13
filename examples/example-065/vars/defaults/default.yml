@@ -1,0 +1,7 @@
+---
+# Default defaults for example-065
+
+test_var_1: default_test_var_1
+
+# EOF
+...

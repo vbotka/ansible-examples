@@ -1,0 +1,7 @@
+---
+# Ubuntu defaults for example-065
+
+test_var_1: roles-test2-vars-defaults-Ubuntu
+
+# EOF
+...

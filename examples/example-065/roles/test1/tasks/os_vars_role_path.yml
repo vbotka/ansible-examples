@@ -1,0 +1,26 @@
+---
+
+- name: "os_vars_role_path: Vars from {{ role_path }}/vars/defaults"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "default.yml"
+      paths: "{{ al_os_vars_role_path }}/vars/defaults"
+      skip: true
+
+- name: "os_vars_role_path: Vars from {{ role_path }}/vars"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "default.yml"
+      paths: "{{ al_os_vars_role_path }}/vars"
+      skip: true
+
+# EOF
+...

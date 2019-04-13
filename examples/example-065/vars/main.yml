@@ -1,0 +1,9 @@
+---
+# vars for example-065
+
+# Variables in this file will be overwritten by OS specific variables
+# in vars/defaults and optionally, if created, by custom OS specific
+# variables in vars/. For details and precedence see tasks/vars.yml .
+
+# EOF
+...

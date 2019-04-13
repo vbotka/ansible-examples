@@ -1,0 +1,7 @@
+---
+# FreeBSD defaults for example-065
+
+test_var_1: FreeBSD_test_var_1
+
+# EOF
+...
