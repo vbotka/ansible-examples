@@ -68,6 +68,7 @@ Various examples of Ansbile code.
 - Example 63. with_together
 - Example 64. group_vars
 - Example 65. Test include_role vbotka.ansible_lib
+- Example 66. Test include_vars
 
 License
 -------

@@ -1,0 +1,15 @@
+---
+
+- hosts: test_01
+  gather_facts: true
+  vars:
+    al_include_confd_dir: "{{ playbook_dir }}/conf.d2"
+    al_debug: true
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_include_confd_vars_list
+    - debug:
+        var: al_include_confd_vars_list
+
+...

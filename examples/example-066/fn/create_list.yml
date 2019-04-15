@@ -1,0 +1,11 @@
+---
+
+- name: "create_list: Read {{ item|basename }} configuration"
+  include_vars:
+    file: "{{ item }}"
+    name: test
+- name: "create_list: Add item"
+  set_fact:
+    local_var_list: "{{ local_var_list|default([]) + test|json_query('*') }}"
+
+...

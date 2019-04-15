@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - include_vars:
+        name: test
+        dir: conf.d
+    - debug:
+        var: test
+
+...

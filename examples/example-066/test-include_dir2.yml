@@ -1,0 +1,30 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  vars:
+    config_dir: "{{ playbook_dir }}/conf.d2"
+  tasks:
+    - find:
+        paths: "{{ config_dir }}"
+        file_type: file
+      register: result
+    - set_fact:
+        local_path_list: "{{ result|json_query('files[].path') }}"
+    - debug:
+        var: local_path_list
+    - find:
+        paths: "{{ config_dir }}"
+        file_type: link
+      register: result
+    - set_fact:
+        local_path_list: "{{ local_path_list + result | json_query('files[].path') }}"
+    - debug:
+        var: local_path_list
+
+    - include_tasks: fn/create_list.yml
+      loop: "{{ local_path_list }}"
+    - debug:
+        var: local_var_list
+
+...
