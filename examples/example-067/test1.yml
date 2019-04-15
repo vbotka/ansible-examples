@@ -1,0 +1,24 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  vars:
+    var1: true
+    var2: true
+    var3: false
+    var4: false
+  tasks:
+    - debug:
+        msg: "#1 true AND true is true"
+      when: var1 and var2
+    - debug:
+        msg: "#2 true OR false is true"
+      when: var1 or var3
+    - debug:
+        msg: "#3 true XOR false is true"
+      when: var1 != var3
+    - debug:
+        msg: "#4 true XOR true is false"
+      when: var1 == var2
+
+...
