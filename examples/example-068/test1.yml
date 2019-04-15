@@ -1,0 +1,20 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    options: [ eng, dev, stg, prd ]
+    cert_options:
+      eng: "-eng.dev."
+      dev: ".dev."
+      stg: ".uat."
+      prd: ".prd."
+  tasks:
+    - debug:
+        var: cert_options|dict2items
+    - debug:
+        msg: "{{ cert_options|dict2items|selectattr('key','match','eng')|list }}"
+    - debug:
+        msg: "{{ cert_options|dict2items|selectattr('key', 'match', item)|map(attribute='value')|list }}"
+      loop: "{{ options }}"
+...

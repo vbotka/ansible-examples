@@ -1,0 +1,22 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    cert_options:
+      eng: "-eng.dev."
+      dev: ".dev."
+      stg: ".uat."
+      prd: ".prd."
+    env: "stg"
+  tasks:
+    - set_fact:
+        certenv: "{{ cert_options|dict2items|selectattr('key', 'match', env)|map(attribute='value')|list }}"
+    - debug:
+        var: item
+      loop: "{{ certenv }}"
+
+# Error when set variable with condition - Ansible Playbook on Linux
+# https://stackoverflow.com/questions/55688054/error-when-set-variable-with-condition-ansible-playbook-on-linux/
+
+...

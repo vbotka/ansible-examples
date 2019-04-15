@@ -5,11 +5,14 @@
   vars:
     al_include_confd_dir: "{{ playbook_dir }}/conf.d2"
     al_debug: true
+    al_include_confd_vars_list_plain: true
+    al_include_confd_vars_list_fname: false
   tasks:
     - include_role:
         name: vbotka.ansible_lib
         tasks_from: al_include_confd_vars_list
     - debug:
-        var: al_include_confd_vars_list
+        var: item
+      loop: "{{ al_include_confd_vars_list }}"
 
 ...
