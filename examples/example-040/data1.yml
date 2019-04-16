@@ -1,0 +1,13 @@
+---
+my_data:
+  {
+  "group_a": [
+    "setting_one": "text one",
+    "setting_two": "text two"
+  ],
+  "group_b": [
+    "setting_three": "text three",
+    "setting_four": "text four"
+  ]
+}
+...

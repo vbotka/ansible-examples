@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no  
+  vars_files:
+    data2.yml
+  tasks:
+    - debug:
+        var: my_data
+    - debug:
+        msg: "{{ item.0.key }} setting_{{ item.1 }}"
+      with_subelements:
+        - "{{ my_data|dict2items }}"
+        - value
+
+# Iterate dictionary in dictionary
+# https://stackoverflow.com/questions/55710145/iterate-dictionary-in-dictionary/

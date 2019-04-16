@@ -1,0 +1,9 @@
+---
+my_data:
+  group_a:
+    - one
+    - two
+  group_b:
+    - three
+    - four
+...
