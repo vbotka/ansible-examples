@@ -1,0 +1,21 @@
+users:
+  - name: 'Jacob Haug'
+    username: 'jacob'
+    email: 'jacob@jacobhaug.com'
+    key: "{{ lookup('file', 'permissions/keys/jacob.pub') }}"
+    servers:
+      - 'all'
+      - 'dev-app'
+    state: 'present'
+
+  - name: 'Some Developer'
+    username: 'developer'
+    email: 'developer@example.com'
+    key: "{{ lookup('file', 'permissions/keys/developer.pub') }}"
+    servers:
+      - 'dev-app'
+      - 'dev-admin'
+      - 'prd-app'
+      - 'prd-admin'
+      - 'prd-scraper'
+    state: 'present'

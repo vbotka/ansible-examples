@@ -1,0 +1,18 @@
+users:
+  - name: 'Jacob Haug'
+    username: 'jacob'
+    email: 'jacob@jacobhaug.com'
+    key: "permissions/keys/jacob.pub"
+    servers:
+      - 'all'
+      - 'dev-app'
+    state: 'present'
+
+  - name: 'Some Developer'
+    username: 'developer'
+    email: 'developer@example.com'
+    key: "permissions/keys/developer.pub"
+    servers:
+      - 'dev-app'
+      - 'dev-admin'
+    state: 'present'

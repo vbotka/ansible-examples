@@ -71,6 +71,7 @@ Various examples of Ansbile code.
 - Example 66. Test include_vars (vbotka.ansible_lib)
 - Example 67. Test and, or, xor
 - Example 68. Test select
+- Example 69. Test contains
 
 License
 -------

@@ -1,0 +1,26 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    test-110a-data.yml
+  tasks:
+#    - debug:
+#       var: users
+    - set_fact:
+        my_hosts: "{{ my_hosts|default([]) + item.servers }}"
+      loop: "{{ users }}"
+      when: item.state == "present"
+    - set_fact:
+        my_keys: "{{ my_keys|default({})|combine({item: users|json_query(my_query)}) }}"
+      vars:
+        my_query: "[?servers.contains(@, '{{ item }}')].{key: key, state: state}"
+      loop: "{{ my_hosts|unique }}"
+#    - debug:
+#        msg: "{{ my_keys }}"
+    - debug:
+        msg: "{{ item.key }} {{ item.value|json_query('[?state==`present`].key') }}"
+      loop: "{{ my_keys|dict2items }}"
+
+# Ansible update authorized_keys file
+# https://stackoverflow.com/questions/55699883/ansible-update-authorized-keys-file/
