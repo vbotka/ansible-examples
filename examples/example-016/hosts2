@@ -1,0 +1,17 @@
+---
+test_jails:
+  hosts:
+    test_01:
+      sriov: false
+    test_02:
+      sriov: true
+    test_03:
+      sriov: true
+  vars:
+    ansible_connection: ssh
+    ansible_user: admin
+    ansible_become: yes
+    ansible_become_user: root
+    ansible_become_method: sudo
+    ansible_python_interpreter: /usr/local/bin/python3.6
+    ansible_perl_interpreter: /usr/local/bin/perl

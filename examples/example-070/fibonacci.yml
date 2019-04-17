@@ -1,0 +1,4 @@
+- debug:
+    msg: "{{ item|int * item_prev|default('1')|int }}"
+- set_fact:
+    item_prev: "{{ item }}"

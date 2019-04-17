@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: show fibonacci
+      include_tasks: fibonacci.yml
+      with_sequence: start=1 end=4

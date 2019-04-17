@@ -1,0 +1,22 @@
+
+
+[test]
+test_01 cluster_number='1'
+test_02 cluster_number='1'
+test_03 cluster_number='1'
+test_04 cluster_number='1'
+test_05 cluster_number='1'
+test_06 cluster_number='2'
+test_07 cluster_number='2'
+test_08 cluster_number='2'
+test_09 cluster_number='3'
+test_10 cluster_number='3'
+[test:vars]
+cluster_numbers=['1','2','3']
+ansible_connection=ssh
+ansible_user=admin
+ansible_become=yes
+ansible_become_user=root
+ansible_become_method=sudo
+ansible_python_interpreter=/usr/local/bin/python2.7
+ansible_perl_interpreter=/usr/local/bin/perl

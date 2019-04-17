@@ -1,0 +1,14 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ groups['test_jails'] }}"
+    - debug:
+        msg: "{{ groups['test_jails']|map('extract', hostvars)|selectattr('sriov', 'defined') }}"
+    - debug:
+        msg: "{{ groups['test_jails']|map('extract', hostvars)|selectattr('sriov', 'defined')|map(attribute='inventory_hostname')|list }}"
+
+# Ansible/Jinja2 - How to write jinja if statement that queries if a variable is defined?
+# https://stackoverflow.com/questions/55714792/ansible-jinja2-how-to-write-jinja-if-statement-that-queries-if-a-variable-is-d/55722672

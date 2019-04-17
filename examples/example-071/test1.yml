@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  vars:
+    prefix: "principio"
+  tasks:
+    - command: hostname
+      register: hostname
+    - debug:
+        var: hostname.stdout
+    - debug:
+        msg: "{{ (prefix + hostname.stdout) | password_hash('sha512') }}"
+...

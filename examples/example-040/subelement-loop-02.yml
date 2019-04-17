@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no  
+  vars_files:
+    data1.yml
+  tasks:
+    - debug:
+        var: my_data|dict2items
+    - set_fact:
+        my_groups: "{{ my_data.keys()}}"
+    - debug:
+        msg: "{{ item }} {{ my_data|dict2items|json_query(my_query)|to_yaml }}"
+      loop: "{{ my_groups }}"
+      vars:
+        my_query: "[?key=='{{ item }}'].value"
+
+# Iterate dictionary in dictionary
+# https://stackoverflow.com/questions/55710145/iterate-dictionary-in-dictionary/

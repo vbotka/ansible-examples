@@ -72,6 +72,7 @@ Various examples of Ansbile code.
 - Example 67. Test and, or, xor
 - Example 68. Test select
 - Example 69. Test contains
+- Example 70. Fibonacci
 
 License
 -------
