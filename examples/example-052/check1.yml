@@ -1,8 +1,11 @@
 ---
-- block:
-    - command: /bin/false
+- name: Block check1
+  block:
+    - name: Command false
+      command: /bin/false
       register: result
   rescue:
     - debug: msg="check1 failed."
     - debug: var=result
   tags: backup
+...

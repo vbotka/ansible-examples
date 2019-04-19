@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    log: []
+  tasks:
+    - name: "I'm a block!"
+      block:
+        - name: "I'm a role!"
+          include_role: name=role5
+        - debug:
+            msg: "{{ log }}"
+
+# Get Ansible to print lines for include_role(s)
+# https://devops.stackexchange.com/questions/6899/get-ansible-to-print-lines-for-include-roles/

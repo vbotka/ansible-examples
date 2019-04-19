@@ -1,9 +1,11 @@
 ---
 # tasks
 
-- command: date
+- name: "I'm a task!"
+  command: date
   register: myoutput
-- set_fact:
+- name: "role5:main:set_fact {{ myoutput.stdout }}"
+  set_fact:
     log: "{{ log + [myoutput.stdout] }}"
 #- debug:
 #    msg: "{{ log }}"
