@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no  
+  vars_files:
+    data1.yml
+  tasks:
+    - debug:
+        var: my_data
+    - set_fact:
+        my_data1: |
+          {% for group, values in my_data.items() %}
+          {% for value in values %}
+          {% for item_key, item_val in value.items() %}
+          Task {{ group }} {{ item_key }},
+          {% endfor %}{% endfor %}{% endfor %}
+    - debug:
+        msg: "{{ my_data1.split('\n') }}"
+
+# Iterate dictionary in dictionary
+# https://stackoverflow.com/questions/55710145/iterate-dictionary-in-dictionary/
