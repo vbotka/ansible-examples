@@ -73,6 +73,7 @@ Various examples of Ansbile code.
 - Example 68. Test select
 - Example 69. Test contains
 - Example 70. Fibonacci
+- Example 71. group_vars
 
 License
 -------

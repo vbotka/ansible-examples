@@ -1,14 +1,22 @@
 ---
-
-- hosts: localhost
-  gather_facts: true
+- hosts: test_jails
+  gather_facts: false
   vars:
-    prefix: "principio"
+    my_groupvar_file: "{{ playbook_dir }}/group_vars/test_jails.yml"
   tasks:
-    - command: hostname
-      register: hostname
     - debug:
-        var: hostname.stdout
-    - debug:
-        msg: "{{ (prefix + hostname.stdout) | password_hash('sha512') }}"
+        var: my_last_run
+    - block:
+        - command: date "+%F %T"
+          register: result
+        - lineinfile:
+            path: "{{ my_groupvar_file }}"
+            regexp: "^my_last_run: "
+            line: "my_last_run: {{ result.stdout }}"
+            backup: yes
+          delegate_to: localhost
+      run_once: true
 ...
+
+# Passing/updating global variables (e.g. group vars) from within the playbook?
+# https://stackoverflow.com/questions/55758642/passing-updating-global-variables-e-g-group-vars-from-within-the-playbook/
