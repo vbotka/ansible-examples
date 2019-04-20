@@ -1,0 +1,15 @@
+---
+
+- hosts: test_02
+  gather_facts: yes
+  tasks:
+    - debug:
+        var: ansible_all_ipv4_addresses
+
+- hosts: test_03
+  gather_facts: yes
+  tasks:
+    - debug:
+        var: hostvars['test_02'].ansible_all_ipv4_addresses
+
+...

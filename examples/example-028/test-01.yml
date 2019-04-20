@@ -4,6 +4,7 @@
   name: Print ansible_default_ipv4
   gather_facts: yes
   tasks:
+    - debug: var=hostvars['localhost'].ansible_all_ipv4
     - debug: var=hostvars['localhost'].ansible_default_ipv4
 
 # EOF
