@@ -1,0 +1,27 @@
+---
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - command: "{{ playbook_dir }}/readvar.sh"
+      register: result
+      delegate_to: localhost
+    - debug:
+        var: result.stdout_lines
+    - expect:
+        command: "{{ playbook_dir }}/readvar.sh"
+        responses:
+          input: "test"
+      register: result
+      delegate_to: localhost
+    - debug:
+        var: result.stdout_lines
+...
+
+# "result.stdout_lines": [
+# "/export/home/vlado.config/.ansible/ansible-examples/examples/example-072/readvar.sh started"
+#  ]
+
+# "result.stdout_lines": [
+# "/export/home/vlado.config/.ansible/ansible-examples/examples/example-072/readvar.sh started", 
+# "input:test"
+# ]

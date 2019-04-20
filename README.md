@@ -74,6 +74,7 @@ Various examples of Ansbile code.
 - Example 69. Test contains
 - Example 70. Fibonacci
 - Example 71. group_vars
+- Example 72. expect
 
 License
 -------
