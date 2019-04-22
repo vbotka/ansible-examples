@@ -1,0 +1,6 @@
+- debug:
+    msg: "{{ my_path }}/{{ iitem }}"
+  loop: "{{ my_dirs }}"
+  loop_control:
+    loop_var: iitem
+  when: item is search(my_path + '/' + iitem)

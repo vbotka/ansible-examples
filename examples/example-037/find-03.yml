@@ -1,0 +1,38 @@
+- hosts: localhost
+  vars:
+    my_path: /jenkins/foo
+  tasks:
+  - find:
+      paths: "{{ my_path }}"
+      file_type: directory
+    register: results
+  - set_fact:
+      my_dirs: "{{ results.files|json_query('[].path')|map('basename')|list }}"
+  - find:
+      paths: "{{ my_path }}"
+      file_type: link
+    register: results
+  - set_fact:
+      my_links: "{{ results.files|json_query('[].path') }}"
+  - command: "readlink -f {{ item }}"
+    loop: "{{ my_links }}"
+    register: results
+  - set_fact:
+      my_links_targets: "{{ results.results|json_query('[].stdout') }}"
+  - debug: var=my_dirs
+  - debug: var=my_links
+  - debug: var=my_links_targets
+  - include_tasks: find-03-task.yml
+    loop: "{{ my_links_targets }}"
+...
+
+# Ansible task to delete all the directories in a path, except the
+# ones which are created by symlinks and also the one which symlinks
+# point to
+# https://stackoverflow.com/questions/55798346/ansible-task-to-delete-all-the-directories-in-a-path-except-the-ones-which-are/
+
+# TASK [debug]
+# skipping: [127.0.0.1] => (item=foo-app-1.21.1) 
+# ok: [127.0.0.1] => (item=foo-app-1.20.12) => {
+#     "msg": "/jenkins/foo/foo-app-1.20.12"
+# }
