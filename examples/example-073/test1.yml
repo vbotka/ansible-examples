@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Create my_dict
+      set_fact:
+        my_dict: "{
+          {% for number in range(1, 5) %}
+          'No{{ number }}': {{ number }},
+          {% endfor %} }"
+    - debug:
+        var: my_dict
+
+    - name: Create my_dict
+      set_fact:
+        my_dict: "{
+          {% set BuildArr = [] -%}
+          {% for number in range(1, 5) %}
+          {% set ignored = BuildArr.extend({}) -%}
+          {% endfor %}
+          {{ BuildArr }}"
+    - debug:
+        var: my_dict
+
+    - name: Create my_dict
+      set_fact:
+        my_dict: >-
+          {% set BuildArr = [] %}
+          {% for number in range(1, 5) %}
+          {% set ignored = BuildArr.extend([{'n': number}]) %}
+          {% endfor %}
+          {{ BuildArr }}
+    - debug:
+        var: my_dict
+
+    - name: Empty my_dict
+      set_fact:
+        my_dict: {}
+    - name: Create my_dict
+      set_fact:
+        my_dict: "{{ my_dict|combine({('No' + item): item}) }}"
+      with_sequence: start=1 end=4
+    - debug:
+        var: my_dict
+...

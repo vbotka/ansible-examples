@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Create my_dict
+      set_fact:
+        my_dict: "{{ my_dict|default({})|combine({('No' + item): item}) }}"
+      with_sequence: start=1 end=4
+    - debug:
+        var: my_dict
+...
+
+# Why is there extra blank {} in variable?
+# https://stackoverflow.com/questions/55803410/why-is-there-extra-blank-in-variable/
