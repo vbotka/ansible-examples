@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Copy config file on Junos
+      expect:
+        command: scp  /etc/passwd username@test_01:/scratch
+        responses:
+          (?i)username@test_01's password: password
+#      delegate_to: host
+...
+
+# Ansible raw module - how to handle the password prompt on SFTP/SCP?
+# https://stackoverflow.com/questions/55840117/ansible-raw-module-how-to-handle-the-password-prompt-on-sftp-scp/
+

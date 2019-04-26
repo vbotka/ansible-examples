@@ -1,0 +1,23 @@
+- hosts: test_01
+  gather_facts: false
+  vars_prompt:
+    - name: password
+      prompt: 'Please input the mechid password'
+  tasks:
+    - debug:
+        var: password
+    - set_fact:
+        password1: "{{ password }}"
+    - debug:
+        var: password1
+
+- hosts: test_02
+  gather_facts: false
+  tasks:
+    - debug:
+        var: hostvars['test_01'].password
+    - debug:
+        var: hostvars['test_01'].password1
+
+# Vars_prompt in playbooks
+# https://stackoverflow.com/questions/45100377/vars-prompt-in-playbooks

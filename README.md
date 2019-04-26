@@ -76,6 +76,9 @@ Various examples of Ansbile code.
 - Example 71. group_vars
 - Example 72. expect
 - Example 73. Jinja set_fact
+- Example 74. Test escape.
+- Example 75. template.
+
 
 License
 -------

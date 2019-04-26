@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    create:
+      json:
+        info:
+          - {key: 'key_1', value: '8308a020-5c9d-4936-8f1a-40f408d3a085'}
+  tasks:
+    - debug:
+        msg: "{{ create.json.info.0.value }}"
+    - template:
+        src: test.j2
+        dest: /scratch/tmp/test
+
+# How to read ansible debug output as a variable in Json file .. example below
+# https://serverfault.com/questions/964338/how-to-read-ansible-debug-output-as-a-variable-in-json-file-example-below
+

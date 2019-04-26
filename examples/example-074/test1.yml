@@ -1,0 +1,8 @@
+---
+- hosts: test_01
+  gather_facts: false
+  vars:
+    line: '\e[1mTEST1 \e[0m\e[0;32m[OK]\e[0m'
+  tasks:
+    - debug:
+        var: line
