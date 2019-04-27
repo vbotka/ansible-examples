@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    admin_password: password
+  tasks:
+    - debug:
+        msg: "{{ admin_password|password_hash('bcrypt') }}"
+...
+
+# Ansible password_hash wont' use bcrypt even though passlib is installed
+# https://stackoverflow.com/questions/55875213/ansible-password-hash-wont-use-bcrypt-even-though-passlib-is-installed
