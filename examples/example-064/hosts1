@@ -1,0 +1,14 @@
+---
+linux:
+  hosts:
+    test_01:
+    test_02:
+    test_03:
+  vars:
+    ansible_connection: ssh
+    ansible_user: admin
+    ansible_become: yes
+    ansible_become_user: root
+    ansible_become_method: sudo
+    ansible_python_interpreter: /usr/local/bin/python3.6
+    ansible_perl_interpreter: /usr/local/bin/perl

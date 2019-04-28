@@ -1,1 +1,2 @@
 my_ansible_user: "{{ bot_os_user }}"
+Serial_Value: 2

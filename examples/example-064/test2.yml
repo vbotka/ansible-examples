@@ -1,0 +1,18 @@
+---
+
+- hosts: test_jails
+  gather_facts: false
+  serial: "{{ my_serial_value }}"
+# serial: 1
+#  vars:
+#    my_serial_value: 2
+  vars_files:
+    - group_vars/test_jails.yml
+  tasks:
+    - debug: var=my_serial_value
+
+# Is there Any Chance to use a Group_vars variable inside a Ansible
+# playbook at the position of Serial: 1 (at “1” place)
+# https://stackoverflow.com/questions/55888643/is-there-any-chance-to-use-a-group-vars-variable-inside-a-ansible-playbook-at-th
+
+# https://github.com/ansible/ansible/issues/33382
