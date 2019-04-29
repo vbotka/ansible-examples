@@ -79,6 +79,7 @@ Various examples of Ansbile code.
 - Example 75. template
 - Example 76. password_hash
 - Example 77. replace
+- Example 78. unarchive
 
 
 ## License

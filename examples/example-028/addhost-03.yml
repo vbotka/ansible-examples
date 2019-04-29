@@ -9,10 +9,8 @@
 
 - hosts: ilohosts
   tasks:
-    - raw: hostname
-      register: info
     - debug:
-        var: info.stdout
+        var: hostvars
 
 # Ansible included play task get error “failed to open a SFTP connection”
 # https://stackoverflow.com/questions/55902441/ansible-included-play-task-get-error-failed-to-open-a-sftp-connection

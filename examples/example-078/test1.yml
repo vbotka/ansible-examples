@@ -1,0 +1,13 @@
+---
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - unarchive:
+        src: /scratch/tmp/test.tar.gz
+        dest: /scratch/restore
+        remote_src: yes
+...
+
+# What is the best practice for ensuring idempotency for downloading a binary with Ansible?
+# https://stackoverflow.com/questions/55904040/what-is-the-best-practice-for-ensuring-idempotency-for-downloading-a-binary-with
+
