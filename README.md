@@ -1,5 +1,4 @@
-Ansible examples
-================
+# Ansible examples
 
 Various examples of Ansbile code.
 
@@ -79,15 +78,14 @@ Various examples of Ansbile code.
 - Example 74. Test escape
 - Example 75. template
 - Example 76. password_hash
+- Example 77. replace
 
 
-License
--------
+## License
 
 [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
 
-Author Information
-------------------
+## Author Information
 
 [Vladimir Botka](https://botka.link)

@@ -1,0 +1,6 @@
+interface gigabit0/1/2
+shutdown
+!
+interface gigabit0/2/3
+shutdown
+!

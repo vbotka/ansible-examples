@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: ha.txt
+        regexp: '(interface?\s[a-z]\w*/[0-9]/[0-9])'
+        replace: |-
+                 \1
+                 shutdown
+                 !
+...
+
+# Can we use lineinfile module to add new lines in Ansible based on matching a Regexp?
+# https://stackoverflow.com/questions/55900398/can-we-use-lineinfile-module-to-add-new-lines-in-ansible-based-on-matching-a-reg/
+
