@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - add_host:
+        name: test_01
+        ansible_host: 10.1.0.51
+        groups: ilohosts
+    - debug: var=groups
+
+- hosts: ilohosts
+  tasks:
+    - raw: uname -a
+      register: info
+    - debug:
+        var: info.stdout_lines
+
+# Ansible included play task get error “failed to open a SFTP connection”
+# https://stackoverflow.com/questions/55902441/ansible-included-play-task-get-error-failed-to-open-a-sftp-connection
