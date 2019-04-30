@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: find config files
+      find:
+        paths: files
+        patterns: "*.yaml,*.yml"
+      register: yaml_files
+    - set_fact:
+        yaml_list: "{{ yaml_files.files | map(attribute='path') | list}}"
+    - debug:
+        var: yaml_list
+    - name: Create namespace first
+#     command: "{{ bin_dir }}/kubectl apply -f {{ item }}"
+      debug:
+        msg: "bin_dir/kubectl apply -f {{ item }}"
+      loop: "{{ yaml_list }}"
+      when: lookup('file', item) is search('kind\:\ Namespace')
+...
+
+# find the file which contains the specific content in a directory,
+# then run a command only with that file
+# https://stackoverflow.com/questions/55918925/find-the-file-which-contains-the-specific-content-in-a-directory-then-run-a-com

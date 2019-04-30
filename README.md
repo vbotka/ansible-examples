@@ -80,6 +80,7 @@ Various examples of Ansbile code.
 - Example 76. password_hash
 - Example 77. replace
 - Example 78. unarchive
+- Example 79. search
 
 
 ## License
