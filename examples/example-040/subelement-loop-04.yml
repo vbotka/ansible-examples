@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        sub1: "{{ sub1 | default([]) + [item | int] }}"
+      with_sequence: start=1 end=3
+    - set_fact:
+        sub2: "{{ sub2 | default([]) + [item | int] }}"
+      with_sequence: start=1 end=3
+
+- hosts: localhost
+  gather_facts: no  
+  vars:
+    reserved_ips:
+      - cidr: 192.168.1
+        network: test
+        sub: "{{ sub1 }}"
+      - cidr: 172.16.1
+        network: test2
+        sub: "{{ sub2 }}"
+  tasks:
+    - debug:
+        msg: "ip:{{ item.0.cidr }}.{{ item.1 }} network:{{ item.0.network }}"
+      with_subelements:
+        - "{{ reserved_ips }}"
+        - sub
+
+# How to grab range of IPs in subnet with Ansible ipaddr
+# https://stackoverflow.com/questions/55928752/how-to-grab-range-of-ips-in-subnet-with-ansible-ipaddr

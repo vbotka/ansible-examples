@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    cidr1: 192.168.1.0/24
+  tasks:
+    - set_fact:
+        sub1: "{{ sub1 | default([]) + [ cidr1 | next_nth_usable( item|int ) ] }}"
+      with_sequence: start=1 end=3
+
+- hosts: localhost
+  gather_facts: no  
+  vars:
+    reserved_ips:
+      - network: test
+        sub: "{{ sub1 }}"
+  tasks:
+    - debug:
+        msg: "ip:{{ item.1 }} network:{{ item.0.network }}"
+      with_subelements:
+        - "{{ reserved_ips }}"
+        - sub
+
+# How to grab range of IPs in subnet with Ansible ipaddr
+# https://stackoverflow.com/questions/55928752/how-to-grab-range-of-ips-in-subnet-with-ansible-ipaddr
