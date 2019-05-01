@@ -1,0 +1,6 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+#    - debug: var=inventory_hostname
+    - debug: var=inventory_hostname
+      delegate_to: localhost
