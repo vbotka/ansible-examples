@@ -1,0 +1,3 @@
+- debug:
+    msg: "ip:{{ iitem.cidr|next_nth_usable(item|int) }} network:{{ iitem.network }}"
+  with_sequence: "start={{ iitem.ip_start }} end={{ iitem.ip_end }}"

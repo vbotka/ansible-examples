@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no  
+  vars:
+    reserved_ips:
+      - network: test
+        cidr: 192.168.1.0/24
+        ip_start: 1
+        ip_end: 3
+  tasks:
+    - include_tasks: subelement-loop-06-task.yml
+      loop: "{{ reserved_ips }}"
+      loop_control:
+        loop_var: iitem
+
+# How to grab range of IPs in subnet with Ansible ipaddr
+# https://stackoverflow.com/questions/55928752/how-to-grab-range-of-ips-in-subnet-with-ansible-ipaddr

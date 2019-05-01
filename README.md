@@ -81,6 +81,7 @@ Various examples of Ansbile code.
 - Example 77. replace
 - Example 78. unarchive
 - Example 79. search
+- Example 80. inventory
 
 
 ## License

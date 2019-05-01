@@ -1,0 +1,68 @@
+---
+
+# ansible share variables between hosts during run time
+# https://stackoverflow.com/questions/55933857/ansible-share-variables-between-hosts-during-run-time/
+
+# The hosts line is a list of one or more groups or host patterns.
+# It's not clear why hosts: master[0] works. It should not according
+# to the documentation. hosts: master.0 which should be the same
+# doesn't work.
+
+- hosts: test_jails
+  tasks:
+    - debug: var=groups.test_jails
+    - debug: var=groups.test_jails.0
+
+# PLAY [test_jails]
+# TASK [debug]
+# ok: [test_01] => {
+#     "groups.test_jails": [
+#         "test_01", 
+#         "test_02", 
+#         "test_03"
+#     ]
+# }
+# ok: [test_02] => {
+# ...
+# 
+# TASK [debug]
+# ok: [test_01] => {
+#     "groups.test_jails.0": "test_01"
+# }
+# ok: [test_02] => {
+# ...
+# 
+
+- hosts: test_0*
+  tasks:
+    - debug: var=inventory_hostname
+
+# PLAY [test_0*]
+# TASK [debug]
+# ok: [test_01] => {
+#     "inventory_hostname": "test_01"
+# }
+# ok: [test_02] => {
+#     "inventory_hostname": "test_02"
+# }
+# ok: [test_03] => {
+#     "inventory_hostname": "test_03"
+# }
+
+- hosts: test_jails[0]
+  tasks:
+    - debug: var=inventory_hostname
+
+# PLAY [test_jails[0]]
+# TASK [debug]
+# ok: [test_01] => {
+#     "inventory_hostname": "test_01"
+# }
+
+- hosts: test_jails.0
+  tasks:
+    - debug: var=inventory_hostname
+
+# [WARNING]: Could not match supplied host pattern, ignoring: test_jails.0
+# PLAY [test_jails.0]
+# skipping: no hosts matched
