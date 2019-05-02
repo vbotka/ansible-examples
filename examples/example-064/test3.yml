@@ -1,0 +1,23 @@
+---
+- hosts: manager
+  gather_facts: false
+  tasks:
+#    - debug: var=ports
+#    - debug: var=manager_ports
+    - set_fact:
+        ports: "{{ ports + manager_ports }}"
+    - debug: var=ports
+- hosts: worker
+  gather_facts: false
+  tasks:
+#    - debug: var=ports
+#    - debug: var=worker_ports
+    - set_fact:
+        ports: "{{ ports + worker_ports }}"
+    - debug: var=ports
+...
+
+# How to properly manage ansible variables and group_vars?
+# https://stackoverflow.com/questions/55950782/how-to-properly-manage-ansible-variables-and-group-vars
+
+# EOF
