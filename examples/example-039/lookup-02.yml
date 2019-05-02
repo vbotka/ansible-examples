@@ -1,0 +1,28 @@
+---
+- hosts: test_01
+  gather_facts: yes
+  vars:
+    office1:
+      test_01:
+        myip: 10.20.20.30
+        peer: 10.20.20.40
+  tasks:
+    - template:
+        src: template-02.j2
+        dest: /scratch/test_01.cfg
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    var1: var1
+    var2: var2
+    var3: var3
+  tasks:
+    - debug:
+        msg: "{{ lookup('vars', 'var' + item) }}"
+      with_sequence: start=1 end=3
+
+...
+
+# Create Variable From Ansible Facts
+# https://stackoverflow.com/questions/55957578/create-variable-from-ansible-facts/
