@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_stdout: "{{ lookup('file', 'test-117-data.yml') }}"
+    - debug:
+        msg: "{{ my_stdout }}"
+    - set_fact:
+        my_list: "{{ my_stdout|json_query('*.pools.keys(@)') }}"
+    - debug:
+        var: my_list
+...

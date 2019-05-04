@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - test-116-data.yml
+  tasks:
+    - debug: var=my_stdout_lines
+    - set_fact:
+        my_list: "{{ my_stdout_lines|json_query('*.pools.keys(@)') }}"
+    - debug:
+        var: my_list
+...
+
+# Fetch specific output from stdout_lines and store it in a list
+# https://stackoverflow.com/questions/55965819/fetch-specific-output-from-stdout-lines-and-store-it-in-a-list/

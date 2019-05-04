@@ -1,0 +1,61 @@
+F5 modules (May 4 2019)
+-----------------------
+
+Probably there is no JSON output from CLI [1] (REST API seems to be
+fine). It is not sure to me whether the format [1] has been
+standartized and whether there is a parser, or if it is possible to
+write one. There is 100+ F5 modules many of them for specific tasks
+that would have been easier implemented with general command and
+parsing the output (which seems to imposible, or at least not
+guaranted, probably intentionally to create an entry barier for an
+integration). Otherwise there is no logic why "bigip_command" does not
+return JSON.
+
+[1]
+"executed_commands": [
+          "tmsh -c \\\"list gtm wideip a wideip\\\""
+"stdout_lines": [
+            [
+                "gtm wideip a wideip {", 
+                "    description wideip", 
+                "    pool-lb-mode topology", 
+                "    pools {", 
+                "        test1-pool {", 
+                "            order 1", 
+                "        }", 
+                "        test2-pool {", 
+                "            order 0", 
+                "        }", 
+                "    }", 
+                "}"
+            ]
+        ]
+
+[2] Fetch specific output from stdout_lines and store it in a list
+    https://stackoverflow.com/questions/55965819/fetch-specific-output-from-stdout-lines-and-store-it-in-a-list/
+
+[3] There is 100+ bigip_* modules. There must be standrad way to parse the 'tmsh' output.
+    https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#f5
+
+[4] f5devcentral/f5-automation-labs
+    https://github.com/f5devcentral/f5-automation-labs
+
+[5] F5 Programmability Training
+    https://clouddocs.f5.com/training/community/programmability/html/intro.html
+
+[6] Manipulating GTM WideIP pools from iControl REST
+    https://devcentral.f5.com/questions/manipulating-gtm-wideip-pools-from-icontrol-rest
+
+{
+    "pools":
+           [
+               {
+                   "name": "mypool2",
+                   "partition": "Common",
+                   "order": 0,
+                   "ratio": 1
+               }
+           ]
+       }
+
+# EOF

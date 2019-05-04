@@ -1,0 +1,9 @@
+my_stdout_lines:
+  gtm wideip a test.abc.com: 
+    pools: 
+      test-pool: 
+        order: 0
+      test-pool1: 
+        order: 0
+      test-pool2: 
+        order: 0

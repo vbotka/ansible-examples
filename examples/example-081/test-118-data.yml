@@ -1,0 +1,12 @@
+gtm wideip a wideip {
+    description wideip
+    pool-lb-mode topology
+    pools {
+        test1-pool {
+            order 1
+        }
+        test2-pool {
+            order 1
+        }
+    }
+}
