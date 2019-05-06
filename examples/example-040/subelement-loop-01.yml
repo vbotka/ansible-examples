@@ -6,6 +6,8 @@
     - debug:
         var: my_data
     - debug:
+        msg: "{{ my_data|dict2items }}"
+    - debug:
         msg: "{{ item.0.key }} setting_{{ item.1 }}"
       with_subelements:
         - "{{ my_data|dict2items }}"

@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    interfaces:
+      - name: "name1"
+        port: "port1"
+        description: "description1"
+        parameters:
+          speed: "speed1"
+          duplex: "duplex1"
+      - name: "name2"
+        port: "port2"
+        description: "description2"
+        parameters:
+          speed: "speed2"
+          duplex: "duplex2"
+  tasks:
+    - debug:
+        msg: >-
+          {{ item.name }}
+          {{ item.port }}
+          {{ item.description }}
+          speed:{{ item.parameters.speed }}
+          duplex:{{ item.parameters.duplex }}
+      loop: "{{ interfaces }}"
+
+#   "msg": "name1 port1 description1 speed:speed1 duplex:duplex1"
+#   "msg": "name2 port2 description2 speed:speed2 duplex:duplex2"
