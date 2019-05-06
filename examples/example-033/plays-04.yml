@@ -1,0 +1,4 @@
+- hosts: group1
+  gather_facts: no
+  tasks:
+    - debug: msg="{{ servicepath }}"

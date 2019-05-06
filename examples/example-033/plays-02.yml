@@ -1,0 +1,17 @@
+- hosts: maingroup
+  gather_facts: yes
+  tasks:
+    - debug: msg="1 {{ servicepath }}"
+  tags: play1
+
+- hosts: group2
+  gather_facts: yes
+  tasks:
+    - debug: msg="2 {{ servicepath }}"
+  tags: play2
+
+- hosts: maingroup
+  gather_facts: yes
+  tasks:
+    - debug: msg="3 {{ servicepath }}"
+  tags: play3

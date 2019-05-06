@@ -15,6 +15,78 @@ ok: [localhost] => (item={u'replication_factor': u'2'}) => {
     }
 }
 
+#-----------------------------------------------------------------------
+#
+# Ansible same host on different groups with group_vars
+# https://serverfault.com/questions/966019/ansible-same-host-on-different-groups-with-group-vars
+#
+# How should you answer questions that lead to bug reports?
+# https://meta.stackexchange.com/questions/132701/how-should-you-answer-questions-that-lead-to-bug-reports/
+#
+# If you feel your answer shouldn't have been deleted I suggest you
+# make a case for it on Meta Server Fault
+#
+#-----------------------------------------------------------------------
 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# shareeditundeleteflag
+# deleted by Sven♦ 47 mins ago
+# Why was your post deleted? See the help center.
+# edited 1 hour ago
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+Very probably it's a bug, or "not documented feature".
+
+I'm able to reproduce the related problem. With the group_vars
+
+> tree group_vars/
+group_vars/
+├── group2
+    servicepath: /service2/path
+└── maingroup
+    servicepath: /service1/path
+The inventory
+
+> ansible-inventory --graph --vars
+@all:
+  |--@group2:
+  |  |--test_01
+  |  |--{servicepath = /service2/path}
+  |--@ungrouped:
+and the playbook
+
+- hosts: group2
+  tasks:
+    - debug: msg="{{ servicepath }}"
+gives (as expected)
+
+"msg": "/service2/path"
+But the inventory
+
+> ansible-inventory --graph --vars
+@all:
+  |--@group2:
+  |  |--test_01
+  |  |--{servicepath = /service2/path}
+  |--@maingroup:
+  |  |--@group1:
+  |  |  |--test_01
+  |  |--{servicepath = /service1/path}
+  |--@ungrouped:
+with the same playbook as above gives:
+
+"msg": "/service1/path"
+shareeditundeleteflag
+deleted by Sven♦ 47 mins ago
+Why was your post deleted? See the help center.
+edited 1 hour ago
+answered 1 hour ago
+￼
+Vladimir Botka
+700212
+I don't see how this solves the problem. – Gerald Schneider 1 hour ago
+You see it correctly. It's telling you there isn't any solution. If I'm right an issue with Ansible should be open. – Vladimir Botka 1 hour ago    ￼
+Then it shouldn't be an answer. – Gerald Schneider 1 hour ago
+I don't agree with you. In fact, quoting from How do I write a good answer?, "Any answer that gets the asker going in the right direction is helpful". I think the right direction is an issue with Ansible. – Vladimir Botka 57 mins ago   ￼
+comments disabled on deleted / locked posts / reviews
 --
