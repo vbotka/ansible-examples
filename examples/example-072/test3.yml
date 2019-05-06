@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - expect:
+        command: "{{ playbook_dir }}/readvar2.sh"
+        responses:
+          y/n: 'y'
+      register: result
+    - debug:
+        var: result.stdout
+...
+
+# How to use expect in ansible
+# https://stackoverflow.com/questions/55998836/how-to-use-expect-in-ansible/
