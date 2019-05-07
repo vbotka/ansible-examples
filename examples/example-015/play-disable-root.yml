@@ -1,0 +1,4 @@
+- hosts: webservers
+  remote_user: 'root'
+  roles:
+    - disable_root

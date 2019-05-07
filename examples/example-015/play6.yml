@@ -1,0 +1,18 @@
+- hosts: webservers
+  remote_user: 'admin'
+  tasks:
+    - delegate_to: localhost
+      command: ping -c1 "{{ inventory_hostname }}"
+      register: result
+      ignore_errors: true
+    - import_playbook: play-disable-root.yml
+      when: result.rc != 0
+
+- hosts: webservers
+  remote_user: 'admin'
+  roles:
+    - common
+    - nginx
+
+# How to skip role when host is unreachable?
+# https://stackoverflow.com/questions/56012795/how-to-skip-role-when-host-is-unreachable
