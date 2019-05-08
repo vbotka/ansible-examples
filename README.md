@@ -84,6 +84,7 @@ Various examples of Ansbile code.
 - Example 80. inventory
 - Example 81. F5 modules
 - Example 82. sort
+- Example 83. local_action
 
 
 ## License

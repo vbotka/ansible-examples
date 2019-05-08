@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_email:
+      - user1@somedomain
+      - user2@somedomain
+      - user3@somedomain
+  tasks:
+    - template:
+        src: test.j2
+        dest: "{{ playbook_dir }}/test.xml"

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: test2.txt
+        regexp: '<user>admin@localhost<\/user>'
+        replace: |-
+          <user>user1@somedomain</user>
+            <user>user2@somedomain</user>
+            <user>user3@somedomain</user>

@@ -1,0 +1,4 @@
+<sadmin>
+  <user>admin@localhost</user>
+  <user>admin@localhost</user>
+</sadmin>
