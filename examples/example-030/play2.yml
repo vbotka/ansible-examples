@@ -1,0 +1,21 @@
+---
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - command: "{{ playbook_dir }}/script.sh"
+
+# ansible unable to find or access script
+# https://stackoverflow.com/questions/56029706/ansible-unable-to-find-or-access-script
+    
+# > cat script.sh 
+# echo "Hello world!"
+# 
+# fatal: [test_01]: FAILED! => {"changed": false, "cmd":
+# "/export/home/vlado.config/.ansible/ansible-examples/examples/example-030/script.sh",
+# "msg": "[Errno 2] No such file or directory:
+# '/export/home/vlado.config/.ansible/ansible-examples/examples/example-030/script.sh':
+# '/export/home/vlado.config/.ansible/ansible-examples/examples/example-030/script.sh'",
+# "rc": 2}
+
+# EOF
+...
