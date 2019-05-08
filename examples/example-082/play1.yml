@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    groups_sorted: []
+  tasks:
+    - set_fact:
+        groups_sorted: "{{ groups_sorted|combine({item:groups[item]}) }}"
+      loop: "{{ groups.keys()|difference(['all', 'ungrouped'])|sort }}"
+    - debug:
+        var: groups_sorted
+
+# keys are sorted, but created directory is not
+#    "groups_sorted": {
+#        "ExampleGroup": [
+#            "Server05", 
+#            "Myserver01"
+#        ], 
+#        "database": [
+#            "db_server_1", 
+#            "local_db_server"
+#        ], 
+#        "webservers": [
+#            "examplehostserver", 
+#            "hostname3"
+#        ]
+#    }

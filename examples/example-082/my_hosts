@@ -1,0 +1,15 @@
+# BEGIN group:database
+[database]
+db_server_1
+local_db_server
+# END group:database
+# BEGIN group:ExampleGroup
+[ExampleGroup]
+Server05
+Myserver01
+# END group:ExampleGroup
+# BEGIN group:webservers
+[webservers]
+examplehostserver
+hostname3
+# END group:webservers

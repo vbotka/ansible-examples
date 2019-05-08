@@ -1,0 +1,6 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ item }}:{{ groups[item] }}"
+      loop: "{{ groups.keys()|difference(['all', 'ungrouped'])|sort }}"

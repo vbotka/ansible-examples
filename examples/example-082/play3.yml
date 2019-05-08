@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - blockinfile:
+        create: yes
+        path: "{{ playbook_dir }}/my_hosts"
+        block: |
+               [{{ item }}]
+               {% for host in groups[item] %}
+               {{ host }}
+               {% endfor %}
+        marker: "# {mark} group:{{ item }}"
+      loop: "{{ groups.keys()|difference(['all', 'ungrouped'])|sort }}"

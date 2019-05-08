@@ -83,6 +83,7 @@ Various examples of Ansbile code.
 - Example 79. search
 - Example 80. inventory
 - Example 81. F5 modules
+- Example 82. sort
 
 
 ## License
