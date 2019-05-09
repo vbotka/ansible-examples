@@ -86,6 +86,7 @@ Various examples of Ansbile code.
 - Example 82. sort
 - Example 83. local_action
 - Example 84. lineinfile
+- Example 85. plugin
 
 
 ## License

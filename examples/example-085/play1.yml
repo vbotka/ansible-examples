@@ -1,0 +1,27 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    versions:
+      - "0.1.0"
+      - "0.1.5"
+      - "0.11.11"
+      - "0.9.11"
+      - "0.9.3"
+      - "0.10.2"
+      - "0.6.1"
+      - "0.6.0"
+      - "0.11.0"
+      - "0.6.5"
+  tasks:
+    - debug:
+        var: versions
+    - debug:
+        msg: "{{ versions | sort_versions }}"
+
+# How to sort complex version numbers in Ansible
+# https://stackoverflow.com/questions/56063612/how-to-sort-complex-version-numbers-in-ansible/
+
+# EOF
+...
