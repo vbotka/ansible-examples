@@ -1,0 +1,12 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - lineinfile:
+        path: /scratch/route.cfg
+        regexp: "^\\s*route a.b.c.d/32\\s*via"
+        line: "        route a.b.c.d/32 via a.b.c.d;"
+        insertafter: "^\\s*route 1.1.1.1/32\\s*via"
+
+# insert string before last line in freebsd
+# https://superuser.com/questions/1434851/insert-string-before-last-line-in-freebsd/
+

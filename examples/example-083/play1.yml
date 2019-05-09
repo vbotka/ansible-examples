@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: date
+      register: join_command
+    - debug: msg="{{ join_command.stdout_lines[0] }}"
+    - local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="{{ playbook_dir }}/join-command"
+
+# Ansible local_action example how does it work
+# https://stackoverflow.com/questions/56048959/ansible-local-action-example-how-does-it-work/
