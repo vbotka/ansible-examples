@@ -1,0 +1,85 @@
+Asynchronous Actions and Polling
+================================
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html#asynchronous-actions-and-polling
+
+
+async: use it in 3 different ways depending on your needs.
+==========================================================
+
+
+Execute and poll the results, notice the poll:5
+-----------------------------------------------
+This will poll the results every 5 seconds. You may save some time with this method.
+
+- name: My long runing task
+  some_module_name:
+    ip: "{{item.fabric}}"
+    username: "{{user}}"
+    password: "{{password}}"
+    secret: "{{secret}}"
+  loop: "{{zoning_list}}"
+  register: _alias_vc_0
+  async: 60
+  poll: 5
+
+
+Fire and forget poll: 0
+-----------------------
+This is very quick option since Ansible it's just shooting out those
+tasks. The down side is that we don't know what was the outcome of the
+task i.e. changed: True/False. Of course it's a downside if you care
+about the feedback ;).
+
+- name: My long runing task
+  some_module_name:
+    ip: "{{item.fabric}}"
+    username: "{{user}}"
+    password: "{{password}}"
+    secret: "{{secret}}"
+  loop: "{{zoning_list}}"
+  register: _alias_vc_0
+  async: 60
+  poll: 0
+
+
+Fire and forget with async_status
+---------------------------------
+The syntax for the task is the same as example 2 whowever it will
+require additional task async_status. This is my favorite since it's
+relatively fast (faster then normal looping or the execute and poll)
+and allows you to capture the feedback although will need to deal with
+new register for your async_task.
+
+retries: 20 -- how many attempts before failing.
+delay: 2 -- how many second to wait between polls.
+
+- name: My long runing task
+  some_module_name:
+    ip: "{{item.fabric}}"
+    username: "{{user}}"
+    password: "{{password}}"
+    secret: "{{secret}}"
+  loop: "{{zoning_list}}"
+  register: _alias_vc_0
+  async: 60
+  poll: 0
+
+- name: Wait for My long running task to finish
+  async_status:
+    id: "{{ item.ansible_job_id }}"
+  register: _jobs_alias_vc_0
+  retries: 20
+  delay: 2
+  until: _jobs_alias_vc_0.finished
+  loop: "{{_alias_vc_0.results}}"
+
+
+A word of caution
+-----------------
+Depending on the task yo may not be able to use the async option. I
+had examples where I was interacting with system which was not able to
+handle multiple requests for the same resource. I found async option
+best working if I have to perform the same task across multiple
+hosts. That's where I was able to "save" the most time.
+
+---

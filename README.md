@@ -88,6 +88,7 @@ Various examples of Ansbile code.
 - Example 84. lineinfile
 - Example 85. plugin
 - Example 86. hosts
+- Example 87. aysnc
 
 
 ## License
