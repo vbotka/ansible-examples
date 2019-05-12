@@ -89,6 +89,7 @@ Various examples of Ansbile code.
 - Example 85. plugin
 - Example 86. hosts
 - Example 87. aysnc
+- Example 88. groupby. Group a sequence of objects by a common attribute.
 
 
 ## License

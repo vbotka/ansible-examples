@@ -1,0 +1,6 @@
+
+groupby(value, attribute)
+=========================
+Group a sequence of objects by a common attribute.
+http://jinja.pocoo.org/docs/2.10/templates/#groupby
+

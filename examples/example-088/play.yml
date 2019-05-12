@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data1.yml
+  tasks:
+    - debug:
+        var: images
+    - debug:
+        var: images|groupby('name')
+
+# Ansible group by a json attribute
+# https://stackoverflow.com/questions/56043358/ansible-group-by-a-json-attribute/
+      
+# EOF
+...
