@@ -1,0 +1,6 @@
+mappings:
+  - primary: 1.1.1.1
+    secondary: 2.2.2.2
+
+  - primary: 12.12.12.12
+    secondary: 11.11.11.11

@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-4.yml
+  vars:
+    my_hosts:
+      - 1.1.1.1
+      - 12.12.12.12
+      - 5.5.5.5
+  tasks:
+    - debug:
+        var: mappings
+    - debug:
+        msg: "{{ mappings|json_query(\"[?primary=='\" + item + \"'].secondary\") }}"
+      loop: "{{ my_hosts }}"
+    - debug:
+        var: item
+      loop: "{{ my_hosts }}"
+
+
+# Ansible get first element from list
+# https://stackoverflow.com/questions/54639553/ansible-get-first-element-from-list/
