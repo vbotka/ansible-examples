@@ -1,0 +1,28 @@
+---
+
+- name: "Example of with_sequence loop"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    frontend_build_id: 43
+
+  tasks:
+    - debug:
+        var: item
+      with_sequence:
+        start="{{ frontend_build_id - 10 }}" end="{{ frontend_build_id - 1 }}" stride=1
+    - debug:
+        var: item
+      with_sequence:
+        start="{{ frontend_build_id - 10 }}" end="{{ frontend_build_id - 1 }}"
+    - debug:
+        var: item
+      loop: "{{ range(frontend_build_id - 10, frontend_build_id)|list }}"
+
+# Ansible: with_sequence variable start and end
+# https://stackoverflow.com/questions/56106658/ansible-with-sequence-variable-start-and-end/
+    
+# EOF
+...
