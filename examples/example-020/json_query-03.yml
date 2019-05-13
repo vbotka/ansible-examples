@@ -3,8 +3,8 @@
   vars_files:
     - vars-1.json
   vars:
-    host_collection: hci
+    host_collection: hc1
   tasks:
     - debug: var=results|json_query('[?name==`hc1`].id')
     - debug: var=results|json_query('[?name==`{{ host_collection }}`].id')
-    - debug: var="{{ results|json_query('[?name==`' ~ host_collection ~ '`].id') }}"
+    - debug: msg="{{ results|json_query('[?name==`' ~ host_collection ~ '`].id') }}"
