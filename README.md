@@ -90,6 +90,7 @@ Various examples of Ansbile code.
 - Example 86. hosts
 - Example 87. aysnc
 - Example 88. groupby. Group a sequence of objects by a common attribute.
+- Example 89. bulk-set task arguments
 
 
 ## License

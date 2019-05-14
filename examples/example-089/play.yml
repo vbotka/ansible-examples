@@ -1,0 +1,20 @@
+---
+
+
+# TODO
+# Ansible: use group_vars directly without with_items
+# https://serverfault.com/questions/967098/ansible-use-group-vars-directly-without-with-items
+
+# When is it unsafe to bulk-set task arguments from a variable?
+# https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#when-is-it-unsafe-to-bulk-set-task-arguments-from-a-variable
+#
+# vars:
+#   usermod_args:
+#     name: testuser
+#     state: present
+#     update_password: always
+# tasks:
+# - user: '{{ usermod_args }}'
+
+# EOF
+...

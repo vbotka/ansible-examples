@@ -1,0 +1,13 @@
+---
+
+- hosts: all:!test_03
+  gather_facts: no
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# specify subtree of hosts in ansible using --limit
+# https://stackoverflow.com/questions/56120198/specify-subtree-of-hosts-in-ansible-using-limit/
+
+# EOF
+...
