@@ -1,0 +1,20 @@
+---
+
+- hosts: group9
+  gather_facts: no
+  tasks:
+    - block:
+        - delegate_to: localhost
+          command: ping -c1 "{{ inventory_hostname }}"
+      rescue:
+       - fail:
+           msg: "Host {{ inventory_hostname }} is not accessible. End of play."
+    - debug:
+        msg: "Host {{ inventory_hostname }} continue play."
+    - setup:
+
+# EOF
+...
+
+# How to ignore the connection error in play
+# https://stackoverflow.com/questions/56126504/how-to-ignore-the-connection-error-in-play/

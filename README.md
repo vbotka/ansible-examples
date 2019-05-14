@@ -91,6 +91,7 @@ Various examples of Ansbile code.
 - Example 87. aysnc
 - Example 88. groupby. Group a sequence of objects by a common attribute.
 - Example 89. bulk-set task arguments
+- Example 90. fail module
 
 
 ## License
