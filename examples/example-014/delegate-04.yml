@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Multiple machine loops include
+      include: task4.yml
+      loop: "{{ groups['test_jails'] }}"
+      delegate_to: "{{ item }}"
+
+# a host executes an entire yaml task in ansible
+# https://stackoverflow.com/questions/56145065/a-host-executes-an-entire-yaml-task-in-ansible/
+
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html#delegation
+# 'include' is not delegated. Quoting from Delegation: "Be aware that it
+# does not make sense to delegate all tasks, debug, add_host, include,
+# etc always get executed on the controller."
