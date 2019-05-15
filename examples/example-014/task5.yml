@@ -1,0 +1,4 @@
+- command: hostname
+  register: result
+  delegate_to: "{{ item }}"
+- debug: var=result.stdout

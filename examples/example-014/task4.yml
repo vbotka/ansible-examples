@@ -1,1 +1,1 @@
-- debug: msg="{{ inventory_hostname }} {{ item }} task"
+- debug: msg="{{ inventory_hostname }} {{ item }}"

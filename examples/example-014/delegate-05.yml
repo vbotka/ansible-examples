@@ -2,9 +2,8 @@
   gather_facts: no
   tasks:
     - name: Multiple machine loops include
-      include: task4.yml
+      include_tasks: task5.yml
       loop: "{{ groups['host1'] }}"
-      delegate_to: "{{ item }}"
 
 # a host executes an entire yaml task in ansible
 # https://stackoverflow.com/questions/56145065/a-host-executes-an-entire-yaml-task-in-ansible/
