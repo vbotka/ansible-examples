@@ -1,0 +1,20 @@
+- hosts: test_01
+  gather_facts: true
+  tasks:
+    - command: sh -c 'printf "some stdout text `hostname`"'
+      register: result
+    - debug:
+        var: result.stdout
+    - debug:
+        var: ansible_hostname
+    - set_fact:
+        search_string: "some stdout text {{ ansible_hostname }}"
+    - debug:
+        msg: "search OK"
+      when: "search_string in result.stdout"
+    - debug:
+        msg: "search OK"
+      when: "'some stdout text ' ~ ansible_hostname in result.stdout"
+
+# Using ansible variables in when statement
+# https://stackoverflow.com/questions/56180145/using-ansible-variables-in-when-statement/

@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    my_entry:
+      - entry1: 0
+        entry2: ansible entry
+        entry3: true
+
+  tasks:
+    - set_fact:
+        my_var: "{{ lookup('pipe','cat test.txt |
+                                    head -n -1 |
+                                    tail -n +3')|
+                                    from_yaml }}"
+    - set_fact:
+        values: "{{ my_var|dict2items|json_query('[0].value') + my_entry }}"
+    - debug:
+        var: values
+
+# How to add an entry in a file (only if it doesn't exist) using Ansible
+# https://stackoverflow.com/questions/56183842/how-to-add-an-entry-in-a-file-only-if-it-doesnt-exist-using-ansible

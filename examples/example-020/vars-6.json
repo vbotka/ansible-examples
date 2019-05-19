@@ -1,0 +1,44 @@
+"my_ansible_facts": {
+            "discovered_interpreter_python": "/usr/bin/python"
+        },
+        "changed": false,
+        "failed": false,
+        "msg": "Custom Query Success",
+        "results": [
+            {
+                "name": "FG-04-Policy",
+                "obj ver": 3,
+                "oid": 1196,
+                "package settings": {
+                    "central-nat": "disable",
+                    "fwpolicy-implicit-log": "disable",
+                    "fwpolicy6-implicit-log": "disable",
+                    "inspection-mode": "proxy"
+                },
+                "scope member": [
+                    {
+                        "name": "IN-FG-04",
+                        "vdom": "vdom-shop"
+                    }
+                ],
+                "type": "pkg"
+            },
+            {
+                "name": "FG-04-DC",
+                "obj ver": 23,
+                "oid": 1216,
+                "package settings": {
+                    "central-nat": "disable",
+                    "fwpolicy-implicit-log": "disable",
+                    "fwpolicy6-implicit-log": "disable",
+                    "inspection-mode": "proxy"
+                },
+                "scope member": [
+                    {
+                        "name": "IN-FG-04",
+                        "vdom": "vdom1-dc"
+                    }
+                ],
+                "type": "pkg"
+            }
+        ]

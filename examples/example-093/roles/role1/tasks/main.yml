@@ -1,0 +1,3 @@
+- debug: msg="{{ inventory_hostname }}"
+  changed_when: true
+  notify: handler

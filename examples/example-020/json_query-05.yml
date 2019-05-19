@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ groups['test_jails'] }}"
+#    - debug:
+#        var: hostvars
+
+# Extracting nested object in Jinja2
+# https://stackoverflow.com/questions/56203160/extracting-nested-object-in-jinja2

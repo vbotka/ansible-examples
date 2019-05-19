@@ -1,0 +1,7 @@
+cats:plays with mice
+cats:plays with mice
+dogs:does not play with mice
+cats:plays with mice
+cats:plays with mice
+dogs:does not play with mice
+cats:plays with mice

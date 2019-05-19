@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Configure available keyboard layouts in Cinnamon
+      dconf:
+        key: "/org/gnome/libgnomekbd/keyboard/layouts"
+        value: "['us', 'se']"
+        state: present
+...

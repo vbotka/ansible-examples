@@ -1,0 +1,73 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    result: {
+      "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+      },
+      "changed": false,
+      "failed": false,
+      "msg": "Custom Query Success",
+      "results": [
+        {
+          "name": "FG-04-Policy",
+          "obj ver": 3,
+          "oid": 1196,
+          "package settings": {
+            "central-nat": "disable",
+            "fwpolicy-implicit-log": "disable",
+            "fwpolicy6-implicit-log": "disable",
+            "inspection-mode": "proxy"
+          },
+          "scope member": [
+            {
+              "name": "IN-FG-04",
+              "vdom": "vdom-shop"
+            }
+          ],
+          "type": "pkg"
+        },
+        {
+          "name": "FG-04-DC",
+          "obj ver": 23,
+          "oid": 1216,
+          "package settings": {
+            "central-nat": "disable",
+            "fwpolicy-implicit-log": "disable",
+            "fwpolicy6-implicit-log": "disable",
+            "inspection-mode": "proxy"
+          },
+          "scope member": [
+            {
+              "name": "IN-FG-04",
+              "vdom": "vdom1-dc"
+            }
+          ],
+          "type": "pkg"
+        }
+      ]
+    }
+
+  tasks:
+    - name: Get all scope members from result in a var
+      set_fact:
+        app_result: "{{ app_result | default([]) + item['scope member'] }}"
+      loop: "{{ result.results }}"
+
+    - name: Show the calculated list
+      debug:
+        var: app_result
+
+    - name: Alternatively, get the result directly with json_query
+      debug:
+        msg: "{{ result | json_query('results[].\"scope member\"[]') }}"
+
+    - name: "set fact as name: IN-FG-04 when vdom: vdom-shop"
+      set_fact:
+        name: "{{ result.results | json_query('[].\"scope member\"[?\"vdom\"==`\"vdom-shop\"`].name')|flatten|first }}"
+    - debug:
+        var: name
+
+# how to set ansible fact from an array with whitespace
+# https://stackoverflow.com/questions/56205994/how-to-set-ansible-fact-from-an-array-with-whitespace

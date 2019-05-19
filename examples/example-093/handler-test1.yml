@@ -1,0 +1,14 @@
+- hosts: test_jails
+  strategy: linear
+  serial: 1
+  gather_facts: no
+  tasks:
+    - debug: msg="{{ inventory_hostname }}"
+      changed_when: true
+      notify: handler
+  handlers:
+    - name: handler
+      debug: msg="{{ inventory_hostname }}-handler"
+
+# Ansible fork 1 for handlers
+# https://stackoverflow.com/questions/56182681/ansible-fork-1-for-handlers

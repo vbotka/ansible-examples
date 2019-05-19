@@ -92,6 +92,11 @@ Various examples of Ansbile code.
 - Example 88. groupby. Group a sequence of objects by a common attribute.
 - Example 89. bulk-set task arguments
 - Example 90. fail module
+- Example 91. Test vbotka.linux_lib
+- Example 92. dconf
+- Example 93. handlers
+- Example 94. copy
+- Example 95. with_lines
 
 
 ## License

@@ -1,0 +1,7 @@
+- hosts: test_jails
+  serial: 1
+  strategy: linear
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: role1

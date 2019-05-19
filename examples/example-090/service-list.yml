@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - include_role:
+        name: vbotka.linux_lib
+        tasks_from: service_list.yml
+        vars_from: "{{ ansible_os_family }}.yml"
+    - debug:
+        var: ll_services
+
+...

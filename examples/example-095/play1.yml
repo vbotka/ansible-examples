@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    # file_to_update: /tmp/cats_dogs_file.txt
+    file_to_update: "{{ playbook_dir }}/cats_dogs_file.txt"
+    exclude: "does not play with mice"
+    from_name: "dogs"
+    to_name: "cats"
+
+  tasks:
+    - replace:
+        path: "{{ file_to_update }}"
+        regexp: "{{ item }}"
+        replace: "{{ item|regex_replace(from_name, to_name) }}"
+      with_lines: "cat {{ file_to_update }}"
+      when: exclude not in item
+
+# ansible regex replace all matching string1, exclude string2
+# https://stackoverflow.com/questions/56203223/ansible-regex-replace-all-matching-string1-exclude-string2
+

@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no  
+  vars:
+    values:
+      - key1: value1
+        key2:
+          - value1.1
+          - value1.2
+      - key1: value2 
+        key2: 
+          - value2.1
+          - value2.2
+  tasks:
+    - debug:
+        msg: "{{ item.0.key1 }} - {{ item.1 }}"
+      with_subelements:
+        - "{{ values }}"
+        - key2
+    - debug:
+        msg: "{{ item.0.key1 }} - {{ item.1 }}"
+      loop: "{{ values|subelements('key2') }}"
+
+# How to use loop and with_nested together in ansible
+# https://stackoverflow.com/questions/56200333/how-to-use-loop-and-with-nested-together-in-ansible/

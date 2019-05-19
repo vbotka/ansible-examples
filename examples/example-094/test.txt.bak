@@ -1,0 +1,15 @@
+const var = 
+{
+    "values": [
+        {
+            "entry1":500,
+            "entry2": "test001",
+            "entry3": true
+        },
+        {
+            "entry1":3,
+            "entry2": "test002",
+            "entry3": false
+        }
+    ]
+};

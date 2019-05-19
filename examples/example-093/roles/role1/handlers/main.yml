@@ -1,0 +1,2 @@
+- name: handler
+  debug: msg="{{ inventory_hostname }}-handler"
