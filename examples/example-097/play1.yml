@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - data_machine_test.yml
+  tasks:
+  - debug:
+      var: host_name
+
+# ansible playbook - vars_files - “undefined variable” error
+# https://stackoverflow.com/questions/56222751/ansible-playbook-vars-files-undefined-variable-error

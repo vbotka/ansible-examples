@@ -98,6 +98,7 @@ Various examples of Ansbile code.
 - Example 94. copy
 - Example 95. with_lines
 - Example 96. when
+- Example 97. vars_files
 
 
 ## License
