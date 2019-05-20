@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+     list1:
+       - user1
+       - user2
+       - user3
+       - userN
+     list2:
+       - user1
+       - user2
+       - user3
+
+  tasks:
+    - debug:
+        msg: "the {{ item }} name can be used"
+      loop: "{{ list1 | intersect(list2) }}"
+
+# How to check if an element is contained in a list?
+# https://stackoverflow.com/questions/56222347/how-to-check-if-an-element-is-contained-in-a-list

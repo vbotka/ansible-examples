@@ -99,6 +99,7 @@ Various examples of Ansbile code.
 - Example 95. with_lines
 - Example 96. when
 - Example 97. vars_files
+- Example 98. difference
 
 
 ## License
