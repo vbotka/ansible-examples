@@ -1,0 +1,34 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    routes: "celery is in the routes"
+    deploy_state:
+      colors:
+        celery: none
+  tasks:
+    - debug:
+        msg:  "OK routes is defined"
+      when: routes is defined
+    - debug:
+        msg:  "OK celery is in routes"
+      when: "'celery' is in routes"
+    - debug:
+        msg:  "OK {{ inventory_hostname }} in groups['celery']"
+      when: inventory_hostname in groups['celery']
+    - debug:
+        msg:  "{{ inventory_hostname }} - {{ groups['celery'] }}"
+    - debug:
+        msg:  "OK deploy_state.colors.celery is defined"
+      when: deploy_state.colors.celery is defined
+    - debug:
+        msg:  "{{ deploy_state.colors.celery }}"
+    - debug:
+        msg:  "OK"
+      when: (((routes is defined) and ('celery' is in routes)) or
+             (inventory_hostname in groups['celery'])) and
+             (deploy_state.colors.celery is defined)
+#     when: {% if routes is defined %}'celery' is in routes{% else %}inventory_hostname in groups['celery']{% endif %} and deploy_state.colors.celery is defined
+
+# when statements should not include jinja2 templating
+# https://stackoverflow.com/questions/56218971/when-statements-should-not-include-jinja2-templating/
+

@@ -97,6 +97,7 @@ Various examples of Ansbile code.
 - Example 93. handlers
 - Example 94. copy
 - Example 95. with_lines
+- Example 96. when
 
 
 ## License
