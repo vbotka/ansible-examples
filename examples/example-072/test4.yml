@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_users:
+      - user1
+      - user2
+    my_hosts:
+      - test_01
+      - test_02
+  tasks:
+    - expect:
+        command: "ssh {{ item.0 }}@{{ item.1 }}"
+        timeout: 2
+        responses:
+          (.*)password(.*):
+            - "password"
+            - "\x03"  # Ctrl-C
+          (.*)\$(.*): "exit"  # Fit the prompt
+      with_nested:
+        - "{{ my_users }}"
+        - "{{ my_hosts }}"
+      register: result
+      ignore_errors: yes
+    - debug:
+        msg: "{{ (item.rc  == 0)|ternary(item.invocation.module_args.command ~ ' [OK]',
+                                         item.invocation.module_args.command ~ ' [KO]') }}"
+      loop: "{{ result.results }}"
+
+# Verify if user is able to SSH using password
+# https://stackoverflow.com/questions/56230982/verify-if-user-is-able-to-ssh-using-password/
