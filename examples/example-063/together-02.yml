@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  vars:
+    api_templates:
+      - name:
+          - 'template1'
+          - 'template2'
+        url:
+          - 'http://localhost:80/template1'
+          - 'http://localhost:80/template2'
+        file:
+          - '../files/template1.json'
+          - '../files/template2.json'
+  tasks:
+    - include_tasks: uri-put.yml
+      loop: "{{ api_templates }}"
+      loop_control:
+        loop_var: uri
+
+# Use subelements into a API call in Ansible
+# https://stackoverflow.com/questions/56237206/use-subelements-into-a-api-call-in-ansible
