@@ -1,0 +1,37 @@
+---
+- hosts: test1
+  gather_facts: false
+  tasks:
+    - debug:
+        var: secrets.TAMAGOTCHI_CODE
+
+# How to include a dictionary into a k8s_raw data field
+# https://stackoverflow.com/questions/56254458/how-to-include-a-dictionary-into-a-k8s-raw-data-field
+
+
+# To import this list from a group_vars file
+# Put the localhost into a group. For example a group test
+# > cat hosts
+# test:
+#   hosts:
+#     localhost:
+# Put the varfile.yml into the group_vars/test directory
+# $ tree group_vars
+# group_vars/
+# ├── test
+#     └── varfile.yml
+# Then running the playbook below
+# $ cat test.yml
+# - hosts: test
+#   tasks:
+#     - debug:
+#         var: secrets.TAMAGOTCHI_COD
+# $ ansible-playbook -i hosts test.yml
+# gives:
+# PLAY [test] ***********************************
+# TASK [debug] **********************************
+# ok: [localhost] => {
+#     "secrets.TAMAGOTCHI_CODE": "MTIzNAo="
+# }
+# PLAY RECAP *************************************
+# localhost: ok=1    changed=0    unreachable=0    failed=0
