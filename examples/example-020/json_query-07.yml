@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-7.json
+  tasks:
+    - debug:
+        var: abrt_packages
+    - set_fact:
+        packages_available: "{{ abrt_packages|json_query(jsonquery) }}"
+      vars:
+        jsonquery: "results.packages_installed[?yumstate=='available'].name"
+    - debug:
+        var: packages_available
+
+# how to verify that OS packages are removed or not installed in ansible
+# https://stackoverflow.com/questions/56258804/how-to-verify-that-os-packages-are-removed-or-not-installed-in-ansible
