@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list_of_dicts:
+      config1:
+        key1: value1
+        key2: value2
+      config2:
+        key1: value1
+        key2: value2
+  tasks:
+#    - debug:
+#        var: list_of_dicts
+#    - debug:
+#        msg: "{{ item }}"
+#      loop: "{{ list_of_dicts|dictsort }}"
+#    - debug:
+#        msg: "{{ item }}"
+#      loop: "{{ list_of_dicts|dict2items }}"
+#    - debug:
+#        msg: "{{ item.value }}"
+#      loop: "{{ list_of_dicts|dict2items }}"
+#    - debug:
+#        msg: "{{ item.1|hash_keys }}"
+#      loop:  "{{ list_of_dicts|dict2items|subelements('value') }}"
+    - debug:
+        msg: "{{ item|hash_keys }}"
+      loop:  "{{ list_of_dicts.values() }}"
+    - debug:
+        msg: "{{ item|hash_values}}"
+      loop:  "{{ list_of_dicts.values() }}"
+    - debug:
+        msg: "{{ item|hash_to_tuples}}"
+      loop:  "{{ list_of_dicts.values() }}"
+#    - debug:
+#        msg: "{{ item|hash_keys }}"
+#      loop:  "{{ list_of_dicts|dict2items|json_query('[].value') }}"
+#    - debug:
+#        msg: "{{ item|hash_values }}"
+#      loop:  "{{ list_of_dicts|dict2items|json_query('[].value') }}"
+#    - debug:
+#        msg: "{{ item|hash_to_tuples }}"
+#      loop:  "{{ list_of_dicts|dict2items|json_query('[].value') }}"
+
+# How can I get the value of item.value.key
+# https://serverfault.com/questions/968534/how-can-i-get-the-value-of-item-value-key/

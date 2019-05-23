@@ -86,7 +86,7 @@ Various examples of Ansbile code.
 - Example 82. sort
 - Example 83. local_action
 - Example 84. lineinfile
-- Example 85. plugin
+- Example 85. filter_plugins
 - Example 86. hosts
 - Example 87. aysnc
 - Example 88. groupby. Group a sequence of objects by a common attribute.
