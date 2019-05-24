@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-    - vars-7.json
+    - vars-3.json
   tasks:
     - debug:
         var: abrt_packages

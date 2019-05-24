@@ -1,0 +1,25 @@
+abrt_packages:
+  results: {
+    "packages_installed": [
+          {
+              "arch": "x86_64", 
+              "envra": "0:abrt-addon-ccpp-2.0.8-43.el6.x86_64", 
+              "epoch": "0", 
+              "name": "abrt-addon-ccpp", 
+              "release": "43.el6", 
+              "repo": "Repo1yum", 
+              "version": "2.0.8", 
+              "yumstate": "available"
+          }, 
+          {
+              "arch": "x86_64", 
+              "envra": "0:abrt-addon-kerneloops-2.0.8-43.el6.x86_64", 
+              "epoch": "0", 
+              "name": "abrt-addon-kerneloops", 
+              "release": "43.el6", 
+              "repo": "Repo1yum", 
+              "version": "2.0.8", 
+              "yumstate": "available"
+          }
+        ]
+    }
