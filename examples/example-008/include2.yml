@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_tasks: /scratch/tmp/debug2.yml
+
+# EOF
+...
+
+# How to Include_tasks with relative path?
+# https://stackoverflow.com/questions/56291810/how-to-include-tasks-with-relative-path/
