@@ -100,6 +100,7 @@ Various examples of Ansbile code.
 - Example 96. when
 - Example 97. vars_files
 - Example 98. difference
+- Example 99. add item to list
 
 
 ## License

@@ -1,0 +1,36 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    users: 
+      - John
+      - John_Doe
+      - Jane
+      - Jane_Doe
+    users_dir: []
+    users_dir_example:
+      - username: John
+        fullname:
+          - name: John_Doe
+      - username: Jane
+        fullname:
+          - name: Jane_Doe
+
+  tasks:
+    - set_fact:
+        users_dir: "{{ users_dir + [{'username': users[item],
+                                     'fullname': [{'name': users[item+1]}]
+                                     }] }}"
+      loop: "{{ range(0, users|length, 2)|list }}"
+    - debug:
+        var: users_dir
+    - debug:
+        var: users_dir_example
+#    - debug:
+#        msg: "{{ msg.split('\n') }}"
+#      vars:
+#        msg: |
+#          {{ users_dir|to_nice_yaml }}
+
+# How to make a dict from a list in Ansible
+# https://stackoverflow.com/questions/56277036/how-to-make-a-dict-from-a-list-in-ansible/
