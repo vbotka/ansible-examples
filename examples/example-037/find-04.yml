@@ -6,21 +6,25 @@
       file_type: directory
       recurse: yes
     register: list
-    loop:
-      - aa
-      - bb
-      - cc
-      - dd
-  - debug:
-      var: list
+    loop: [ aa, bb, cc, dd]
+#  - debug:
+#      var: list
+
+#  - set_fact:
+#      final: "{{ list.results|json_query('[].files[].path') }}"
+#  - debug:
+#      var: final
 
   - set_fact:
-      final: "{{ list.results|json_query('[].files[].path') }}"
-  - debug:
-      var: final
+      pre_final: "{{ list.results|json_query('[].{path: files[].path,
+                                                  var: item}') }}"
+#  - debug:
+#      var: pre_final
 
   - set_fact:
-      final: "{{ list.results|json_query('[].{path: files[].path, var: item}') }}"
+      final: "{{ final|default([]) + [{'var': item.0.var,
+                                       'path': item.1}] }}"
+    loop: "{{ lookup('subelements', pre_final, 'path') }}"
   - debug:
       var: final
 
