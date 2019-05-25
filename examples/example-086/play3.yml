@@ -1,0 +1,25 @@
+---
+
+- hosts:
+    - test_01
+    - test_02
+    - test_03
+  gather_facts: no
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+- hosts: test_01:test_02:test_03
+  gather_facts: no
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+- hosts: test_01 test_02 test_03
+  gather_facts: no
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# Alternative ansible syntax
+# https://stackoverflow.com/questions/56305887/alternative-ansible-syntax
