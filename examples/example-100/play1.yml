@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        var: groups['test_jails']
+    - blockinfile:
+        create: yes
+        path: "{{ playbook_dir }}/test1.txt"
+        block: "{{ lookup('template', 'my_template.j2') }}"
+
+# disable `trim_blocks` for `blockinfile` module
+# https://stackoverflow.com/questions/55879085/disable-trim-blocks-for-blockinfile-module/
+
+# Whitespace Control
+# http://jinja.pocoo.org/docs/2.10/templates/#whitespace-control

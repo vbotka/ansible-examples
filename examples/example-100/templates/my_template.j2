@@ -1,0 +1,4 @@
+#jinja2: trim_blocks:False
+{%- for host in groups.test_jails %}
+{{ host }}
+{%- endfor %}

@@ -101,6 +101,7 @@ Various examples of Ansbile code.
 - Example 97. vars_files
 - Example 98. difference
 - Example 99. add item to list
+- Example 100. Jinja2 whitespace control (trim_blocks, lstrip_blocks)
 
 
 ## License
