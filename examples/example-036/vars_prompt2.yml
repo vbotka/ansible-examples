@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - pause:
+        prompt: "Please enter your git email address."
+        echo: yes
+      register: result
+    - set_fact:
+        git_email: "{{ result.user_input }}"
+    - debug: msg="{{ git_email }}"
