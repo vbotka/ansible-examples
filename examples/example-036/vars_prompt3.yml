@@ -1,0 +1,22 @@
+- hosts: test_01
+  gather_facts: false
+  vars_prompt:
+     - name: "server_ip"
+       prompt: "Enter the Server IP"
+       private: no
+  tasks:
+    - set_fact:
+        stored_server_ip: "{{ server_ip }}"
+    - debug:
+        var: stored_server_ip
+
+- hosts: test_02
+  gather_facts: false
+  vars:
+    server: "{{ hostvars.test_01.stored_server_ip }}"
+  tasks:
+    - debug:
+        var: server
+
+# How to use variables defined through vars_prompt of one host in another host vars?
+# https://stackoverflow.com/questions/56335218/how-to-use-variables-defined-through-vars-prompt-of-one-host-in-another-host-var/
