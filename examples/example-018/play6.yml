@@ -1,0 +1,11 @@
+- hosts: test_01
+  gather_facts: false
+  roles:
+  - deploy_front
+- hosts: test_02
+  gather_facts: false
+  roles:
+  - deploy_back
+
+# Deploy different roles on different servers using one playbook
+# https://unix.stackexchange.com/questions/521516/deploy-different-roles-on-different-servers-using-one-playbook
