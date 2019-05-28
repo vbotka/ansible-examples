@@ -104,6 +104,7 @@ Various examples of Ansbile code.
 - Example 100. Jinja2 whitespace control (trim_blocks, lstrip_blocks)
 - Example 101. Quotation.
 - Example 102. ini_file
+- Example 103. dict2items
 
 
 ## License

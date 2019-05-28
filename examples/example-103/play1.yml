@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    accountsDataFromConsul:
+      data:
+        Value:
+          account_1: password_1
+          account_2: password_2
+          account_3: password_3
+  tasks:
+    - debug:
+        var: accountsDataFromConsul.data.Value
+    - debug:
+        msg: "key: {{ item.key }} value: {{ item.value }}"
+      loop: "{{ accountsDataFromConsul.data.Value|dict2items }}"
+
+# Ansible - using json imported from Consul
+# https://stackoverflow.com/questions/56345602/ansible-using-json-imported-from-consul/
