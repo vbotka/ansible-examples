@@ -1,0 +1,18 @@
+- hosts: localhost
+  tasks:
+    - name: shmmax
+        prompt: " Please enter the value for kernel.shmmax "
+        private: false
+
+# Ansible prompt a variable in a task
+# https://serverfault.com/questions/969121/ansible-prompt-a-variable-in-a-task/
+
+# Notes:
+# 1) This part of the code from the question can't work, because there
+# is no module in the task:
+# - name: shmmax
+#       prompt: " Please enter the value for kernel.shmmax "
+#       private: false
+# Running such code would produce:
+# ERROR! Syntax Error while loading YAML.
+#   mapping values are not allowed in this context
