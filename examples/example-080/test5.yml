@@ -1,0 +1,11 @@
+---
+- hosts: esb
+  gather_facts: no
+  tasks:
+    - debug:
+        var: run_string
+
+# Ansible playbook with variable
+# https://stackoverflow.com/questions/56340124/ansible-playbook-with-variable/
+# (works with hosts2, hosts3)
+...
