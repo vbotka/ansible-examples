@@ -10,6 +10,14 @@
   tasks:
     - debug:
         var: accountsDataFromConsul.data.Value
+    # with_items works where loops FAILED! => {"msg": "Invalid data passed to 'loop'
+    - debug:
+        var: item
+      with_items: "{{ accountsDataFromConsul.data.Value }}"
+    # FAILED! => {"msg": "Invalid data passed to 'loop', it requires a list
+    # - debug:
+    #     var: item
+    #  loop: "{{ accountsDataFromConsul.data.Value }}"
     - debug:
         msg: "key: {{ item.key }} value: {{ item.value }}"
       loop: "{{ accountsDataFromConsul.data.Value|dict2items }}"
