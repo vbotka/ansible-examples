@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: 'Set realms'
+      ini_file:
+        path: /etc/krb5.conf
+        section: realms
+#        option: test_1
+#        value: value_1
+        allow_no_value: yes
+        value: |
+          EXAMPLE.COM = {
+            admin_server = adm.example.com
+            kdc = kdc.example.com
+          }
+
+# Ansible ini_file module: Replace whole section
+# https://serverfault.com/questions/969137/ansible-ini-file-module-replace-whole-section
+
+# ini_file doesn't handle multi-line entries #29711
+# https://github.com/ansible/ansible/issues/29711
