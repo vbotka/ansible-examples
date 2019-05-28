@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - pause:
+        prompt: "Please enter the value for kernel.shmmax "
+        echo: yes
+      register: result
+    - set_fact:
+        shmmax: "{{ result.user_input }}"
+    - debug:
+        var: shmmax
+
+# ansible assign prompted variable to inline module line
+# https://serverfault.com/questions/969121/ansible-assign-prompted-variable-to-inline-module-line/
+
