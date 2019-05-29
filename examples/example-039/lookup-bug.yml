@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: yes
+  become_user: root
+  become_method: sudo
+  become: yes
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+    - name: read the file
+      debug:
+        msg: "{{ lookup('file', '/root/test') }}"
+    - name: read the file
+      debug:
+        msg: "{{ lookup('file', '/scratch/tmp/test') }}"
+
+# how to do privilege escalation on lookup(ini)
+# https://stackoverflow.com/questions/56358099/how-to-do-privilege-escalation-on-lookupini
+
+# copy modules fails if lookup() files are reference in group_vars #10002
+# https://github.com/ansible/ansible/issues/10002
