@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_lines:
+      - "rchinnn01"
+      - "rchinnn02"
+      - "*"
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ my_lines }}"
+    - debug:
+        msg: "{{ my_lines|reject('match', '[*]')|list }}"
+
+# Ansible jinja2 filter reject
+# https://unix.stackexchange.com/questions/500002/ansible-jinja2-filter-reject/

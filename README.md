@@ -105,6 +105,7 @@ Various examples of Ansbile code.
 - Example 101. Quotation.
 - Example 102. ini_file
 - Example 103. dict2items
+- Example 104. reject, rejectattr
 
 
 ## License

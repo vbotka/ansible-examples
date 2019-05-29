@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    apps2: []
+    apps:
+      - {name: A, extension: .ab}
+      - {name: B, extension: .ab}
+      - {name: C, extension: .c}
+
+  tasks:
+    - set_fact:
+        apps2: "{{ apps2 + [ item ] }}"
+      loop: "{{ apps }}"
+      when: item.name != 'C'
+    - debug:
+        var: apps2
+    - set_fact:
+        apps2: "{{ apps|rejectattr('name', 'match', 'C')|list  }}"
+    - debug:
+        var: apps2
+
+# Reject in ansible list variable
+# https://serverfault.com/questions/969263/reject-in-ansible-list-variable/
