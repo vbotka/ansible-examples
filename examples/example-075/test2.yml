@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - template:
+        src: test2.j2
+        dest: /scratch/tmp/test
