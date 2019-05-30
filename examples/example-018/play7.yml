@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: role6
+      vars:
+        extensions:
+          - bar
+          - biz
+          - baz
+          - qux
+
+# How to pass a list variable to a role using include_role (ansible 2.8.0)?
+# https://stackoverflow.com/questions/56384522/how-to-pass-a-list-variable-to-a-role-using-include-role-ansible-2-8-0
