@@ -107,6 +107,7 @@ Various examples of Ansbile code.
 - Example 103. dict2items
 - Example 104. reject, rejectattr
 - Example 105. become
+- Example 106. fileglob
 
 
 ## License

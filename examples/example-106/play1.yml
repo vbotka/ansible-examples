@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - set_fact:
+        pens: "{{ pens|default([]) + [ lookup('file', item)|from_yaml ] }}"
+      # with_fileglob: "vars/*.yml"
+      loop: "{{ lookup('fileglob', 'vars/*.yml', wantlist=True) }}"
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ pens }}"
+
+#    - set_fact:
+#        pens: "{{ pens|default([]) + [ lookup('file', item)|from_yaml ] }}"
+#      with_fileglob:
+#        - "vars/her_pen.yml"
+#        - "vars/his_pen.yml"
+#        - "vars/my_pen.yml"
+#    - debug:
+#        msg: "{{ item }}"
+#      loop: "{{ pens }}"
+
+# How to loop through similar vars files in an Ansible playbook
+# https://stackoverflow.com/questions/56384516/how-to-loop-through-similar-vars-files-in-an-ansible-playbook/
