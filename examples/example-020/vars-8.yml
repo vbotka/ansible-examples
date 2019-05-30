@@ -1,0 +1,37 @@
+all:
+  hosts:
+    1st-server-ip:
+      ansible_host: IP
+    2nd-server-ip:
+      ansible_host: IP
+    3rd-server-ip:
+      ansible_host: IP
+  children:
+    1st-GROUP:
+      hosts:
+        1st-server-ip:
+          containers:
+            app-1:
+              url: 'URL'
+            app-2:
+              url: 'URL'
+            app-3:
+              url: 'URL'
+    2nd-GROUP:
+      hosts:
+        2nd-server-ip:
+          containers:
+            app-4:
+              url: 'URL'
+            app-5:
+              url: 'URL'
+    3rd-GROUP:
+      hosts:
+        3rd-server-ip:
+          containers:
+            app-6:
+              url: 'URL'
+            app-7:
+              url: 'URL'
+            app-8:
+              url: 'URL'

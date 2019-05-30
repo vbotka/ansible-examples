@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-8.yml
+  tasks:
+    - include_tasks: loop-url.yml
+      loop: "{{ all.children|json_query('*.hosts.*.containers[]') }}"
+      loop_control:
+        loop_var: outer_item
+
+# How to use variables defined in inventory
+# https://stackoverflow.com/questions/56362011/how-to-use-variables-defined-in-inventory/
