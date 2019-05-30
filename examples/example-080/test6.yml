@@ -1,0 +1,6 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ hostvars[item].run_string }}"
+      loop: "{{ groups.esb }}"
