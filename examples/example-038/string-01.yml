@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    command: ""
+    my_variables:
+      module1: true
+      module2: false
+      module3: true
+      module4: true
+  tasks:
+    - set_fact:
+        command: "{{ command ~ item.value|ternary(' --' ~ item.key, ' **--no**-' ~ item.key) }}"
+      loop: "{{ my_variables|dict2items }}"
+    - debug:
+        var: command
+
+# Ansible: Build Command with variables
+# https://stackoverflow.com/questions/56384843/ansible-build-command-with-variables/
