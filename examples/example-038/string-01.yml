@@ -9,7 +9,8 @@
       module4: true
   tasks:
     - set_fact:
-        command: "{{ command ~ item.value|ternary(' --' ~ item.key, ' **--no**-' ~ item.key) }}"
+        command: "{{ command ~ item.value|ternary(' --' ~ item.key,
+                                                  ' **--no**-' ~ item.key) }}"
       loop: "{{ my_variables|dict2items }}"
     - debug:
         var: command
