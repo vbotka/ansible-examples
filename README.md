@@ -10,7 +10,7 @@ Various examples of Ansbile code.
 - Example  6. Test with_sequence, loop_control and index_var
 - Example  7. Test if synchronize module is idempotent
 - Example  8. Loop include_tasks
-- Example  9. Test service_facts
+- Example  9. Test gather_facts, service_facts
 - Example 10. Test calculation with Jinja
 - Example 11. Test user module with Ansible 2.6.1 and FreeBSD 11.2
 - Example 12. Select items from dictionary

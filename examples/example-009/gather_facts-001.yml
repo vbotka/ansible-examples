@@ -1,0 +1,10 @@
+
+- hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - debug:
+        var: ansible_all_ipv4_addresses
+
+# Ansible IP address variable remote hosts
+# https://stackoverflow.com/questions/56398584/ansible-ip-address-variable-remote-hosts/
