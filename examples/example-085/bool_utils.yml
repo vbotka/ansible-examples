@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - bool_utils_data.yml
+  tasks:
+    - debug:
+        msg: "{{ item.key }} {{ item.value|json_query('[].is_active') }}"
+      loop: "{{ DOMAIN_GROUPS_ASSIGNMENT|dict2items }}"
+    - set_fact:
+        status: "{{ status|default([]) +
+                    [{item.key: item.value|json_query('[].is_active')
+                                          |bool_and}] }}"
+      loop: "{{ DOMAIN_GROUPS_ASSIGNMENT|dict2items }}"
+    - debug:
+        var: status
+
+# How to extract values from list of dictionary
+# https://stackoverflow.com/questions/56395331/how-to-extract-values-from-list-of-dictionary/

@@ -1,0 +1,29 @@
+DOMAIN_GROUPS_ASSIGNMENT:
+  CACHE01:
+    - domain_group: DG1
+      is_active: true
+    - domain_group: DG2
+      is_active: true
+    - domain_group: DG3
+      is_active: true
+  CACHE02:
+    - domain_group: DG4
+      is_active: true
+    - domain_group: DG5
+      is_active: true
+    - domain_group: DG6
+      is_active: true
+  SCACHE01:
+    - domain_group: DG1
+      is_active: false
+    - domain_group: DG2
+      is_active: false
+    - domain_group: DG3
+      is_active: true
+  SCACHE02:
+    - domain_group: DG4
+      is_active: false
+    - domain_group: DG5
+      is_active: false
+    - domain_group: DG6
+      is_active: false
