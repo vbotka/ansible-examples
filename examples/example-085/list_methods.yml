@@ -1,0 +1,55 @@
+# Test filter_plugins/list_methods.py
+
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    fruits: ['orange', 'apple', 'pear', 'banana', 'kiwi', 'apple', 'banana']
+    vegetables: ['potato', 'tomato', 'carrot']
+
+  tasks:
+    - debug:
+        var: fruits
+    - debug:
+        msg: "list length: {{ fruits|length }}"
+    - debug:
+        msg: "append 'tangerine': {{ fruits|list_append(x='tangerine') }}"
+    - debug:
+        msg: "append 'vegetables': {{ fruits|list_append(x=vegetables) }}"
+    - debug:
+        msg: "append 'vegetables' flatten: {{ fruits|list_append(x=vegetables)|flatten }}"
+    - debug:
+        msg: "extend 'vegetables': {{ fruits|list_extend(x=vegetables) }}"
+    - debug:
+        msg: "insert plum at 3: {{ fruits|list_insert(i=3, x='plum') }}"
+    - debug:
+        msg: "remove first banana: {{ fruits|list_remove(x='banana') }}"
+    - debug:
+        msg: "pop 2: {{ fruits|list_pop(2) }}"
+    - debug:
+        msg: "pop last: {{ fruits|list_pop() }}"
+    - debug:
+        msg: "clear: {{ fruits|list_clear() }}"
+    - debug:
+        msg: "index of apple: {{ fruits|list_index('apple') }}"
+    - debug:
+        msg: "index of apple from 3: {{ fruits|list_index('apple', 3) }}"
+    - debug:
+        msg: "index of apple from 2 to 4: {{ fruits|list_index('apple', 2, 4) }}"
+    - debug:
+        msg: "count apple: {{ fruits|list_count('apple') }}"
+    - debug:
+        msg: "sort fruits: {{ fruits|list_sort() }}"
+    # 'str' is undefined
+    # - debug:
+    #     msg: "sort fruits by lenght: {{ fruits|list_sort(key=str.lower) }}"
+    # list_sort() got an unexpected keyword argument 'reverse'
+    # - debug:
+    #     msg: "reverse sort fruits: {{ fruits|list_sort(reverse=true) }}"
+    - debug:
+        msg: "reverse fruits: {{ fruits|list_reverse() }}"
+    - debug:
+        msg: "reverse sort fruits: {{ fruits|list_sort()|list_reverse() }}"
+    - debug:
+        msg: "copy fruits: {{ fruits|list_copy() }}"
+
