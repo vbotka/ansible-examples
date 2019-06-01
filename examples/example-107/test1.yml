@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Installing packages
+      yum: pkg=['telnet', 'httpd', 'tree'] state=installed
+      tags:
+        - packages
+    - name: Verifying if those packages are installed properly
+      raw: rpm -qa --last | head -5 > /home/packages.log
+      tags:
+        - verification_packages
+
+# yum module not talking to telnet
+# https://stackoverflow.com/questions/56407754/yum-module-not-talking-to-telnet
