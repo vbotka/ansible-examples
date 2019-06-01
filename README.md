@@ -108,6 +108,7 @@ Various examples of Ansbile code.
 - Example 104. reject, rejectattr
 - Example 105. become
 - Example 106. fileglob
+- Example 107. yum
 
 
 ## License
