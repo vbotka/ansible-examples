@@ -1,0 +1,7 @@
+- hosts: group1
+  gather_facts: no
+  tasks:
+
+    - name: delegate import_tasks
+      import_tasks: task6.yml
+      delegate_to: test_03
