@@ -1,0 +1,4 @@
+- debug: msg="{{ inventory_hostname }}"
+- command: hostname
+  register: result
+- debug: msg="{{ result.stdout }}"
