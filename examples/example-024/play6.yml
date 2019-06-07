@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: "sh -c 'find {{ playbook_dir }}/roles/*/defaults/main.yml'"
+      register: result
+    - include_vars:
+        file: "{{ item }}"
+      loop: "{{ result.stdout_lines }}"
+    - debug:
+        var: my_role
+    - debug:
+        var: my_role1
