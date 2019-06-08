@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    input: [ "a", "b", "c" ]
+  tasks:
+    - debug:
+        msg: "{{ '-Z'|string_postfix('abc') }}"
+    - set_fact:
+        output: "{{ input|map('string_prefix', '-Z')|list }}"
+    - debug:
+        var: output

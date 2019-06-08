@@ -17,7 +17,7 @@ Various examples of Ansbile code.
 - Example 13. Test indentation of a block
 - Example 14. Test loop include_tasks and delegate_to
 - Example 15. Test import_playbook
-- Example 16. Test map extract
+- Example 16. Test map
 - Example 17. Print magic variables
 - Example 18. Test include_role
 - Example 19. Test import_playbook and tags
@@ -109,6 +109,7 @@ Various examples of Ansbile code.
 - Example 105. become
 - Example 106. fileglob
 - Example 107. yum
+- Example 108. group_by
 
 
 ## License

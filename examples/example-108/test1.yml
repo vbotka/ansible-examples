@@ -1,0 +1,22 @@
+- hosts: all
+  gather_facts: yes
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution }}: {{ ansible_user }}"
+    - group_by:
+        key: "{{ ansible_distribution }}"
+
+- hosts: FreeBSD
+  become: yes
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution }}: {{ ansible_user }}"
+
+- hosts: Ubuntu
+  become: yes
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution }}: {{ ansible_user }}"
+
+# Ansible Inventory Grouping
+# https://stackoverflow.com/questions/56507323/ansible-inventory-grouping
