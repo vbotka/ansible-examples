@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }}: {{ param1 }} {{ param2 }}"
+
+# ansible-playbook -i hosts2 test5.yml
+
+# Ansible access same group vars different children host groups
+# https://stackoverflow.com/questions/56512970/ansible-access-same-group-vars-different-children-host-groups/

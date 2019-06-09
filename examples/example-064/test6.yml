@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ item }}: {{ hostvars[item].param1 }} {{ hostvars[item].param2 }}"
+      loop: "{{ groups['test'] }}"
+
+# ansible-playbook -i hosts2 test6.yml
+
+# Ansible access same group vars different children host groups
+# https://stackoverflow.com/questions/56512970/ansible-access-same-group-vars-different-children-host-groups/

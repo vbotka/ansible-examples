@@ -1,3 +1,6 @@
 secrets:
   TAMAGOTCHI_CODE: "MTIzNAo="
   FRIDGE_PIN: "MTIzNAo="
+
+param1: 1234
+param2: 3456
