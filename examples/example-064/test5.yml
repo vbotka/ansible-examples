@@ -1,4 +1,10 @@
-- hosts: all
+- hosts: test
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }}: {{ param1 }} {{ param2 }}"
+
+- hosts: test0
   gather_facts: no
   tasks:
     - debug:
