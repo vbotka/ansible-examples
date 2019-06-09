@@ -6,8 +6,12 @@
     input: [ "a", "b", "c" ]
   tasks:
     - debug:
-        msg: "{{ '-Z'|string_postfix('abc') }}"
+        msg: "{{ 'abc'|string_postfix('-Z') }}"
     - set_fact:
-        output: "{{ input|map('string_prefix', '-Z')|list }}"
+        output: "{{ input|map('string_postfix', '-Z')|list }}"
     - debug:
         var: output
+    - debug:
+        msg: "{{ lookup('file', 'test.txt')|string_count('phrase') }}"
+    - debug:
+        msg: "{{ lookup('file', 'test.txt')|string_find('phrase') }}"
