@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - unarchive:
+        src: "{{ playbook_dir }}/test.tar"
+        dest: "{{ playbook_dir }}"
+        keep_newer: yes
+...
+
+# unarchive keep_newer=yes is not idempotent. It keeps reporting
+# "changed". Use the "creates" argument as a workaround.
+
+# TASK [unarchive] ************************************************************************
+# changed: [localhost]
+# PLAY RECAP ******************************************************************************
+# localhost                  : ok=1    changed=1    unreachable=0    failed=0   
+
+# gtar --keep-newer-files always reports files. No way to make it shut up.
+# > tar xf test.tar --keep-newer-files
+# tar: Current ‘test-dir/3’ is newer or same age
+# tar: Current ‘test-dir/2’ is newer or same age
+# tar: Current ‘test-dir/1’ is newer or same age
