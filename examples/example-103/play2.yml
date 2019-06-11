@@ -3,9 +3,13 @@
     data1:
       - {git: true}
       - {gradle: false}
+    data2: {}
   tasks:
-    - debug:
-        msg: "{{ data1|hash_values }}"
-    - debug:
-        msg: "{{ item.values() }}"
+    - set_fact:
+        data2: "{{ data2|combine(item) }}"
       loop: "{{ data1 }}"
+    - debug:
+        msg: "{{ data2|dict2items|json_query('[].value') }}"
+
+# How to retrieve dictionary values using split method?
+# https://stackoverflow.com/questions/56542283/how-to-retrieve-dictionary-values-using-split-method/
