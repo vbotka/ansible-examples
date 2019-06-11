@@ -1,0 +1,17 @@
+- hosts: all
+  gather_facts: no
+  vars:
+    my_groups: [ 'web_1', 'web_2', 'web_3' ]
+  tasks:
+    - fail:
+        msg: "{{ inventory_hostname }} is member of
+              {{ my_groups|intersect(group_names)|length }} groups.
+              Play failed."
+      when: my_groups|intersect(group_names)|length != 1
+    - debug:
+        msg: "{{ inventory_hostname }} is member of
+              {{ my_groups|intersect(group_names)|length }} group.
+              Play continues."
+
+# Run task only if host does not belong to a mare than one group
+# https://stackoverflow.com/questions/56544121/run-task-only-if-host-does-not-belong-to-a-mare-than-one-group/

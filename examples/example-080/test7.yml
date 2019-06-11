@@ -1,0 +1,12 @@
+- hosts: all
+  gather_facts: no
+  vars:
+    my_groups: [ 'web_1', 'web_2', 'web_3' ]
+  tasks:
+#    - debug:
+#        var: inventory_hostname
+#    - debug:
+#        var: group_names
+    - debug:
+        msg: "{{ inventory_hostname }} is member of
+              {{ my_groups|intersect(group_names)|length }} group(s)."

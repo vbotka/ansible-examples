@@ -1,0 +1,11 @@
+- hosts: localhost
+  vars:
+    data1:
+      - {git: true}
+      - {gradle: false}
+  tasks:
+    - debug:
+        msg: "{{ data1|hash_values }}"
+    - debug:
+        msg: "{{ item.values() }}"
+      loop: "{{ data1 }}"
