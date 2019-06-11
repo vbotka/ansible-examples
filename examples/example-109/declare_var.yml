@@ -1,0 +1,13 @@
+- hosts: test_02
+  gather_facts: no
+  tasks:
+    - pause:
+        seconds: 10
+    - set_fact:
+        var1: "var1 has been defined."
+        cacheable: yes
+    - pause:
+        seconds: 20
+
+# How to wait for a variable to be defined?
+# https://stackoverflow.com/questions/56539413/how-to-wait-for-a-variable-to-be-defined/

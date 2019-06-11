@@ -110,6 +110,8 @@ Various examples of Ansbile code.
 - Example 106. fileglob
 - Example 107. yum
 - Example 108. group_by
+- Example 109. retries until
+- Example 110. wait_for
 
 
 ## License

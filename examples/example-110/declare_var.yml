@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - ini_file:
+        path: "{{ playbook_dir }}/shared-vars.ini"
+        section: global
+        option: shared_var1
+        value: Test value set by declare_var.yml
+
+# How to wait for a variable to be defined?
+# https://stackoverflow.com/questions/56539413/how-to-wait-for-a-variable-to-be-defined/

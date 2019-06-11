@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - wait_for:
+        path: "{{ playbook_dir }}/shared-vars.ini"
+        search_regex: "^shared_var1\\s*=(.*)"
+    - debug:
+        msg: "{{ lookup('ini', 'shared_var1 file=shared-vars.ini') }}"
+
+# How to wait for a variable to be defined?
+# https://stackoverflow.com/questions/56539413/how-to-wait-for-a-variable-to-be-defined/

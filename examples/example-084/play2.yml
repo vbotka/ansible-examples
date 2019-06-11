@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - lineinfile:
+        path: myconffile
+        backup: yes
+        state: absent
+        regexp: '\(ADDRESS = \(PROTOCOL = TCP\)\(HOST = 10.0.0.1\)\(PORT = 1501\)\)'
+    - replace:
+        path: myconffile
+        backup: yes
+        regexp: '\(ADDRESS = \(PROTOCOL = TCP\)\(HOST = 10.0.0.2\)\(PORT = 1501\)\)'
+        replace: '(ADDRESS = (PROTOCOL = TCP)(HOST = my-site.com)(PORT = 1501))'
+    - lineinfile:
+        path: myconffile
+        backup: yes
+        state: absent
+        regexp: '\(BALANCE = yes\)'
+
+# Ansible equivalent of below sed command
+# https://devops.stackexchange.com/questions/8344/ansible-equivalent-of-below-sed-command/

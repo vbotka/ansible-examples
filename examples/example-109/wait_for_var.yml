@@ -1,0 +1,18 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - name: Wait for variable
+      command: "echo {{ hostvars['test_02'].var1|default('UNDEFINED') }}"
+      register: result
+      until: result.stdout != 'UNDEFINED'
+      retries: 100
+      delay: 3
+    - name: Use variable
+      debug:
+        msg: "{{ hostvars['test_02'].var1|default('UNDEFINED') }}"
+      
+#    - debug:
+#        var: result
+
+# How to wait for a variable to be defined?
+# https://stackoverflow.com/questions/56539413/how-to-wait-for-a-variable-to-be-defined/

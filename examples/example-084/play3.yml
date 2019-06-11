@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - lineinfile:
+        path: myconffile3
+        backup: yes
+        state: absent
+        regexp: "{{ item }}"
+      loop:
+        - 'AAA'
+        - 'DDD'
+    - replace:
+        path: myconffile3
+        backup: yes
+        regexp: 'BBB'
+        replace: 'CCC'
+
+# Ansible equivalent of below sed command
+# https://devops.stackexchange.com/questions/8344/ansible-equivalent-of-below-sed-command/
