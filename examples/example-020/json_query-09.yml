@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-9.json
+  tasks:
+    - debug:
+        var: ggk_njk_info
+    - debug:
+        msg: "{{ ggk_njk_info.results|
+                 json_query('[?yumstate==`installed`].{repo: repo,
+                                                       version: version}') }}"
+
+# How to get values from registered json output conditionally in ansible
+# https://stackoverflow.com/questions/56542334/how-to-get-values-from-registered-json-output-conditionally-in-ansible/
