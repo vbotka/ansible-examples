@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }}"
+    - debug:
+        var: "{{ inventory_hostname }}"
+
+# Use host variables in ansible playbook
+# https://stackoverflow.com/questions/56562740/use-host-variables-in-ansible-playbook/
+
+# TASK [debug] ****************************************************************************
+# ok: [127.0.0.1] => {
+#     "127.0.0.1": "VARIABLE IS NOT DEFINED!"
+# }
