@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    my_data_file: "{{ playbook_dir }}/data2.txt"
+    my_commands: []
+
+  tasks:
+    - set_fact:
+        my_commands: "{{ my_commands + [ item ] }}"
+      with_lines: "cat {{ my_data_file }}"
+      when: item is search('^add')
+    - debug:
+        var: my_commands
+
+# How to read a particular part of file in ansible
+# https://stackoverflow.com/questions/56562112/how-to-read-a-particular-part-of-file-in-ansible/

@@ -1,0 +1,25 @@
+!
+
+multiply 4 and 5
+
+multiply 5 and 6
+
+!
+
+add 3 to 4
+
+add 8 to 4
+
+!
+
+sub 3 from 6
+
+sub 9 from 5
+
+!
+
+!
+
+div 6 by 2
+
+div 8 by 1
