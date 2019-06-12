@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    output:
+      - {"test_1": "abc","test_2": "xyz"}
+      - {"test_3": "blahblah", "test_4": "hello"}
+    output1: {}
+  tasks:
+    - set_fact:
+        output1: "{{ output1|combine(item) }}"
+      loop: "{{ output }}"
+    - debug:
+        var: output1
+
+# Concatenate list with dictionaries in Ansible
+# https://stackoverflow.com/questions/56557323/concatenate-list-with-dictionaries-in-ansible

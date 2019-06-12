@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    my_debug: yes
+    conf_path: /scratch/tmp/environment
+    extra_path: /usr/pgsql-10/bin
+
+  tasks:
+
+    - name: 'Check environment file has PATH entry'
+      debug:
+        msg: PATH does not exist
+      when:
+        - lookup('file', conf_path) is not search('^\s*PATH\s*=')
+        - my_debug
+
+    - name: 'Add {{ extra_path }} if PATH does not exist'
+      when: lookup('file', conf_path) is not search('^\s*PATH\s*=')
+      lineinfile:
+        path: '{{ conf_path }}'
+        line: 'PATH="{{ extra_path }}"'
+        insertafter: EOF
+        create: yes
+
+    - name: 'Add {{ extra_path }} to PATH'
+      when: lookup('file', conf_path) is search('^\s*PATH\s*=')
+      lineinfile:
+        path: '{{ conf_path }}'
+        regexp: 'PATH=(["])((?!.*?{{ extra_path }}).*?)(["])$'
+        line: 'PATH=\1\2:{{ extra_path }}\3'
+        backrefs: yes
+
+# Ansible - How to add/modify PATH variable in CentOS?
+# https://stackoverflow.com/questions/56560173/ansible-how-to-add-modify-path-variable-in-centos/
