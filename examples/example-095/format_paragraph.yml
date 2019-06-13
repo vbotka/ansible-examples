@@ -1,0 +1,10 @@
+- set_fact:
+    paragraph: []
+- set_fact:
+    paragraph: "{{ paragraph + [ item ] }}"
+  loop: "{{ outer_item }}"
+  when:
+    - item|length > 0
+    - item is not search('======')
+- set_fact:
+    chapter: "{{ chapter|default([]) + [ paragraph ] }}"

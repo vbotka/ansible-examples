@@ -1,0 +1,34 @@
+======
+
+interface And
+
+public void and(int, int);
+
+public void nand(int, int);
+
+======
+
+interface Or
+
+ public void or(int, int);
+
+ public void nor(int, int);
+======
+
+interface Xor
+
+ public void xor(int, int);
+
+ public void xnor(int, int);
+======
+
+interface Not
+
+ public void not(int);
+======
+
+class BitWise extends And, Or, Xor, Not
+
+// Implementation of the Interfaces goes here
+
+======

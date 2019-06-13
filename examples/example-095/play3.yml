@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    file_path: "{{ playbook_dir }}/data3.txt"
+    my_interfaces:
+      - interface And
+      - interface Or
+      - interface Xor
+      - interface Not
+
+  tasks:
+    - command: "sed -n '/{{ item }}/,/======/p' {{ file_path }}"
+      register: result
+      loop: "{{ my_interfaces }}"
+    - set_fact:
+        my_ifc: "{{ my_ifc|default([]) + [ item.stdout_lines ] }}"
+      loop: "{{ result.results }}"
+    - debug:
+        var: my_ifc
+    - include_tasks: format_paragraph.yml
+      loop: "{{ my_ifc }}"
+      loop_control:
+        loop_var: outer_item
+    - debug:
+        var: chapter
+
+# How to read a block of text from a file in ansible
+# https://stackoverflow.com/questions/56581357/how-to-read-a-block-of-text-from-a-file-in-ansible/
