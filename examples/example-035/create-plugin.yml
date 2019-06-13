@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: touch "/scratch/plugins/{{ item }}"
+      args:
+        creates: "/scratch/plugins/{{ item }}"
+      loop:
+        - plugin1
+        - plugin2
+        - plugin3
+
+# Ansible command module, creates not being observed
+# https://stackoverflow.com/questions/56583659/ansible-command-module-creates-not-being-observed/
