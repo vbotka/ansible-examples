@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list1: [ 'env1' , 'env2' ]
+    list2: [ 'file1' , 'file2']
+  tasks:
+    - debug:
+        msg: "/path/{{ item.0 }}/{{ item.1 }}"
+      loop: "{{ list1|zip(list2)|list }}"
+
+# How to iterate through nested items in Ansible
+# https://stackoverflow.com/questions/56584485/how-to-iterate-through-nested-items-in-ansible
