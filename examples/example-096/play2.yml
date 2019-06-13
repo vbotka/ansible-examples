@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    srcaddr1: ['IP_192.168.10.10']
+    srcaddr2: ['IP_192.168.10.10', 'IP_192.168.10.12']
+  tasks:
+    - debug:
+        msg: There is more then 1 address in the list srcaddr1.
+      when: srcaddr1|length > 1
+    - debug:
+        msg: There is more then 1 address in the list srcaddr2.
+      when: srcaddr2|length > 1
+
+# How to run ansible task based vaule count condition
+# https://stackoverflow.com/questions/56575728/how-to-run-ansible-task-based-vaule-count-condition/
