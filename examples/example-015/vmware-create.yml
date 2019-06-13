@@ -1,0 +1,10 @@
+- hosts: test_01
+  gather_facts: yes  # include cached variables
+  tasks:
+    - block:
+        - debug:
+            msg: Don't create VM this time. End of play.
+        - meta: end_play
+      when: not hostvars['localhost'].vmware_create
+    - debug:
+        msg: Create VM.

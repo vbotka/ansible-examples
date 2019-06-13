@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    vmware_create: true
+    vmware_destroy: false
+  tasks:
+    - set_fact:
+       vmware_create: "{{ vmware_create }}"     # cache variables
+    - set_fact:
+        vmware_destroy: "{{ vmware_destroy }}"  # cache variables
+
+- import_playbook: vmware-create.yml
+- import_playbook: vmware-destroy.yml
+
+# Stopping ansible from a playbook (site.yml)
+# https://stackoverflow.com/questions/56470642/stopping-ansible-from-a-playbook-site-yml/

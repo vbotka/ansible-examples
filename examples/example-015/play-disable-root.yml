@@ -1,4 +1,8 @@
 - hosts: webservers
   remote_user: 'root'
-  roles:
-    - disable_root
+  tasks:
+    - debug:
+        var: play_disable_root
+    - include_role:
+        name: disable_root
+      when: play_disable_root|default(false)

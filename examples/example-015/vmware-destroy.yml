@@ -1,0 +1,10 @@
+- hosts: test_01
+  gather_facts: yes
+  tasks:
+    - block:
+        - debug:
+            msg: Don't destroy VM this time. End of play.
+        - meta: end_play
+      when: not hostvars['localhost'].vmware_destroy
+    - debug:
+        msg: Destroy VM.
