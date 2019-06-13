@@ -10,6 +10,8 @@
       loop: "{{ data1 }}"
     - debug:
         msg: "{{ data2|dict2items|json_query('[].value') }}"
+    - debug:
+        msg: "{{ data2|hash_values }}"
 
 # How to retrieve dictionary values using split method?
 # https://stackoverflow.com/questions/56542283/how-to-retrieve-dictionary-values-using-split-method/
