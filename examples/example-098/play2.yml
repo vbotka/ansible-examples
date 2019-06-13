@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    s1: "quick brown fox jumps over the lazy dog"
+    s2: "quick brown foX jumps over the lazY dog"
+
+  tasks:
+    - debug:
+        msg: "{{ s1|list|difference(s2|list) }}"
+    - debug:
+        msg: "{{ s1|list|symmetric_difference(s2|list) }}"
