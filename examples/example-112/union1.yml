@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    fe1: [ "W", "Z" ]
+    be1: [ "Z", "X" ]
+  tasks:
+    - debug:
+        msg: "{{ fe1|union(be1) }}"
+    - debug:
+        var: groups
+    - debug:
+        var: ansible_play_hosts_all
+    - debug:
+        var: ansible_play_hosts
+    - debug:
+        msg: "{{ groups['all'] }}"
+
+# Ansible How to make a union of list accross hosts
+# https://stackoverflow.com/questions/56604952/ansible-how-to-make-a-union-of-list-accross-hosts/

@@ -113,6 +113,7 @@ Various examples of Ansbile code.
 - Example 109. retries until
 - Example 110. wait_for
 - Example 111. combine
+- Example 112. union
 
 
 ## License
