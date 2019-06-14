@@ -8,6 +8,9 @@
   tasks:
     - debug:
         msg: "/path/{{ item.0 }}/{{ item.1 }}"
+      loop: "{{ ['env1', 'env2']|zip(['file1','file2'])|list }}"
+    - debug:
+        msg: "/path/{{ item.0 }}/{{ item.1 }}"
       loop: "{{ list1|zip(list2)|list }}"
 
 # How to iterate through nested items in Ansible

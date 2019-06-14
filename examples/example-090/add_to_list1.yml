@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    type: true
+    mylist: [
+      'show command1',
+      "{{ type1|ternary([ 'show command2.1' ],
+                        [ 'show command2.1', 'show command2.2' ]) }}",
+      'show command3',
+      'show command4' ]
+  tasks:
+    - debug:
+        var: mylist|flatten
+
+# Ansible remove item from list
+# https://stackoverflow.com/questions/56596690/ansible-remove-item-from-list

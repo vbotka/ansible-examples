@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    info: [ 'a', 'gtm topology', 'c' ]
+  tasks:
+    - set_fact:
+        payload: "{{ payload|default([]) + [ 'delete ' ~ item ] }}"
+      loop: "{{ info }}"
+      when: item is search('^gtm topology')
+    - debug:
+        var: payload

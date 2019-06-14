@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    info: [ 'a', 'b', 'c' ]
+  tasks:
+    - set_fact:
+        payload: "{{ info|map('string_prefix', 'delete ')|list }}"
+    - debug:
+        var: payload

@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    info: [ 'a', 'gtm topology 1', 'c', 'test-pool1', 'gtm topology 2', 'd' ]
+    stop_regex: '.*pool1.*'
+  tasks:
+    - set_fact: # Find elements that match stop_regex
+        stop_elements: "{{ info|list_search(stop_regex) }}"
+    - set_fact: # Find index of the fist element that match stop_regex
+        stop_index: "{{ info|list_index(stop_elements.0) }}"
+    - set_fact: # Select and transform elements of the list
+        payload: "{{ payload|default([]) + [ 'delete ' ~ item ] }}"
+      loop: "{{ info[0:stop_index|int] }}"
+      when: item is search('^gtm topology')
+    - debug:
+        var: payload
+
+# Append a string to a List in Ansible
+# https://stackoverflow.com/questions/56593729/append-a-string-to-a-list-in-ansible/
