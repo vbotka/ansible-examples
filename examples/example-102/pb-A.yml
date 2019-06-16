@@ -1,0 +1,4 @@
+- hosts: localhost
+- import_playbook: pb1.yml
+- import_playbook: pb2.yml
+- import_playbook: pb3.yml

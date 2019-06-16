@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+    - set_fact:
+        reboot04: "{{ lookup('ini', 'reboot04 file=control.ini')|bool }}"
+        reboot05: "{{ lookup('ini', 'reboot05 file=control.ini')|bool }}"
+        reboot06: "{{ lookup('ini', 'reboot06 file=control.ini')|bool }}"
+    - debug:
+        msg: "4:{{ reboot04 }} 5:{{ reboot05 }} 6:{{ reboot06 }}"
+- import_playbook: pb4.yml
+# - import_playbook: pb5.yml
+# - import_playbook: pb6.yml
+
+# How to combine a bunch of Ansible playbooks which have the same slow setup and teardown?
+# https://stackoverflow.com/questions/56615756/how-to-combine-a-bunch-of-ansible-playbooks-which-have-the-same-slow-setup-and-t/

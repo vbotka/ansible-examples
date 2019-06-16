@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "pb7 reboot"
+      tags: my_reboot

@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "pb1 reboot: True"
+      when: lookup('ini', 'reboot01 file=control.ini')|bool
+    - debug:
+        msg: "pb1 reboot: False"
+      when: not lookup('ini', 'reboot01 file=control.ini')|bool
+#    - reboot:
+#      when: lookup('ini', 'reboot01 file=control.ini')

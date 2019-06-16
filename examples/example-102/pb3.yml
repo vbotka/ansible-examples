@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "reboot: {{ lookup('ini', 'reboot03 file=control.ini') }}"
+#    - reboot:
+#      when: lookup('ini', 'reboot03 file=control.ini')

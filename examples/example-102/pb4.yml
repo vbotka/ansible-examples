@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "pb4 reboot: True"
+      when: reboot04|bool
+    - debug:
+        msg: "pb4 reboot: False"
+      when: not reboot04|bool

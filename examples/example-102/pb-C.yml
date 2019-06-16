@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+- import_playbook: pb7.yml
+  tags: my_reboot
+#- import_playbook: pb8.yml
+#- import_playbook: pb9.yml
