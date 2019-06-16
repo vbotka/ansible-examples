@@ -1,0 +1,44 @@
+##jinja2: lstrip_blocks:False
+
+line and tag, true, no ws controll
+    First line
+    Second line     Last line
+
+line and tag, false, no ws controll
+    First line
+    Last line
+--
+
+tags, true, no ws controll
+    First line
+    Second line
+    Last line
+
+tags, false, no ws controll
+    First line
+    Last line
+--
+
+tag and line, true, no ws controll
+    First line
+    Second line
+    Last line
+
+tag and line, false, no ws controll
+    First line
+    Last line
+--
+
+    First line
+    Second line
+    0
+    1
+    2
+    Last line
+
+    First line
+    0
+    1
+    2
+    Last line
+--

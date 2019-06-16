@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - template:
+        src: my_template2.j2
+        dest: "{{ playbook_dir }}/test2.txt"
+
+# jinja template adds extra line when if condition is not satisfied
+# https://stackoverflow.com/questions/56616648/jinja-template-adds-extra-line-when-if-condition-is-not-satisfied/

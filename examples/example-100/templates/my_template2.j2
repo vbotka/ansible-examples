@@ -1,0 +1,59 @@
+##jinja2: lstrip_blocks:False
+
+line and tag, true, no ws controll
+    First line
+{% if true %}
+    Second line {% endif %}
+    Last line
+
+line and tag, false, no ws controll
+    First line
+{% if false %}
+    Second line {% endif %}
+    Last line
+--
+
+tags, true, no ws controll
+    First line
+{% if true %}
+    Second line
+{% endif %}
+    Last line
+
+tags, false, no ws controll
+    First line
+{% if false %}
+    Second line
+{% endif %}
+    Last line
+--
+
+tag and line, true, no ws controll
+    First line
+{% if true %}    Second line
+{% endif %}
+    Last line
+
+tag and line, false, no ws controll
+    First line
+{% if false %}    Second line
+{% endif %}
+    Last line
+--
+
+    First line
+{% if true %}    Second line
+{% endif %}
+{% for i in range(3) %}
+    {{ i }}
+{% endfor %}
+    Last line
+
+    First line
+{% if false %}    Second line
+{% endif %}
+{% for i in range(3) %}
+    {{ i }}
+{% endfor %}
+    Last line
+--
