@@ -1,0 +1,9 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - command: sh /scratch/test.sh
+      register: result
+      become: sudo
+      become_user: admin
+    - debug:
+        var: result
