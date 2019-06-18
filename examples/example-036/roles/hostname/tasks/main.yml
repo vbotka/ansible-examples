@@ -1,0 +1,16 @@
+---
+# tasks
+
+#- pause:
+#    prompt: "Specify hostname for {{ inventory_hostname }}?"
+#    echo: yes
+#  register: result
+#- debug:
+#    var: result
+#- set_fact:
+#    host: "{{ result.user_input }}"
+- debug:
+    var: host
+
+# EOF
+...
