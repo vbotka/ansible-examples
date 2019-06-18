@@ -1,0 +1,25 @@
+- hosts: test_jails
+  gather_facts: no
+  # serial: 1
+  vars_prompt:
+    - name: host
+      prompt: "Specify host name?"
+      private: no
+  tasks:
+    - debug:
+        var: host
+
+#    - pause:
+#        prompt: "Specify hostname for {{ inventory_hostname }}?"
+#        echo: yes
+#      register: result
+#    - set_fact:
+#        host: "{{ result.user_input }}"
+
+#- hosts: test_jails
+#  gather_facts: no
+#  roles:
+#    - hostname
+
+# vars_prompt not working in role - Ansible
+# https://stackoverflow.com/questions/56647635/vars-prompt-not-working-in-role-ansible/

@@ -1,6 +1,6 @@
 - hosts: test_jails
   gather_facts: no
-  serial: yes
+  serial: 1
 #  vars_prompt:
 #    - name: host
 #      prompt: "Specify host name?"
