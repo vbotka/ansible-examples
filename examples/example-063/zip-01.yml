@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    users:
+      name:
+        - abc
+        - pqr
+      age:
+        - 10
+        - 12
+  tasks:
+    - debug:
+        var: users
+    - debug:
+        msg: "{{ item.0 }} {{ item.1 }}"
+      loop: "{{ users.name|zip(users.age)|list }}"
+    - template:
+        src: template.j2
+        dest: /scratch/tmp/test.txt
+
+# multiple variables in same for loop (Jinja2, Yaml)
+# https://stackoverflow.com/questions/56646787/multiple-variables-in-same-for-loop-jinja2-yaml/

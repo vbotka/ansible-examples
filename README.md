@@ -64,7 +64,7 @@ Various examples of Ansbile code.
 - Example 60. Test jq lightweight and flexible command-line JSON processor
 - Example 61. MySQL command
 - Example 62. Select match dynamic vars
-- Example 63. with_together
+- Example 63. with_together, zip
 - Example 64. group_vars
 - Example 65. Test include_role (vbotka.ansible_lib)
 - Example 66. Test include_vars (vbotka.ansible_lib)

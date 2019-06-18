@@ -1,0 +1,8 @@
+#jinja2: trim_blocks:False
+{% for item in users.name|zip(users.age)|list %}
+    {{ item.0 }}
+    {{ item.1 }}
+{% endfor %}
+
+    {% for item in  users.name %}{{ item }} {% endfor %}
+    {% for item in  users.age %}{{ item }} {% endfor %}
