@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    TEST_ENV:
+      a: 1
+      b: 2
+    add_this:
+      c: [ x1, x2 ]
+  tasks:
+#   - debug:
+#       msg: "{{ dict.TEST_ENV|combine(add_this) }}"
+    - set_fact:
+        add_this: "{{ {'b': [ TEST_ENV.b ] + add_this.c} }}"
+#    - debug:
+#        var: add_this
+    - set_fact:
+        TEST_ENV: "{{ TEST_ENV|combine(add_this) }}"
+    - debug:
+        var: TEST_ENV
+
+# How to modify an existing dictionary in ansible?
+# https://stackoverflow.com/questions/56664426/how-to-modify-an-existing-dictionary-in-ansible/

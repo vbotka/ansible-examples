@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "<name = {{ item.0 }}, hname= {{ item.1 }}>"
+      loop: "{{ hostvars|json_query('*.[name[0], hname[0]]') }}"
+
+# How to fetch values from inventory file in ansible?
+# https://stackoverflow.com/questions/56665123/how-to-fetch-values-from-inventory-file-in-ansible/
