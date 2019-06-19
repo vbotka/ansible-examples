@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "command {{ (item > 0)|ternary('--debug', '') }}"
+      loop: "{{ range(0, 3)|list }}"
+    - shell:
+        cmd: "some-command {{ (item > 0)|ternary('--debug', '') }}"
+      register: result
+      loop: "{{ range(0, 3)|list }}"
+
+# Is it possible to check from jinja2 if a task is retried or not?
+# https://stackoverflow.com/questions/56668862/is-it-possible-to-check-from-jinja2-if-a-task-is-retried-or-not/
