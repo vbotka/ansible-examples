@@ -1,0 +1,4 @@
+- set_fact:
+    count: "{{ count|int + 1 }}"
+- debug:
+    msg: "count_incr: {{ count }}"

@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - set_fact:
+        count: 0
+    - set_fact:
+        count: "{{ count|int + 1 }}"
+      when: count|int < 2
+      loop: "{{ range(0, 3)|list }}"
+    - debug:
+        var: count
+
+    - set_fact:
+        count: 0
+    - include_tasks: count_incr.yml
+      when: count|int < 2
+      loop: "{{ range(0, 3)|list }}"
+    - debug:
+        var: count
+
+# How to Loop multiple tasks based on the condition
+# https://stackoverflow.com/questions/56669306/how-to-loop-multiple-tasks-based-on-the-condition

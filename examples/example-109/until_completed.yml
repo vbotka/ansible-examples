@@ -1,0 +1,49 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    state: "running"
+    count: 0
+  tasks:
+    - set_fact:
+        state: "{{ state }}"
+    - name: include tasks
+      include_tasks: abc.yml
+      when: state == "running"
+      loop: "{{ range(0, 3)|list }}"
+      loop_control:
+        index_var: my_idx
+    - debug:
+        msg: "main state: {{ state }}"
+
+    - set_fact:
+        count: 0
+    - set_fact:
+        count: "{{ count|int + 1 }}"
+      when: count|int < 2
+      loop: "{{ range(0, 3)|list }}"
+    - debug:
+        var: count
+
+    - set_fact:
+        count: 0
+    - include_tasks: count_incr.yml
+      when: count|int < 2
+      loop: "{{ range(0, 3)|list }}"
+    - debug:
+        var: count
+
+# - hosts: localhost
+#   gather_facts: no
+#   vars:
+#     state: "running"
+#     count: 0
+#     max_count: 3
+#   tasks:
+#     - name: include tasks
+#       include_tasks: abc.yml
+#       until: false
+#       when:
+#         - state == "running"
+#         - count < max_count
+#     - debug:
+#         msg: "main state: {{ state }} count: {{ count }}"

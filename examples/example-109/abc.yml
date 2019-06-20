@@ -1,0 +1,7 @@
+- debug:
+    msg: "abc {{ my_idx }} state: {{ state }}"
+    # msg: "abc state: {{ state }} count: {{ count }}"
+- set_fact: 
+    # state: "running"
+    state: "completed"
+    # count: "{{ count + 1 }}"

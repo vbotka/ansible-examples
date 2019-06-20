@@ -5,6 +5,24 @@
     - debug:
         msg: "<name = {{ item.0 }}, hname= {{ item.1 }}>"
       loop: "{{ hostvars|json_query('*.[name[0], hname[0]]') }}"
+    - set_fact: # get list of names
+        names: "{{ hostvars|json_query('*.name[0]') }}"
+    - debug:
+        var: names
+    - set_fact: # get list of hashes {name,hname}
+        hashes: "{{ hostvars|json_query('*.{name: name[0], hname: hname[0]}') }}"
+    - debug:
+        var: hashes
+    - set_fact: # get list of dict name:hname
+        dicts: "{{ dicts|default({})|combine({item: hashes|json_query(query)}) }}"
+      vars:
+        query: "[?name=='{{ item }}'].hname|[0]"
+      loop: "{{ names }}"
+    - debug:
+        var: dicts
+    - debug: # get hname for given name
+        msg: "{{ item }}: {{ dicts[item] }}"
+      loop: "{{ names }}"
 
 # How to fetch values from inventory file in ansible?
 # https://stackoverflow.com/questions/56665123/how-to-fetch-values-from-inventory-file-in-ansible/
