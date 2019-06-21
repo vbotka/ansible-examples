@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    combine3-data.yml
+  vars:
+    add_this:
+      key3: value3
+  tasks:
+    - set_fact: # collect dictionary keys
+        keys: "{{ dict.environments|
+                  dict2items|
+                  json_query('[].key') }}"
+    - debug:
+        var: keys
+    - set_fact: # collect dictionary values and add item
+        values: "{{ dict.environments|
+                    dict2items|
+                    json_query('[].value')|
+                    map('combine', add_this)|list }}"
+    - debug:
+        var: values
+    - set_fact: # create dictionary environments
+        environments: "{{ environments|
+                          default({})|
+                          combine({item.0: item.1}) }}"
+      loop: "{{ keys|zip(values)|list }}"
+    - set_fact: # create dictionary new_dict
+        new_dict: "{{ new_dict|
+                      default({})|
+                      combine({'environments': environments}) }}"
+    - debug:
+        var: new_dict
+
+# How to add items to an existing dictionary in Ansible?
+# https://stackoverflow.com/questions/56687736/how-to-add-items-to-an-existing-dictionary-in-ansible/

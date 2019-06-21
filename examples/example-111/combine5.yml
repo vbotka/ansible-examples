@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    combine3-data.yml
+  tasks:
+    - set_fact: 
+        env: "{{ env|default({})|
+                 combine({item: dict.environments[item]|
+                                dict_merge((dict.environments[item]|custom_1), True)
+                                }) }}"
+      loop: "{{ dict.environments|dict_keys }}"
+    - set_fact:
+        new_dict: "{{ {}|combine({'environments': env}) }}"
+    - debug:
+        var: new_dict
+
+# How to add items to an existing dictionary in Ansible?
+# https://stackoverflow.com/questions/56687736/how-to-add-items-to-an-existing-dictionary-in-ansible/
