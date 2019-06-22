@@ -1,0 +1,25 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - debug:
+        var: mgmt_routes
+
+- hosts: test_02
+  gather_facts: no
+  tasks:
+    - debug:
+        var: mgmt_routes
+    - set_fact:
+        all_routes_list: "{{ hostvars|
+                             json_query('*.mgmt_routes')|
+                             unique }}"
+    - set_fact:
+        all_routes_dict: "{{ all_routes_dict|
+                             default({})|
+                             combine(item) }}"
+      loop: "{{ all_routes_list }}"
+    - debug:
+        var: all_routes_dict
+
+# In Ansible, how to combine variables from separate files into one array?
+# https://stackoverflow.com/questions/35554415/in-ansible-how-to-combine-variables-from-separate-files-into-one-array
