@@ -1,0 +1,21 @@
+- hosts: localhost
+#  gather_facts: yes
+#  become_user: root
+#  become_method: sudo
+#  become: yes
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+    - command: whoami
+      become: yes
+      register: result
+    - debug:
+        var: result.stdout
+    - name: read the file
+      debug:
+        msg: "{{ lookup('file', '/scratch/tmp/test') }}"
+
+# Ansible chown operation not permitted as non-root user
+# https://stackoverflow.com/questions/56693857/ansible-chown-operation-not-permitted-as-non-root-user
