@@ -1,0 +1,9 @@
+- set_fact:
+    pkg: "{{ pkg|default([]) + lookup('vars', item) }}"
+  loop: "{{  hostvars[inventory_hostname].keys()|
+              select('match', '^pkg_(.*)$')|
+              list }}"
+- set_fact:
+    pkg: "{{ pkg|unique }}"
+- debug:
+    var: pkg

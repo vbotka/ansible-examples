@@ -1,0 +1,8 @@
+pkg:
+  - { name: 'pkg-libs' }
+  - { name: 'pkg-core' }
+  - { name: 'pkg-php' }
+  - { name: 'pkg-web' }
+pkg_web:
+  - { name: 'pkg-php' }
+  - { name: 'pkg-web' }

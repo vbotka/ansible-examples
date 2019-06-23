@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - my_role10
+
+- hosts: test_01
+  gather_facts: false
+  roles:
+    - my_role10
+
+# ansible - customize list content based on condtion in role default vars
+# https://stackoverflow.com/questions/56719249/ansible-customize-list-content-based-on-condtion-in-role-default-vars/

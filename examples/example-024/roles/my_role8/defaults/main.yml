@@ -1,0 +1,9 @@
+---
+# defaults
+
+pkg: |
+  {% if inventory_hostname in groups['web'] %}
+  inventory_hostname IS member of the group 'web'
+  {% else %}
+  inventory_hostname IS NOT member of the group 'web'
+  {% endif %}

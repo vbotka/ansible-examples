@@ -1,0 +1,6 @@
+pkg:
+  - { name: 'pkg-libs' }
+  - { name: 'pkg-core' }
+pkg_all:
+  - { name: 'pkg-libs' }
+  - { name: 'pkg-core' }

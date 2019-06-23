@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    web:
+      pkg: []
+  tasks:
+    - include_vars:
+        file: vars/common.yml
+        name: common
+    - include_vars:
+        file: vars/web.yml
+        name: web
+      when: inventory_hostname in groups['web']
+    - set_fact:
+        pkg: "{{ pkg|default([]) + web.pkg + common.pkg }}"
+    - debug:
+        var: pkg
+
+# ansible - customize list content based on condtion in role default vars
+# https://stackoverflow.com/questions/56719249/ansible-customize-list-content-based-on-condtion-in-role-default-vars/
