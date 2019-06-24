@@ -1,0 +1,29 @@
+- hosts: test_jails
+  strategy: free
+  gather_facts: no
+  vars:
+    max_sleep_time: 10
+    max_wait_time: 5
+  tasks:
+    - set_fact:
+        my_time: "{{ max_sleep_time|random(start=1) }}"
+    - debug:
+        msg: "Sleep {{ my_time }} seconds"
+    - command: "sleep {{ my_time }}"
+      register: play_status
+      async: "{{ max_wait_time }}"
+      poll: 0
+    - async_status:
+        jid: "{{ play_status.ansible_job_id }}"
+      register: play_status
+      until: play_status.finished
+      retries: 1
+
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "{{ item }} finished: {{ hostvars[item].play_status.finished }}"
+      loop: "{{ groups['test_jails'] }}"
+
+# Make a list of up servers and pass that list to work with my actual playbook?
+# https://serverfault.com/questions/972601/make-a-list-of-up-servers-and-pass-that-list-to-work-with-my-actual-playbook/

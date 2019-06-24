@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_group: GROUPNAME
+  tasks:
+    - set_fact:
+        my_hosts: "{{ groups|
+                      dict2items|
+                      selectattr('key', 'match', my_group)|
+                      map(attribute='value')|
+                      list|
+                      flatten }}"
+    - debug:
+        msg: "{{ hostvars[item]['ansible_check_mode'] }}"
+      loop: "{{ my_hosts }}"
+
+# Ansible: obtain group members taken from a variable
+# https://stackoverflow.com/questions/56731422/ansible-obtain-group-members-taken-from-a-variable/
