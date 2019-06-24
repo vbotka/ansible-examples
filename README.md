@@ -114,6 +114,7 @@ Various examples of Ansbile code.
 - Example 110. wait_for
 - Example 111. combine
 - Example 112. union
+- Example 113. groups
 
 
 ## License
