@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    toto:
+      - name: titi
+      - name: tata
+    titi:
+      - name: titi
+        ack: true
+  tasks:
+    - set_fact:
+        new_list: "{{ new_list|default([]) +
+                      [ item|
+                        combine(titi|selectattr('name', 'match', item.name)|
+                        list) ] }}"
+      loop: "{{ toto }}"
+    - debug:
+        var: new_list
+
+# Combine distinct list of dict with ansible
+# https://stackoverflow.com/questions/56749332/combine-distinct-list-of-dict-with-ansible/
