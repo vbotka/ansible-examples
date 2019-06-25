@@ -1,0 +1,10 @@
+- hosts: localhost
+  become: yes
+  tasks:
+    - apt:
+        name: aptitude
+
+# ANSIBLE_ACTION_WARNINGS=False; ansible-playbook play1.yml
+
+# Supress Ansible warning (at least for aptitude install)
+# https://stackoverflow.com/questions/56763131/supress-ansible-warning-at-least-for-aptitude-install
