@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - play1-data.yml
+  tasks:
+    - set_fact:
+        my_dir1: "{{ input|groupby('name') }}"
+    - debug:
+        var: my_dir1
+
+    - set_fact:
+        my_list: "{{ my_list|default([]) +
+                    [{item.0: item.1|json_query('[].value')}] }}"
+      loop: "{{ input|groupby('name') }}"
+    - debug:
+        var: my_list
+    - debug:
+        msg: "{{ out.split('\n') }}"
+      vars:
+        out: "{{ my_list|to_yaml }}"
+
+    - set_fact:
+        my_list1: "{{ my_list1|default([]) +
+                    [{item.0: item.1|map(attribute='value')|list}] }}"
+      loop: "{{ input|groupby('name') }}"
+    - debug:
+        var: my_list1
+
+# Convert list of objects (string, string) into Dictionary (string, list<string>) in Ansible
+# https://stackoverflow.com/questions/56755332/convert-list-of-objects-string-string-into-dictionary-string-liststring/

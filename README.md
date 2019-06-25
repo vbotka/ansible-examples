@@ -115,6 +115,7 @@ Various examples of Ansbile code.
 - Example 111. combine
 - Example 112. union
 - Example 113. groups
+- Example 114. items2dict
 
 
 ## License

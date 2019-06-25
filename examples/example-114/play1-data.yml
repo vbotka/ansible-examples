@@ -1,0 +1,22 @@
+input: [
+    {
+        "name": "AAA",
+        "value": "111"
+    },
+    {
+        "name": "AAA",
+        "value": "222"
+    },
+    {
+        "name": "BBB",
+        "value": "333"
+    },
+    {
+        "name": "BBB",
+        "value": "444"
+    },
+    {
+        "name": "CCC",
+        "value": "555"
+    }
+    ]
