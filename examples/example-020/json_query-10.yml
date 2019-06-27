@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    server_list:
+      - { host: server1, dnsname: server1.acme.com }
+      - { host: server2, dnsname: server2.acme.com }
+      - { host: server3, dnsname: server3 }
+  tasks:
+    - debug:
+        var: server_list
+    - set_fact:
+        server_list2: "{{ server_list|json_query('[?host==dnsname]') }}"
+    - debug:
+        var: server_list2
+
+# Use Jinja2 to compare 2 items within the same list
+# https://stackoverflow.com/questions/56783360/use-jinja2-to-compare-2-items-within-the-same-list/
