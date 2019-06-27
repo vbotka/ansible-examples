@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  gather_facts: no
+  # order: sorted
+  vars:
+    efs_list:
+      - efs1
+      - efs2
+      - efs3
+  tasks:
+    - set_fact:
+        my_hosts: "{{ groups['all']|sort }}"
+    - set_fact:
+        sdb_index: "{{ [] + [ my_hosts.index(inventory_hostname) ] }}"
+    - debug:
+        msg: "{{ sdb_index|map('extract', efs_list)|list }}"
+      
+...
+
+# Variable value for another variable ansible
+# https://stackoverflow.com/questions/56782208/variable-value-for-another-variable-ansible/
