@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    file1: "{{ playbook_dir }}/files/test1"
+    file2: "{{ playbook_dir }}/files/test2"
+  tasks:
+    - copy:
+        src: "{{ file1 }}"
+        dest: "{{  file2 }}"
+      check_mode: yes
+      diff: yes
+      register: diffOutput
+    - debug:
+        var: diffOutput
+    - set_fact:
+        my_diff: "{{ diffOutput.diff.0.before|list|
+                     difference(diffOutput.diff.0.after|list) }}"
+    - debug:
+        var: my_diff
+    - command: "diff {{ file1 }} {{ file2 }}"
+      register: diffOutput
+      ignore_errors: yes
+    - debug:
+        var: diffOutput.stdout_lines
+
+# Ansible - Writing debug to a file: 'dict object' has no attribute 'stdout_lines'
+# https://stackoverflow.com/questions/56794597/ansible-writing-debug-to-a-file-dict-object-has-no-attribute-stdout-lines/
+
+      
+# Hints:
+#    - set_fact:
+#        my_var: "{{ lookup('pipe','cat test.txt |
+#                                    head -n -1 |
+#                                    tail -n +3')|
+#                                    from_yaml }}"
+#    - set_fact:
+#        values: "{{ my_var|dict2items|json_query('[0].value') + my_entry }}"
+#    - debug:
+#        var: values
