@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "HOME: {{ lookup('env','HOME') }}"
+    - debug:
+        msg: "USER: {{ lookup('env','USER') }}"

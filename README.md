@@ -49,7 +49,7 @@ Various examples of Ansbile code.
 - Example 45. Iterate blockinfile from templates
 - Example 46. run_once
 - Example 47. Run the playbook only on one host per group
-- Example 48. Test getenv module
+- Example 48. Test getent module
 - Example 49. Variable precedence complex
 - Example 50. Share variables between playbooks
 - Example 51. Test uri module. Ansible Galaxy API list platforms
@@ -117,6 +117,7 @@ Various examples of Ansbile code.
 - Example 113. groups
 - Example 114. items2dict
 - Example 115. action_warnings
+- Example 116. env - read the value of environment variables
 
 
 ## License
