@@ -1,0 +1,39 @@
+- hosts: test_01
+  gather_facts: no
+  vars:
+    output: "no"
+  tasks:
+    - set_fact:
+        content: "{{ lookup('file', 'datafile.txt') }}"
+    - debug:
+        var: content
+    - set_fact:
+        output: "No.1 Each single line is present in the file."
+      when:
+        - content is search('abc def tyu')
+        - content is search('abc def jyu')
+        - content is search('abc def ieye')
+        - content is search('abc def dkhfy')
+        - content is search('abc def dkerj')
+        - content is search('abc def hiu')
+        - content is search('abc def ert')
+        - content is search('abc def opu')
+    - debug:
+        var: output
+    - set_fact:
+        output: "No.2 Each single line fit the regex."
+      when:
+        - content is search('abc def (tyu|jyu|ieye|dkhfy|dkerj|hiu|ert|opu)')
+#        - content is search('abc def ((tyu)\1|(jyu)\2|(ieye)\3|(dkhfy)\4|(dkerj)\5|(hiu)\6|(ert)\7|(opu)\8)')
+#        - content is search('abc def ((tyu)\1|(jyu)\2|(ieye)\3|(dkhfy)\4|(dkerj)\5|(hiu)\6|(ert)\7|(opu))')
+    - debug:
+        var: output
+    - set_fact:
+        output: "No.3 Each single line fit the simple regex."
+      when:
+        - content is search('(?:^abc def[\s\S]*?){8}')
+    - debug:
+        var: output
+
+# Regex in ansible to check for multiple lines with same prefix
+# https://stackoverflow.com/questions/56773534/regex-in-ansible-to-check-for-multiple-lines-with-same-prefix

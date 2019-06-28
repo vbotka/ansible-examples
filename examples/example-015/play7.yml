@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+  - block:
+      - command: /bin/false
+    rescue:
+      - debug:
+          msg: Command failed. End of play.
+      - meta: clear_host_errors
+      - meta: end_play
+
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: Next play started.

@@ -1,0 +1,9 @@
+- hosts: localhost
+  tasks:
+    - command: /bin/false
+      ignore_errors: yes
+
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: Next play started.

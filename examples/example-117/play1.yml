@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    play1-data.yml
+  tasks:
+    # - debug:
+    #     var: ad_fullname
+    - debug:
+        msg: '{{ ad_fullname.results | map(attribute="item") | list }}'
+    - debug:
+        msg: '{{ ad_fullname.results.0.item }}'
+
+# how can I take the results and pass it through dictionary in ansible
+# https://stackoverflow.com/questions/56800974/how-can-i-take-the-results-and-pass-it-through-dictionary-in-ansible/5

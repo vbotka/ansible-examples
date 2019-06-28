@@ -1,0 +1,139 @@
+ad_fullname:
+  results: [
+        {
+            "_ansible_ignore_errors": null,
+            "_ansible_item_label": "apps",
+            "_ansible_item_result": true,
+            "_ansible_no_log": false,
+            "_ansible_parsed": true,
+            "changed": true,
+            "cmd": "/bin/adquery user 'apps'| awk -F: '{print $5}'",
+            "delta": "0:00:00.022701",
+            "end": "2019-06-28 00:09:02.713134",
+            "failed": false,
+            "invocation": {
+                "module_args": {
+                    "_raw_params": "/bin/adquery user 'apps'| awk -F: '{print $5}'",
+                    "_uses_shell": true,
+                    "argv": null,
+                    "chdir": null,
+                    "creates": null,
+                    "executable": null,
+                    "removes": null,
+                    "stdin": null,
+                    "warn": true
+                }
+            },
+            "item": "apps",
+            "rc": 0,
+            "start": "2019-06-28 00:09:02.690433",
+            "stderr": "apps is not a zone user",
+            "stderr_lines": [
+                "apps is not a zone user"
+            ],
+            "stdout": "",
+            "stdout_lines": []
+        },
+        {
+            "_ansible_ignore_errors": null,
+            "_ansible_item_label": "linuxtest",
+            "_ansible_item_result": true,
+            "_ansible_no_log": false,
+            "_ansible_parsed": true,
+            "changed": true,
+            "cmd": "/bin/adquery user 'linuxtest'| awk -F: '{print $5}'",
+            "delta": "0:00:00.017644",
+            "end": "2019-06-28 00:09:02.841312",
+            "failed": false,
+            "invocation": {
+                "module_args": {
+                    "_raw_params": "/bin/adquery user 'linuxtest'| awk -F: '{print $5}'",
+                    "_uses_shell": true,
+                    "argv": null,
+                    "chdir": null,
+                    "creates": null,
+                    "executable": null,
+                    "removes": null,
+                    "stdin": null,
+                    "warn": true
+                }
+            },
+            "item": "linuxtest",
+            "rc": 0,
+            "start": "2019-06-28 00:09:02.823668",
+            "stderr": "",
+            "stderr_lines": [],
+            "stdout": "linux test",
+            "stdout_lines": [
+                "linux test"
+            ]
+        },
+        {
+            "_ansible_ignore_errors": null,
+            "_ansible_item_label": "linuxtest2",
+            "_ansible_item_result": true,
+            "_ansible_no_log": false,
+            "_ansible_parsed": true,
+            "changed": true,
+            "cmd": "/bin/adquery user 'linuxtest2'| awk -F: '{print $5}'",
+            "delta": "0:00:00.017439",
+            "end": "2019-06-28 00:09:02.966616",
+            "failed": false,
+            "invocation": {
+                "module_args": {
+                    "_raw_params": "/bin/adquery user 'linuxtest2'| awk -F: '{print $5}'",
+                    "_uses_shell": true,
+                    "argv": null,
+                    "chdir": null,
+                    "creates": null,
+                    "executable": null,
+                    "removes": null,
+                    "stdin": null,
+                    "warn": true
+                }
+            },
+            "item": "linuxtest2",
+            "rc": 0,
+            "start": "2019-06-28 00:09:02.949177",
+            "stderr": "",
+            "stderr_lines": [],
+            "stdout": "linux test2",
+            "stdout_lines": [
+                "linux test2"
+            ]
+        },
+        {
+            "_ansible_ignore_errors": null,
+            "_ansible_item_label": "cngo",
+            "_ansible_item_result": true,
+            "_ansible_no_log": false,
+            "_ansible_parsed": true,
+            "changed": true,
+            "cmd": "/bin/adquery user 'cngo'| awk -F: '{print $5}'",
+            "delta": "0:00:00.022745",
+            "end": "2019-06-28 00:09:03.097507",
+            "failed": false,
+            "invocation": {
+                "module_args": {
+                    "_raw_params": "/bin/adquery user 'cngo'| awk -F: '{print $5}'",
+                    "_uses_shell": true,
+                    "argv": null,
+                    "chdir": null,
+                    "creates": null,
+                    "executable": null,
+                    "removes": null,
+                    "stdin": null,
+                    "warn": true
+                }
+            },
+            "item": "cngo",
+            "rc": 0,
+            "start": "2019-06-28 00:09:03.074762",
+            "stderr": "cngo is not a zone user",
+            "stderr_lines": [
+                "cngo is not a zone user"
+            ],
+            "stdout": "",
+            "stdout_lines": []
+        }
+    ]
