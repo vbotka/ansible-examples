@@ -119,6 +119,7 @@ Various examples of Ansbile code.
 - Example 115. action_warnings
 - Example 116. env - read the value of environment variables
 - Example 117. index
+- Example 118. range
 
 
 ## License

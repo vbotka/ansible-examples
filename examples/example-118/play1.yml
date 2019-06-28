@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    xresult:
+      - abc
+      - def
+  tasks:
+    - set_fact:
+        output: |
+          {% for i in range(0, xresult|count, 2) %}
+          First run result: {{ xresult[i] }}
+          Second run result: {{ xresult[i+1] }}
+          {% endfor %}
+    - debug:
+        msg: "{{ output.split('\n') }}"
+
+# how to output values from a list in ansible jinja2 template
+# https://stackoverflow.com/questions/56803708/how-to-output-values-from-a-list-in-ansible-jinja2-template/
