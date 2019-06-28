@@ -4,6 +4,8 @@
     xresult:
       - abc
       - def
+      - ghi
+      - jkl
   tasks:
     - set_fact:
         output: |
