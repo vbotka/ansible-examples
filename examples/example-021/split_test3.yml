@@ -1,0 +1,7 @@
+- hosts: host_abc_01
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: 'd:\{{ inventory_hostname.split("_")[1] }}\dir1\dir2'
+    # - win_file:
+    #    path: 'd:\{{ inventory_hostname.split("_")[1] }}\dir1\dir2'
