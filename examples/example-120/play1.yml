@@ -1,0 +1,7 @@
+- hosts: test_01
+  gather_facts: no
+  roles:
+    - role1
+
+# Ansible with host specific files, but fallback to default files
+# https://stackoverflow.com/questions/56818204/ansible-with-host-specific-files-but-fallback-to-default-files/

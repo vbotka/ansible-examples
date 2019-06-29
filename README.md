@@ -121,6 +121,7 @@ Various examples of Ansbile code.
 - Example 117. index
 - Example 118. range
 - Example 119. flatten
+- Example 120. first_found
 
 
 ## License

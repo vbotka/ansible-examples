@@ -1,0 +1,10 @@
+- copy:
+    src: "{{ lookup('first_found', findme) }}"
+    dest: /scratch/tmp/
+    owner: root
+    mode: 0644
+  vars:
+    findme:
+      - "{{ inventory_hostname }}/index.html"
+      - "{{ role_path }}/files/index.html"
+      - "{{ role_path }}/files/defaults/index.html"
