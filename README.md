@@ -120,6 +120,7 @@ Various examples of Ansbile code.
 - Example 116. env - read the value of environment variables
 - Example 117. index
 - Example 118. range
+- Example 119. flatten
 
 
 ## License

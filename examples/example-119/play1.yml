@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    sg_ids: [['12345', '54321']]
+  tasks:
+    - debug:
+        msg: "{{ sg_ids|flatten|join(' ')  }}"
+
+# Ansible List Output to be plain string
+# https://stackoverflow.com/questions/56813990/wnat-ansible-list-output-to-be-plain-string
