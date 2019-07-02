@@ -1,0 +1,5 @@
+"ansible_net_filesystems_info": {
+        "flash:": {
+            "spacefree_kb": 37492,
+            "spacetotal_kb": 56574}
+}

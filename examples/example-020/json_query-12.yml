@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-12.json
+  vars:
+    new_ios_filesize: 40000
+  tasks:
+    - debug:
+        var: ansible_net_filesystems_info
+      tags: debug
+    - set_fact:
+        free_space: "{{ ansible_net_filesystems_info|
+                        json_query('*.spacefree_kb') }}"
+      tags: ver1
+    - debug:
+        var: free_space
+      tags: ver1
+    - set_fact:
+        free_space: "{{ ansible_net_filesystems_info|
+                        json_query('*.spacefree_kb')|
+                        first }}"
+      tags: ver1
+    - debug:
+        var: free_space
+      tags: ver1
+    - fail:
+        msg: 'This device does not have enough flash memory to proceed.'
+      when: ansible_net_filesystems_info|
+            json_query('*.spacefree_kb')|
+            first|
+            int <  new_ios_filesize|int
+      tags: ver2
+    - fail:
+        msg: 'This device does not have enough flash memory to proceed.'
+      when: ansible_net_filesystems_info['flash:'].spacefree_kb|
+            int <  new_ios_filesize|int
+      tags: ver3
+    - fail:
+        msg: 'This device does not have enough flash memory to proceed.'
+      when: ansible_net_filesystems_info['flash:']['spacefree_kb']|
+            int <  new_ios_filesize|int
+      tags: ver4
+
+# Ansible: ios upgrade router: check “flash.spacefree_kb” prior to image copy
+# https://stackoverflow.com/questions/56859451/anisble-ios-upgrade-playbook-router-flash-free-check-prior-to-image-copy/
