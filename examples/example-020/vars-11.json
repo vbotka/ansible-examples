@@ -1,0 +1,25 @@
+sda_info:
+  partitions: [
+       {
+           "begin": 4096.0, 
+           "end": 51202047.0, 
+           "flags": [
+               "boot"
+           ], 
+           "fstype": "ext4", 
+           "name": "", 
+           "num": 1, 
+           "size": 51197952.0, 
+           "unit": "s"
+       }, 
+       {
+           "begin": 51202048.0, 
+           "end": 52248575.0, 
+           "flags": [], 
+           "fstype": "linux-swap(v1)", 
+           "name": "", 
+           "num": 2, 
+           "size": 1046528.0, 
+           "unit": "s"
+       }
+  ]

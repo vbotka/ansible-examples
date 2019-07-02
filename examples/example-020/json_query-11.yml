@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-11.json
+  tasks:
+    - debug:
+        var: sda_info
+    - set_fact:
+        size_2nd_part: "{{ sda_info.partitions|json_query('[?num==`2`].size') }}"
+    - debug:
+        var: size_2nd_part
+
+# Using an attribute from parted output
+# https://stackoverflow.com/questions/56857725/using-one-of-variable-from-parted-out/
