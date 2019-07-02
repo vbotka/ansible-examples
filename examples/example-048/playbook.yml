@@ -26,18 +26,25 @@
         var: getent_passwd.keys()|list
 
     - debug:
-        msg: "{{ user in user_list }}"
+        msg: "1. {{ user in user_list }}"
 
     - debug:
-        msg: "user admin exists in user_list"
+        msg: "2. user admin exists in user_list"
       when: user in user_list
 
     - debug:
-        msg: "user admin exists in /etc/passwd"
+        msg: "3. user admin exists in /etc/passwd"
       when: user in getent_passwd.keys()
 
     - debug:
-        msg: "user foo does not exist in /etc/passwd"
+        msg: "4. user admin exists in /etc/passwd"
+      when: "'admin' in getent_passwd.keys()"
+
+    - debug:
+        msg: "5. user foo does not exist in /etc/passwd"
       when: not 'foo' in getent_passwd.keys()
 
 # EOF
+
+# Automate User Password Change using Ansible Playbook
+# https://stackoverflow.com/questions/56839771/automate-user-password-change-using-ansible-playbook/
