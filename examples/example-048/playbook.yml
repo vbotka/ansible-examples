@@ -7,42 +7,69 @@
     - getent:
         database: passwd
         key: root
+      tags: key_root
     - debug:
         var: getent_passwd
+      tags: key_root
 
     - getent:
         database: passwd
         key: foo
         fail_key: no
+      tags: key_foo
     - debug:
         var: getent_passwd
+      tags: key_foo
 
     - getent:
         database: passwd
+      tags: always
     - debug:
         var: getent_passwd
+      tags: debug
 
     - debug:
         var: getent_passwd.keys()|list
+      tags: keys
 
-    - debug:
+    - debug: # List
         msg: "1. {{ user in user_list }}"
+      tags: list
 
     - debug:
         msg: "2. user admin exists in user_list"
       when: user in user_list
+      tags: list
 
     - debug:
-        msg: "3. user admin exists in /etc/passwd"
+        msg: "3. user admin exists in /etc/passwd (keys)"
       when: user in getent_passwd.keys()
+      tags: list
 
     - debug:
-        msg: "4. user admin exists in /etc/passwd"
+        msg: "4. admin exists in /etc/passwd (keys)"
       when: "'admin' in getent_passwd.keys()"
+      tags: list
 
     - debug:
-        msg: "5. user foo does not exist in /etc/passwd"
+        msg: "5. user admin exists in /etc/passwd"
+      when: user in getent_passwd
+      tags: list
+
+    - debug:
+        msg: "6. admin exists in /etc/passwd"
+      when: "'admin' in getent_passwd"
+      tags: list
+
+    - debug:
+        msg: "7. foo does not exist in /etc/passwd"
+      when: not 'foo' in getent_passwd
+      tags: list
+
+    - debug:
+        msg: "8. foo does not exist in /etc/passwd (keys)"
       when: not 'foo' in getent_passwd.keys()
+      tags: list
 
 # EOF
 
