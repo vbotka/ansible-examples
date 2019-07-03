@@ -1,0 +1,16 @@
+"output1": {
+    "changed": false, 
+    "msg": "All items completed", 
+    "results": [
+        {
+            "item": [
+                {
+                    "Device_Name": "SW1"
+                }, 
+                {
+                    "Interface": "GigabitEthernet1/0/7"
+                }
+                    ]
+         }
+    ]
+}

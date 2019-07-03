@@ -1,0 +1,175 @@
+- hosts: localhost
+  gather_facts: no  
+  vars_files:
+    data-09.json
+  tasks:
+    - debug:
+        var: output1
+      tags: debug1
+
+    - name: Display output1
+      debug:
+        msg: "{{ my_item.item }}"
+      loop: "{{ output1.results }}"
+      loop_control:
+        loop_var: my_item
+      tags: debug2
+
+    - name: Display output1
+      debug:
+        msg: "{{ item.0 }} {{ item.1 }}"
+      loop: "{{ lookup('subelements', output1.results, 'item') }}"
+      tags: debug3
+
+    - name: Display output1
+      debug:
+        msg: "{{ item.0 }} {{ item.1 }}"
+      with_subelements: 
+        - "{{ output1.results }}"
+        - item
+      tags: debug4
+
+    - name: Display output1
+      debug:
+        msg: "{{ my_item.0 }} {{ my_item.1 }}"
+      loop: "{{ lookup('subelements', output1.results, 'item') }}"
+      loop_control:
+        loop_var: my_item
+      tags: debug5
+
+    - name: Display output1
+      debug:
+        var: item
+      loop: "{{ lookup('subelements', output1.results, 'item') }}"
+      tags: debug6
+
+    - name: Display output1
+      debug:
+        msg: "{{ item['item']|map(attribute='Device_Name')|list }}"
+      loop: "{{ output1.results }}"
+      tags: debug7
+
+    - set_fact:
+        Device_Name: "{{ output1.results['item']|json_query('[].Device_Name') }}"
+        Interface: "{{ output1.results['item']|json_query('[].Interface') }}"
+      tags: debug8
+    - debug:
+        var: Device_Name
+      tags: debug8
+    - debug:
+        var: Interface
+      tags: debug8
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|
+                 list|
+                 json_query('[]') }}"
+      tags: debug9
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|
+                 list|
+                 flatten|
+                 json_query('[].key') }}"
+      tags: debug10
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|
+                 list|
+                 flatten|
+                 json_query('[?key==`item`].value') }}"
+      tags: debug11
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|
+                 list|
+                 flatten|
+                 selectattr('key','match','item')|
+                 map(attribute='value')|
+                 list }}"
+      tags: debug12
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|
+                 list|
+                 flatten }}"
+      tags: debug13
+
+    - debug:
+        msg: "{{ item|dict2items|list|
+                 json_query('[?key==`item`].value') }}"
+      loop: "{{ output1.results }}"
+      tags: debug14
+
+    - debug:
+        msg: "{{ item|dict2items|list|
+                 json_query('[?key==`item`].value')|
+                 flatten|
+                 map('dict2items')|list|
+                 json_query('[*][?key==`Device_Name`].value')|
+                 flatten
+                 }}"
+      loop: "{{ output1.results }}"
+      tags: debug15
+
+    - debug:
+        msg: "{{ item|dict2items|list|
+                 json_query('[?key==`item`].value')|
+                 flatten|
+                 map('dict2items')|list|
+                 json_query('[?key==`Device_Name`].value')
+                 }}"
+      loop: "{{ output1.results }}"
+      tags: debug16
+
+    - set_fact:
+        Device_Name: "{{ output1.results|
+                         map('dict2items')|list|flatten|
+                         json_query('[?key==`item`].value')|flatten|
+                         map('dict2items')|list|
+                         json_query('[*][?key==`Device_Name`].value')|flatten }}"
+      tags: debug17
+    - set_fact:
+        Interface: "{{ output1.results|
+                       map('dict2items')|list|flatten|
+                       json_query('[?key==`item`].value')|flatten|
+                       map('dict2items')|list|
+                       json_query('[*][?key==`Interface`].value')|flatten }}"
+      tags: debug17
+    - debug:
+        var: Device_Name
+      tags: debug17
+    - debug:
+        var: Interface
+      tags: debug17
+
+    - debug:
+        msg: "{{ output1.results|
+                 map('dict2items')|list|flatten|
+                 json_query('[?key==`item`].value')|flatten }}"
+      tags: debug18
+
+    - set_fact:
+        Device_Name: "{{ output1.results[0]['item']|
+                         map(attribute='Device_Name')|
+                         select('defined')|
+                         list|first }}"
+        Interface: "{{   output1.results[0]['item']|
+                         map(attribute='Interface')|
+                         select('defined')|
+                         list|first }}"
+      tags: debug19
+    - debug:
+        var: Device_Name
+      tags: debug19
+    - debug:
+        var: Interface
+      tags: debug19
+
+# How parse a list of dictionary and out the values in Ansible?
+# https://stackoverflow.com/questions/56866181/how-parse-a-list-of-dictionary-and-out-the-values-in-ansible/
