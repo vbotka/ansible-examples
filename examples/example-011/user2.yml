@@ -1,0 +1,20 @@
+---
+
+- hosts: test_01
+  gather_facts: no
+  vars:
+    generic_password: password
+  tasks:
+    - debug:
+        msg: "{{ generic_password | password_hash('sha512') }}"
+    - user:
+        name: test
+        groups: staff
+        password: "{{ generic_password | password_hash('sha512') }}"
+        update_password: on_create
+
+# ansible user module always shows changed
+# https://stackoverflow.com/questions/56869949/ansible-user-module-always-shows-changed/
+
+# EOF
+...
