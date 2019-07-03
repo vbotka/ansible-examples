@@ -1,0 +1,80 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - package_facts:
+        manager: apt
+      tags: always
+
+    - debug:
+        var: ansible_facts.packages
+      tags: debug1
+
+    - debug:
+        var: ansible_facts.packages.keys()
+      tags: debug2
+
+    - debug:
+        msg: "zip is installed"
+      when: "'zip' in ansible_facts.packages.keys()"
+      tags: zip
+
+    - debug:
+        msg: "zip is installed"
+      when: "'zip' in ansible_facts.packages"
+      tags: zip
+
+    - debug:
+        msg: "zip is not installed"
+      when: "'zip' not in ansible_facts.packages"
+      tags: zip
+
+    - debug:
+        var: ansible_facts.packages['zip']
+      when: "'zip' in ansible_facts.packages"
+      tags: zip
+
+    - debug:
+        var: ansible_facts.packages['zip'][0].version
+      when: "'zip' in ansible_facts.packages"
+      tags: zip
+
+    - set_fact:
+        za_ver: "{{ ansible_facts.packages['zip']|
+                    map(attribute='version')|
+                    list }}"
+      when: "'zip' in ansible_facts.packages"
+      tags: zip
+
+    - debug:
+        var: za_ver
+      tags: zip
+
+    - set_fact:
+        za_ver: "{{ ansible_facts.packages['zip']|
+                    json_query('[].version') }}"
+      when: "'zip' in ansible_facts.packages"
+      tags: zip
+
+    - debug:
+        var: za_ver
+      tags: zip
+
+    - debug:
+        msg: "zap is not installed"
+      when: "'zap' not in ansible_facts.packages.keys()"
+      tags: zap
+
+    - debug:
+        msg: "zap is not installed"
+      when: "'zap' not in ansible_facts.packages"
+      tags: zap
+
+    - debug:
+        msg: "zap is installed"
+      when: "'zap' in ansible_facts.packages"
+      tags: zap
+
+# How to get just the version of the software when using ansible_facts.packages[“zabbix-agent”]
+# https://stackoverflow.com/questions/56862710/how-to-get-just-the-version-of-the-software-when-using-ansible-facts-packagesz/

@@ -122,6 +122,7 @@ Various examples of Ansbile code.
 - Example 118. range
 - Example 119. flatten
 - Example 120. first_found
+- Example 121. package_facts
 
 
 ## License
