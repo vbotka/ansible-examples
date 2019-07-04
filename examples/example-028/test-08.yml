@@ -1,0 +1,21 @@
+---
+
+- hosts: test_02
+  gather_facts: no
+  vars_prompt:
+    - name: my_username
+      prompt: 'Username'
+      private: no
+  tasks:
+    - debug:
+        var: my_username
+    - set_fact:
+        my_username: "{{ my_username }}"
+
+- hosts: test_03
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ hostvars['test_02'].my_username }}"
+
+...
