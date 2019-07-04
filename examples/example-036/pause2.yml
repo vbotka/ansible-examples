@@ -1,0 +1,13 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - block:
+        - pause:
+            prompt: "Please enter the value"
+            echo: yes
+          register: result
+        - set_fact:
+            test_value: "{{ result.user_input }}"
+      run_once: true
+    - debug:
+        var: test_value
