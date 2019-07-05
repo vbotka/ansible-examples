@@ -123,6 +123,7 @@ Various examples of Ansbile code.
 - Example 119. flatten
 - Example 120. first_found
 - Example 121. package_facts
+- Example 122. selectattr
 
 
 ## License

@@ -1,0 +1,51 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    x:
+      - i: 'a'
+        a: '1.2.3.4'
+      - i: 'b'
+        a: '192.168.3.23'
+      - i: 'c'
+        a: '0.0.0.0'
+
+  tasks:
+
+    - debug:
+        msg: "{{ x.1.a }}"
+      tags: v1
+    - debug:
+        msg: "{{ x.1.a|ipaddr }}"
+      tags: v2
+    - debug:
+        msg: "{{ x.1.a|ipaddr('192.168.4.0/24') }}"
+      tags: v3
+    - debug:
+        msg: "{{ x.1|map('ipaddr', '192.168.3.0/24')|list }}"
+      tags: v4
+    - debug:
+        msg: "{{ item.a|ipaddr('192.168.3.0/24') }}"
+      loop: "{{ x }}"
+      tags: v5
+    - debug:
+        msg: "{{ item.a }}"
+      loop: "{{ x }}"
+      when: "item.a|ipaddr('192.168.3.0/24')"
+      tags: v6
+    - debug:
+        msg: "{{ item.a|ipaddr('192.168.3.0/24')|ternary( item.a, 'not in range') }}"
+      loop: "{{ x }}"
+      tags: v7
+    - debug:
+        msg: "{{ x.1|selectattr('a', 'ipaddr','192.168.3.0/24')|list }}"
+      tags: v8
+    - set_fact:
+        a_list: "{{ a_list|default([]) + [ item.a|ipaddr('192.168.3.0/24') ] }}"
+      loop: "{{ x }}"
+      tags: v9
+    - debug:
+        var: a_list
+      tags: v9
+
+# ansible: how to use selectattr with ipaddr filter
+# https://stackoverflow.com/questions/56908486/ansible-how-to-use-selectattr-with-ipaddr-filter/
