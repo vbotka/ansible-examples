@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    data7.yml
+
+  tasks:
+    - debug:
+        var: db_roles
+      tags: debug
+
+    - set_fact:
+        list_of_permissions: "{{ db_roles.0.grants|json_query('[*].permissions') }}"
+      tags: v1
+    - debug:
+        var: list_of_permissions
+      tags: v1
+      
+    - set_fact:
+        permissions: "{{ permissions|default([]) + [ { 'role' ~ my_idx: item } ] }}"
+      loop: "{{ list_of_permissions }}"
+      loop_control:
+        index_var: my_idx
+      tags: v2
+    - debug:
+        var: permissions
+      tags: v2
+
+# Appending directory with a list in ansible
+# https://stackoverflow.com/questions/56899000/appending-directory-with-a-list-in-ansible/

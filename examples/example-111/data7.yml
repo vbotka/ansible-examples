@@ -1,0 +1,10 @@
+db_roles:
+  - name: role1
+    grants:
+      - schema: schema
+        permissions:
+          - 'table1:SELECT'
+          - 'table2:SELECT,UPDATE'
+      - schema: another_schema
+        permissions:
+          - 'ALL:ALL'
