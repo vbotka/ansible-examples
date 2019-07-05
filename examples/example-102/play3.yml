@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    new_server_ip: 192.168.1.99
+  tasks:
+    - ini_file:
+        path: /scratch/tmp/hosts
+        section: sample_word_test
+        option: "{{ new_server_ip }}"
+        allow_no_value: yes
+        backup: yes
+
+# Match a specific word within square brackets using regex
+# https://stackoverflow.com/questions/56901800/match-a-specific-word-within-square-brackets-using-regex/
