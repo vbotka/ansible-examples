@@ -125,6 +125,7 @@ Various examples of Ansbile code.
 - Example 121. package_facts
 - Example 122. selectattr
 - Example 123. blockinfile
+- Example 124. Test include_role and tags
 
 
 ## License

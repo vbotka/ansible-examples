@@ -1,0 +1,8 @@
+---
+# tasks for role1
+
+- debug:
+    msg: 'role1'
+  tags: yyy
+
+# EOF

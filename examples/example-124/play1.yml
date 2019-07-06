@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: role1
+        apply:
+          tags:
+            - xxx
+      tags:
+        - always
+
+# Tags not applied in Ansible included role
+# https://serverfault.com/questions/974203/tags-not-applied-in-ansible-imported-role
+
+# include_role with apply tags does not work #52063
+# https://github.com/ansible/ansible/issues/52063
+
+# Support 'apply' to apply attributes to included tasks - Impl 1 (#39236)
+# https://github.com/ansible/ansible/commit/da4ff18406bb9e052a7e81796aed11e2dea1bfc9
+
+# Support 'apply' to apply attributes to included tasks - Impl 1 #39236
+# https://github.com/ansible/ansible/pull/39236

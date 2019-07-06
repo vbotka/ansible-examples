@@ -1,0 +1,13 @@
+---
+# tasks
+
+- name: "I'm a task!"
+  command: date
+  register: myoutput
+- name: "role5:main:set_fact {{ myoutput.stdout }}"
+  set_fact:
+    log: "{{ log + [myoutput.stdout] }}"
+#- debug:
+#    msg: "{{ log }}"
+
+# EOF
