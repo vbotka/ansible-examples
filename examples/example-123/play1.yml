@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - blockinfile:
+       path: /scratch/tmp/test
+       insertafter: "#EOF"
+       marker: ""
+       block: |3
+              - "test block"
+
+# How to add spaces at the begining using ansible playbook
+# https://stackoverflow.com/questions/56911698/how-to-add-spaces-at-the-begining-using-ansible-playbook/

@@ -124,6 +124,7 @@ Various examples of Ansbile code.
 - Example 120. first_found
 - Example 121. package_facts
 - Example 122. selectattr
+- Example 123. blockinfile
 
 
 ## License
