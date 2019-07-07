@@ -2,7 +2,11 @@
 # tasks for role1
 
 - debug:
-    msg: 'role1'
-  tags: yyy
+    msg: 'This is task 2'
+  tags: task2
+
+- debug:
+    msg: 'This is task 3'
+  tags: task3
 
 # EOF

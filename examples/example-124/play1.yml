@@ -1,11 +1,14 @@
 - hosts: localhost
   gather_facts: no
   tasks:
+    - debug:
+        msg: 'This is task 1'
+      tags: task1
     - include_role:
         name: role1
         apply:
           tags:
-            - xxx
+            - role1
       tags:
         - always
 

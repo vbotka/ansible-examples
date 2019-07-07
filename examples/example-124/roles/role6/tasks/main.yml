@@ -1,3 +1,0 @@
-- debug:
-    msg: "{{ item }}"
-  loop: "{{ extensions }}"
