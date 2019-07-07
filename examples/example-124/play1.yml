@@ -7,10 +7,8 @@
     - include_role:
         name: role1
         apply:
-          tags:
-            - role1
-      tags:
-        - always
+          tags: role1
+      tags: always
 
 # Tags not applied in Ansible included role
 # https://serverfault.com/questions/974203/tags-not-applied-in-ansible-imported-role
