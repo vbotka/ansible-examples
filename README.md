@@ -126,6 +126,7 @@ Various examples of Ansbile code.
 - Example 122. selectattr
 - Example 123. blockinfile
 - Example 124. Test include_role and tags
+- Example 125. Dynamic Inventory
 
 
 ## License
