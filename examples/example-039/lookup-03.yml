@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        root_certificate_content: "{{ lookup('file', 'cert1') }}"
+    - debug:
+        msg: "{{ root_certificate_content.split('\n') }}"
+    - debug:
+        var: root_certificate_content
+
+# How to store the contents of the file to a variable in ansible when the file contains new lines as well
+# https://stackoverflow.com/questions/56931245/how-to-store-the-contents-of-the-file-to-a-variable-in-ansible-when-the-file-con/

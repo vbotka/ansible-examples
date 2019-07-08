@@ -1,0 +1,7 @@
+- hosts: test
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# ansible meta: refresh_inventory does not include previously absent hosts in task execution
+# https://stackoverflow.com/questions/56925529/ansible-meta-refresh-inventory-does-not-include-previously-absent-hosts-in-task/
