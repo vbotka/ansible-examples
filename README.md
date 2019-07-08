@@ -127,6 +127,7 @@ Various examples of Ansbile code.
 - Example 123. blockinfile
 - Example 124. Test include_role and tags
 - Example 125. Dynamic Inventory
+- Example 126. ansible-runner
 
 
 ## License
