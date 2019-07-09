@@ -1,0 +1,21 @@
+"Users":
+        [
+            {  
+              "databaseName" : "admin",
+              "roles" : [ {    
+                "databaseName" : "admin",
+                "roleName" : "readAnyDatabase"
+              } ],
+              "username" : "AnsibleReadUser",
+              "password" : "{{ apikey }}"
+            },
+            {  
+              "databaseName" : "admin",
+              "roles" : [ {    
+                "databaseName" : "admin",
+                "roleName" : "readWriteAnyDatabase"
+              } ],
+              "username" : "AnsibleReadWriteUser",
+              "password" : "{{ apikey }}"
+            }
+        ]

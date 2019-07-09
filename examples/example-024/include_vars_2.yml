@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    apikey: my-secret-apikey
+  vars_files:
+    - UserDetails.json
+  tasks:
+    - debug:
+        var: Users
+
+# Ansible variable substitution issues in JSON file
+# https://stackoverflow.com/questions/56955725/ansible-variable-substitution-issues-in-json-file/

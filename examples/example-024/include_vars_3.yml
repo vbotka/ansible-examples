@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    apikey: my-secret-apikey
+  tasks:
+    - set_fact:
+        userinfo_json: "{{ lookup('file', 'UserDetails.json') }}"
+    - debug:
+        var: userinfo_json
+    - set_fact:
+        userinfo_json: "{{ lookup('file', 'UserDetails.json') | from_yaml }}"
+    - debug:
+        var: userinfo_json
+    - debug:
+        msg: "{{ userinfo_json.Users|json_query('[*].password') }}"
+
+
+# Ansible variable substitution issues in JSON file
+# https://stackoverflow.com/questions/56955725/ansible-variable-substitution-issues-in-json-file/
