@@ -1,0 +1,7 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - script: test1.sh
+
+# cant create remote log execution of my scripts
+# https://stackoverflow.com/questions/56942067/cant-create-remote-log-execution-of-my-scripts/

@@ -129,6 +129,7 @@ Various examples of Ansbile code.
 - Example 125. Dynamic Inventory
 - Example 126. ansible-runner
 - Example 127. stats
+- Example 128. shell, script
 
 
 ## License

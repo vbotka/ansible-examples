@@ -1,0 +1,4 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - shell: echo $HOME >> /scratch/ansible.log
