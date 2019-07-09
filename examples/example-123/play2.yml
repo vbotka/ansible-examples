@@ -3,8 +3,7 @@
   tasks:
     - blockinfile:
        path: /scratch/tmp/test
-       insertafter: "^\\s*with_items:(.*)$"
-       # marker: ""
+       insertafter: EOF
        block: |3
                - "ww4.xx4.yy4.zz4 hostname4"
 

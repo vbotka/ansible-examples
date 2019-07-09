@@ -1,0 +1,43 @@
+- hosts: test
+  gather_facts: false
+  vars:
+    files:
+      - /scratch/testA/file1
+      - /scratch/testA/file2
+      - /scratch/testA/file3
+  tasks:
+    - stat:
+        path: "{{ item }}"
+      loop: "{{ files }}"
+      register: status_of_files
+        
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        list1: "{{ hostvars['test_01'].status_of_files.results|
+                 json_query('[].{item: item, hash: stat.checksum}') }}"
+    - set_fact:
+        list2: "{{ hostvars['test_02'].status_of_files.results|
+                 json_query('[].{item: item, hash: stat.checksum}') }}"
+    - debug:
+        msg: "{{ list1 | difference(list2) }}"
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    master: test_01
+  tasks:
+    - set_fact:
+        master_list: "{{ hostvars[master].status_of_files.results|
+                         json_query('[].{item: item, hash: stat.checksum}') }}"
+    - debug:
+        msg: "{{ master_list|
+                 difference(hostvars[item_host].status_of_files.results|
+                 json_query('[].{item: item, hash: stat.checksum}')) }}"
+      loop: "{{ groups['test'] | difference([ master ]) }}"
+      loop_control:
+        loop_var: item_host
+
+# Ansible - Compare checksum on 2 lists of files
+# https://stackoverflow.com/questions/56944164/ansible-compare-checksum-on-2-lists-of-files/
