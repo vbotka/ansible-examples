@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    testenvironment:
+      sectionheader1--keyname1: value1
+      sectionheader2--keyname1: value2
+
+  tasks:
+    - ini_file:
+        path: /scratch/testenvironment.ini
+        section: "{{ item.key.split('--').0 }}"
+        option: "{{ item.key.split('--').1 }}"
+        value: "{{ item.value }}"
+      loop: "{{ testenvironment|dict2items }}"
+    - ini_file:
+        path: /scratch/testenvironment-sorted.ini
+        section: "{{ item.key.split('--').0 }}"
+        option: "{{ item.key.split('--').1 }}"
+        value: "{{ item.value }}"
+      loop: "{{ testenvironment|dict2items|sort(attribute='key') }}"
+
+# Ansible replace all values with matching variable name
+# https://serverfault.com/questions/974444/ansible-replace-all-values-with-matching-variable-name/
