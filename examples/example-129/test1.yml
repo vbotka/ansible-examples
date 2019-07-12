@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    x:
+      a: "1"
+      b: "{{ x.a }}"
+  tasks:
+    - debug:
+        var: x
+
+# Referencing other dict keys in the same parent dict is not supported.
+
+# Ansible recursive loop in role's default variables
+# https://stackoverflow.com/questions/42458826/ansible-recursive-loop-in-roles-default-variables

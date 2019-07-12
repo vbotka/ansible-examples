@@ -1,0 +1,37 @@
+rules:
+  aa:
+    PHP53:
+      - url: php53-1-aa.my-example.com
+    PHP55:
+      - url: php55-1-aa.my-example.com
+    PHP56:
+      - url: php56-1-aa.my-example.com
+      - url: php56-2-aa.my-example.com
+      - url: php56-3-aa.my-example.com
+    PHP72:
+      - url: php72-1-aa.my-example.com
+      - url: php72-2-aa.my-example.com
+      - url: php72-3-aa.my-example.com
+  bb:
+    PHP53:
+      - url: php53-1-bb.my-example.com
+      - url: php53-2-bb.my-example.com
+      - url: php53-3-bb.my-example.com
+
+    PHP55:
+      - url: php55-1-bb.my-example.com
+    PHP56:
+      - url: php56-1-bb.my-example.com
+      - url: php56-2-bb.my-example.com
+      - url: php56-3-bb.my-example.com
+    PHP72:
+      - url: php72-1-bb.my-example.com
+      - url: php72-2-bb.my-example.com
+      - url: php72-3-bb.my-example.com
+  cc:
+    PHP55:
+      - url: php55-1-cc.my-example.com
+    PHP56:
+      - url: php56-1-cc.my-example.com
+      - url: php56-2-cc.my-example.com
+      - url: php56-3-cc.my-example.com

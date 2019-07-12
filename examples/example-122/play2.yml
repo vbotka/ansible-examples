@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - play2-data.json
+
+  tasks:
+    - debug:
+        var: resources
+      tags: v1
+
+    - debug:
+        msg: "{{ resources|json_query(my_query) }}"
+      vars:
+        my_query: >-
+          [*].metadata.annotations."com.foo.bar/foo-name"
+      tags: v2
+
+    - debug:
+         var: resources[0].metadata.annotations['com.foo.bar/foo-name']
+      tags: v3
+
+    - debug:
+        msg: "{{ resources|json_query(my_query) }}"
+      vars:
+        my_query: '[*].metadata.annotations."com.foo.bar/foo-name"'
+      tags: v4
+
+    - debug:
+        msg: "{{ resources|json_query(my_query) }}"
+      vars:
+        my_query: '[?metadata.annotations."com.foo.bar/foo-name"==`baz`]'
+      tags: v5
+
+# Ansible jinja2 escape dotted key in selectattr
+# https://stackoverflow.com/questions/56989989/ansible-jinja2-escape-dotted-key-in-selectattr

@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - lineinfile:
+        path: /scratch/tmp/test.conf
+        regexp: "^(#?ip_list(.*)$)"
+        # regexp: '^(ip_list\s*=\s*)(.*)'
+        line: '\1 new_server_ip'
+        backrefs: yes

@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - lineinfile:
+        path: "{{ playbook_dir }}/test8.txt"
+        insertafter: '^\s*text2\s*$'
+        line: '      text3'
+
+    - lineinfile:
+        path: "{{ playbook_dir }}/test8.txt"
+        regex: '^\s*text5'
+        line: '      text5\n      text6'
+
+# inserting text after a specific searchng for a particular text in ansible
+# https://stackoverflow.com/questions/56986458/inserting-text-after-a-specific-searchng-for-a-particular-text-in-ansible/

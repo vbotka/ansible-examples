@@ -1,0 +1,11 @@
+"resources": [
+  { 
+    "metadata": {
+      "annotations": {
+         "com.foo.bar/name": "foo",
+         "com.foo.bar/foo-name": "baz"
+       },
+       "creationTimestamp": "2018-12-20T02:29:50Z",
+       "name": "foo-bar"
+    }
+  }]

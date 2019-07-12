@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Task of group1
+    debug:
+      msg: "Task of group1: {{ inventory_hostname }}"
+    when: inventory_hostname in groups['group1']
+  - name: Task of group23
+    debug:
+      msg: "Task of group23: {{ inventory_hostname }}"
+    when: inventory_hostname in groups['group23']
+
+# Ansible How to specify groups on the command line to run the corresponding tasks
+# https://stackoverflow.com/questions/56973103/ansible-how-to-specify-groups-on-the-command-line-to-run-the-corresponding-tasks/

@@ -1,0 +1,19 @@
+- hosts: test_01
+  gather_facts: no
+  become: no
+  remote_user: admin
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+    - command: whoami
+      become_user: bob
+      become_method: sudo
+      become: yes
+      register: result
+    - debug:
+        var: result.stdout
+
+# Ansible systemctl --user for another user
+# https://stackoverflow.com/questions/56966313/ansible-systemctl-user-for-another-user/

@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    next_serial: '2019290604'
+  tasks:
+    - lineinfile:
+        path: "{{ playbook_dir }}/test9.conf"
+        regexp: '(?!.*{{ next_serial }}.*)^(\s*)(\s\d*)(\s*;\s*Serial.*)$'
+        line: '\1 {{ next_serial }}\3'
+        backrefs: yes
+
+# How increase Serial in /etc/bind file with jinja2
+# https://stackoverflow.com/questions/57004676/how-increase-serial-in-etc-bind-file-with-jinja2/
+
+# The regexp first looks ahead and matches the line only if
+# next_serial is not present. This makes the task idempotent.
+#
+# The group matching the number (\s\d*) takes one space intentionally
+# and makes the first group one space shorter. The "line: '\1 {{ ..."
+# adds the space back by separating first group \1 and expansion of
+# the variable {{ next_serial }}. For some reason '\1{{ next_serial
+# }}\3' does not work as expected.
