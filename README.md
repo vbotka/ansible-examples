@@ -131,6 +131,7 @@ Various examples of Ansbile code.
 - Example 127. stats
 - Example 128. shell, script
 - Example 129. recursion
+- Example 130. file (module)
 
 
 ## License

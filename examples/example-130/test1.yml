@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: find /scratch//tmp/test/test-find
+      register: result
+    - debug:
+        var: result
+    - set_fact:
+        list_of_files: "{{ result.files|json_query('[*].path') }}"
+    - debug:
+        var: list_of_files
+    - file:
+        path: "{{ list_of_files ))"
+        owner: vlado
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - find:
+        path: /scratch//tmp/test/test-find
+        recurse: yes
+      register: result
+    - set_fact:
+        list_of_files: "{{ result.files|json_query('[*].path') }}"
+    - debug:
+        var: list_of_files
+    - file:
+        path: "{{ list_of_files ))"
+        owner: vlado
+
+# Ansible: How to test a registered variable for conditional?
+# https://serverfault.com/questions/975090/ansible-how-to-test-a-registered-variable-for-conditional/
+
+# fatal: [localhost]: FAILED! => {"msg": "template error while
+# templating string: unexpected ')'. String: {{ list_of_files ))"}
