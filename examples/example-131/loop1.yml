@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    test_var_1: 1
+    ObjectName: "ObjectInMode-{{ item }}-WithComplexName"
+  tasks:
+    - debug:
+        msg: "{{ ObjectName }}"
+      loop:
+        - Mode1
+        - Mode2
+
+# How is it possible that Ansible loop items be referenced by variables outside the looped task?
+# https://stackoverflow.com/questions/57025699/how-is-it-possible-that-ansible-loop-items-be-referenced-by-variables-outside-th/

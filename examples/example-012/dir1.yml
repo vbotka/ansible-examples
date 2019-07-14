@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    nginx_users:
+      'instance1':
+        roles:
+          - product
+          - nginx_instance
+        cert_source: internal-ca
+        URL: page-nginx.domain.internal
+        port: 8090
+        downtime: true
+        basic_auth:
+          - username1
+          - username2
+        ip_restriction:
+          - '0.0.0.0/0'
+      'instance2':
+        roles:
+           - product
+           - nginx_instance
+        cert_source: internal-ca
+        URL: page2-nginx.domain.internal
+        port: 8091
+        downtime: true
+        basic_auth:
+           - username1
+           - username2
+        ip_restriction:
+           - '0.0.0.0/0'
+      'instance1':
+        roles:
+           - product
+           - nginx_instance
+  tasks:
+    - debug:
+        var: nginx_users
+
+# [WARNING]: While constructing a mapping from
+# /export/home/vlado.config/.ansible/ansible-
+# examples/examples/example-012/dir1.yml, line 5, column 7, found a
+# duplicate dict key (instance1).  Using last defined value only.
+
+# Traverse nested dictionary with keeping the keys in ansible
+# https://devops.stackexchange.com/questions/8609/traverse-nested-dictionary-with-keeping-the-keys-in-ansible

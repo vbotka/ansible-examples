@@ -132,6 +132,8 @@ Various examples of Ansbile code.
 - Example 128. shell, script
 - Example 129. recursion
 - Example 130. file (module)
+- Example 131. command (module)
+- Example 132. loop
 
 
 ## License
