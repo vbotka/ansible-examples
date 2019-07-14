@@ -1,0 +1,36 @@
+# - hosts: all:!test
+- hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        var: test_var
+
+# Ansible child group variables not overriding parent group variables
+# https://stackoverflow.com/questions/57026077/ansible-child-group-variables-not-overriding-parent-group-variables
+
+# > ansible-playbook test1.yml
+# ok: [test_01] => {
+#     "test_var": "all"
+# }
+# ok: [test_02] => {
+#     "test_var": "test"
+# }
+# ok: [test_03] => {
+#     "test_var": "test"
+# }
+
+# > ansible-playbook test2.yml
+# ok: [test_02] => {
+#     "test_var": "test"
+# }
+# ok: [test_03] => {
+#     "test_var": "test"
+# }
+
+# > ansible-playbook test1.yml --limit test
+# ok: [test_02] => {
+#     "test_var": "test"
+# }
+# ok: [test_03] => {
+#     "test_var": "test"
+# }

@@ -12,3 +12,12 @@
 
 # How is it possible that Ansible loop items be referenced by variables outside the looped task?
 # https://stackoverflow.com/questions/57025699/how-is-it-possible-that-ansible-loop-items-be-referenced-by-variables-outside-th/
+
+# Lazy Evaluation
+# https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-lazy-evaluation
+# In general, Ansible evaluates any variables in playbook content at
+# the last possible second, which means that if you define a data
+# structure that data structure itself can define variabl# e values
+# within it, and everything “just works” as you would expect. This
+# also means variable strings can include other variables inside of
+# those strings.
