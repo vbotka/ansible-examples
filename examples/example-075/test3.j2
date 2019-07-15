@@ -1,0 +1,8 @@
+{% set min = 0 %}
+{% set max = 5500 %}
+{% for item in list_of_items %}
+    for i in {{'{'}}{{ min }}..{{ max }}{{'}'}}; do command {{ item }} --arg 1 commnand_stuff $i; done
+{% set min=max+1 %}
+{% set max=max*2 %}
+#fi
+{% endfor %}

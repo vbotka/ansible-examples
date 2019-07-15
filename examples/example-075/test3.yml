@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    list_of_items: [ 'A', 'B', 'C' ]
+  tasks:
+    - template:
+        src: test3.j2
+        dest: /scratch/tmp/test
+    - template:
+        src: test3b.j2
+        dest: /scratch/tmp/test-b
+# Jinja2 - global variable update in for loop
+# https://stackoverflow.com/questions/57038830/jinja2-global-variable-update-in-for-loop
