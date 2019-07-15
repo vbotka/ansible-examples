@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - test4-data.json
+  tasks:
+    - debug:
+        var: stdout_lines
+    - debug:
+        msg: "{{ stdout_lines|select('match', '.+')|list }}"
+    - debug:
+        msg: "{{ stdout_lines|reject('match', '^$')|list }}"
+
+# Remove null values from stdout in ansible
+# https://stackoverflow.com/questions/57040287/remove-null-values-from-stdout-in-ansible/
