@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        test_var: test
+    - debug:
+        var: test_var
+    - include_role:
+        name: role1
+      when: test_var == 'test'

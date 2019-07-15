@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        test_var: test
+    - debug:
+        var: test_var
+  roles:
+    - role1
+
+# Ansible: How to implement conditionals for roles? (Getting errors)
+# https://stackoverflow.com/questions/57030571/ansible-how-to-implement-conditionals-for-roles-getting-errors
+
+# PLAY [localhost] ****************************************************************************
+# 
+# TASK [role1 : debug] ************************************************************************
+# ok: [localhost] => {
+#     "test_var": "VARIABLE IS NOT DEFINED!"
+# }
+# 
+# TASK [set_fact] *****************************************************************************
+# ok: [localhost]
+# 
+# TASK [debug] ********************************************************************************
+# ok: [localhost] => {
+#     "test_var": "test"
+# }
+# 
+# PLAY RECAP **********************************************************************************
+# localhost                  : ok=3    changed=0    unreachable=0    failed=0
