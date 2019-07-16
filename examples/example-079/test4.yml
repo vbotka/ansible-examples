@@ -1,0 +1,15 @@
+- hosts: test_01
+  gather_facts: no
+  vars:
+    # output: "my output including the option --hello-world"
+    output: "my output including the option --hello-worl"
+  tasks:
+    - debug:
+        msg: output contains --hello-world
+      when: output is search('--hello-world')
+    - debug:
+        msg: output does not contains --hello-world
+      when: output is not search('--hello-world')
+
+# Tasks that only check values in registered variable
+# https://stackoverflow.com/questions/57042501/tasks-that-only-check-values-in-registered-variable/
