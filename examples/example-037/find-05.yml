@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - find:
+      paths: /home/ansible
+      patterns: '^test[0-9]+$'
+      use_regex: true
+    register: result
+  - debug:
+      msg: "{{ result.files|
+               json_query('[*].path')|
+               map('basename')|
+               map('regex_replace', '^(.*?)([0-9]+)', '\\2')|
+               map('int')|max
+               }}"
+
+# > ls -1 /home/ansible/
+# test1
+# test15
+# test2
+# test3
+# test4
+
+# "msg": "15"
+
+# How to add a variable that increases when a condition is fulfilled inside an ansible-playbook?
+# https://stackoverflow.com/questions/57059393/how-to-add-a-variable-that-increases-when-a-condition-is-fulfilled-inside-an-ans
