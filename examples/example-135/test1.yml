@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    # string1: 'D:\\Scripts\\Exports\\VM_State_201907161157.cs'
+    string1: 'D:\\Scr'
+  tasks:
+    - debug:
+        var: string1|list
+    - set_fact:
+        string2: |-
+          {{ string1|regex_replace( '\\\\', '\\' ) }}
+    - debug:
+        var: string2|list
+
+# Using regex_replace in Ansible
+# https://stackoverflow.com/questions/57061593/using-regex-replace-in-ansible/

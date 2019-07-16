@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ hostvars['REDACTED_HOST_NAME'].ansible_python_interpreter }}"
+
+# Ansible does not appear to be loading the
+# https://stackoverflow.com/questions/57058670/ansible-does-not-appear-to-be-loading-the-ansible-python-interpreter-usr-bin-py/
+
+# > ansible-playbook -i hosts5 test9.yml
+# 
+# PLAY [localhost] ************************************************************************************
+# 
+# TASK [debug] ****************************************************************************************
+# ok: [localhost] => {
+#     "msg": "/usr/bin/python3"
+# }
+
+# > ansible-playbook -i hosts6 test9.yml
+# 
+# PLAY [localhost] ************************************************************************************
+# 
+# TASK [debug] ****************************************************************************************
+# fatal: [localhost]: FAILED! => {"msg": "The task includes an option
+# with an undefined variable. The error was:
+# 'ansible.vars.hostvars.HostVarsVars object' has no attribute
+# 'ansible_python_interpreter'

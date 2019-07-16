@@ -136,6 +136,7 @@ Various examples of Ansbile code.
 - Example 132. limit (command line option)
 - Example 133. Workflow
 - Example 134. add_host
+- Example 135. regex_replace
 
 
 ## License
