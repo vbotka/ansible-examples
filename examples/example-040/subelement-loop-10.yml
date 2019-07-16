@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars:
+    apps:
+      - name: app-name
+        workers: 3
+      - name: script-name
+        workers: 5
+  tasks:
+    - debug:
+        var: apps
+#    - set_fact:
+#        apps1: "{{ apps1|default([]) +
+#                   [{'name': item.0,
+#                     'workers': range(1, item.1 + 1)|list}] }}"
+#      loop: "{{ (apps|json_query('[*].name'))|zip(
+#                (apps|json_query('[*].workers')))|list }}"
+    - set_fact:
+        apps1: "{{ apps1|default([]) +
+                   [{'name': item.name,
+                     'workers': range(1, item.workers + 1)|list}] }}"
+      loop: "{{ apps }}"
+    - debug:
+        var: apps1
+    - debug:
+        msg: "{{ item.0.name }}@{{ item.1 }}.service"
+      loop: "{{ apps1|subelements('workers') }}"
+
+# Ansible: Sequence range using loop variable
+# https://stackoverflow.com/questions/57047806/ansible-sequence-range-using-loop-variable/
