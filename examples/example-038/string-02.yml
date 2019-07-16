@@ -1,0 +1,33 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    users:
+      - name: A
+        uid: 123
+      - name: B
+        uid: 456
+      - name: C
+        uid: 789
+  tasks:
+    - debug:
+        msg: "No1 {{ item.name }}"
+      loop: "{{ users }}"
+      when: item.uid|string|first == '1'
+
+    - debug:
+        msg: "No2 {{ item.name }}"
+      loop: "{{ users }}"
+      when: item.uid|string is match('^1.*$')
+
+    - debug:
+        msg: "No3 {{ item.name }}"
+      loop: "{{ users }}"
+      when: item.uid|string is match('^..9.*$')
+
+    - debug:
+        msg: "No4 {{ item.name }}"
+      loop: "{{ users }}"
+      when: item.uid|string is match('^.*6$')
+
+# ansible-playbook unable to use regex
+# https://stackoverflow.com/questions/57051843/ansible-playbook-unable-to-use-regex/
