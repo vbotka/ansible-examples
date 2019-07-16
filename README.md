@@ -135,6 +135,7 @@ Various examples of Ansbile code.
 - Example 131. Lazy Evaluation
 - Example 132. limit (command line option)
 - Example 133. Workflow
+- Example 134. add_host
 
 
 ## License

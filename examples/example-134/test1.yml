@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    no_of_servers: 3
+  tasks:
+    - add_host:
+        name: "srv-{{ item }}"
+        groups: kafka
+        id: "{{ my_idx }}"
+      loop: "{{ range(0, no_of_servers)|list }}"
+      loop_control:
+        index_var: my_idx
+
+- hosts: kafka
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }} id: {{ id }}"
+
+# How to increment a value on hosts (Ansible)
+# https://stackoverflow.com/questions/57059330/how-to-increment-a-value-on-hosts-ansible/
