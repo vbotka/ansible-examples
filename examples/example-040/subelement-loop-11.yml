@@ -1,0 +1,43 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data-11.yml
+  tasks:
+#    - debug:
+#        var: nginx_users
+#    - debug:
+#        msg: "{{ item }}"
+#      loop: "{{ nginx_users|dict2items }}"
+    - set_fact:
+        nginx_users_selected: "{{ nginx_users_selected|
+                                  default({})|
+                                  combine({item.key: item.value})
+                                  }}"
+      loop: "{{ nginx_users|
+                dict2items|
+                json_query('[*].{key: key, value: value.basic_auth}')
+                }}"
+      when: item.value
+#    - debug:
+#        var: nginx_users_selected
+    - debug:
+        msg: "{{ item.0.key }} {{ item.1 }}"
+      loop: "{{ nginx_users_selected|
+                dict2items|
+                subelements('value')
+                }}"
+
+    - set_fact:
+        my_list: "{{ my_list|
+                     default([]) + [ item.0.key, [ item.1 ]]
+                     }}"
+      loop: "{{ nginx_users_selected|
+                dict2items|
+                subelements('value')
+                }}"
+    - debug:
+        var: my_list
+
+# Traverse nested dictionary with keeping the keys in ansible
+# https://devops.stackexchange.com/questions/8609/traverse-nested-dictionary-with-keeping-the-keys-in-ansible/
