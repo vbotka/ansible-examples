@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    var1: TEST
+    var2: 'TEST'
+    var3: "TEST"
+  tasks:
+    - template:
+        src: test4.j2
+        dest: /scratch/tmp/test
+
+# strip quotes from a variable in Ansible
+# https://stackoverflow.com/questions/57102643/strip-quotes-from-a-variable-in-ansible/

@@ -137,6 +137,7 @@ Various examples of Ansbile code.
 - Example 133. Workflow
 - Example 134. add_host
 - Example 135. regex_replace
+- Example 136. vars
 
 
 ## License

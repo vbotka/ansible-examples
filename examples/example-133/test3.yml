@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    match: '999'
+  tasks:
+
+# Always skipped because 'match' is assigned '0' by 'vars' first
+    - debug:
+        var: match
+      vars:
+        match: '0'
+      when: match == '1'
+# TASK [debug] *********************************************
+# skipping: [localhost]
+
+# Always pass because 'match' is assigned '1' by 'vars' first
+    - debug:
+        var: match
+      vars:
+        match: '1'
+      when: match == '1'
+# TASK [debug] *********************************************
+# ok: [localhost] => {
+#     "match": "1"
+# }
+
+# Scope of variables declared inside a task is this task
+    - debug:
+        var: match
+# TASK [debug] *********************************************
+# ok: [localhost] => {
+#     "match": "999"
+# }
+
+# All skipped because 'when' is applied to all task first
+    - block:
+        - debug:
+            var: match
+        - set_fact:
+            match: '1'
+        - debug:
+            var: match
+      when: match == '1'
+# TASK [debug] *********************************************
+# skipping: [localhost]
+# TASK [set_fact] ******************************************
+# skipping: [localhost]
+# TASK [debug] *********************************************
+# skipping: [localhost]
+
+
+# How to change a variable once an operation is performed in Ansible?
+# https://stackoverflow.com/questions/57077233/how-to-change-a-variable-once-an-operation-is-performed-in-ansible

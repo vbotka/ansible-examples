@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    test_var: play1
+  tasks:
+    - debug:
+        var: test_var
+
+- import_playbook: test3.yml

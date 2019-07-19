@@ -1,0 +1,26 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    file_version: '1.5.0'
+    version:
+      f3: '2.2.0'
+      f2: '1.2.0'
+      f1: '1.0.0'
+  tasks:
+    # - debug:
+    #     msg: "{{ version.values() }}"
+    - set_fact:
+        versions: "{{ version.values() + [ file_version ] }}"
+    - set_fact:
+       index: "{{ versions|sort|list_index(file_version) }}"
+    - set_fact:
+        framework: "f{{ index }}"
+    - debug:
+        var: framework
+    - debug:
+        msg: "{{ version[framework] }}"
+
+# ansible select first found from dict
+# https://stackoverflow.com/questions/57101449/ansible-select-first-found-from-dict/

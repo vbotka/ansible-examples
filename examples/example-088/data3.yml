@@ -1,0 +1,16 @@
+management_default_gateway: '192.168.128.254'
+management_interface: eth1
+
+default_routes:
+  - interface: "{{management_interface}}"
+    route_array:
+      - gateway: "{{management_default_gateway}}"
+        network: 10.0.0.1/24
+      - gateway: "{{management_default_gateway}}"
+        network: 10.0.0.5/24
+
+specific_routes:
+  - interface: "{{management_interface}}"
+    route_array:
+      - gateway: "{{management_default_gateway}}"
+        network: 10.8.0.1/24

@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - shell: cat DL_PERCENTAGE
+      register: percentage
+      until: percentage.stdout|int > 60
+      retries: 3
+      delay: 5
+    - debug:
+        var: percentage.stdout
+
+# Printing output during until loop is executing in ansible
+# https://stackoverflow.com/questions/57100710/printing-output-during-until-loop-is-executing-in-ansible

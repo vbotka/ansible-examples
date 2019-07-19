@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - wait_for:
+        port: 22
+        host: 10.1.0.51
+        timeout: 3
+        msg: SSH is not running. End of play.
+
+# Can these Ansible tasks in a playbook somehow be merged into one task?
+# https://stackoverflow.com/questions/57086823/can-these-ansible-tasks-in-a-playbook-somehow-be-merged-into-one-task/

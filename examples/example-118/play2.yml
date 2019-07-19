@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    int_config:
+      - abc
+      - def
+      - ghi
+  tasks:
+    - debug:
+        msg: "Counter: {{ item|int }} Interface: {{ int_config[item] }}"
+      loop: "{{ range(0, int_config|length)|list }}"
+
+# Controlling a loop using counter in Anible
+# https://stackoverflow.com/questions/57099119/controlling-a-loop-using-counter-in-anible/

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        percentage: "{{ lookup('file', 'DL_PERCENTAGE') }}"
+      until: percentage|int > 60
+      retries: 3
+      delay: 2
+    - debug:
+        var: percentage

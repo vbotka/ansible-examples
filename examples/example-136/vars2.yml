@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    test_var: play1
+  tasks:
+    - debug:
+        var: test_var
+    - include: test2.yml
+      vars:
+        test_var: task1

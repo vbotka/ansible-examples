@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: "{{ playbook_dir }}/test5.php"
+        regexp: '^\$data\[''refresh_timeout''\] = \$data\[''Timeout''\];'
+        replace: '//$data[''refresh_timeout''] = $data[''Timeout''];'
+
+# replace with regexp is not working (replacing) in Ansible
+# https://stackoverflow.com/questions/57097607/replace-with-regexp-is-not-working-replacing-in-ansible/

@@ -1,0 +1,24 @@
+    "routes": [
+        {
+            "interface": "eth1",
+            "route_array": [
+                {
+                    "gateway": "192.168.128.254",
+                    "network": "10.0.0.1/24"
+                },
+                {
+                    "gateway": "192.168.128.254",
+                    "network": "10.0.0.5/24"
+                }
+            ]
+        },
+        {
+            "interface": "eth1",
+            "route_array": [
+                {
+                    "gateway": "192.168.128.254",
+                    "network": "10.8.0.1/24"
+                }
+            ]
+        }
+    ]

@@ -1,0 +1,20 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data2.yml
+  tasks:
+    - debug:
+        var: routes
+    - debug:
+        var: item
+      loop: "{{ routes| groupby('interface') }}"
+    - set_fact:
+        route1: "{{ route1|default([]) +
+                    [{item.0: item.1|map(attribute='route_array')|
+                     list|
+                     flatten}]
+                     }}"
+      loop: "{{ routes| groupby('interface') }}"
+    - debug:
+        var: route1

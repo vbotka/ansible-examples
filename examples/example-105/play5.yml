@@ -1,0 +1,29 @@
+- hosts: test_01
+  gather_facts: no
+  become: no
+  remote_user: admin
+  vars:
+    root_user: root
+    # ansible_become_password: "{{ password.user_input }}"
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+    - pause:
+        prompt: "Enter password"
+      register: password
+    - set_fact:
+        ansible_become_password: "{{ password.user_input }}"
+    - debug:
+        var: ansible_become_password
+    - command: whoami
+      register: result
+      become: yes
+      become_method: su
+      become_user: "{{ root_user }}"
+    - debug:
+        var: result.stdout
+
+# How to set a var at runtime in Ansible?
+# https://stackoverflow.com/questions/57097312/how-to-set-a-var-at-runtimein-ansible/

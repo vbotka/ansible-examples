@@ -1,0 +1,5 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - debug:
+        var: test_var

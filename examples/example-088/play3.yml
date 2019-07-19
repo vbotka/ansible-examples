@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data3.yml
+  tasks:
+    - set_fact:
+        routes: "{{ default_routes + specific_routes }}"
+    - set_fact:
+        routes2: "{{ routes2|default([]) +
+                    [{'interface': item.1|map(attribute='interface')|list|first,
+                      'route_array': item.1|map(attribute='route_array')|list|flatten}] }}"
+      loop: "{{ routes| groupby('interface') }}"
+    - debug:
+        var: routes2
+
+# Merge multiple list of dictionnaries
+# https://stackoverflow.com/questions/57093761/merge-multiple-list-of-dictionnaries/
