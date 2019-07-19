@@ -1,0 +1,16 @@
+- hosts: localhost
+  vars:
+    regex: "[`'\"]"
+    replace: ""
+    service_location: "/opt/{{ item|regex_replace(regex, replace) }}-scheduler-service"
+  tasks:
+    - debug:
+        var: service_location
+      loop:
+        - '`TEST`'
+        - '"TEST"'
+        - '''TEST'''
+        - "'TEST'"
+
+# strip quotes from a variable in Ansible
+# https://stackoverflow.com/questions/57102643/strip-quotes-from-a-variable-in-ansible/
