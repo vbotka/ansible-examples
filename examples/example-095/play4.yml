@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: It is a test yml
+      file:
+        dest: "/tmp/destination/{{ item }}"
+        state: directory
+      with_lines: cat /tmp/stuff.yml
+
+# How to create directory using ansible with directory names taken from a file
+# https://stackoverflow.com/questions/57112125/how-to-create-directory-using-ansible-with-directory-names-taken-from-a-file

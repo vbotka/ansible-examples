@@ -1,0 +1,43 @@
+- hosts: localhost
+  vars:
+    service_location: "/opt/{{ item }}-scheduler-service"
+  tasks:
+    - debug:
+        var: service_location
+      loop:
+        - TEST
+        - 'TEST'
+        - "TEST"
+        - "\'TEST\'"
+
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/'TEST'-scheduler-service
+      
+- hosts: localhost
+  vars:
+    replace: ""
+    service_location: "/opt/{{ item.0|string_replace(item.1, replace)
+                               }}-scheduler-service"
+  tasks:
+    - debug:
+        var: service_location
+      with_together:
+        - - '`TEST`'
+          - '"TEST"'
+          - "'TEST'"
+          - '''TEST'''
+        - - '`'
+          - '"'
+          - "'"
+          - ''''
+
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/TEST-scheduler-service
+#  service_location: /opt/TEST-scheduler-service
+
+
+# strip quotes from a variable in Ansible
+# https://stackoverflow.com/questions/57102643/strip-quotes-from-a-variable-in-ansible/

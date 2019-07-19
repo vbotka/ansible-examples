@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    file: /scratch/tmp/test
+    prefix: AAA
+    addition: XXX
+  tasks:
+    - raw: 'sed --regexp-extended ''s/({{ prefix }})(.*)/\1 {{ addition }}/g'' {{ file }} > {{ file }}.test'
+    - raw: 'sed --regexp-extended ''s/^(.*)({{ prefix }})(.*)$/\1 {{ addition }}/g'' {{ file }} > {{ file }}.test2'
+
+# Ansible 'raw' module - using escape characters in regex to perform 'sed' command
+# https://serverfault.com/questions/975913/ansible-raw-module-using-escape-characters-in-regex-to-perform-sed-command/
