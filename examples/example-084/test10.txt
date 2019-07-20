@@ -1,0 +1,3 @@
+[tag1]
+# This is line 1
+[tag2]

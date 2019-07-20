@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - ini_file:
+        path: "{{ playbook_dir }}/test5.ini"
+        section: "{{ item.section }}"
+        option: "{{ item.option }}"
+        value:  "{{ item.value|default(omit) }}"
+        allow_no_value: yes
+      loop:
+        - section: 'tag1'
+          option: '# This is line 1'
+
+# How to add lines after pattern by ansible playbook
+# https://stackoverflow.com/questions/57125421/how-to-add-lines-after-pattern-by-ansible-playbook
