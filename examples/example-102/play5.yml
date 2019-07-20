@@ -10,6 +10,8 @@
       loop:
         - section: 'tag1'
           option: '# This is line 1'
+        - section: 'tag1'
+          option: '# This is line 2'
 
 # How to add lines after pattern by ansible playbook
 # https://stackoverflow.com/questions/57125421/how-to-add-lines-after-pattern-by-ansible-playbook
