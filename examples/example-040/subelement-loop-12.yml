@@ -1,0 +1,26 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data-12.json
+  tasks:
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ domainGroups }}"
+    - set_fact:
+        domainGroups_selected: "{{ domainGroups_selected|default([]) +
+                                   [ {'Group': item.Group,
+                                      'AddMembers': item.AddMembers.split('|')}] }}"
+      loop: "{{ domainGroups }}"
+      when: item.AddMembers|length > 0
+
+    - debug:
+        var: item
+      loop: "{{ domainGroups_selected }}"
+
+    - debug:
+        msg: "Group: {{ item.0.Group }} AddMember: {{ item.1 }}"
+      loop: "{{ domainGroups_selected|subelements('AddMembers')|list }}"
+
+# split string in subelements ansible
+# https://stackoverflow.com/questions/57150577/split-string-in-subelements-ansible/

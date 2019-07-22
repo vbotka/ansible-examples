@@ -1,0 +1,17 @@
+domainGroups: [
+       {
+            "AddMembers": "",
+            "Group": "Group1",
+            "Delete": "1"
+        },
+        {
+            "AddMembers": "members1|members2",
+            "Group": "Group2",
+            "Delete": ""
+        },
+        {
+            "AddMembers": "members1|members2|members3",
+            "Group": "Group3",
+            "Delete": ""
+        }
+]
