@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    data1.json
+  vars:
+    my_key: Message
+    my_value: Server is already powered OFF
+  tasks:
+    - debug:
+        msg: "{{ item.key }}: {{ item.value is search(my_value)|
+                                 ternary(my_value, 'NOT FOUND') }}"
+      loop: "{{ input|dict_flatten|dict2items }}"
+      when: item.key.split('.')|list_reverse|first == my_key
+
+# Ansible: Looking for a known key with a known value at an arbitrary depth using json_query?
+# https://stackoverflow.com/questions/57157212/ansible-looking-for-a-known-key-with-a-known-value-at-an-arbitrary-depth-using/

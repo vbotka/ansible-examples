@@ -139,6 +139,7 @@ Various examples of Ansbile code.
 - Example 135. regex_replace
 - Example 136. vars
 - Example 137. raw
+- Example 138. dict_flatten (filter_plugins/dict_utils)
 
 
 ## License

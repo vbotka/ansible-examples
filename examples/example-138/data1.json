@@ -1,0 +1,36 @@
+input: {
+  "changed": false,
+  "msg": {
+    "Data": {
+      "Message": "returned status code doesn't match with the expected success code",
+      "Status": "Failed",
+      "StatusCode": 409
+    },
+    "Message": "none",
+    "Status": "Failed",
+    "StatusCode": 409,
+    "error": {
+      "error": {
+        "@Message.ExtendedInfo": [
+          {
+            "Message": "Server is already powered OFF.",
+            "MessageArgs": [
+
+            ],
+            "MessageArgs@odata.count": 0,
+            "MessageId": "IDRAC.1.6.PSU502",
+            "RelatedProperties": [
+
+            ],
+            "RelatedProperties@odata.count": 0,
+            "Resolution": "No response action is required.",
+            "Severity": "Informational"
+          }
+        ],
+        "code": "Base.1.0.GeneralError",
+        "message": "A general error has occurred. See ExtendedInfo for more information"
+      }
+    },
+    "retval": true
+  }
+}
