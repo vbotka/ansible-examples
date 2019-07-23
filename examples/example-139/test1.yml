@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - set_fact:
+        linux_server_shorewall_interfaces:
+          - { zone: 'net',
+              iface: '{{ ansible_default_ipv4.interface }}',
+              options: 'routefilter,tcpflags',
+              comment: 'net_<interface>' }
+    - debug:
+        var: linux_server_shorewall_interfaces
+
+# How to use Ansible fact variable in role's variable file
+# https://stackoverflow.com/questions/57160108/how-to-use-ansible-fact-variable-in-roles-variable-file/
