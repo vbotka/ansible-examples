@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars:
+        file: data-151.json
+        name: op_content
+    - debug:
+        msg: "{{ op_content|
+                 json_query('\"op.content\".entries[0].values.\"Request ID\"')
+                 }}"

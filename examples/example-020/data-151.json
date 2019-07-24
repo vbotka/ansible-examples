@@ -1,0 +1,24 @@
+    "op.content": {
+        "_links": {
+           "self": [
+               {
+                   "href": "url123"
+               }
+           ]
+        }, 
+       "entries": [
+            {
+               "_links": {
+                  "self": [
+                       {
+                           "href": "url456"
+                        }  
+                ] 
+            }, 
+            "values": {
+                "Request ID": "abc|abc", 
+                "Status": "Assigned"
+            }
+        }
+    ]
+}

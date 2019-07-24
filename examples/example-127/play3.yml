@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - stat:
+        path: /mnt1
+      register: boot
+    - debug:
+        var: boot.stat.writeable
+    - file:
+        state: touch
+        path: /TEST-007
+
+
+# When conditional from ssh command line in Ansible Role
+# https://stackoverflow.com/questions/57183777/when-conditional-from-ssh-command-line-in-ansible-role/
