@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+  - name: Find patterns
+    find:
+      paths:
+        - /scratch/tmp
+      patterns:
+        - "INST*"
+    register: find_results
+#  - debug: var=find_results
+  - debug: msg="{{ item.path }}"
+    loop: "{{ find_results.files }}"
+#  - shell: "echo {{ item.path }} >> /tmp/results.txt"
+#    with_items: "{{ find_results.files }}"
