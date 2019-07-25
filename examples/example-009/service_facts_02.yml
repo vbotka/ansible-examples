@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    www_port: 8080
+  tasks:
+    # - name: service facts
+    #   service_facts:
+    # - debug:
+    #     var: ansible_facts
+    - shell: "lsof -i :{{ www_port }}|
+              grep LISTEN|
+              cut -d ' ' -f 1"
+      register: result
+    - debug:
+        msg: "{{ result.stdout_lines }}"
+    - debug:
+        msg: "{{ result.stdout_lines|first }}"
+
+# If a server has nginx and apache installed, how do I find out which one it uses for its website?
+# https://stackoverflow.com/questions/57197324/if-a-server-has-nginx-and-apache-installed-how-do-i-find-out-which-one-it-uses/
