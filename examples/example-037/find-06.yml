@@ -6,9 +6,19 @@
         - /scratch/tmp
       patterns:
         - "INST*"
-    register: find_results
-#  - debug: var=find_results
+    register: info
+
+  - debug:
+      var: info.files
+
+  - debug:
+      var: info.files.0.path
+
   - debug: msg="{{ item.path }}"
-    loop: "{{ find_results.files }}"
+    loop: "{{ info.files }}"
+
 #  - shell: "echo {{ item.path }} >> /tmp/results.txt"
 #    with_items: "{{ find_results.files }}"
+
+# Find Remote File Using Wildcard In Ansible
+# https://stackoverflow.com/questions/57175792/find-remote-file-using-wildcard-in-ansible/

@@ -1,0 +1,13 @@
+- hosts: localhost
+  tasks:
+    - stat:
+        path: /scratch/tmp
+      register: info
+    - debug:
+        msg: "{{ info }}"
+
+#      patterns:
+#        - "INST*"
+
+# Find Remote File Using Wildcard In Ansible
+# https://stackoverflow.com/questions/57175792/find-remote-file-using-wildcard-in-ansible/
