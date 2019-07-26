@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars:
+        file: data-2.json
+        # name: test_var1
+    - set_fact:
+        test_var2: TEST_VAR
+    - debug:
+        msg: "{{ hostvars['localhost'] }}"
+    - debug:
+        # var: test_var2
+        msg: "{{ .Values.global.aService.inner_port }}"
+
+# How to properly use jq in ansible shell tasks
+# https://stackoverflow.com/questions/57211050/how-to-properly-use-jq-in-ansible-shell-tasks

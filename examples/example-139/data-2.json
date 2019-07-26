@@ -1,0 +1,7 @@
+".Values": {
+    "global": {
+	"aService": {
+	    "inner_port": "Test value"
+	}
+    }
+}
