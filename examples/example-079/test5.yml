@@ -1,0 +1,125 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    my_lines:
+      - ' routerboard: yes'
+      - ' model: 751G-2HnD'
+      - ' serial-number: 3A6502B2A2E7'
+      - ' firmware-type: ar7240'
+      - ' factory-firmware: 3.0'
+      - ' current-firmware: 6.42.3'
+      - ' upgrade-firmware: 6.43.4'
+    my_lines2:
+      - routerboard: yes
+      - model: 751G-2HnD
+      - serial-number: 3A6502B2A2E7
+      - firmware-type: ar7240
+      - factory-firmware: 3.0
+      - current-firmware: 6.42.3
+      - upgrade-firmware: 6.43.4
+    my_quotation: "[`'\"]"
+    my_quotation_replacement: ""
+      
+  tasks:
+    - set_fact:
+        upgrade_firmware: "{{ item.split(':').1|trim }}"
+      loop: "{{ my_lines|map('trim')|list }}"
+      when: item is search('^upgrade-firmware')
+      tags: t1
+    - debug:
+        var: upgrade_firmware
+      tags: t1
+
+    - set_fact:
+        minfo: "{{ minfo|default({})|
+                   combine({item.split(':').0: item.split(':').1|trim})
+                   }}"
+      loop: "{{ my_lines|map('trim')|list }}"
+      tags: t2
+    - debug:
+        var: minfo['upgrade-firmware']
+      tags: t2
+    - debug:
+        var: minfo
+      tags: t2
+
+    - set_fact:
+        upgrade_firmware2: "{{ item.split(':').1|trim }}"
+      # loop: "{{ my_lines2|map('quote')|map('trim')|list }}"
+      loop: "{{ my_lines2|map('trim')|list }}"
+      when: item is search('^(.*)upgrade-firmware')
+      tags: t3
+    - debug:
+        var: upgrade_firmware2
+      tags: t3
+
+    - set_fact:
+        minfo2: "{{ minfo2|default({})|
+                   combine({item.split(':').0: item.split(':').1|trim})
+                   }}"
+      # loop: "{{ my_lines2|map('quote')|map('trim')|list }}"
+      loop: "{{ my_lines2|map('trim')|list }}"
+      tags: t4
+    - debug:
+        var: minfo2['upgrade-firmware']
+      tags: t4
+    - debug:
+        var: minfo2
+      tags: t4
+
+    - set_fact:
+        minfo3: "{{ minfo3|default({})|
+                    combine({item.split(':').0|
+                             regex_replace(my_quotation, my_quotation_replacement):
+                             item.split(':').1|trim|
+                             regex_replace(my_quotation, my_quotation_replacement)})
+                             }}"
+      loop: "{{ my_lines2|map('trim')|list }}"
+      tags: t5
+    - debug:
+        var: minfo3['upgrade-firmware']
+      tags: t5
+    - debug:
+        var: minfo3
+      tags: t5
+
+    - tempfile:
+      register: tempfile_1
+      tags: t6
+    - debug:
+        var: tempfile_1.path
+      tags: t6
+    - debug:
+        var: my_lines
+      tags: t6
+    - template:
+        src: minfo.j2
+        dest: "{{ tempfile_1.path }}"
+      tags: t6
+    - include_vars:
+        file: "{{ tempfile_1.path }}"
+        name: minfo
+      tags: t6
+    - debug:
+        var: minfo
+      tags: t6
+    - debug:
+        var: minfo['upgrade-firmware']
+      tags: t6
+        
+    - tempfile:
+      register: tempfile_1
+    - template:
+        src: minfo.j2
+        dest: "{{ tempfile_1.path }}"
+    - include_vars:
+        file: "{{ tempfile_1.path }}"
+        name: minfo
+    - debug:
+        var: minfo
+    - debug:
+        var: minfo['upgrade-firmware']
+
+# How to extract the output from stdout.lines in ansible
+# https://stackoverflow.com/questions/57213941/how-to-extract-the-output-from-stdout-lines-in-ansible/

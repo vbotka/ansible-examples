@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    my_lines:
+      - ' routerboard: yes'
+      - ' model: 751G-2HnD'
+      - ' serial-number: 3A6502B2A2E7'
+      - ' firmware-type: ar7240'
+      - ' factory-firmware: 3.0'
+      - ' current-firmware: 6.42.3'
+      - ' upgrade-firmware: 6.43.4'
+    my_lines2:
+      - routerboard: yes
+      - model: 751G-2HnD
+      - serial-number: 3A6502B2A2E7
+      - firmware-type: ar7240
+      - factory-firmware: 3.0
+      - current-firmware: 6.42.3
+      - upgrade-firmware: 6.43.4
+    my_quotation: "[`'\"]"
+    my_quotation_replacement: ""
+      
+  tasks:
+    - tempfile:
+      register: tempfile
+    - template:
+        src: minfo.j2
+        dest: "{{ tempfile.path }}"
+    - include_vars:
+        file: "{{ tempfile.path }}"
+        name: minfo
+    - debug:
+        var: minfo
+    - debug:
+        var: minfo['upgrade-firmware']
+
+# How to extract the output from stdout.lines in ansible
+# https://stackoverflow.com/questions/57213941/how-to-extract-the-output-from-stdout-lines-in-ansible/

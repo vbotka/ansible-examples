@@ -1,0 +1,7 @@
+ routerboard: yes
+ model: 751G-2HnD
+ serial-number: 3A6502B2A2E7
+ firmware-type: ar7240
+ factory-firmware: 3.0
+ current-firmware: 6.42.3
+ upgrade-firmware: 6.43.4

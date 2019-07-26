@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: cat /etc/passwd
+      register: result
+    - debug:
+        var: result.stdout
+    - debug:
+        var: result.stdout_lines
