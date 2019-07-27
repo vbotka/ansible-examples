@@ -1,0 +1,22 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    targets:
+      - wwn: 2019.centos7
+        disks:
+        - name: 'disk1'
+          device: '/dev/sdb'
+        - name: 'disk2'
+          device: '/dev/sdc'
+  tasks:
+    - include_tasks: commands.yml
+      loop: "{{ targets|subelements('disks') }}"
+
+# Ansible looping list of shell commands and passing variables to the command?
+# https://stackoverflow.com/questions/57227541/ansible-looping-list-of-shell-commands-and-passing-variables-to-the-command/
+
+
+# EOF
+...

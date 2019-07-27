@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    var1: 'AAA'
+    var2: 'BBB'
+  tasks:
+    - debug:
+        msg: "{{ var1 {{ var2 }} }}"

@@ -1,0 +1,7 @@
+- debug:
+    msg: "{{ cmd_item }}"
+  loop:
+    - "AAA {{ item.1.name }} {{ item.1.device }}"
+    - "BBB {{ item.1.name }} {{ item.1.device }}"
+  loop_control:
+    loop_var: cmd_item
