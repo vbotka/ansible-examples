@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    var_1:
+      - name: bla1
+        attributes:
+         - a
+         - b
+      - name: bla2
+        attributes:
+         - c
+         - d
+    var_2:
+      - type: typ1
+        typ_attr:
+         - aa
+         - bb
+      - type: typ2
+        typ_attr:
+         - cc
+         - dd
+  tasks:
+    - include_tasks: include3-task1.yml
+      loop: "{{ var_2|subelements('typ_attr') }}"
+
+# How to loop over tasks with each task having another loop
+# https://stackoverflow.com/questions/57266265/how-to-loop-over-tasks-with-each-task-having-another-loop/

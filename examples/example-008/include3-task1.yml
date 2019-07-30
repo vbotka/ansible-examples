@@ -1,0 +1,8 @@
+- debug:
+    msg: "name = {{ item1.0.name }};
+          nameattr = {{ item1.1 }};
+          type = {{ item.0.type }};
+          typeattr = {{ item.1 }}"
+  loop: "{{ var_1|subelements('attributes') }}"
+  loop_control:
+    loop_var: item1
