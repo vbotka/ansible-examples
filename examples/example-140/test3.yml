@@ -1,0 +1,85 @@
+- hosts: localhost
+  vars_files:
+    data3.yml
+  tasks:
+    - debug:
+        var: group_hosts
+      tags: t1
+
+    - debug:
+        var: item
+      loop:  "{{ group_hosts|
+                 json_query('[*]')
+                 }}"
+      tags: t2
+
+    - debug:
+        var: item
+      loop:  "{{ group_hosts|
+                 json_query('[*].group.hosts')
+                 }}"
+      tags: t3
+
+    - set_fact:
+        queries: "{{ queries|default([]) +
+                     [ '[?group.hosts.contains(@, `' ~ item ~ '`)].name' ] }}"
+      loop:  "{{ group_hosts|
+                 json_query('[*].group.hosts')|
+                 flatten|
+                 unique }}"
+      tags: t4
+    - debug:
+        msg: "{{ queries }}"
+      tags: t4
+    - debug:
+        msg: "{{ group_hosts|json_query(item) }}"
+      loop:  "{{ queries }}"
+      tags: t4
+
+    - debug:
+        msg: "{{ group_hosts|
+                 json_query('[*].group[?hosts.contains(@, `host4`)].name')
+                 }}"
+      tags: t5
+
+    - debug:
+        msg: "{{ group_hosts|
+                 json_query('[?group.hosts.contains(@, `host4`)].name')
+                 }}"
+      tags: t6
+
+    - set_fact:
+        groups1: "{{ groups1|default([]) + [ item.group ] }}"
+      loop:  "{{ group_hosts }}"
+      tags: t7
+    - debug:
+        var: groups1
+      tags: t7
+    - set_fact:
+        groups2: "{{ groups2|default({})|
+                     combine({item.1:
+                             {'name': item.0.name,
+                              'ports': item.0.ports}}) }}"
+      loop:  "{{ lookup('subelements', groups1, 'hosts') }}"
+      tags: t7
+    - debug:
+        var: groups2
+      tags: t7
+    - debug:
+        msg: "{{ groups2[item.key] }}"
+      loop: "{{ groups2|dict2items }}"
+      tags: t7
+
+    - set_fact:
+        hosts2: "{{ hosts2|default({})|
+                    combine({item.1:
+                            {'name': item.0.group.name,
+                             'ports': item.0.group.ports}}) }}"
+      loop:  "{{ lookup('subelements', group_hosts, 'group.hosts') }}"
+      tags: t8
+    - debug:
+        var: hosts2
+      tags: t8
+
+# Loop over nested dict
+# https://stackoverflow.com/questions/57236457/loop-over-nested-dict/

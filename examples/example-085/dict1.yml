@@ -1,0 +1,54 @@
+- hosts: localhost
+  vars:
+    endpoints:
+      - address: 10.10.10.1
+        name: hostname1:867
+        write: yes
+      - address: 10.10.10.2
+        name: hostname2:867
+        write: yes
+      - address: 10.10.10.3
+        name: hostname3:867
+        write: yes
+  tasks:
+    - debug:
+        msg: "{{ {'port': item.name.split(':').1}  }}"
+      loop: "{{ endpoints }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ item|
+                 dict_del_key('name')
+                 }}"
+      loop: "{{ endpoints }}"
+      tags: t2
+
+    - set_fact:
+        ep2: "{{ ep2|
+                 default([]) + [
+                 item|
+                 dict_add_hash({'port': item.name.split(':').1})|
+                 dict_add_hash({'name': item.name.split(':').0}) ]
+                 }}"
+      loop: "{{ endpoints }}"
+      tags: t3
+    - debug:
+        var: ep2
+      tags: t3
+
+    - set_fact:
+        ep3: "{{ ep3|
+                 default([]) + [
+                 {'write': item.write,
+                 'address': item.address,
+                 'port': item.name.split(':').1,
+                 'name': item.name.split(':').0} ]
+                 }}"
+      loop: "{{ endpoints }}"
+      tags: t4
+    - debug:
+        var: ep3
+      tags: t4
+
+# What is the best way of modifying and replacing list elements?
+# https://stackoverflow.com/questions/57264109/what-is-the-best-way-of-modifying-and-replacing-list-elements/

@@ -2,6 +2,8 @@
 # All rights reserved.
 # Simplified BSD License
 
+import re
+
 def list_append(l, x=''):
     l.append(x)
     return l
@@ -52,6 +54,21 @@ def list_copy(l):
     # l.copy()  # 'list' object has no attribute 'copy'
     return l[:]
 
+def list_search(l, x):
+    r = re.compile(x)
+    return list(filter(r.match, l))
+
+def list_flatten(l):
+    flat_list = []
+    for sublist in l:
+        if isinstance(sublist, (list,)):
+            for item in sublist:
+                flat_list.append(item)
+        else:
+            flat_list.append(sublist)
+    l = flat_list
+    return l
+
 
 class FilterModule(object):
     ''' Ansible filters. Interface to Python list methods.
@@ -64,14 +81,16 @@ class FilterModule(object):
     def filters(self):
         return {
             'list_append' : list_append,
-            'list_extend' : list_extend,
-            'list_insert' : list_insert,
-            'list_remove' : list_remove,
-            'list_pop' : list_pop,
             'list_clear' : list_clear,
-            'list_index' : list_index,
+            'list_copy' : list_copy,
             'list_count' : list_count,
-            'list_sort' : list_sort,
+            'list_extend' : list_extend,
+            'list_flatten' : list_flatten,
+            'list_index' : list_index,
+            'list_insert' : list_insert,
+            'list_pop' : list_pop,
+            'list_remove' : list_remove,
             'list_reverse' : list_reverse,
-            'list_copy' : list_copy
+            'list_search' : list_search,
+            'list_sort' : list_sort
         }

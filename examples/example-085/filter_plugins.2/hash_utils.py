@@ -1,3 +1,7 @@
+# (c) 2019, Vladimir Botka <vbotka@gmail.com>
+# All rights reserved.
+# Simplified BSD License
+
 def hash_to_tuples(h):
     return h.items()
 

@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    data1.json
+  tasks:
+    - debug:
+        var: vms
+    - debug:
+        msg: "{{ vms | json_query(query) }}"
+      vars:
+        query: "json.resources[?ips.contains(@, '192.168.1.11')].name"

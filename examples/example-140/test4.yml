@@ -1,0 +1,27 @@
+- hosts: localhost
+  vars_files:
+    data4.yml
+
+  tasks:
+
+    - debug:
+        var: group
+      tags: t1
+
+    - debug:
+        var: item
+      loop:  "{{ group|json_query('vms[*]') }}"
+      tags: t2
+
+    - set_fact:
+        queries: "{{ queries|default([]) +
+                     [ 'vms[?hosts.contains(@, `' ~ item ~ '`)].name' ] }}"
+      loop:  "{{ group|json_query('vms[*].hosts')|flatten|unique }}"
+      tags: t4
+    - debug:
+        var: queries
+      tags: t4
+    - debug:
+        msg: "{{ group|json_query(item) }}"
+      loop:  "{{ queries }}"
+      tags: t4

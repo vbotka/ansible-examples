@@ -1,0 +1,17 @@
+group_hosts:
+   - group:
+       name: a
+       hosts:
+         - host1
+         - host2
+       ports:
+         - 22
+         - 80
+   - group:
+       name: b
+       hosts:
+         - host3
+         - host4
+       ports:
+        - 22
+        - 80

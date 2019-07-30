@@ -1,5 +1,8 @@
-from distutils.version import LooseVersion
+# (c) 2019, Vladimir Botka <vbotka@gmail.com>
+# All rights reserved.
+# Simplified BSD License
 
+from distutils.version import LooseVersion
 
 def filter_sort_versions(value):
     return sorted(value, key=LooseVersion)

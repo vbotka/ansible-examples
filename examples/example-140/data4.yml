@@ -1,0 +1,16 @@
+group:
+  vms:
+    - name: a
+      hosts:
+        - host1
+        - host2
+      ports:
+        - 22
+        - 80
+    - name: b
+      hosts:
+        - host3
+        - host4
+      ports:
+        - 22
+        - 80
