@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - find:
+        paths: /home/user1/test/
+      register: files_matched
+    - debug:
+        msg: "{{ '/home/user2/test/' ~ item|basename }}"
+      loop: "{{ files_matched.files|json_query('[*].path') }}"
+
+# Find filename in Ansible and Save to a file
+# https://stackoverflow.com/questions/57284365/find-filename-in-ansible-and-save-to-a-file

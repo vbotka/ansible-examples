@@ -1,0 +1,6 @@
+---
+# tasks for role1
+
+- include_tasks: generate_config_files.yml
+
+# EOF

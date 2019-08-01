@@ -1,0 +1,13 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - pause:
+        prompt: "Please enter the value"
+        echo: yes
+      register: result
+      run_once: yes
+    - debug:
+        var: result.user_input
+
+# run “lookup” against multiple hosts in ansible
+# https://stackoverflow.com/questions/57286032/run-lookup-against-multiple-hosts-in-ansible/

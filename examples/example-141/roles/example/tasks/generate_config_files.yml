@@ -1,0 +1,8 @@
+- name: Generate the configuration files
+  template:
+    src: "consumer.properties.j2"
+    dest: "{{ kafka_location }}/{{ item.key }}/consumer.properties"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_group }}"
+    mode: '0644'
+  loop: "{{ brands|dict2items }}"

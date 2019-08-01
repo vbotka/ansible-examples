@@ -1,0 +1,330 @@
+{
+    "results": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "ansible_facts": {
+                    "checkpoint_access_layers": {
+                        "access": true,
+                        "access-layers": [
+                            {
+                                "domain": {
+                                    "domain-type": "global domain",
+                                    "name": "Global",
+                                    "uid": "1e294ce0-367a-11e3-aa6e-0800200c9a66"
+                                },
+                                "name": "Network",
+                                "type": "access-layer",
+                                "uid": "b94c472e-56df-42f7-9c28-2b0b3d470657"
+                            },
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "PolicyPKG1 Network",
+                                "type": "access-layer",
+                                "uid": "96ab580d-939a-476f-ac25-48782a1a4ed9"
+                            }
+                        ],
+                        "color": "black",
+                        "comments": "",
+                        "desktop-security": false,
+                        "domain": {
+                            "domain-type": "domain",
+                            "name": "dom-cn-1",
+                            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                        },
+                        "icon": "Blades/Access",
+                        "installation-targets": "all",
+                        "meta-info": {
+                            "creation-time": {
+                                "iso-8601": "2019-07-30T15:38+0530",
+                                "posix": 1564481316745
+                            },
+                            "creator": "admin",
+                            "last-modifier": "admin",
+                            "last-modify-time": {
+                                "iso-8601": "2019-07-30T15:38+0530",
+                                "posix": 1564481316745
+                            },
+                            "lock": "unlocked",
+                            "validation-state": "ok"
+                        },
+                        "name": "PolicyPKG1",
+                        "nat-policy": true,
+                        "qos": false,
+                        "qos-policy-type": "recommended",
+                        "read-only": false,
+                        "tags": [],
+                        "threat-prevention": false,
+                        "type": "package",
+                        "uid": "231616b2-5ffa-4afe-9dcb-8fe1d0dd9ae3",
+                        "vpn-traditional-mode": false
+                    }
+                },
+                "ansible_loop_var": "item",
+                "changed": false,
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "name": "PolicyPKG1",
+                        "uid": null
+                    }
+                },
+                "item": "PolicyPKG1"
+            },
+            {
+                "ansible_facts": {
+                    "checkpoint_access_layers": {
+                        "access": true,
+                        "access-layers": [
+                            {
+                                "domain": {
+                                    "domain-type": "global domain",
+                                    "name": "Global",
+                                    "uid": "1e294ce0-367a-11e3-aa6e-0800200c9a66"
+                                },
+                                "name": "Network",
+                                "type": "access-layer",
+                                "uid": "b94c472e-56df-42f7-9c28-2b0b3d470657"
+                            },
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "PolicyPKG2 Network",
+                                "type": "access-layer",
+                                "uid": "9651831a-7e9e-4a60-848f-ca4e194e2393"
+                            }
+                        ],
+                        "color": "black",
+                        "comments": "",
+                        "desktop-security": false,
+                        "domain": {
+                            "domain-type": "domain",
+                            "name": "dom-cn-1",
+                            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                        },
+                        "icon": "Blades/Access",
+                        "installation-targets": "all",
+                        "meta-info": {
+                            "creation-time": {
+                                "iso-8601": "2019-07-30T15:38+0530",
+                                "posix": 1564481331344
+                            },
+                            "creator": "admin",
+                            "last-modifier": "admin",
+                            "last-modify-time": {
+                                "iso-8601": "2019-07-30T15:38+0530",
+                                "posix": 1564481331344
+                            },
+                            "lock": "unlocked",
+                            "validation-state": "ok"
+                        },
+                        "name": "PolicyPKG2",
+                        "nat-policy": true,
+                        "qos": false,
+                        "qos-policy-type": "recommended",
+                        "read-only": false,
+                        "tags": [],
+                        "threat-prevention": false,
+                        "type": "package",
+                        "uid": "d579c212-5486-4242-aa63-b510f6f3c93c",
+                        "vpn-traditional-mode": false
+                    },
+                    "discovered_interpreter_python": "/usr/bin/python"
+                },
+                "ansible_loop_var": "item",
+                "changed": false,
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "name": "PolicyPKG2",
+                        "uid": null
+                    }
+                },
+                "item": "PolicyPKG2"
+            },
+            {
+                "ansible_facts": {
+                    "checkpoint_access_layers": {
+                        "access": true,
+                        "access-layers": [
+                            {
+                                "domain": {
+                                    "domain-type": "global domain",
+                                    "name": "Global",
+                                    "uid": "1e294ce0-367a-11e3-aa6e-0800200c9a66"
+                                },
+                                "name": "Network",
+                                "type": "access-layer",
+                                "uid": "b94c472e-56df-42f7-9c28-2b0b3d470657"
+                            },
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "security",
+                                "type": "access-layer",
+                                "uid": "82d38fdf-11a1-4d2d-bc11-380aa922af1a"
+                            },
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "Network",
+                                "type": "access-layer",
+                                "uid": "809bb6ce-2dbb-4e28-8bec-a6365999cdb5"
+                            }
+                        ],
+                        "color": "black",
+                        "comments": "",
+                        "desktop-security": false,
+                        "domain": {
+                            "domain-type": "domain",
+                            "name": "dom-cn-1",
+                            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                        },
+                        "icon": "Blades/Access",
+                        "installation-targets": "all",
+                        "installation-targets-revision": [
+                            {
+                                "cluster-members-revision": [
+                                    {
+                                        "revision": {
+                                            "domain": {
+                                                "domain-type": "domain",
+                                                "name": "dom-cn-1",
+                                                "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                            },
+                                            "name": "admin@4/30/2019",
+                                            "type": "session",
+                                            "uid": "1240db79-9cfa-4a29-b7f9-2b82fd915f4d"
+                                        },
+                                        "target-name": "dev-cn-c1",
+                                        "target-uid": "84ed0d02-4a01-4079-90c2-b4a119e64cf2"
+                                    },
+                                    {
+                                        "revision": {
+                                            "domain": {
+                                                "domain-type": "domain",
+                                                "name": "dom-cn-1",
+                                                "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                            },
+                                            "name": "admin@4/30/2019",
+                                            "type": "session",
+                                            "uid": "1240db79-9cfa-4a29-b7f9-2b82fd915f4d"
+                                        },
+                                        "target-name": "dev-cn-c2",
+                                        "target-uid": "2639ab93-01ab-472c-a071-b24ad62eb49c"
+                                    }
+                                ],
+                                "target-name": "Clus-01",
+                                "target-uid": "7a5f9f5c-b533-4db6-b808-e8088ce6ab3c"
+                            },
+                            {
+                                "cluster-members-revision": [
+                                    {
+                                        "revision": {
+                                            "domain": {
+                                                "domain-type": "domain",
+                                                "name": "dom-cn-1",
+                                                "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                            },
+                                            "name": "admin@4/30/2019",
+                                            "type": "session",
+                                            "uid": "58b232f3-7826-40a7-b7f0-0e35985e999a"
+                                        },
+                                        "target-name": "dev-cn-4",
+                                        "target-uid": "36289a7f-57ff-4320-bfe4-e7c640f3fdb1"
+                                    },
+                                    {
+                                        "revision": {
+                                            "domain": {
+                                                "domain-type": "domain",
+                                                "name": "dom-cn-1",
+                                                "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                            },
+                                            "name": "admin@4/30/2019",
+                                            "type": "session",
+                                            "uid": "58b232f3-7826-40a7-b7f0-0e35985e999a"
+                                        },
+                                        "target-name": "dev-cn-c3",
+                                        "target-uid": "443a3649-65fe-4a7e-bf48-66973f239bf6"
+                                    }
+                                ],
+                                "target-name": "Clus-cn-02",
+                                "target-uid": "5a395d40-0615-4cde-9a39-5c024fc0278d"
+                            }
+                        ],
+                        "meta-info": {
+                            "creation-time": {
+                                "iso-8601": "2019-04-26T16:31+0530",
+                                "posix": 1556276469175
+                            },
+                            "creator": "System",
+                            "last-modifier": "System",
+                            "last-modify-time": {
+                                "iso-8601": "2019-04-26T16:31+0530",
+                                "posix": 1556276469175
+                            },
+                            "lock": "unlocked",
+                            "validation-state": "ok"
+                        },
+                        "name": "Standard",
+                        "nat-policy": true,
+                        "qos": false,
+                        "qos-policy-type": "recommended",
+                        "read-only": false,
+                        "tags": [],
+                        "threat-layers": [
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "IPS",
+                                "type": "threat-layer",
+                                "uid": "5cab7f13-b376-4866-9b2d-1920ffc9a222"
+                            },
+                            {
+                                "domain": {
+                                    "domain-type": "domain",
+                                    "name": "dom-cn-1",
+                                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                                },
+                                "name": "Standard Threat Prevention",
+                                "type": "threat-layer",
+                                "uid": "bcaa152e-f1d6-4c9e-aeee-4a5046abb061"
+                            }
+                        ],
+                        "threat-prevention": true,
+                        "type": "package",
+                        "uid": "dc4d894f-8c77-41fc-bfd8-3a1a3c1335e2",
+                        "vpn-traditional-mode": false
+                    }
+                },
+                "ansible_loop_var": "item",
+                "changed": false,
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "name": "Standard",
+                        "uid": null
+                    }
+                },
+                "item": "Standard"
+            }
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - find:
+        paths: /home/user1/test/
+      register: files_matched
+    - set_fact:
+        my_files: "{{ files_matched.files|
+                      json_query('[*].path') }}"
+    - debug:
+        var: my_files
+    - copy:
+        content: |
+          {% for path in my_files %}
+          {{ path }}
+          {% endfor %}
+        dest: "/tmp/find_result.txt"
+    - debug:
+        msg: "{{ lookup('file', item) }}"
+      with_lines: cat /tmp/find_result.txt

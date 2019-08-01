@@ -1,0 +1,17 @@
+- hosts: localhost
+  roles:
+    - role: example
+      vars:
+        kafka_user: vlado
+        kafka_group: vlado
+        kafka_location: /scratch
+        brands:
+          brand_1:
+            name: "brand1"
+          brand_2:
+            name: "brand2"
+          brand_3:
+            name: "brand_3"
+
+# Pass dictionary to jinja2 template from task loop
+# https://stackoverflow.com/questions/57306489/pass-dictionary-to-jinja2-template-from-task-loop/

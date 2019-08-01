@@ -142,6 +142,7 @@ Various examples of Ansbile code.
 - Example 138. dict_flatten (filter_plugins/dict_utils)
 - Example 139. expansion
 - Example 140. json_query functions
+- Example 141. roles
 
 
 ## License

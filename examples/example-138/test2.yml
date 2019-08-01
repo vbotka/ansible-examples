@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    data2.json
+  vars:
+    my_key: target-name
+    my_value: dev-cn-c2
+  tasks:
+
+    - debug:
+        var: results
+      tags: t1
+
+    - debug:
+        msg: "{{ item.key }}: {{ item.value is search(my_value)|
+                                 ternary(my_value, 'NOT FOUND') }}"
+      loop: "{{ results|dict_flatten|dict2items }}"
+      when: item.key.split('.')|list_reverse|first == my_key
+      tags: t2
+
+    - debug:
+        msg: "{{ results.results|json_query(query1)|flatten|json_query(query2) }}"
+      vars:
+        query1: "[*].ansible_facts.checkpoint_access_layers.\"installation-targets-revision\"[*].\"cluster-members-revision\"[*]"
+        query2: "[*].\"target-name\""
+      tags: t3
+
+# gives
+#
+#    "msg": [
+#        "dev-cn-c1", 
+#        "dev-cn-c2", 
+#        "dev-cn-4", 
+#        "dev-cn-c3"
+#    ]
+
+# Ansible nested json value extraction using json_qurey
+# https://stackoverflow.com/questions/57309022/ansible-nested-json-value-extraction-using-json-qurey/
