@@ -1,0 +1,34 @@
+In which case hash_behaviour=merge can become problematic?
+----------------------------------------------------------
+https://www.reddit.com/r/ansible/comments/a7x92q/in_which_case_hash_behaviourmerge_can_become/
+
+"It's just unexpected and unusual behaviour (for Ansible). You might
+have problems with third party roles, or even new developers who
+aren't expecting it, or may not even know it's a possibility."
+
+* do not use convoluted or too deep data structures
+
+* want to override something ? redefine the whole structure in some
+  group_vars/hosts_vars; it will always be clearer to have all the
+  definition under your eyes, than trying to mentally merge the struct
+  trying to follow variable precedence all the way down
+
+* keep it simple, at all costs; focus on day 2 operations and
+  maintenance; writing is done once, maintenance will haunt you for
+  the rest of the project's lifetime
+
+* as /u/Quetuo said, it will make your playbook surprising (even to
+  your future self) and can lead to catastrophic failures
+
+Ansible is a great tool, and leverages TMTOWTDI. It doesn't mean every
+feature is a good idea or has to be used. This one, in particular, has
+to be avoided at all costs. It encourages bad practices. If you need
+to use it, it means something is really wrong in your inventories.
+
+
+TMTOWTDI
+--------
+There's more than one way to do it (TMTOWTDI or TIMTOWTDI, pronounced
+Tim Toady) is a Perl programming motto. The language was designed with
+this idea.
+--

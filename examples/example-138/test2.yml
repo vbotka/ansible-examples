@@ -18,6 +18,9 @@
       when: item.key.split('.')|list_reverse|first == my_key
       tags: t2
 
+# gives
+# "msg": "results.2.ansible_facts.checkpoint_access_layers.installation-targets-revision.0.cluster-members-revision.1.target-name: dev-cn-c2"
+      
     - debug:
         msg: "{{ results.results|json_query(query1)|flatten|json_query(query2) }}"
       vars:
@@ -34,5 +37,63 @@
 #        "dev-cn-c3"
 #    ]
 
+    - debug:
+        var: results | json_query(query)
+      vars:
+        query: results[?ansible_facts.checkpoint_access_layers."installation-targets-revision"[?"cluster-members-revision"[?"target-name"=='dev-cn-c2']]].item
+      tags: t4
+
+# gives top level attribute only
+#
+#    "results | json_query(query)": [
+#        "Standard"
+#    ]
+
+    - set_fact:
+        target_uid: "{{ item['target-uid'] }}"
+      loop: '{{ results|json_query(query)|flatten }}'
+      vars:
+        target_name: 'dev-cn-c2'
+        query: results[*].ansible_facts.checkpoint_access_layers."installation-targets-revision"[*]."cluster-members-revision"[*]
+      when: item['target-name'] == target_name
+      tags: t5
+    - debug:
+        var: target_uid
+      tags: t5
+
+# gives
+#     "target_uid": "2639ab93-01ab-472c-a071-b24ad62eb49c"
+#
+ 
+    - set_fact:
+        revision: '{{ results|
+                        json_query(query)|
+                        flatten|
+                        selectattr("target-name", "match", target_name)|
+                        list|first
+                        }}'
+      vars:
+        target_name: 'dev-cn-c2'
+        query: results[*].ansible_facts.checkpoint_access_layers."installation-targets-revision"[*]."cluster-members-revision"[*]
+      tags: t6
+    - debug:
+        var: revision['target-uid']
+      tags: t6
+
+# gives
+#     "revision['target-uid']": "2639ab93-01ab-472c-a071-b24ad62eb49c"
+
+    - debug:
+        msg: '{{ results|
+                 json_query(query)|
+                 flatten
+                 }}'
+      vars:
+        target_name: 'dev-cn-c2'
+        query: results[*].ansible_facts.checkpoint_access_layers."installation-targets-revision"[*]."cluster-members-revision"[*]
+      tags: t7
+
+
+#.................................................................................
 # Ansible nested json value extraction using json_qurey
 # https://stackoverflow.com/questions/57309022/ansible-nested-json-value-extraction-using-json-qurey/

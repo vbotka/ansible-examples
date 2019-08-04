@@ -1,0 +1,28 @@
+- hosts: localhost
+  tasks:
+    
+    - include_vars:
+        dir: buildusers
+        name: buildusers
+      register: result
+      tags: t1
+    - debug:
+        var: buildusers
+      tags: t1
+    - debug:
+        var: result
+      tags: t1
+
+    - include_vars:
+        dir: buildusers
+      register: result
+      tags: t2
+    - debug:
+        var: users
+      tags: t2
+    - debug:
+        var: result
+      tags: t2
+
+# Adding multiple users to a linux system with Ansible
+# https://stackoverflow.com/questions/57314773/adding-multiple-users-to-a-linux-system-with-ansible

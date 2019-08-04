@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: role_A
+    - import_role:
+        name: role_B
+    - import_role:
+        name: role_C
+    - debug:
+        var: role_names
+    - set_fact:
+        repos: "{{ repos|default({})|
+                   combine(lookup('vars', 'repos_' + item.split('_').1))
+                   }}"
+      loop: "{{ role_names }}"
+    - debug:
+        var: repos
+
+# How to extend dict in ansible, not overwriting it?
+# https://stackoverflow.com/questions/57335762/how-to-extend-dict-in-ansible-not-overwriting-it/

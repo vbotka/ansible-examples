@@ -1,0 +1,7 @@
+---
+# defaults file for roleB
+repos_B:
+  name_of_repo_B:
+    url: "git@myrepo.com"
+    path: "/path/on/local_system"
+    branch: "branch_to_checkout"

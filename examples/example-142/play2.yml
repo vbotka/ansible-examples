@@ -1,0 +1,11 @@
+- hosts: localhost
+  tasks:
+    - include_vars:
+        dir: buildusers
+        name: buildusers
+      register: result
+    - debug:
+        var: buildusers
+    - debug:
+        var: result
+

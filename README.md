@@ -143,6 +143,8 @@ Various examples of Ansbile code.
 - Example 139. expansion
 - Example 140. json_query functions
 - Example 141. roles
+- Example 142. include_vars
+- Example 143. hash_behaviour
 
 
 ## License
