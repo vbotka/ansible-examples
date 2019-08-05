@@ -1,0 +1,9 @@
+- set_fact:
+    repos: {}
+- set_fact:
+    repos: "{{ repos|
+               combine(lookup('vars',
+                              'repos_' ~ item.split('_').1,
+                               default={}))
+                }}"
+  loop: "{{ repos_source }}"

@@ -1,4 +1,7 @@
 ---
-# tasks for role1
+# tasks for role_B
+
+- include_tasks: vars.yml
+- include_tasks: debug.yml
 
 # EOF

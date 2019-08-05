@@ -1,21 +1,40 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-    - import_role:
+
+    - include_role:
         name: role_A
-    - import_role:
+        public: yes
+      vars:
+        repos_source:
+          - role_A
+
+    - include_role:
         name: role_B
-    - import_role:
+        public: yes
+      vars:
+        repos_source:
+          - role_A
+          - role_B
+
+    - include_role:
         name: role_C
-    - debug:
-        var: role_names
+        public: yes
+      vars:
+        repos_source:
+          - role_B
+          - role_C
+
     - set_fact:
         repos: "{{ repos|default({})|
                    combine(lookup('vars',
                                   'repos_' ~ item.split('_').1,
                                   default={}))
                    }}"
-      loop: "{{ role_names }}"
+      loop:
+        - role_A
+        - role_B
+        - role_C
     - debug:
         var: repos
 
