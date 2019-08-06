@@ -20,9 +20,14 @@
         groups: webservers2
       loop: "{{ my_hosts[(my_hosts|length / 2)|int:my_hosts|length] }}"
     - debug:
-        msg: "{{ groups['webservers1'] }}"
-    - debug:
-        msg: "{{ groups['webservers2'] }}"
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          webservers1:
+          {{ groups['webservers1']|to_nice_yaml }}
+
+          webservers2:
+          {{ groups['webservers2']|to_nice_yaml }}
 
 # Registering and using multiple variables in Ansible
 # https://stackoverflow.com/questions/57362807/registering-and-using-multiple-variables-in-ansible/
