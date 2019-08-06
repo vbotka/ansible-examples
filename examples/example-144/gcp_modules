@@ -1,0 +1,128 @@
+gc_storage – This module manages objects/buckets in Google Cloud Storage
+gcdns_record – Creates or removes resource records in Google Cloud DNS (D)
+gcdns_zone – Creates or removes zones in Google Cloud DNS (D)
+gce – create or terminate GCE instances (D)
+gce_eip – Create or Destroy Global or Regional External IP addresses
+gce_img – utilize GCE image resources
+gce_instance_template – create or destroy instance templates of Compute Engine of GCP
+gce_labels – Create, Update or Destroy GCE Labels
+gce_lb – create/destroy GCE load-balancer resources
+gce_mig – Create, Update or Destroy a Managed Instance Group (MIG)
+gce_net – create/destroy GCE networks and firewall rules
+gce_pd – utilize GCE persistent disk resources
+gce_snapshot – Create or destroy snapshots for GCE storage volumes
+gce_tag – add or remove tag(s) to/from GCE instances
+gcp_backend_service – Create or Destroy a Backend Service (D)
+gcp_bigquery_dataset – Creates a GCP Dataset
+gcp_bigquery_dataset_facts – Gather facts for GCP Dataset
+gcp_bigquery_table – Creates a GCP Table
+gcp_bigquery_table_facts – Gather facts for GCP Table
+gcp_cloudbuild_trigger – Creates a GCP Trigger
+gcp_cloudbuild_trigger_facts – Gather facts for GCP Trigger
+gcp_compute_address – Creates a GCP Address
+gcp_compute_address_facts – Gather facts for GCP Address
+gcp_compute_backend_bucket – Creates a GCP BackendBucket
+gcp_compute_backend_bucket_facts – Gather facts for GCP BackendBucket
+gcp_compute_backend_service – Creates a GCP BackendService
+gcp_compute_backend_service_facts – Gather facts for GCP BackendService
+gcp_compute_disk – Creates a GCP Disk
+gcp_compute_disk_facts – Gather facts for GCP Disk
+gcp_compute_firewall – Creates a GCP Firewall
+gcp_compute_firewall_facts – Gather facts for GCP Firewall
+gcp_compute_forwarding_rule – Creates a GCP ForwardingRule
+gcp_compute_forwarding_rule_facts – Gather facts for GCP ForwardingRule
+gcp_compute_global_address – Creates a GCP GlobalAddress
+gcp_compute_global_address_facts – Gather facts for GCP GlobalAddress
+gcp_compute_global_forwarding_rule – Creates a GCP GlobalForwardingRule
+gcp_compute_global_forwarding_rule_facts – Gather facts for GCP GlobalForwardingRule
+gcp_compute_health_check – Creates a GCP HealthCheck
+gcp_compute_health_check_facts – Gather facts for GCP HealthCheck
+gcp_compute_http_health_check – Creates a GCP HttpHealthCheck
+gcp_compute_http_health_check_facts – Gather facts for GCP HttpHealthCheck
+gcp_compute_https_health_check – Creates a GCP HttpsHealthCheck
+gcp_compute_https_health_check_facts – Gather facts for GCP HttpsHealthCheck
+gcp_compute_image – Creates a GCP Image
+gcp_compute_image_facts – Gather facts for GCP Image
+gcp_compute_instance – Creates a GCP Instance
+gcp_compute_instance_facts – Gather facts for GCP Instance
+gcp_compute_instance_group – Creates a GCP InstanceGroup
+gcp_compute_instance_group_facts – Gather facts for GCP InstanceGroup
+gcp_compute_instance_group_manager – Creates a GCP InstanceGroupManager
+gcp_compute_instance_group_manager_facts – Gather facts for GCP InstanceGroupManager
+gcp_compute_instance_template – Creates a GCP InstanceTemplate
+gcp_compute_instance_template_facts – Gather facts for GCP InstanceTemplate
+gcp_compute_interconnect_attachment – Creates a GCP InterconnectAttachment
+gcp_compute_interconnect_attachment_facts – Gather facts for GCP InterconnectAttachment
+gcp_compute_network – Creates a GCP Network
+gcp_compute_network_facts – Gather facts for GCP Network
+gcp_compute_region_disk – Creates a GCP RegionDisk
+gcp_compute_region_disk_facts – Gather facts for GCP RegionDisk
+gcp_compute_route – Creates a GCP Route
+gcp_compute_route_facts – Gather facts for GCP Route
+gcp_compute_router – Creates a GCP Router
+gcp_compute_router_facts – Gather facts for GCP Router
+gcp_compute_ssl_certificate – Creates a GCP SslCertificate
+gcp_compute_ssl_certificate_facts – Gather facts for GCP SslCertificate
+gcp_compute_ssl_policy – Creates a GCP SslPolicy
+gcp_compute_ssl_policy_facts – Gather facts for GCP SslPolicy
+gcp_compute_subnetwork – Creates a GCP Subnetwork
+gcp_compute_subnetwork_facts – Gather facts for GCP Subnetwork
+gcp_compute_target_http_proxy – Creates a GCP TargetHttpProxy
+gcp_compute_target_http_proxy_facts – Gather facts for GCP TargetHttpProxy
+gcp_compute_target_https_proxy – Creates a GCP TargetHttpsProxy
+gcp_compute_target_https_proxy_facts – Gather facts for GCP TargetHttpsProxy
+gcp_compute_target_pool – Creates a GCP TargetPool
+gcp_compute_target_pool_facts – Gather facts for GCP TargetPool
+gcp_compute_target_ssl_proxy – Creates a GCP TargetSslProxy
+gcp_compute_target_ssl_proxy_facts – Gather facts for GCP TargetSslProxy
+gcp_compute_target_tcp_proxy – Creates a GCP TargetTcpProxy
+gcp_compute_target_tcp_proxy_facts – Gather facts for GCP TargetTcpProxy
+gcp_compute_target_vpn_gateway – Creates a GCP TargetVpnGateway
+gcp_compute_target_vpn_gateway_facts – Gather facts for GCP TargetVpnGateway
+gcp_compute_url_map – Creates a GCP UrlMap
+gcp_compute_url_map_facts – Gather facts for GCP UrlMap
+gcp_compute_vpn_tunnel – Creates a GCP VpnTunnel
+gcp_compute_vpn_tunnel_facts – Gather facts for GCP VpnTunnel
+gcp_container_cluster – Creates a GCP Cluster
+gcp_container_cluster_facts – Gather facts for GCP Cluster
+gcp_container_node_pool – Creates a GCP NodePool
+gcp_container_node_pool_facts – Gather facts for GCP NodePool
+gcp_dns_managed_zone – Creates a GCP ManagedZone
+gcp_dns_managed_zone_facts – Gather facts for GCP ManagedZone
+gcp_dns_resource_record_set – Creates a GCP ResourceRecordSet
+gcp_dns_resource_record_set_facts – Gather facts for GCP ResourceRecordSet
+gcp_forwarding_rule – Create, Update or Destroy a Forwarding_Rule (D)
+gcp_healthcheck – Create, Update or Destroy a Healthcheck (D)
+gcp_iam_role – Creates a GCP Role
+gcp_iam_role_facts – Gather facts for GCP Role
+gcp_iam_service_account – Creates a GCP ServiceAccount
+gcp_iam_service_account_facts – Gather facts for GCP ServiceAccount
+gcp_iam_service_account_key – Creates a GCP ServiceAccountKey
+gcp_pubsub_subscription – Creates a GCP Subscription
+gcp_pubsub_subscription_facts – Gather facts for GCP Subscription
+gcp_pubsub_topic – Creates a GCP Topic
+gcp_pubsub_topic_facts – Gather facts for GCP Topic
+gcp_redis_instance – Creates a GCP Instance
+gcp_redis_instance_facts – Gather facts for GCP Instance
+gcp_resourcemanager_project – Creates a GCP Project
+gcp_resourcemanager_project_facts – Gather facts for GCP Project
+gcp_sourcerepo_repository – Creates a GCP Repository
+gcp_sourcerepo_repository_facts – Gather facts for GCP Repository
+gcp_spanner_database – Creates a GCP Database
+gcp_spanner_database_facts – Gather facts for GCP Database
+gcp_spanner_instance – Creates a GCP Instance
+gcp_spanner_instance_facts – Gather facts for GCP Instance
+gcp_sql_database – Creates a GCP Database
+gcp_sql_database_facts – Gather facts for GCP Database
+gcp_sql_instance – Creates a GCP Instance
+gcp_sql_instance_facts – Gather facts for GCP Instance
+gcp_sql_user – Creates a GCP User
+gcp_sql_user_facts – Gather facts for GCP User
+gcp_storage_bucket – Creates a GCP Bucket
+gcp_storage_bucket_access_control – Creates a GCP BucketAccessControl
+gcp_storage_object – Creates a GCP Object
+gcp_target_proxy – Create, Update or Destroy a Target_Proxy (D)
+gcp_url_map – Create, Update or Destory a Url_Map (D)
+gcpubsub – Create and Delete Topics/Subscriptions, Publish and pull messages on PubSub
+gcpubsub_facts – List Topics/Subscriptions and Messages from Google PubSub
+gcspanner – Create and Delete Instances/Databases on Spanner (D)

@@ -145,6 +145,7 @@ Various examples of Ansbile code.
 - Example 141. roles
 - Example 142. include_vars
 - Example 143. hash_behaviour
+- Example 144. gcp
 
 
 ## License

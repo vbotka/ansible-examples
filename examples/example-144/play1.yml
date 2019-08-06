@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    address:
+      results:
+        - address: 192.168.99.11
+        - address: 192.168.99.12
+        - address: 192.168.99.13
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        groups: webservers
+      loop: "{{ address.results|json_query('[*].address') }}"
+    - debug:
+        msg: "{{ groups['webservers'] }}"
+
+# Registering and using multiple variables in Ansible
+# https://stackoverflow.com/questions/57362807/registering-and-using-multiple-variables-in-ansible/
