@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ lookup('password', '/dev/null length=1 chars=ascii_letters') }}"
+    - debug:
+        msg: "{{ lookup('password', '/dev/null length=1 chars=digits') }}"
+    - debug:
+        msg: "{{ lookup('password', '/dev/null length=1 chars=hexdigits') }}"
+    - debug:
+        msg: "{{ lookup('password', '/dev/null length=1 chars=punctuation') }}"
+
+    - set_fact:
+        pwd_alias_list: "{{ pwd_alias_list|default([]) + [
+                            lookup('password', '/dev/null length=1 chars=' ~ item) ]
+                            }}"
+      loop:
+        - ascii_letters
+        - digits
+        - hexdigits
+        - punctuation
+    - set_fact:
+        pwd_alias: "{{ pwd_alias_list|shuffle|join('') }}"
+    - debug:
+        var: pwd_alias

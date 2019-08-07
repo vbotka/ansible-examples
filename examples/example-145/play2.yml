@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_char_specs:
+      - ascii_letters
+      - digits
+      - hexdigits
+      - punctuation
+    my_repeat: 4
+  tasks:
+    - include_tasks: generate-password-4.yml
+    - debug:
+        var: pwd_alias
+
+# How to select mandatory character when generating random password with ansible?
+# https://stackoverflow.com/questions/57389641/how-to-select-mandatory-character-when-generating-random-password-with-ansible/
