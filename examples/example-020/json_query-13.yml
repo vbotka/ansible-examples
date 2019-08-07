@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-13.json
+  tasks:
+    - set_fact:
+        ips: "{{ ips|default([]) +
+                 hc_fact.results|
+                 json_query('[*].hcloud_server.ipv4_address')
+                 }}"
+    - debug:
+        var: ips
+
+# ansible hcloud set_fact add items from list in dict
+# https://stackoverflow.com/questions/57394417/ansible-hcloud-set-fact-add-items-from-list-in-dict/

@@ -1,0 +1,86 @@
+"hc_fact": {
+    "changed": false,
+    "msg": "All items completed",
+    "results": [
+        {
+            "ansible_loop_var": "item",
+            "changed": false,
+            "failed": false,
+            "hcloud_server": {
+                "backup_window": "None",
+                "datacenter": "nbg1-dc3",
+                "id": "3083849",
+                "image": "centos-7",
+                "ipv4_address": "116.203.204.49",
+                "ipv6": "2a01:4f8:c2c:ade4::/64",
+                "labels": {},
+                "location": "nbg1",
+                "name": "a3hc1",
+                "rescue_enabled": false,
+                "server_type": "cx11",
+                "status": "running"
+            },
+            "invocation": {
+                "module_args": {
+                    "api_token": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+                    "backups": false,
+                    "datacenter": null,
+                    "endpoint": "https://api.hetzner.cloud/v1",
+                    "force_upgrade": false,
+                    "id": null,
+                    "image": "centos-7",
+                    "labels": null,
+                    "location": null,
+                    "name": "a3hc1",
+                    "server_type": "cx11",
+                    "ssh_keys": null,
+                    "state": "present",
+                    "upgrade_disk": false,
+                    "user_data": null,
+                    "volumes": null
+                }
+            },
+            "item": "hc1"
+        },
+        {
+            "ansible_loop_var": "item",
+            "changed": false,
+            "failed": false,
+            "hcloud_server": {
+                "backup_window": "None",
+                "datacenter": "nbg1-dc3",
+                "id": "3083921",
+                "image": "centos-7",
+                "ipv4_address": "116.203.204.136",
+                "ipv6": "2a01:4f8:c2c:ae25::/64",
+                "labels": {},
+                "location": "nbg1",
+                "name": "a3hc2",
+                "rescue_enabled": false,
+                "server_type": "cx11",
+                "status": "running"
+            },
+            "invocation": {
+                "module_args": {
+                    "api_token": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+                    "backups": false,
+                    "datacenter": null,
+                    "endpoint": "https://api.hetzner.cloud/v1",
+                    "force_upgrade": false,
+                    "id": null,
+                    "image": "centos-7",
+                    "labels": null,
+                    "location": null,
+                    "name": "a3hc2",
+                    "server_type": "cx11",
+                    "ssh_keys": null,
+                    "state": "present",
+                    "upgrade_disk": false,
+                    "user_data": null,
+                    "volumes": null
+                }
+            },
+            "item": "hc2"
+        }
+    ]
+}
