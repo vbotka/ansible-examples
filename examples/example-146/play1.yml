@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    task_condition: true
+    block_condition: true
+  tasks:
+    - block:
+        - debug: msg="No.1"
+          when: task_condition
+        - set_fact:
+            block_condition: false
+        - debug: msg="No.2"
+      when: block_condition
+# Does block in ansible support conditionals inside them
+# https://stackoverflow.com/questions/57394267/does-block-in-ansible-support-conditionals-inside-them

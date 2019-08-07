@@ -147,6 +147,7 @@ Various examples of Ansbile code.
 - Example 143. hash_behaviour
 - Example 144. gcp
 - Example 145. password
+- Example 146. Blocks. When
 
 
 ## License
