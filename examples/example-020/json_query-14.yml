@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-14.json
+  tasks:
+
+    - debug:
+        var: rules
+      tags: t1
+
+    - set_fact:
+        ids: "{{ rules|
+                json_query('[*].{key: condition[1][2], value: id}')|
+                items2dict
+                }}"
+      tags: t2
+    - debug:
+        var: ids['Sidewalk']
+      tags: t2
+    - debug:
+        msg: "Sidewalk found with id: {{ ids['Sidewalk'] }}"
+      when: "'Sidewalk' in ids.keys()"
+      tags: t2
+
+# Loop through JSON response - Ansible
+# https://stackoverflow.com/questions/57404352/loop-through-json-response-ansible/

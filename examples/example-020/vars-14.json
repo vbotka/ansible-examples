@@ -1,0 +1,92 @@
+    "rules": [
+        {
+            "id": "1234",
+            "disabled": false,
+            "condition": [
+                "or",
+                [
+                    "contains",
+                    [
+                        "path",
+                        "payload",
+                        "custom_details",
+                        "resolved"
+                    ],
+                    "Platform"
+                ],
+                [
+                    "contains",
+                    [
+                        "path",
+                        "payload",
+                        "custom_details",
+                        "firing"
+                    ],
+                    "Platform"
+                ]
+            ],
+            "catch_all": false,
+            "advanced_condition": [],
+            "actions": [
+                [
+                    "route",
+                    "XYZ123"
+                ],
+                [
+                    "extract",
+                    "^\\[.*\\] *([^ ]*)",
+                    [
+                        "path",
+                        "payload",
+                        "summary"
+                    ],
+                    "description"
+                ]
+            ]
+        },
+        {
+            "id": "9876",
+            "disabled": false,
+            "condition": [
+                "or",
+                [
+                    "contains",
+                    [
+                        "path",
+                        "payload",
+                        "custom_details",
+                        "resolved"
+                    ],
+                    "Sidewalk"
+                ],
+                [
+                    "contains",
+                    [
+                        "path",
+                        "payload",
+                        "custom_details",
+                        "firing"
+                    ],
+                    "Sidewalk"
+                ]
+            ],
+            "catch_all": false,
+            "advanced_condition": [],
+            "actions": [
+                [
+                    "route",
+                    "QWERT1"
+                ],
+                [
+                    "extract",
+                    "^\\[.*\\] *([^ ]*)",
+                    [
+                        "path",
+                        "payload",
+                        "summary"
+                    ],
+                    "description"
+                ]
+            ]
+        }
+    ]
