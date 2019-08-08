@@ -5,6 +5,18 @@
   tasks:
     - debug:
         var: ansible_all_ipv4_addresses
+      tags: t1
+
+    - debug:
+        var: ansible_facts.devices.sda.partitions.keys()
+      tags: t2
+
+    - debug:
+        var: ansible_facts.partition
+      tags: t3
+
+# How to reference variable value in index
+# https://stackoverflow.com/questions/57405447/how-to-reference-variable-value-in-index
 
 # Ansible IP address variable remote hosts
 # https://stackoverflow.com/questions/56398584/ansible-ip-address-variable-remote-hosts/
