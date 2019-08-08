@@ -1,0 +1,7 @@
+- name:
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check that group_vars/all variable loaded
+      debug:
+        var: test_dir

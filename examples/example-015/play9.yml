@@ -1,0 +1,16 @@
+#- hosts: localhost
+#  gather_facts: no
+#  vars:
+#    base_dir: "{{ playbook_dir }}"
+#    test_dir: "{{ base_dir }}/foo"
+#  tasks:
+#    - debug:
+#        var: test_dir
+#    - debug:
+#        var: base_dir
+
+- import_playbook: "{{ test_dir2 }}/foo.yml"
+
+# Is there a way to reference group variables when importing in Ansible?
+# https://stackoverflow.com/questions/57403271/is-there-a-way-to-reference-group-variables-when-importing-in-ansible/
+

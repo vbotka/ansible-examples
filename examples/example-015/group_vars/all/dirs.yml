@@ -1,0 +1,3 @@
+base_dir: "{{ playbook_dir }}"
+test_dir: "{{ base_dir }}/foo"
+test_dir2: "."
