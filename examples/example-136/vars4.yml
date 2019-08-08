@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: test_01
   gather_facts: no
   tasks:
 
@@ -6,21 +6,36 @@
       register: result
       delegate_to: "{{ item }}"
       loop:
-        - test_01
         - test_02
         - test_03
       tags: t1
     - debug:
-        var: result
+        msg: "{{ result.results|map(attribute='stdout')|list }}"
       tags: t1
 
     - command: hostname
       register: result
-      delegate_to: test_01
+      vars:
+        ansible_host: "{{ item }}"
+      loop:
+        - test_02
+        - test_03
       tags: t2
     - debug:
-        var: result
+        msg: "{{ result.results|map(attribute='stdout')|list }}"
       tags: t2
+
+    - command: echo "{{ ansible_host }}"
+      register: result
+      vars:
+        ansible_host: "{{ item }}"
+      loop:
+        - test_02
+        - test_03
+      tags: t3
+    - debug:
+        msg: "{{ result.results|map(attribute='stdout')|list }}"
+      tags: t3
 
 # Loop stuck with first row of a csv file in Ansible - using csv-source-of-truth module
 # https://stackoverflow.com/questions/57402108/loop-stuck-with-first-row-of-a-csv-file-in-ansible-using-csv-source-of-truth-m/
