@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    filename: 'csr1000v-universalk9azn.16.11.01b.SPA'
+    stdout: 'boot system bootflash:csr1000v-universalk9azn.16.11.01b.SPA/packages.conf'
+  tasks:
+    - debug:
+        msg: filename found
+      when: stdout is search(filename)
+
+# How to view the Ansible When Conditional Evaluation
+# https://stackoverflow.com/questions/57412100/how-to-view-the-ansible-when-conditional-evaluation
