@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    item:
+      key: second_var
+      value: foobar
+    second_var:
+      dict1:
+        key1: value1
+        key2: value2
+      dict2:
+        key1: v1
+        key2: v2
+  tasks:
+    - template:
+        src: template-09.j2
+        dest: /scratch/test_01.cfg
+
+# How can I use a variable's value to look up another variable whose name is said value
+# https://stackoverflow.com/questions/57422417/how-can-i-use-a-variables-value-to-look-up-another-variable-whose-name-is-said/
