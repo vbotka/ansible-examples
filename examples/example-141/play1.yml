@@ -1,17 +1,14 @@
-- hosts: localhost
+- name: play1
+  hosts: all
+  gather_facts: no
+  vars:
+    apps_list: [A, C]
+    complete_list: [A, B, C]
   roles:
-    - role: example
-      vars:
-        kafka_user: vlado
-        kafka_group: vlado
-        kafka_location: /scratch
-        brands:
-          brand_1:
-            name: "brand1"
-          brand_2:
-            name: "brand2"
-          brand_3:
-            name: "brand_3"
+    - role: role1
+    - role: role2
+    - role: role3
+      when: apps_list|length > 0
 
-# Pass dictionary to jinja2 template from task loop
-# https://stackoverflow.com/questions/57306489/pass-dictionary-to-jinja2-template-from-task-loop/
+# 1) app_list vs. app_var
+# 2) not quoted include: "deploy2.yml app={{ item }}"

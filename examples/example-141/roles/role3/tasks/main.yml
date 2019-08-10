@@ -1,0 +1,16 @@
+- debug:
+    msg: 'role3: main'
+
+- block:
+    - include_tasks: deploy1.yml
+      vars:
+        app: "{{ item }}"
+      loop: "{{ apps_list | intersect(complete_list) }}"
+      run_once: yes
+    - include: deploy2.yml
+      vars:
+        app: "{{ item }}"
+      loop: "{{ complete_list }}"
+  when: complete_list|length > 0
+  
+# EOF
