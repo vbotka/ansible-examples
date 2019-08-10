@@ -1,0 +1,33 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    ansible_net_image: "bootflash:/isr4300-universalk9.03.16.04b.S.155-3.S4b-ext.SPA.bi"
+  tasks:
+    - set_fact:
+        compliant_image: "16.04b"
+    - debug: msg="INFO - Compliant image {{ compliant_image }}"
+      when: ansible_net_image is search(compliant_image)
+    - debug: msg="WARNING - Not compliant image"
+      when: ansible_net_image is not search(compliant_image)
+      
+    - set_fact:
+        compliant_image: "16.04c"
+    - debug: msg="INFO - Compliant image {{ compliant_image }}"
+      when: ansible_net_image is search(compliant_image)
+    - debug: msg="WARNING - Not compliant image {{ compliant_image }}"
+      when: ansible_net_image is not search(compliant_image)
+      
+    - name: Print information if ok
+      shell: echo "INFO - Compliant image {{ compliant_image }}"
+      register: compliance_output
+      when: ansible_net_image is search(compliant_image)
+    - debug: var=compliance_output
+
+    - name: Print information if KO
+      shell: echo "WARNING - Not compliant image {{ compliant_image }}"
+      register: compliance_output
+      when: ansible_net_image is not search(compliant_image)
+    - debug: var=compliance_output
+
+# Ansible if-else condition based on gathered fact
+# https://stackoverflow.com/questions/57435109/ansible-if-else-condition-based-on-gathered-fact

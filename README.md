@@ -148,6 +148,7 @@ Various examples of Ansbile code.
 - Example 144. gcp
 - Example 145. password
 - Example 146. Blocks. When
+- Example 147. Test version
 
 
 ## License

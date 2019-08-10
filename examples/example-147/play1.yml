@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: yes
+  vars:
+    my_python_version2: "2.7.10"
+    my_python_version3: "3.6.8"
+  tasks:
+
+    - debug:
+        var: ansible_python_version
+
+    - debug:
+        msg: Python version 2
+      when:
+        - my_python_version2 is version('2', '>=')
+        - my_python_version2 is version('3', '<')
+
+    - debug:
+        msg: Python version 2
+      when: my_python_version2 is search('^2.*')
+
+    - debug:
+        msg: Python version 2
+      when: my_python_version2 is regex("^2.*")
+
+    - debug:
+        msg: Python is version 3
+      when:
+        - my_python_version3 is version('3', '>=')
+        - my_python_version3 is version('4', '<')
+
+# Ansible Test what a Variable Begins with
+# https://stackoverflow.com/questions/57434266/ansible-test-what-a-variable-begins-with/
