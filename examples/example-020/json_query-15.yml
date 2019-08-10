@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-15.json
+  tasks:
+
+    - debug:
+        var: result
+      tags: t1
+
+    - debug:
+        msg: "{{ result.hardware.device|
+                 json_query('[?backing.contentId==`2565845434839sdsfc9we`].controllerKey')|
+                 first }}"
+      tags: t2
+
+    - debug:
+        msg: "contentId: {{ item }}
+              controllerKey: {{ result.hardware.device|
+                                json_query(query)|
+                                first }}"
+      vars:
+        query: "[?backing.contentId=='{{ item }}'].controllerKey"
+      loop:
+        - '2565845434839sdsfc9we'
+      tags: t3
+
+# json query in ansible with conditions
+# https://stackoverflow.com/questions/57437480/json-query-in-ansible-with-conditions/

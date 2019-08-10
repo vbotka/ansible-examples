@@ -1,0 +1,28 @@
+"result": {
+                "hardware": {
+                    "_vimtype": "vim.vm.VirtualHardware", 
+                    "device": [                     
+                        {
+                            "_vimtype": "vim.vm.device.VirtualDisk", 
+                            "backing": {
+                                "contentId": "2565845434839sdsfc9we", 
+                                "writeThrough": false
+                            }, 
+                            "controllerKey": 1000, 
+                        },
+                        {
+                            "_vimtype": "vim.vm.device.VirtualDisk", 
+                            "backing": {
+                                "contentId": "5264578434839sdsfc9rt", 
+                                "writeThrough": false
+                            }, 
+                            "controllerKey": 1001, 
+                        }                       
+                    ], 
+                    "memoryMB": 16384, 
+                    "numCPU": 2, 
+                    "numCoresPerSocket": 1, 
+                    "virtualICH7MPresent": false, 
+                    "virtualSMCPresent": false
+                }
+}
