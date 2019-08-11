@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: no
+  become: no
+
+  tasks:
+    - debug:
+        msg: "{{ undefined_variable }}"
+      when: false
+      register: result
+
+    - debug:
+        var: result
+
+# TASK [debug] ********
+# skipping: [localhost]
+
+# TASK [debug] ********
+# ok: [localhost] => {
+#     "result": {
+#         "changed": false, 
+#         "skip_reason": "Conditional result was False", 
+#         "skipped": true
+#     }
+# }
+
+# How to execute different shell commands dependent on different values from the same variable parameter on ansible?
+# https://stackoverflow.com/questions/57446570/how-to-execute-different-shell-commands-dependent-on-different-values-from-the-s

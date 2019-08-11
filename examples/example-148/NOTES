@@ -1,0 +1,5 @@
+Backup configuration file changes in Ansible with auto-remove of backup if file unchanged
+https://stackoverflow.com/questions/57440837/backup-configuration-file-changes-in-ansible-with-auto-remove-of-backup-if-file
+
+Ref: play[1-3].yml
+

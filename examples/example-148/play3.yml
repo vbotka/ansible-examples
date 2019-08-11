@@ -1,0 +1,6 @@
+- name: conf_light
+  hosts: localhost
+  gather_facts: no
+  become: yes
+  roles:
+    - vbotka.config_light

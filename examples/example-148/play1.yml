@@ -1,0 +1,97 @@
+- hosts: localhost
+  gather_facts: yes
+  become: yes
+
+  vars_files:
+    - data1.yml
+  vars:
+    debug: false
+
+  tasks:
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ confs|subelements('lines') }}"
+      when: debug|bool
+      tags: debug1
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ confs|subelements('blocks') }}"
+      when: debug|bool
+      tags: debug1
+          
+    - debug:
+        msg: "{{ item.0.path, item.1.regexp, item.1.line }}"
+      loop: "{{ confs|subelements('lines') }}"
+      when: debug|bool
+      tags: debug2
+    - debug:
+        msg: "{{ item.0.path, item.1.marker, item.1.block }}"
+      loop: "{{ confs|subelements('blocks') }}"
+      when: debug|bool
+      tags: debug2
+
+    - debug:
+        var: ansible_date_time
+      when: debug|bool
+      tags: debug3
+
+    - set_fact:
+        timestamp: "{{ ansible_date_time.date + '_' +
+                       ansible_date_time.hour + '_' +
+                       ansible_date_time.minute + '_' +
+                       ansible_date_time.second }}"
+      tags: debug3
+    - debug:
+        var: timestamp
+      when: debug|bool
+      tags: debug3
+
+    - name: Create backup files
+      copy:
+        remote_src: yes
+        src: "{{ item.value.path }}"
+        dest: "{{ item.value.path }}_{{ timestamp }}.bak"
+      loop: "{{ confs|dict2items }}"
+
+    - debug:
+        msg: "{{ my_backups.results|json_query('[*].invocation.module_args.dest') }}"
+      when: debug|bool
+      tags: debug4
+
+    - name: Configure lines in files
+      lineinfile:
+        path: "{{ item.0.path }}"
+        regexp: "{{ item.1.regexp }}"
+        line: "{{ item.1.line }}"
+      loop: "{{ confs|subelements('lines') }}"
+      notify: "{{ item.0.handler|default(omit) }}"
+      register: results_lines
+
+    - name: Configure blocks in files
+      blockinfile:
+        path: "{{ item.0.path }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.1.marker }}"
+        block: "{{ item.1.block }}"
+      loop: "{{ confs|subelements('blocks') }}"
+      notify: "{{ item.0.handler|default(omit) }}"
+      register: results_blocks
+
+    - name: Remove backup files that did not change
+      file:
+        state: absent
+        path: "{{ item }}_{{ timestamp }}.bak"
+      loop:
+        - "{{ results_lines.results|
+              default([])|
+              json_query('[?changed==`false`].invocation.module_args.path')|
+              first }}"
+        - "{{ results_blocks.results|
+              default([])|
+              json_query('[?changed==`false`].invocation.module_args.path')|
+              first }}"
+
+  handlers:
+    - name: ssh reload
+      service:
+        name: ssh
+        state: reloaded

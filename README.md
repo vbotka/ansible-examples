@@ -149,6 +149,9 @@ Various examples of Ansbile code.
 - Example 145. password
 - Example 146. Blocks. When
 - Example 147. Test version
+- Example 148. Role vbotka.config_light
+- Example 149. Expansion of expressions
+- Example 150. Plugins callback
 
 
 ## License
