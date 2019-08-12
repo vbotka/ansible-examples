@@ -1,0 +1,34 @@
+- debug:
+    var: group_names
+  delegate_to: localhost
+  run_once: true
+  tags: t1
+- debug:
+    var: groups
+  delegate_to: localhost
+  run_once: true
+  tags: t1
+
+- name: get kafka groups length
+  shell: echo "{{ groups['mygroup']|length }}"
+  register: result
+  run_once: true
+  delegate_to: localhost
+  tags: t2
+- debug:
+    var: result.stdout
+  run_once: true
+  delegate_to: localhost
+  tags: t2
+
+- name: Get the main control machine ip
+  shell: ip addr show `ip route |awk '$2=="via" {print $5}' |head -1` | awk '$1=="inet" {print $2}'| head -1 | cut -d '/' -f 1
+  register: result
+  run_once: true
+  delegate_to: localhost
+  tags: t3
+- debug:
+    var: result.stdout
+  run_once: true
+  delegate_to: localhost
+  tags: t3

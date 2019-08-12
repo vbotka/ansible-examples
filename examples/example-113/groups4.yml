@@ -1,0 +1,11 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - include_tasks: groups4-include.yml
+      when: "'mygroup' in group_names"
+    - include: groups4-include.yml
+      when: "'mygroup' in group_names"
+
+# In combination with when and run_once in ansible, it will accidentally skip the task
+# https://stackoverflow.com/questions/57465088/in-combination-with-when-and-run-once-in-ansible-it-will-accidentally-skip-the/
+
