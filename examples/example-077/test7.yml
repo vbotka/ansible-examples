@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    string: "Hi I am {{ Something.great }} from a planet {{ planet.outside.earth }}"
+    Something:
+      great: "Niel Armstrong"
+    planet:
+      outside:
+        earth: "Mars"
+  tasks:
+
+    - debug:
+        var: string
+
+    - template:
+        src: test7.j2
+        dest: /scratch/tmp/test
+
+# I want to replace a string between delimiters by looking up in properties file using ansible
+# https://stackoverflow.com/questions/57459702/i-want-to-replace-a-string-between-delimiters-by-looking-up-in-properties-file-u/

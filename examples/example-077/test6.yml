@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    path_to_template: /scratch/tmp/test
+    string: "Hi I am @Something.great@ from a planet @planet.outside.earth@"
+  tasks:
+
+    - replace:
+        path: "{{ path_to_template }}"
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
+      loop:
+        - regexp: '@Something.great@'
+          replace: 'Niel Armstrong'
+        - regexp: '@planet.outside.earth@'
+          replace: 'Mars'
+
+    - set_fact:
+        string: "{{ string | regex_replace( item.regexp, item.replace) }}"
+      loop:
+        - regexp: '@Something.great@'
+          replace: 'Niel Armstrong'
+        - regexp: '@planet.outside.earth@'
+          replace: 'Mars'
+    - debug:
+        var: string
+
+# I want to replace a string between delimiters by looking up in properties file using ansible
+# https://stackoverflow.com/questions/57459702/i-want-to-replace-a-string-between-delimiters-by-looking-up-in-properties-file-u/
