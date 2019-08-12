@@ -1,0 +1,21 @@
+---
+
+- name: 'Test service_facts'
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: populate service facts
+      service_facts:
+    - debug:
+        var: ansible_facts.services
+    - set_fact:
+        services_running: "{{ services_running|default([]) + [ item ] }}"
+      loop: "{{ services.keys() }}"
+      when: services[item].state == 'running'
+    - debug:
+        var: services_running
+
+# EOF
+...
