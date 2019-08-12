@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    interfaces:
+      - name: ae10
+        ipv4:
+          - address: 4.4.4.4
+            mask: 8
+
+  tasks:
+    - debug:
+        msg: "matched {{ item.1.address }}/{{ item.1.mask }} on {{ item.0.name }}"
+      loop: "{{ interfaces|subelements('ipv4') }}"
+      when:
+        - item.1.address is defined
+        - item.1.mask is defined
+
+    - template:
+        src: test5.j2
+        dest: /scratch/tmp/test
+
+# Jinja2 - If condition & nested array
+# https://stackoverflow.com/questions/57449620/jinja2-if-condition-nested-array/

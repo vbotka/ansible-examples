@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: no
+  become: no
+
+  tasks:
+    - debug:
+        msg: Test message No.1

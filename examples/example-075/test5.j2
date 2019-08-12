@@ -1,0 +1,9 @@
+{% for item in interfaces %}
+{% for ip in item.ipv4 %}
+{% if ip.address and ip.mask%}
+            matched {{ ip.address }}/{{ ip.mask }} on {{ item.name }}
+{% else %}
+            nothing matched
+{% endif %}
+{% endfor %}
+{% endfor %}
