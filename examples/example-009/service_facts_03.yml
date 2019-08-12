@@ -9,7 +9,7 @@
     - name: populate service facts
       service_facts:
     - debug:
-        var: ansible_facts.services
+        var: services
     - set_fact:
         services_running: "{{ services_running|default([]) + [ item ] }}"
       loop: "{{ services.keys() }}"
