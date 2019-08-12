@@ -1,0 +1,14 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - set_fact:
+        list_other_hosts: "{{ groups.test_jails|difference([inventory_hostname]) }}"
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          localnode={{ inventory_hostname }}
+          othernodes={{ list_other_hosts|join(';') }}
+
+# Ansible template with list of hosts excluding current
+# https://stackoverflow.com/questions/57462313/ansible-template-with-list-of-hosts-excluding-current/
