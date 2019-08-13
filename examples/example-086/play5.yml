@@ -1,0 +1,20 @@
+- hosts: all_hosts_to_select_from
+  vars:
+    exclusion_patterns:
+      - pattern1
+      - pattern2
+  tasks:
+    - name: Create list of excluded hosts
+      set_fact:
+        excluded_hosts: "{{ excluded_hosts|default([]) + ansible_play_hosts_all|
+                                                         select('match', item)|
+                                                         list }}"
+      loop: "{{ exclusion_patterns }}"
+      run_once: true
+    - name: End play for exclusion hosts
+      meta: end_host
+      loop: "{{ excluded_hosts }}"
+      run_once: true
+
+# List with patterns virtual machine names for playbook exclusion
+# https://stackoverflow.com/questions/57474594/list-with-patterns-virtual-machine-names-for-playbook-exclusion/
