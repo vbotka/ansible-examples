@@ -1,0 +1,25 @@
+logs_to_purge: {
+    results: [
+                { 
+                    "name": value,
+                    "name2": value2,
+                    "name3": {    },
+                    "files": [{
+                                  "filevalue1": value,
+                                  "filevalue2": value,
+                                  "path": value_of_interest 
+                              },
+                              {
+                                  "filevalue1": value,
+                                  "filevalue2": value,
+                                  "path": value_of_interest
+                              }
+                            ]
+
+                  },
+                  {
+                      One more like above for every "app_folders"
+                      with zero or more files matches.
+                  }
+    ]
+}

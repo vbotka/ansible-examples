@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-16.json
+  tasks:
+
+    - debug:
+        var: logs_to_purge.results
+
+    - debug:
+        var: item
+      loop: "{{ logs_to_purge.results|
+                json_query('[*].files[*].path')|
+                flatten }}"
+
+# Accessing registered file module data using Ansible loops
+# https://stackoverflow.com/questions/57479809/accessing-registered-file-module-data-using-ansible-loops/
