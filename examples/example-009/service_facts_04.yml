@@ -1,0 +1,20 @@
+---
+
+- name: 'Test service_facts'
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: populate service facts
+      service_facts:
+    - set_fact:
+        srv_running: "{{ services|dict2items|
+                         selectattr('value.state', 'match', 'running')|
+                          map(attribute='key')|
+                          list }}"
+    - debug:
+        var: srv_running
+
+# EOF
+...

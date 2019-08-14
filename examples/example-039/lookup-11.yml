@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    myString: xxxx
+    myString_list: []
+  tasks:
+    - find:
+        paths: /scratch/tmp
+        patterns: "*.db"
+      register: files_matched
+      tags: always
+    - debug:
+        msg: "{{ files_matched.files|json_query('[*].path') }}"
+
+    - name: Register results
+      debug:
+        msg: "{{ myString }} not found in {{ item }}"
+      loop: "{{ files_matched.files|json_query('[*].path') }}"
+      when: lookup('file', item) is not search(myString)
+      register: result
+
+    - debug:
+        msg: "{{ result.results }}"
+
+    - debug:
+        msg: "{{ result.results|json_query('[*].skipped') }}"
+
+    - name: Test skipped results
+      meta: end_play
+      when: all(result.results|json_query('[*].skipped'))
+
+    - debug:
+        msg: continue
+

@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    myString: xxxx
+    myString_list: []
+  tasks:
+    - find:
+        paths: /scratch/tmp
+        patterns: "*.db"
+      register: files_matched
+      tags: always
+    - debug:
+        msg: "{{ files_matched.files|json_query('[*].path') }}"
+
+    - name: Create myString_list
+      set_fact:
+        myString_list: "{{ myString_list + [ item ] }}"
+      loop: "{{ files_matched.files|json_query('[*].path') }}"
+      when: lookup('file', item) is search(myString)
+
+    - debug:
+        msg: "{{ myString_list }}"
+
+    - name: Test myString_list
+      meta: end_play
+      when: myString_list|length > 0
+    
+    - debug:
+        msg: continue

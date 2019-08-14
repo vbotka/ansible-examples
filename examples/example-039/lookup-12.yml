@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    myString: vlado
+  tasks:
+    - find:
+        paths: /scratch/tmp
+        patterns: "*.db"
+      register: files_matched
+
+    - debug:
+        msg: "{{ files_matched.files|json_query('[*].path') }}"
+
+    - debug:
+        msg: "{{ files_matched.files|json_query('[*].path')|file_list_search(myString) }}"
+
+    - name: End of play when myString found
+      block:
+        - set_stats:
+            data:
+              FAILED: 1
+        - meta: end_play
+      when: "files_matched.files|
+             json_query('[*].path')|
+             file_list_search(myString)"
+
+    - debug:
+        msg: continue
+    - set_stats:
+        data:
+          FAILED: 0
+
+# Need Syntax to add Ansible meta module to existing Playbook
+# https://stackoverflow.com/questions/57487489/need-syntax-to-add-ansible-meta-module-to-existing-playbook/
