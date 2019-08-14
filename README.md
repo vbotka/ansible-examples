@@ -152,6 +152,7 @@ Various examples of Ansbile code.
 - Example 148. Role vbotka.config_light
 - Example 149. Expansion of expressions
 - Example 150. Plugins callback
+- Example 151. Boolean
 
 
 ## License

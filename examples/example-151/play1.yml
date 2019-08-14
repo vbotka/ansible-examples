@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  become: no
+
+  tasks:
+    - name: No.1 Set Parameter for Java install to false when unset
+      set_fact:
+        javainstall: false
+      when: javainstall|default(false)|bool != true
+    - debug:
+        var: javainstall
+
+    - set_fact:
+        javainstall: indefinite
+    - debug:
+        msg: indefinite is false
+      when: not javainstall|bool
+    - name: No.2 Set Parameter for Java install to false when value i wrong
+      set_fact:
+        javainstall: false
+      when: javainstall|default(false)|bool != true
+    - debug:
+        var: javainstall
+
+    - set_fact:
+        javainstall: true
+    - name: No.3 Set Do not change parameter for Java install to false when true
+      set_fact:
+        javainstall: false
+      when: javainstall|default(false)|bool != true
+    - debug:
+        var: javainstall
+
+# Boolean startup params in Ansible
+# https://stackoverflow.com/questions/57495145/boolean-startup-params-in-ansible/
