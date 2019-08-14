@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: /scratch/tmp/fstab
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
+      loop:
+        - regexp: '^Aaaaa(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)(.*)$'
+          replace: 'Aaaaa\1 \2 \3 \4 1 1'
+        - regexp: '^Bbbbbn(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)(.*)$'
+          replace: 'Bbbbbn\1 \2 ext4 \4 \5 \6'
+
+# Ansible replace or lineinfile?
+# https://stackoverflow.com/questions/57485828/ansible-replace-or-lineinfile/

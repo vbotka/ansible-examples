@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars-17.json
+  vars:
+    project_environment: live
+  tasks:
+
+    - debug:
+        var: check_objects
+    - debug:
+        var: check_objects[project_environment].current
+    - debug:
+        msg: "{{ check_objects|
+                 dict2items|
+                 json_query(query)|
+                 flatten }}"
+      vars:
+        query: "[?key=='{{ project_environment }}'].value.current"
+
+# How I can use Variables in Ansible json_query?
+# https://stackoverflow.com/questions/57493865/how-i-can-use-variables-in-ansible-json-query/

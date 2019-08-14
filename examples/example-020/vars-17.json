@@ -1,0 +1,6 @@
+check_objects:
+  live:
+    current:
+    - example.com
+    next:
+    - next.example.com
