@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    mydict:
+      some_value: "/my/path"
+      anotherpath: "/my/other/path"
+      another_value: "/my/path2"
+  tasks:
+    - debug:
+        msg: "{{ mydict.values() }}"
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ mydict|dict2items }}"
+    - debug:
+        msg: "{{ mydict.values()|json_query('[?contains(@,`path`)]') }}"
