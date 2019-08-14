@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  become: no
+
+  tasks:
+    - snmp_facts:
+        host: 10.1.0.12
+        version: v2
+        community: public
+      register: result
+    - debug:
+        var: result
+
+    - fail:
+        msg: parse err
+      when: ansible_sysdescr is not search('Xisco NX-OS')
+
+# Ansible - Trigger Fail when string not in variable
+# https://stackoverflow.com/questions/57277894/ansible-trigger-fail-when-string-not-in-variable/

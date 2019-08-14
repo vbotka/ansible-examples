@@ -153,6 +153,7 @@ Various examples of Ansbile code.
 - Example 149. Expansion of expressions
 - Example 150. Plugins callback
 - Example 151. Boolean
+- Example 152. snmp_facts
 
 
 ## License
