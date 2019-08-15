@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  become: no
+  tasks:
+    - name: read from CSV
+      read_csv:
+        path: cvs-01-data.csv
+      register: users
+
+    - debug:
+        var: users
+
+    - debug:
+        msg: "{{ users.list|json_query('[*].name') }}"
+
+# Ansible Error: 'list object' has no attribute 'name' when using read_csv module
+# https://stackoverflow.com/questions/57506148/ansible-error-list-object-has-no-attribute-name-when-using-read-csv-module/

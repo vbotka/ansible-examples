@@ -154,6 +154,7 @@ Various examples of Ansbile code.
 - Example 150. Plugins callback
 - Example 151. Boolean
 - Example 152. snmp_facts
+- Example 153. csv
 
 
 ## License
