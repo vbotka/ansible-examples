@@ -1,0 +1,8 @@
+- hosts: localhost
+  vars:
+    list1: ['A', 'B', 'C']
+  tasks:
+    - debug:
+        var: list1
+    - debug:
+        msg: "{{ list1[] }}"

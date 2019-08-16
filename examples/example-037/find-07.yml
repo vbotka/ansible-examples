@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+  - name: Find patterns
+    find:
+      paths:
+        - /scratch/tmp
+      patterns: "*.db"
+      recurse: yes
+    register: files_matched
+
+  - debug:
+      var: files_matched
+
+  - debug:
+      var: item
+    loop: "{{ files_matched.files|json_query('[].path') }}"
+
+# Getting Runtime error “obj must be a list of dicts or a nested dict” using with_items
+# https://stackoverflow.com/questions/57528986/getting-runtime-error-obj-must-be-a-list-of-dicts-or-a-nested-dict-using-with/

@@ -1,0 +1,13 @@
+- hosts: localhost
+  vars_files:
+    - list-03-data.json
+  tasks:
+    - debug:
+        var: my_output
+    - debug:
+        var: item
+      loop: "{{ my_output }}"
+      when: item|length > 0
+
+# How to parse array with no label
+# https://stackoverflow.com/questions/57528932/how-to-parse-array-with-no-label/
