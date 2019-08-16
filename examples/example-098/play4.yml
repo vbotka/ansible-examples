@@ -1,0 +1,51 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    exclude_vars:
+      - userlist
+
+  tasks:
+
+    - name: Create list of variables
+      set_fact:
+        my_vars: "{{ my_vars|default([]) +
+                     [item.split('=').0|trim] }}"
+      with_lines: cat props.txt
+      when: item is match('^(\s*[a-zA-Z0-9_]+\s*)=(.*)$')
+
+    - name: Exclude variables from the list
+      set_fact:
+        my_vars: "{{ my_vars|difference(exclude_vars) }}"
+
+    - name: Create list of values
+      set_fact:
+        my_values: "{{ my_values|default([]) +
+                       [lookup('ini', item ~ ' type=properties file=props.txt')] }}"
+      loop: "{{ my_vars }}"
+
+    - name: Create dictionary of variables and values
+      set_fact:
+        my_dict: "{{ my_dict|default({})| 
+                     combine({item.0: item.1}) }}"
+      with_together:
+        - "{{ my_vars }}"
+        - "{{ my_values }}"
+
+    - name: Create configuration files
+      copy:
+        dest: 'props.txt.new'
+        content: |
+          {% for k,v in my_dict.items() %}
+          {{ k }}: {{ v }}
+          {% endfor %}
+      
+# Notes
+
+# 1) Creating valid variable names
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#creating-valid-variable-names
+# Variable names should be letters, numbers, and
+# underscores. Variables should always start with a letter.
+
+# Ansible- Delete multiline property from properties file
+# https://stackoverflow.com/questions/57520310/ansible-delete-multiline-property-from-properties-file/

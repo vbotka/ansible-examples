@@ -1,0 +1,13 @@
+k1= v1
+userlist = [
+            { 'user': 'x',
+              'city" : 'xc'
+            }
+            ,{ 'user': 'y',
+              'city" : 'yc'
+            }
+            ,{ 'user': 'z',
+              'city" : 'zc'
+            }
+           ]
+k2= v2
