@@ -1,14 +1,8 @@
 - hosts: localhost
-  become: yes
-  become_method: sudo
-  become_user: root
   vars:
     Mellanox_1: enp3s0
     Mellanox_2: enp5s0
-    lp_debug: true
-    lp_netplan_root: "/scratch/tmp"
-    lp_netplan: True
-    lp_netplan_conf:
+    netplan_conf:
       - file: "91-ethernet.yaml"
         category: "ethernets"
         conf: |
@@ -31,5 +25,14 @@
             - "{{ Mellanox_2 }}d1"
             parameters:
               mode: 802.3ad
-  roles:
-    - vbotka.linux_postinstall
+  tasks:
+    - set_fact:
+        c1: "{{ netplan_conf.1.conf|from_yaml }}"
+    - debug:
+        var: c1
+    - set_fact:
+        c1_p2: "{{ (netplan_conf.1.conf|from_yaml).bond0.parameters }}"
+    - debug:
+        var: c1_p2
+    - debug:
+        var: c1.bond0.parameters
