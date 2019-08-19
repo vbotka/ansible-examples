@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - debug:
+        var: ansible_play_hosts_all
+      run_once: true
+
+# > ansible-playbook play6.yml --limit plan*
+# ok: [pland] => {
+#     "ansible_play_hosts_all": [
+#         "pland", 
+#         "plane"
+#     ]
+# }
