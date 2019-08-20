@@ -1,0 +1,41 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    remote_config_file: play6-data.conf
+
+  tasks:
+
+    - debug:
+        var: item
+      with_ini: '.* type=properties file=play6-data.conf re=True'
+      register: result
+    - debug:
+        var: result
+
+    - name: Create list of variables
+      set_fact:
+        my_vars: "{{ my_vars|default([]) +
+                     [item.split('=').0|trim] }}"
+      with_lines: "cat {{ remote_config_file }}"
+      when: item is match('^(\s*[a-zA-Z0-9_]+\s*)=(.*)$')
+
+    - name: Create list of values
+      set_fact:
+        my_values: "{{ my_values|default([]) +
+                       [lookup('ini', item ~ ' type=properties file=' ~ remote_config_file)] }}"
+      loop: "{{ my_vars }}"
+
+    - name: Create dictionary of variables and values
+      set_fact:
+        my_dict: "{{ my_dict|default({})| 
+                     combine({item.0: item.1}) }}"
+      with_together:
+        - "{{ my_vars }}"
+        - "{{ my_values }}"
+
+    - debug:
+        var: my_dict
+
+# How to convert a config file (of lines) to a dict list in Ansible
+# https://stackoverflow.com/questions/57570394/how-to-convert-a-config-file-of-lines-to-a-dict-list-in-ansible/
