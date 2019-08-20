@@ -1,0 +1,2 @@
+/u01/app/oracle/oradata/TEST/
+/u02/

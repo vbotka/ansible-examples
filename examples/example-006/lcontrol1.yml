@@ -1,0 +1,33 @@
+---
+
+- name: "Examples of with_lines loop"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    
+    - set_fact:
+        lines_list: "{{ lines_list|default([]) + [item] }}"
+      with_lines: cat file1.txt
+    - debug:
+        var: lines_list
+
+    - set_fact:
+        lines_dict1: "{{ lines_dict1|default({})|combine({idx: item}) }}"
+      with_lines: cat file1.txt
+      loop_control:
+        index_var: idx
+    - debug:
+        var: lines_dict1
+
+    - set_fact:
+        lines_dict2: "{{ lines_dict2|default({})|combine({idx: item}) }}"
+      loop: "{{ lookup('file', 'file1.txt').splitlines() }}"
+      loop_control:
+        index_var: idx
+    - debug:
+        var: lines_dict2
+
+# How to read line-by-line in a file on remote machine
+# https://stackoverflow.com/questions/57568956/how-to-read-line-by-line-in-a-file-on-remote-machine/
