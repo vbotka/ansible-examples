@@ -1,0 +1,33 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - vars-19.json
+
+  tasks:
+
+    - set_fact:
+        list1: "{{ list1|default([]) + [item] }}"
+      loop: "{{ my_ansible_facts.checkpoint_servers_gateways.objects|
+                json_query(query) }}"
+      vars:
+        query: '[*].{names: "cluster-member-names",
+                     type: type,
+                     dname: domain.name,
+                     name: name,
+                     apname: policy."access-policy-name"}'
+
+    - debug:
+        var: list1
+
+    - debug:
+        msg: "domain.name: {{ item.dname }},
+              name: {{ item.name }},
+              access-policy-name: {{ item.apname }}"
+      loop: "{{ list1 }}"
+      when:
+        - item.type == 'CpmiGatewayCluster'
+        - "'comm-gd-c1' in item.names"
+
+# ansible nested json value extractaction
+# https://stackoverflow.com/questions/57495210/ansible-nested-json-value-extractaction/

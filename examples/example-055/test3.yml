@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    instances: 3
+  tasks:
+    - debug:
+        msg: "{{ item|int + 8080 }}"
+      loop: "{{ range(1, instances + 1)|list }}"
+
+# ansible code for multiple tomcat instances on a server
+# https://stackoverflow.com/questions/57566919/ansible-code-for-multiple-tomcat-instances-on-a-server

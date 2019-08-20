@@ -1,0 +1,334 @@
+{
+  "my_ansible_facts": {
+    "checkpoint_servers_gateways": {
+      "from": 1,
+      "objects": [
+        {
+          "cluster-member-names": [
+            "comm-gd-c1",
+            "comm-gd-c2"
+          ],
+          "color": "black",
+          "comments": "",
+          "domain": {
+            "domain-type": "domain",
+            "name": "dom-gd-1",
+            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+          },
+          "groups": [],
+          "hardware": "Open server",
+          "icon": "NetworkObjects/cluster",
+          "ipv4-address": "170.244.251.112",
+          "management-blades": {},
+          "meta-info": {
+            "creation-time": {
+              "iso-8601": "2019-04-30T13:40+01700",
+              "posix": 1556611824910
+            },
+            "creator": "admin",
+            "last-modifier": "admin",
+            "last-modify-time": {
+              "iso-8601": "2019-04-30T14:07+01700",
+              "posix": 1556613459458
+            },
+            "lock": "unlocked",
+            "validation-state": "ok"
+          },
+          "name": "Clus-01",
+          "network-security-blades": {
+            "firewall": true
+          },
+          "operating-system": "Gaia",
+          "policy": {
+            "access-policy-installation-date": {
+              "iso-8601": "2019-08-14T12:14+01700",
+              "posix": 1565765082106
+            },
+            "access-policy-installed": true,
+            "access-policy-name": "Standard",
+            "cluster-members-access-policy-revision": [
+              {
+                "name": "comm-gd-c2",
+                "policy-name": "Standard",
+                "revision": {
+                  "application": "WEB_API",
+                  "changes": 1,
+                  "color": "black",
+                  "comments": "",
+                  "connection-mode": "read write",
+                  "description": "",
+                  "domain": {
+                    "domain-type": "domain",
+                    "name": "dom-gd-1",
+                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                  },
+                  "email": "",
+                  "expired-session": false,
+                  "icon": "Objects/worksession",
+                  "in-work": false,
+                  "ip-address": "127.0.0.1",
+                  "last-login-time": {
+                    "iso-8601": "2019-08-13T16:15+01700",
+                    "posix": 1565693111724
+                  },
+                  "locks": 1,
+                  "meta-info": {
+                    "creation-time": {
+                      "iso-8601": "2019-08-13T16:15+01700",
+                      "posix": 1565693111730
+                    },
+                    "creator": "admin",
+                    "last-modifier": "admin",
+                    "last-modify-time": {
+                      "iso-8601": "2019-08-13T16:15+01700",
+                      "posix": 15656931117016
+                    },
+                    "lock": "unlocked",
+                    "validation-state": "ok"
+                  },
+                  "phone-number": "",
+                  "publish-time": {
+                    "iso-8601": "2019-08-13T16:15+01700",
+                    "posix": 15656931117014
+                  },
+                  "read-only": true,
+                  "session-timeout": 600,
+                  "state": "published",
+                  "tags": [],
+                  "type": "session",
+                  "uid": "14bd921e-d766-4f71-a228-465b7f88d7b6",
+                  "user-name": "admin"
+                },
+                "uid": "2639ab93-01ab-472c-a071-b24ad62eb49c"
+              },
+              {
+                "name": "comm-gd-c1",
+                "policy-name": "Standard",
+                "revision": {
+                  "application": "WEB_API",
+                  "changes": 1,
+                  "color": "black",
+                  "comments": "",
+                  "connection-mode": "read write",
+                  "description": "",
+                  "domain": {
+                    "domain-type": "domain",
+                    "name": "dom-gd-1",
+                    "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+                  },
+                  "email": "",
+                  "expired-session": false,
+                  "icon": "Objects/worksession",
+                  "in-work": false,
+                  "ip-address": "127.0.0.1",
+                  "last-login-time": {
+                    "iso-8601": "2019-08-13T16:15+01700",
+                    "posix": 1565693111724
+                  },
+                  "locks": 1,
+                  "meta-info": {
+                    "creation-time": {
+                      "iso-8601": "2019-08-13T16:15+01700",
+                      "posix": 1565693111730
+                    },
+                    "creator": "admin",
+                    "last-modifier": "admin",
+                    "last-modify-time": {
+                      "iso-8601": "2019-08-13T16:15+01700",
+                      "posix": 15656931117016
+                    },
+                    "lock": "unlocked",
+                    "validation-state": "ok"
+                  },
+                  "phone-number": "",
+                  "publish-time": {
+                    "iso-8601": "2019-08-13T16:15+01700",
+                    "posix": 15656931117014
+                  },
+                  "read-only": true,
+                  "session-timeout": 600,
+                  "state": "published",
+                  "tags": [],
+                  "type": "session",
+                  "uid": "14bd921e-d766-4f71-a228-465b7f88d7b6",
+                  "user-name": "admin"
+                },
+                "uid": "84ed0d02-4a01-4079-90c2-b4a119e64cf2"
+              }
+            ],
+            "threat-policy-installed": false
+          },
+          "read-only": true,
+          "sic-status": "uninitialized",
+          "tags": [],
+          "type": "CpmiGatewayCluster",
+          "uid": "7a5f9f5c-b1703-4db6-b808-e8088ce6ab3c",
+          "version": "R80.10",
+          "vpn-encryption-domain": "addresses_behind_gw"
+        },
+        {
+          "color": "black",
+          "comments": "",
+          "domain": {
+            "domain-type": "domain",
+            "name": "dom-gd-1",
+            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+          },
+          "groups": [],
+          "hardware": "Open server",
+          "icon": "NetworkObjects/gateway",
+          "interfaces": [
+            {
+              "dynamic-ip": false,
+              "interface-name": "eth0",
+              "ipv4-address": "170.244.251.84",
+              "ipv4-mask-length": 24,
+              "ipv4-network-mask": "255.255.255.0",
+              "topology": {
+                "ip-address-behind-this-interface": "not defined",
+                "leads-to-dmz": false,
+                "leads-to-internet": false
+              }
+            }
+          ],
+          "ipv4-address": "170.244.251.84",
+          "management-blades": {},
+          "meta-info": {
+            "creation-time": {
+              "iso-8601": "2019-08-07T16:33+01700",
+              "posix": 1565175815637
+            },
+            "creator": "admin",
+            "last-modifier": "admin",
+            "last-modify-time": {
+              "iso-8601": "2019-08-07T16:36+01700",
+              "posix": 1565175966098
+            },
+            "lock": "unlocked",
+            "validation-state": "ok"
+          },
+          "name": "comm-gd-c10",
+          "network-security-blades": {
+            "firewall": true
+          },
+          "operating-system": "Gaia",
+          "policy": {
+            "access-policy-installation-date": {
+              "iso-8601": "2019-08-13T16:15+01700",
+              "posix": 1565693132506
+            },
+            "access-policy-installed": true,
+            "access-policy-name": "Standard",
+            "access-policy-revision": {
+              "application": "WEB_API",
+              "changes": 1,
+              "color": "black",
+              "comments": "",
+              "connection-mode": "read write",
+              "description": "",
+              "domain": {
+                "domain-type": "domain",
+                "name": "dom-gd-1",
+                "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+              },
+              "email": "",
+              "expired-session": false,
+              "icon": "Objects/worksession",
+              "in-work": false,
+              "ip-address": "127.0.0.1",
+              "last-login-time": {
+                "iso-8601": "2019-08-13T16:15+01700",
+                "posix": 1565693100590
+              },
+              "locks": 1,
+              "meta-info": {
+                "creation-time": {
+                  "iso-8601": "2019-08-13T16:15+01700",
+                  "posix": 15656931003170
+                },
+                "creator": "admin",
+                "last-modifier": "admin",
+                "last-modify-time": {
+                  "iso-8601": "2019-08-13T16:15+01700",
+                  "posix": 1565693111462
+                },
+                "lock": "unlocked",
+                "validation-state": "ok"
+              },
+              "phone-number": "",
+              "publish-time": {
+                "iso-8601": "2019-08-13T16:15+01700",
+                "posix": 1565693111445
+              },
+              "read-only": true,
+              "session-timeout": 600,
+              "state": "published",
+              "tags": [],
+              "type": "session",
+              "uid": "3f577564-7f28-45d4-a73c-d59bdecd064c",
+              "user-name": "admin"
+            },
+            "threat-policy-installed": false
+          },
+          "read-only": true,
+          "sic-status": "communicating",
+          "tags": [],
+          "type": "simple-gateway",
+          "uid": "f267afcf-ff2a-4f34-babc-c6a76a59eb47",
+          "version": "R80.10",
+          "vpn-encryption-domain": "addresses_behind_gw"
+        },
+        {
+          "color": "black",
+          "comments": "Domain Management Server",
+          "domain": {
+            "domain-type": "domain",
+            "name": "dom-gd-1",
+            "uid": "9597dde5-6c2e-4696-a4b9-0e9c5118947a"
+          },
+          "groups": [],
+          "hardware": "Other",
+          "icon": "NetworkObjects/CheckPoint/Hosts/xHost_CP",
+          "ipv4-address": "170.244.251.111",
+          "management-blades": {
+            "logging-and-status": true,
+            "network-policy-management": true
+          },
+          "meta-info": {
+            "creation-time": {
+              "iso-8601": "2019-04-26T16:31+01700",
+              "posix": 1556276489829
+            },
+            "creator": "admin",
+            "last-modifier": "admin",
+            "last-modify-time": {
+              "iso-8601": "2019-06-03T12:25+01700",
+              "posix": 1559544910394
+            },
+            "lock": "unlocked",
+            "validation-state": "ok"
+          },
+          "name": "dom_gd_1",
+          "network-security-blades": {},
+          "operating-system": "Gaia",
+          "policy": {},
+          "read-only": true,
+          "sic-status": "communicating",
+          "tags": [],
+          "type": "CpmiHostCkp",
+          "uid": "21472b8e-f337-4310-974b-786486a0b69c",
+          "version": "R80.20"
+        }
+      ],
+      "to": 8,
+      "total": 8
+    },
+    "discovered_interpreter_python": "/usr/bin/python"
+  },
+  "changed": false,
+  "invocation": {
+    "module_args": {
+      "details_level": "full"
+    }
+  }
+}
