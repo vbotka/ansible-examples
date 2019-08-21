@@ -1,0 +1,44 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+
+    ms2Num:
+      stdout_lines: [
+        "ms2-apache_1.6.1.8~20160324_amd64.deb", 
+        "ms2-ctps_1.6.1.8~20160324_amd64.deb", 
+        "ms2-desert_1.6.1.8~20160324_amd64.deb", 
+        "ms2-provider_1.6.1.8~20160324_amd64.deb", 
+        "ms2-w3gui_1.6.1.8+1~20160324_amd64.deb"
+        ]
+
+    MS2Packages:
+      - ms2-desert
+      - ms2-ctps
+      - ms2-apache
+      - ms2-w3gui
+      - ms2-provider
+
+  tasks:
+
+    - debug:
+        var: ProviderDebList.stdout_lines
+    - debug:
+        var: MS2Packages
+
+    - set_fact:
+        my_pkg: "{{ my_pkg|default([]) +
+                    ms2Num.stdout_lines|
+                    select('search', item)|
+                    list }}"
+      loop: "{{ MS2Packages }}"
+    - debug:
+        var: my_pkg
+
+# Mapping a list of Debian packages in a specific order of 2nd list with Ansible
+# https://stackoverflow.com/questions/57587809/mapping-a-list-of-debian-packages-in-a-specific-order-of-2nd-list-with-ansible/
+      
+# EOF
+...
