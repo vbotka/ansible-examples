@@ -15,7 +15,7 @@
         responses:
           (.*)password(.*):
             - "password"
-            - "\x03"  # Ctrl-C
+            - "\x03"          # Ctrl-C
           (.*)\$(.*): "exit"  # Fit the prompt
       with_nested:
         - "{{ my_users }}"
@@ -23,8 +23,9 @@
       register: result
       ignore_errors: yes
     - debug:
-        msg: "{{ (item.rc  == 0)|ternary(item.invocation.module_args.command ~ ' [OK]',
-                                         item.invocation.module_args.command ~ ' [KO]') }}"
+        msg: "{{ (item.rc  == 0)|
+                 ternary(item.invocation.module_args.command ~ ' [OK]',
+                         item.invocation.module_args.command ~ ' [KO]') }}"
       loop: "{{ result.results }}"
 
 # Verify if user is able to SSH using password
