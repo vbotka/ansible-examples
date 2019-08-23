@@ -4,7 +4,17 @@
         path: /scratch/tmp
       register: info
     - debug:
-        msg: "{{ info }}"
+        var: info
+    - debug:
+        var: info.stat.exists
+
+    - stat:
+        path: /scratch/tmp2
+      register: info2
+    - debug:
+        var: info2
+    - debug:
+        var: info2.stat.exists
 
 #      patterns:
 #        - "INST*"

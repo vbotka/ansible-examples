@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+    - stat:
+        path: /scratch/{{ item }}
+      register: info
+      loop:
+        - 'tmp'
+        - 'tmp2'
+
+    - debug:
+        var: info
+
+    - debug:
+        msg: "{{ item.item }} {{ item.stat.exists }}"
+      loop: "{{ info.results }}"
+      when: not item.stat.exists
+
+# Ansible iterate stat results and create directories
+# https://stackoverflow.com/questions/57628645/i-am-getting-the-error-while-creating-the-directory-using-ansible-code/
