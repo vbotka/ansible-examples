@@ -1,0 +1,5 @@
+{% for host in my_hosts %}
+{% if host is regex('^edge(.*)$') %}
+{{ host }}
+{% endif %}
+{% endfor %}

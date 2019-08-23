@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_hosts: [ host1, host2, host3, edge_01 ]
+
+  tasks:
+
+    - template:
+        src: test6.j2
+        dest: /scratch/tmp/test
+
+# Ansible variables template issue
+# https://superuser.com/questions/1474369/ansible-variables-template-issue/
