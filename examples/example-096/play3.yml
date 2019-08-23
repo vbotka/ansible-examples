@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    name:
+      - username: bob
+  tasks:
+
+    - debug:
+        var: name[0].username
+
+    - debug:
+        msg: name.0.username
+
+    - debug:
+        msg: "{{ name.0.username }}"
+
+    - debug:
+        msg: username is bob
+      when: name.0.username == "bob"
