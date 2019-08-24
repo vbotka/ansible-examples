@@ -1,0 +1,31 @@
+- name: Create Group_X
+  hosts: localhost
+  gather_facts: false
+  vars:
+    no_of_servers: 2
+    my_groups:
+      - Group_A
+      - Group_B
+      - Group_C
+  tasks:
+    - set_fact:
+        my_list: '{{ my_list|default([]) +
+                     groups[item][0:no_of_servers] }}'
+      loop: '{{ my_groups }}'
+    - add_host:
+        name: '{{ item }}'
+        groups: 'Group_X'
+      loop: '{{ my_list }}'
+    - debug:
+        msg: '{{ groups["Group_X"] }}'
+
+- name: Use Group_X
+  hosts: Group_X
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: '{{ inventory_hostname }} is member of {{ group_names }}'
+      run_once: true
+
+# Customize dynamic inventory
+# https://stackoverflow.com/questions/57635619/customize-dynamic-inventory/
