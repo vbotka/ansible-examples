@@ -1,0 +1,40 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: check if httpd is running
+      shell: "pgrep httpd"
+      register: running_processes
+      failed_when: running_processes.rc > 1
+
+    - debug:
+        var: running_processes.rc
+
+    - debug:
+        var: running_processes.stdout_lines|length
+
+    - block:
+        - debug:
+            msg: httpd is running. End of play.
+        - meta: end_play
+      # when: running_processes.stdout_lines|length > 0
+      when: running_processes.rc == 0
+
+    - debug:
+        msg: httpd is not running. Continue play.
+
+    - name: check if nginx is running
+      shell: "pgrep nginx"
+      register: running_processes
+      failed_when: running_processes.rc > 1
+    - block:
+        - debug:
+            msg: nginx is running. End of play.
+        - meta: end_play
+      # when: running_processes.stdout_lines|length > 0
+      when: running_processes.rc == 0
+    - debug:
+        msg: httpd is not running. Continue play.
+
+# How to check for a process if running then exit else remove and install a package
+# https://stackoverflow.com/questions/57633221/how-to-check-for-a-process-if-running-then-exit-else-remove-and-install-a-packag/

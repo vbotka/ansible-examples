@@ -155,6 +155,7 @@ Various examples of Ansbile code.
 - Example 151. Boolean
 - Example 152. snmp_facts
 - Example 153. csv
+- Example 154. meta
 
 
 ## License
