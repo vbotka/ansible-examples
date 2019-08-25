@@ -1,0 +1,6 @@
+
+$ ansible test_01 -m setup -vvv | grep "Using module file"
+Using module file /usr/lib/python2.7/dist-packages/ansible/modules/system/setup.py
+
+$ ansible test_01 -m ping -vvv | grep "Using module file"
+Using module file /usr/lib/python2.7/dist-packages/ansible/modules/system/ping.py

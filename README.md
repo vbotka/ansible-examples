@@ -156,6 +156,7 @@ Various examples of Ansbile code.
 - Example 152. snmp_facts
 - Example 153. csv
 - Example 154. meta
+- Example 155. ansible_python_interpreter
 
 
 ## License
