@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - set_fact:
+        data1: "{{ lookup('file', 'play2-data.yml') }}"
+    - debug:
+        var: data1
+    - set_fact:
+        data2: "{{ lookup('file', 'play2-data.yml')|from_yaml }}"
+    - debug:
+        var: data2.my_list
