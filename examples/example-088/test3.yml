@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    test2-data.yml
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ rules|
+                json_query('*')
+                }}"
+
+# Ansible, merge dictionnaries into once
+# https://stackoverflow.com/questions/56975784/ansible-merge-dictionnaries-into-once/
+
+#        msg: "{{ rules|
+#                 dict2items|
+#                 json_query('[*].value')|
+#                 map('dict2items')|list|flatten|
+#                 groupby('key')
+#                 }}"

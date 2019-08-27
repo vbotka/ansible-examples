@@ -1,21 +1,65 @@
 - hosts: localhost
-  gather_facts: no
-  vars_files:
-    test2-data.yml
-  tasks:
-    - set_fact:
-        rules_grouped: "{{ rules_grouped|
-                           default({})|
-                           combine({item.0: item.1|json_query('[].value')|flatten})
-                           }}"
-      loop: "{{ rules|
-                dict2items|
-                json_query('[*].value')|
-                map('dict2items')|list|flatten|
-                groupby('key')
-                }}"
-    - debug:
-        var: rules_grouped
+  gather_facts: false
+  vars:
+#    ips_per_group:
+#      - ["masters", "192.168.13.236", ["cluster"]]
+#      - ["nodes"  , "192.168.13.201", ["cluster"]]
+#      - ["nodes"  , "192.168.13.237", ["cluster"]]
+    ips_per_group:
+      '192.168.13.236':
+        my_groups:
+          - 'masters'
+        my_children: 'cluster'
+      '192.168.13.201':
+        my_groups:
+          - 'nodes'
+        my_children: 'cluster'
+      '192.168.13.237':
+        my_groups:
+          - 'nodes'
+        my_children: 'cluster'
 
-# Ansible, merge dictionnaries into once
-# https://stackoverflow.com/questions/56975784/ansible-merge-dictionnaries-into-once/
+  tasks:
+    - name: add host dynamically
+      add_host:
+        name: "{{ item.key }}"
+        groups: "{{ item.value.my_groups }}" 
+        fact_children: "{{ item.value.my_children }}"
+      loop: "{{ ips_per_group|dict2items }}"
+
+    - debug:
+        var: groups.masters
+    - debug:
+        var: groups.nodes
+
+- hosts: masters
+  gather_facts: false
+  tasks:
+    - debug:
+        var: fact_children
+
+    - name: add hosts to children groups
+      group_by:
+        key: "{{ fact_children }}"
+
+    - debug:
+        var: groups
+
+- hosts: nodes
+  gather_facts: false
+  tasks:
+    - debug:
+        var: fact_children
+
+    - name: add hosts to children groups
+      group_by:
+        key: "{{ fact_children }}"
+
+    - debug:
+        var: groups
+
+- hosts: cluster
+  gather_facts: false
+  tasks:
+    - debug:
+        var: fact_children

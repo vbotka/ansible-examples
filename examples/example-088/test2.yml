@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    test2-data.yml
+  tasks:
+    - set_fact:
+        rules_grouped: "{{ rules_grouped|
+                           default({})|
+                           combine({item.0: item.1|json_query('[].value')|flatten})
+                           }}"
+      loop: "{{ rules|
+                dict2items|
+                json_query('[*].value')|
+                map('dict2items')|list|flatten|
+                groupby('key')
+                }}"
+    - debug:
+        var: rules_grouped
+
+# Ansible, merge dictionnaries into once
+# https://stackoverflow.com/questions/56975784/ansible-merge-dictionnaries-into-once/

@@ -1,20 +1,61 @@
-- hosts: localhost
-  gather_facts: no
-  vars_files:
-    test2-data.yml
+- name: 1.Create my_groups
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ips_per_group:
+      192.168.13.236:
+        my_groups: ['masters']
+        my_children_group: 'cluster'
+      192.168.13.201:
+        my_groups: ['nodes']
+        my_children_group: 'cluster'
+      192.168.13.237:
+        my_groups: ['nodes']
+        my_children_group: 'cluster'
+  tasks:
+    - name: add host dynamically
+      add_host:
+        name: "{{ item.key }}"
+        groups: "{{ item.value.my_groups }}" 
+        group_children: "{{ item.value.my_children_group }}"
+      loop: "{{ ips_per_group|dict2items }}"
+    - debug:
+        var: groups
+
+- name: 2.Create children for group masters
+  hosts: masters
+  gather_facts: false
+  tasks:
+    - name: add hosts to children groups
+      group_by:
+        key: "{{ group_children }}"
+    - debug:
+        var: groups
+
+- name: 3.Create children for group nodes
+  hosts: nodes
+  gather_facts: false
+  tasks:
+    - name: add hosts to children groups
+      group_by:
+        key: "{{ group_children }}"
+    - debug:
+        var: groups
+
+- name: 4.Test group cluster
+  hosts: cluster
+  gather_facts: false
   tasks:
     - debug:
-        var: item
-      loop: "{{ rules|
-                json_query('*')
-                }}"
+        var: group_children
+    - debug:
+        var: groups
 
-# Ansible, merge dictionnaries into once
-# https://stackoverflow.com/questions/56975784/ansible-merge-dictionnaries-into-once/
+- name: 5.Print groups
+  hosts: localhost
+  tasks:
+    - debug:
+        var: groups
 
-#        msg: "{{ rules|
-#                 dict2items|
-#                 json_query('[*].value')|
-#                 map('dict2items')|list|flatten|
-#                 groupby('key')
-#                 }}"
+# adding children groups dynamically using ansible
+# https://stackoverflow.com/questions/57670665/adding-children-groups-dynamically-using-ansible/
