@@ -1,0 +1,53 @@
+- name: 1.Create my_groups
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ips_per_group:
+      192.168.13.236:
+        my_groups: ['masters']
+        my_children_group: 'cluster'
+      192.168.13.201:
+        my_groups: ['nodes']
+        my_children_group: 'cluster'
+      192.168.13.237:
+        my_groups: ['nodes']
+        my_children_group: 'cluster'
+  tasks:
+    - name: add host dynamically
+      add_host:
+        name: "{{ item.key }}"
+        groups: "{{ item.value.my_groups }}" 
+        group_children: "{{ item.value.my_children_group }}"
+      loop: "{{ ips_per_group|dict2items }}"
+    - debug:
+        var: groups
+
+- name: 2.Create children for groups masters and nodes
+  hosts: masters, nodes
+  gather_facts: false
+  tasks:
+    - name: add hosts to children groups
+      group_by:
+        key: "{{ group_children }}"
+    - debug:
+        var: groups
+      run_once: true
+
+- name: 3.Test group cluster
+  hosts: cluster
+  gather_facts: false
+  tasks:
+    - debug:
+        var: group_children
+    - debug:
+        var: groups
+      run_once: true
+
+- name: 4.Print groups
+  hosts: localhost
+  tasks:
+    - debug:
+        var: groups
+
+# adding children groups dynamically using ansible
+# https://stackoverflow.com/questions/57670665/adding-children-groups-dynamically-using-ansible/
