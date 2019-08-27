@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    combine8-data.yml
+  tasks:
+    - debug:
+        var: cisco_ios
+    - debug:
+        var: cmdb
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ cisco_ios.interfaces|dict2items }}"
+    - set_fact:
+        interfaces: "{{ interfaces|default({})|
+                        combine({item.key: item.value|
+                        combine({'cmdbId': cmdb})}) }}"
+      loop: "{{ cisco_ios.interfaces|dict2items }}"
+    - set_fact:
+        cisco_ios: "{{ cisco_ios|combine({'interfaces': interfaces}) }}"
+    - debug:
+        var: cisco_ios

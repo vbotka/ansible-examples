@@ -1,0 +1,12 @@
+    cmdb:
+      gigabit1/0/1: AAA
+      gigabit1/0/2: BBB
+
+    cisco_ios:
+       interfaces:
+         gigabit1/0/1:
+            name: Gigabit1/0/1
+            status: up
+         gigabit1/0/2:
+            name: Gigabit1/0/2
+            status: down

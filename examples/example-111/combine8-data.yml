@@ -1,0 +1,9 @@
+    cmdb: xkjsdflkjsjdl4d
+    cisco_ios:
+       interfaces:
+         gigabit1/0/1:
+            name: Gigabit1/0/1
+            status: up
+         gigabit1/0/2:
+            name: Gigabit1/0/2
+            status: down

@@ -1,0 +1,62 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    combine9-data.yml
+  tasks:
+    - debug:
+        var: cisco_ios
+    - debug:
+        var: cmdb
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ cisco_ios.interfaces|dict2items }}"
+    - set_fact:
+        interfaces: "{{ interfaces|default({})|
+                        combine({item.key: item.value|
+                        combine({'cmdbId': cmdb[item.key]})}) }}"
+      loop: "{{ cisco_ios.interfaces|dict2items }}"
+    - set_fact:
+        cisco_ios: "{{ cisco_ios|combine({'interfaces': interfaces}) }}"
+    - debug:
+        var: cisco_ios
+
+# ok: [localhost] => {
+#     "cisco_ios": {
+#         "interfaces": {
+#             "gigabit1/0/1": {
+#                 "name": "Gigabit1/0/1", 
+#                 "status": "up"
+#             }, 
+#             "gigabit1/0/2": {
+#                 "name": "Gigabit1/0/2", 
+#                 "status": "down"
+#             }
+#         }
+#     }
+# }
+
+# Combine with
+#
+# ok: [localhost] => {
+#     "cmdb": {
+#         "gigabit1/0/1": "AAA", 
+#         "gigabit1/0/2": "BBB"
+#     }
+# }
+
+# ok: [localhost] => {
+#     "cisco_ios": {
+#         "interfaces": {
+#             "gigabit1/0/1": {
+#                 "cmdbId": "AAA", 
+#                 "name": "Gigabit1/0/1", 
+#                 "status": "up"
+#             }, 
+#             "gigabit1/0/2": {
+#                 "cmdbId": "BBB", 
+#                 "name": "Gigabit1/0/2", 
+#                 "status": "down"
+#             }
+#         }
+#     }
+# }
