@@ -1,0 +1,17 @@
+{
+  "VMDetails":
+  [
+    {
+      "name": "Owner1",
+      "vms": [ "vm10", "vm11", "vm12", "vm13" ]
+    },
+    {
+      "name": "Owner2",
+      "vms": [ "vm20", "vm21", "vm22", "vm23" ]
+    },
+    {
+      "name": "Owner3",
+      "vms": [ "vm30", "vm31", "vm32", "vm33" ]
+    }
+  ]
+}

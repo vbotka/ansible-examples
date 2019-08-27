@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    listA: ['A', 'B', 'C']
+    listB: ['1', '2', '3']
+  tasks:
+    - debug:
+        msg: "{{ listA | product(listB) | list }}"

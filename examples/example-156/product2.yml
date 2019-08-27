@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - product2-data.json
+  tasks:
+    - set_fact:
+        vms_tobe_tagged: "{{ lookup ('file', 'product2-data.json')| from_json}}"
+    - debug:
+        msg: "{{ vms_tobe_tagged }}"
+    - set_fact:
+        owner_list: "{{ owner_list|
+                        default([]) +
+                        [item.name]|product(item.vms)|list }}"
+      loop: "{{ vms_tobe_tagged.VMDetails }}"
+    - debug:
+        var: owner_list
+    - set_fact:
+        owner: "{{ owner|
+                   default([]) +
+                   [{item.0: item.1}] }}"
+      loop: "{{ owner_list }}"
+    - debug:
+        var: owner
+
+# Create list of key-values from JSON file in Ansible
+# https://stackoverflow.com/questions/57669694/create-list-of-key-values-from-json-file-in-ansible/
