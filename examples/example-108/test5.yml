@@ -1,0 +1,78 @@
+- name: 1.Create my_groups
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ips_per_group:
+      192.168.13.236:
+        my_groups: ['masters']
+      192.168.13.201:
+        my_groups: ['nodes']
+      192.168.13.237:
+        my_groups: ['nodes']
+  tasks:
+    - name: add host dynamically
+      add_host:
+        name: "{{ item.key }}"
+        groups: "{{ item.value.my_groups }}" 
+      loop: "{{ ips_per_group|dict2items }}"
+    - debug:
+        var: groups
+
+- name: 2a.Set fact
+  hosts: 192.168.13.236
+  gather_facts: false
+  tasks:
+    - set_fact:
+        group_A: 'group_A'
+    - set_fact:
+        group_B: 'group_B'
+
+- name: 2b.Set fact
+  hosts: 192.168.13.201
+  gather_facts: false
+  tasks:
+    - set_fact:
+        group_A: 'group_A'
+
+- name: 2c.Set fact
+  hosts: 192.168.13.237
+  gather_facts: false
+  tasks:
+    - set_fact:
+        group_A: 'group_A'
+    - set_fact:
+        group_B: 'group_B'
+
+- name: 3a.Test group_by group_A
+  hosts: all
+  gather_facts: false
+  tasks:
+    - group_by:
+        key: '{{ group_A }}'
+    - debug:
+        var: groups
+      run_once: true
+
+# Variable group_B not set in one of the hosts
+- name: 3b.Test group_by group_B
+  hosts: all
+  gather_facts: false
+  tasks:
+    - group_by:
+        key: '{{ group_B }}'
+    - debug:
+        var: groups
+      run_once: true
+
+# PLAY [3b.Test group_by group_B] ***
+# 
+# TASK [group_by] *******************
+# fatal: [192.168.13.201]: FAILED! => {"msg": "The task includes an
+# option with an undefined variable. The error was: 'group_B' is
+# undefined\n\nThe error appears to be in
+# '/export/home/vlado.config/.ansible/ansible-examples/examples/example-108/test5.yml':
+# line 60, column 7, but may\nbe elsewhere in the file depending on the
+# exact syntax problem.\n\nThe offending line appears to be:\n\n
+# tasks:\n - group_by:\n ^ here\n"}
+# ok: [192.168.13.236]
+# ok: [192.168.13.237]
