@@ -8,10 +8,17 @@
       failed_when: running_processes.rc > 1
 
     - debug:
+        var: running_processes
+
+    - debug:
         var: running_processes.rc
 
     - debug:
         var: running_processes.stdout_lines|length
+
+    - debug:
+        msg: List stdout_lines is not empty
+      when: running_processes.stdout_lines
 
     - block:
         - debug:
@@ -28,6 +35,9 @@
       register: running_processes
       failed_when: running_processes.rc > 1
     - block:
+        - debug:
+            msg: List stdout_lines is not empty
+          when: running_processes.stdout_lines
         - debug:
             msg: nginx is running. End of play.
         - meta: end_play
