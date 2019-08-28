@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    sub_directories:
+      - a
+      - b
+      - c
+      - d
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ sub_directories[1:] }}"
+
+# Skipping item from loop
+# https://stackoverflow.com/questions/57689282/skipping-item-from-loop/
+
+# Lists
+# https://docs.python.org/3/tutorial/introduction.html#lists
