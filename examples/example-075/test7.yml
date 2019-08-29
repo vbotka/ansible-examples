@@ -1,0 +1,10 @@
+---
+- hosts: test_jails
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_hosts: "{{ groups['test_jails'] }}"
+    - template:
+        src: test7.j2
+        dest: /scratch/tmp/test
+      run_once: true

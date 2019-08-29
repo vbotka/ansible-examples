@@ -1,0 +1,19 @@
+{% for host in groups['test_jails'] %}
+- address: "{{ host }}"
+  port: "22"
+  role:
+    - controlplane
+    - etcd
+  hostname_override: {{ inventory_hostname }}
+{% endfor %}
+
+-------------------------------------------------------
+
+{% for host in my_hosts %}
+- address: "{{ host }}"
+  port: "22"
+  role:
+    - controlplane
+    - etcd
+  hostname_override: {{ inventory_hostname }}
+{% endfor %}
