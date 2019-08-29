@@ -1,0 +1,5 @@
+my_hostvars_all:
+{% for my_host in ansible_play_hosts_all %}
+  {{ my_host }}:
+    {{ hostvars[my_host]|to_nice_json }}
+{% endfor %}

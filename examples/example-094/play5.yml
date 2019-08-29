@@ -1,0 +1,10 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - set_fact:
+        test_var: "test_var_in_{{ inventory_hostname }}"
+    - template:
+        src: my_hostvars.json.j2
+        dest: "{{ inventory_dir }}/my_hostvars.json"
+      delegate_to: localhost
+      run_once: true

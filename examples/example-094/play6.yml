@@ -1,0 +1,8 @@
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - include_vars: my_hostvars.json
+    - set_fact:
+        my_hostvars: "{{ my_hostvars_all[inventory_hostname] }}"
+    - debug:
+        var: my_hostvars.test_var
