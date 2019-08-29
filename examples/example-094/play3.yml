@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    test_var1: VAR-1
+    test_var2: VAR-2
+    test_var3: VAR-3
+  tasks:
+    - copy:
+        content: |
+          test_var1: {{ test_var1 }}
+          test_var2: {{ test_var2 }}
+          test_var3: {{ test_var3 }}
+        dest: amnesiac-01.yml

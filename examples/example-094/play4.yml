@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars: amnesiac-01.yml
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          test_var1: {{ test_var1 }}
+          test_var2: {{ test_var2 }}
+          test_var3: {{ test_var3 }}
