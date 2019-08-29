@@ -1,0 +1,35 @@
+    results: [
+        {
+            "ansible_facts_modified": null,
+            "created": "2019-08-27T18:50:09.132071Z",
+            "description": "",
+            "enabled": true,
+            "has_active_failures": false,
+            "has_inventory_sources": false,
+            "id": 799,
+            "insights_system_id": null,
+            "instance_id": "",
+            "inventory": 18,
+            "last_job": null,
+            "last_job_host_summary": null,
+            "modified": "2019-08-27T18:50:09.132085Z",
+            "name": "server1",            
+        },
+        {
+            "ansible_facts_modified": "2019-08-28T14:41:17.846100Z",
+            "created": "2019-08-26T19:28:55.187225Z",
+            "description": "",
+            "enabled": true,
+            "has_active_failures": false,
+            "has_inventory_sources": false,
+            "id": 790,
+            "insights_system_id": null,
+            "instance_id": "",
+            "inventory": 18,
+            "last_job": 7879,
+            "last_job_host_summary": 10273,
+            "modified": "2019-08-28T14:41:17.846235Z",
+            "name": "server2",
+            
+        }
+    ]

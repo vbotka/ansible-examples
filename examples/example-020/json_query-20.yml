@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - vars-20.json
+
+  tasks:
+
+    - debug:
+        var: results
+    - set_fact:
+        host_id: "{{ results|json_query('[?name==`server2`].id') }}"
+    - debug:
+        var: host_id
+
+    - set_fact:
+        host_id: "{{ results|json_query(query) }}"
+      vars:
+        query: "[?name=='server2'].id"
+    - debug:
+        var: host_id
