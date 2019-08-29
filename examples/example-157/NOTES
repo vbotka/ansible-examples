@@ -1,0 +1,84 @@
+
+$ ansible test_01 -m setup -vvv | grep "Using module file"
+Using module file /usr/lib/python2.7/dist-packages/ansible/modules/system/setup.py
+
+$ ansible test_01 -m ping -vvv | grep "Using module file"
+Using module file /usr/lib/python2.7/dist-packages/ansible/modules/system/ping.py
+
+--
+From: Vladimir Botka <vbotka@gmail.com>
+To: Andrew Morgan <alonsoamorgan@gmail.com>
+Cc: ansible-project@googlegroups.com
+Subject: Re: [ansible-project] Re: Ansible Module Failure
+Date: Mon, 26 Aug 2019 10:31:58 +0200
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Organization: na
+
+Hi!
+
+> > > Set INTERPRETER_PYTHON_FALLBACK and put '/usr/bin/python2.7' into the 
+> > > first place 
+> > > https://docs.ansible.com/ansible/latest/reference_appendices/config.html#interpreter-python-fallback
+
+> > Thank you for help. I am still seeing 
+> > module file /usr/local/lib/python3.7/site-packages/ansible/modules/
+> > system/setup.py
+> > Maybe I am not setting the variable correctly.In my ansible.cfg I have 
+> > INTERPRETER_PYTHON_FALLBACK = '/usr/bin/python2.7'
+> > Is this correct?  
+ 
+> It's not configurable. Sorry for the noise.
+> Next option is to install only selected version
+> https://docs.aws.amazon.com/cli/latest/userguide/install-linux-python.html  
+
+1) My assumption that that "ansible_python_interpreter" would affect the
+   version of the modul setup.py was wrong.
+
+      module file /usr/local/lib/python3.7/site-packages/ansible/modules/
+
+   This is the version of Python at master Ansible is running with
+
+      ansible-playbook -vvv -i inventory --limit=dev_FE  main.yml
+      ansible-playbook 2.8.3
+      config file = /WALLETHUB/ansible/patch_server/ansible.cfg
+      configured module search path = ['/var/root/.ansible/plugins/modules',
+      '/usr/share/ansible/plugins/modules']
+      ansible python module location = 
+      /usr/local/lib/python3.7/site-packages/ansible
+      executable location = /usr/local/bin/ansible-playbook
+      python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 
+      (clang-1001.0.46.4)]
+
+   As a result, this Python version is not an indicator of what is going on at
+   remote host.
+
+2) I've tested remote host FreeBSD 12.0 from the master Ubuntu 18.04. All is
+   working well with Ansible 2.8.3 and Python 2.7 at master 
+
+      ansible 2.8.3
+      config
+   file= /export/home/vlado.config/.ansible/ansible-examples/examples/example-155/ansible.cfg
+      configured module search path =
+      [u'/home/vlado/.ansible/plugins/modules',
+      u'/usr/share/ansible/plugins/modules'] ansible python module location
+      = /usr/lib/python2.7/dist-packages/ansible executable location
+      = /usr/bin/ansible python version = 2.7.15+ (default, Nov 27 2018,
+      23:36:35) [GCC 7.3.0]
+
+   both with Python 2.7
+
+      test_01 | SUCCESS => {
+             "ansible_facts": {
+                 [...]
+                 "ansible_python_version": "2.7.16",
+
+   and Python 3.6 at the remote host.
+
+      test_01 | SUCCESS => {
+             "ansible_facts": {
+                 [...]
+                 "ansible_python_version": "3.6.7",
+
+3) It's left to find out if the problem is Ansible 2.8 with Python3 in
+   general, or if this is a distro problem.
+--

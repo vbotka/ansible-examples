@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_list: "{{ lookup('file', 'test1-data.txt').splitlines() }}"
+    - debug:
+        var: my_list

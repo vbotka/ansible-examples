@@ -158,6 +158,7 @@ Various examples of Ansbile code.
 - Example 154. meta
 - Example 155. ansible_python_interpreter
 - Example 156. product
+- Example 157. splitlines
 
 
 ## License
