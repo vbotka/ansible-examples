@@ -1,0 +1,3 @@
+- debug:
+    msg: "{{ outer_item.apname }} - {{ item }}"
+  loop: "{{ list3|intersect(outer_item.names) }}"

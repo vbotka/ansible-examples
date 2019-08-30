@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    list2:
+      - apname: 'APP1'
+        type: 't1'
+        names:
+          - 'device-cn-c1'
+          - 'device-cn-c2'
+      - apname: 'APP2'
+        type: 't2'
+        names:
+          - 'device-cn-c3'
+          - 'device-cn-c4'
+    list3:
+      - 'device-cn-c1'
+      - 'device-cn-c2'
+      - 'device-cn-c3'
+      - 'device-cn-c10'
+          
+  tasks:
+    - include_tasks: test1-loop1.yml
+      loop: "{{ list2 }}"
+      loop_control:
+        loop_var: outer_item
+      when:
+        - outer_item.type == 't1'
+        - list3|intersect(outer_item.names)|length > 0
+
+# How to pass second list in to play
+# https://stackoverflow.com/questions/57724770/how-to-pass-second-list-in-to-play/

@@ -160,6 +160,7 @@ Various examples of Ansbile code.
 - Example 156. product
 - Example 157. splitlines
 - Example 158. scope of variables
+- Example 159. intersect
 
 
 ## License
