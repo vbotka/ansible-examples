@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    env: 'db'
+  tasks:
+    - debug:
+        msg: "/app/homedir/{{ item|basename|regex_replace(regex, replace) }}"
+      loop: "{{ lookup('fileglob', '/scratch/tmp/*.' ~ env, wantlist=True) }}"
+      vars:
+        regex: "{{ '^(.*)\\.' ~ env ~ '$' }}"
+        replace: "{{ '\\1' }}"
+
+# Split filename with multiple variables
+# https://stackoverflow.com/questions/57732821/split-filename-with-multiple-variables/
+#
+# It's possible to use regex_replace filter to remove the extension.
+# 
+# ok: [localhost] => (item=/scratch/tmp/test2.db) => {
+#     "msg": "/app/homedir/test2"
+# }
+# ok: [localhost] => (item=/scratch/tmp/test1.db) => {
+#     "msg": "/app/homedir/test1"
+# }
+# ok: [localhost] => (item=/scratch/tmp/test3.db) => {
+#     "msg": "/app/homedir/test3"
+# }
