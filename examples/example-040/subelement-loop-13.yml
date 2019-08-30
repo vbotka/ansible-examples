@@ -1,0 +1,21 @@
+---
+
+- hosts: localhost
+
+  vars:
+    machine_roles:
+      masters: ["master1","master2"]
+      workers: ["worker1","worker2"]
+
+  tasks:
+    - debug:
+        var: machine_roles
+
+    - debug:
+        msg: "{{ item.0.role }} --- {{ item.1 }}"
+      loop: "{{ machine_roles|
+                dict2items(key_name='role', value_name='machine')|
+                subelements('machine') }}"
+
+# EOF
+...

@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+
+- hosts: test_01
+  tasks:
+    - debug:
+        var: hostvars['localhost'].result.stdout

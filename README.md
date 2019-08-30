@@ -159,6 +159,7 @@ Various examples of Ansbile code.
 - Example 155. ansible_python_interpreter
 - Example 156. product
 - Example 157. splitlines
+- Example 158. scope of variables
 
 
 ## License
