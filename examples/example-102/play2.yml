@@ -3,3 +3,7 @@
   tasks:
     - debug:
         msg: "{{ lookup('ini', '.* file=test2.ini') }}"
+
+# fatal: [localhost]: FAILED! => {"msg": "An unhandled exception
+# occurred while running the lookup plugin 'ini' ... File contains
+# parsing errors:

@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_vars_keys: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN]
+  tasks:
+    - set_fact:
+        AWS_ACCESS_KEY_ID: "{{ lookup('ini', 'AWS_ACCESS_KEY_ID type=properties file=play7-data.ini') }}"
+    - debug:
+        var: AWS_ACCESS_KEY_ID
+
+    - set_fact:
+        my_vars: "{{ my_vars|default({})|
+                     combine({item:
+                              lookup('ini',
+                                      item ~ ' type=properties file=play7-data.ini')})
+                                      }}"
+      loop: "{{ my_vars_keys }}"
+    - debug:
+        var: my_vars[item]
+      loop: "{{ my_vars_keys }}"
+
+# Ansible - Read file and register variable
+# https://stackoverflow.com/questions/57719706/ansible-read-file-and-register-variable/
