@@ -1,0 +1,15 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - stat:
+        path: /scratch/tmp/test
+      register: result
+    - debug:
+        msg: File exists
+      when: result.stat.exists
+    - stat:
+        path: /scratch/tmp/testX
+      register: result
+    - debug:
+        msg: File does not exist
+      when: not result.stat.exists

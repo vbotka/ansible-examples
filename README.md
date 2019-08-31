@@ -162,6 +162,7 @@ Various examples of Ansbile code.
 - Example 158. scope of variables
 - Example 159. intersect
 - Example 160. defined
+- Example 161. Test registered result
 
 
 ## License
