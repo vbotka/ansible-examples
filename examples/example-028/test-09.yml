@@ -1,0 +1,36 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        Number: '42'
+    - set_fact:
+        InstallDir: '/usr/local'
+    - name: 'Collect Output'
+      command: "sh -c 'ls -1 /scratch/tmp/*.db'"
+      register: command_result
+
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ hostvars['localhost'].command_result }}"
+    - set_fact:
+        my_list: "{{ hostvars['localhost'].command_result.stdout_lines|
+                     join(',') }}"
+    - set_fact:
+        Number: "{{ hostvars['localhost'].Number }}"
+    - set_fact:
+        InstallDir: "{{ hostvars['localhost'].InstallDir }}"
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          Number [{{ Number }}]
+          InstallDir [{{ InstallDir }}]
+          my_list [{{ my_list }}]
+    - shell: "/home/admin/bin/rollback.sh {{ Number }} '{{ InstallDir }}' '{{ my_list }}' > ~/rollback.log"
+      register: result
+    - debug:
+        var: result.stdout_lines
