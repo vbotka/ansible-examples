@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    web_folder: /my/web/folder
+    app_folder: /my/app/folder
+    folders: [web_folder, app_folder, db_folder]
+  tasks:
+    - set_fact:
+        folders_defined: "{{ folders_defined|default([]) +
+                             [lookup('vars', item)] }}"
+      loop: "{{ folders }}"
+      when: lookup('vars', item, default='')|length > 0
+    - debug:
+        var: folders_defined
+
+# Ansible how to ignore undefined item in a loop
+# https://stackoverflow.com/questions/57731385/ansible-how-to-ignore-undefined-item-in-a-loop/
+#
+# The playbook below tests default empty string. If necessary fit this
+# condition to your needs.
+#
+# ok: [localhost] => {
+#    "folders_defined": [
+#        "/my/web/folder", 
+#        "/my/app/folder"
+#    ]
+# }

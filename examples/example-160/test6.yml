@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    web_folder: /my/web/folder
+    app_folder: /my/app/folder
+    folders: [web_folder, app_folder, db_folder]
+  tasks:
+    - set_fact:
+        folders_defined: []
+    - set_fact:
+        folders_defined: "{{ folders_defined + [web_folder] }}"
+      when: web_folder is defined
+    - set_fact:
+        folders_defined: "{{ folders_defined + [app_folder] }}"
+      when: app_folder is defined
+    - set_fact:
+        folders_defined: "{{ folders_defined + [db_folder] }}"
+      when: db_folder is defined
+    - debug:
+        var: folders_defined
