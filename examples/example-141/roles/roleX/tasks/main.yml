@@ -1,0 +1,9 @@
+---
+# tasks for roleX
+
+- debug:
+    msg: 'roleX'
+- debug:
+    msg: "{{ test_varX }}"
+
+# EOF
