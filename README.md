@@ -163,6 +163,7 @@ Various examples of Ansbile code.
 - Example 159. intersect
 - Example 160. defined
 - Example 161. Test registered result
+- Example 162. join
 
 
 ## License

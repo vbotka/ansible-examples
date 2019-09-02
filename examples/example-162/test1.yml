@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    PLAY_USER_HOME: "/home/pl"
+    version: "1.1"
+  tasks:
+    - debug:
+        msg: "{{ ''.join((PLAY_USER_HOME, '/pns-', version)) }}"
+    - debug:
+        msg: "{{ PLAY_USER_HOME }}/pns-{{ version }}"
+
+# Concat of variables causes “template error while templating string: unexpected '/'”
+# https://stackoverflow.com/questions/57757336/concat-of-variables-causes-template-error-while-templating-string-unexpected/
+
+# In both cases debug should use msg instead of var.
+#
+# TASK [debug] **************************************************************************************
+# ok: [localhost] => {
+#     "msg": "/home/pl/pns-1.1"
+# }
+# 
+# TASK [debug] **************************************************************************************
+# ok: [localhost] => {
+#     "msg": "/home/pl/pns-1.1"
+# }
