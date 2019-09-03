@@ -1,0 +1,5 @@
+- hosts: all
+  remote_user: '{{ ansible_user }}'
+  tasks:
+    - debug:
+        msg: "I'm on {{ ansible_host }}"

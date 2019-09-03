@@ -164,6 +164,7 @@ Various examples of Ansbile code.
 - Example 160. defined
 - Example 161. Test registered result
 - Example 162. join
+- Example 163. Python
 
 
 ## License
