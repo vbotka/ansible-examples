@@ -1,0 +1,18 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_host: "{{ hostvars|dict2items|json_query(query)|first }}"
+      vars:
+        query: "[?value.ansible_host == '{{ my_host_ip }}' ].key"
+      run_once: true
+    - add_host:
+        hostname: "{{ my_host }}"
+        groups: my_group
+      run_once: true
+
+- hosts: my_group
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname

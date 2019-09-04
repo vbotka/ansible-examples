@@ -1,0 +1,17 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_host: "{{ lookup('pipe', playbook_dir ~ '/script.sh ' ~ my_host_ip) }}"
+      delegate_to: localhost
+      run_once: true
+    - add_host:
+        hostname: "{{ my_host }}"
+        groups: my_group
+      run_once: true
+
+- hosts: my_group
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname

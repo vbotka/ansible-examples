@@ -1,0 +1,5 @@
+- hosts: test_jails
+  tasks:
+    - debug:
+        var: groups
+      run_once: true
