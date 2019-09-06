@@ -166,6 +166,7 @@ Various examples of Ansbile code.
 - Example 162. join
 - Example 163. Python
 - Example 164. validate
+- Example 165. ansible_facts
 
 
 ## License
