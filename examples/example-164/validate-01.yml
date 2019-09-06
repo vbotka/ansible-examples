@@ -1,0 +1,44 @@
+- hosts: localhost
+  vars:
+    test_path: /scratch/tmp
+  tasks:
+    - lineinfile:
+        path: '{{ test_path }}/validate1.txt'
+        regexp: '^\s*{{ item.key }}\s+(.*)$'
+        line: '{{ item.key }} {{item.val }}'
+        validate: '{{ test_path }}/my_validate.sh {{ item.key }} {{item.val }} %s'
+      loop:
+        - {key: key1, val: val1}
+        - {key: key2, val: val2}
+        - {key: key3, val: val3}
+
+# Doc: "validate: The validation command to run before copying into place...."
+# Result: The validation runs in each iteration
+      
+# $ cat my_validate.sh
+# #!/bin/sh
+# echo key: $1 >> /scratch/tmp/validate1.log
+# echo val: $2 >> /scratch/tmp/validate1.log
+# echo --------- >> /scratch/tmp/validate1.log
+# cat $3 >> /scratch/tmp/validate1.log
+# echo --------- >> /scratch/tmp/validate1.log
+
+# $ cat validate1.log 
+# key: key1
+# val: val1
+# ---------
+# key1 val1
+# ---------
+# key: key2
+# val: val2
+# ---------
+# key1 val1
+# key2 val2
+# ---------
+# key: key3
+# val: val3
+# ---------
+# key1 val1
+# key2 val2
+# key3 val3
+# ---------
