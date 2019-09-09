@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    mounted_devices: "rw,relatime,vers=1.0,cache=strict,username=cifsadmin,domain=WORKGROUP,uid=0,noforceuid,gid=0,noforcegid,addr=127.0.0.1,unix,posixpaths,serverino,mapposix,acl,rsize=1048576,wsize=65536,echo_interval=60,actimeo=1"
+
+  tasks:
+
+    - tempfile:
+      register: my_tempfile
+    - debug:
+        var: my_tempfile.path
+    - copy:
+        content: |
+          {% for line in mounted_devices.split(',') %}
+          {{ line }}
+          {% endfor %}
+        dest: "{{ my_tempfile.path }}"
+
+    - debug:
+        msg: "{{ item }}"
+      with_ini:
+        - "{{ 'username type=properties file=' ~ my_tempfile.path }}"
+
+    - name: Create list of values
+      set_fact:
+        username: "{{ lookup('ini', 'username type=properties file=' ~ my_tempfile.path) }}"
+
+    - debug:
+        var: username
+
+# TASK [debug] ********************************************************************************
+# An exception occurred during task execution. To see the full traceback, use -vvv.
+# The error was: 	[line 17]: u'acl\n'
+# fatal: [localhost]: FAILED! => {"msg": "Unexpected failure during module execution."}

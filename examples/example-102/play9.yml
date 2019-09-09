@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    options: "rw,relatime,vers=1.0,cache=strict,username=cifsadmin,domain=WORKGROUP,uid=0,noforceuid,gid=0,noforcegid,addr=127.0.0.1,unix,posixpaths,serverino,mapposix,acl,rsize=1048576,wsize=65536,echo_interval=60,actimeo=1"
+
+  tasks:
+
+    - debug:
+        msg: "{{ options.split(',')|
+                 select('regex', '^username=(.*)$')|
+                 list|first|
+                 regex_replace('^(.*)=(.*)$', '\\2') }}"
+                 # regex_replace('^\\s*(.*)\\s*=\\s*(.*)\\s*$', '\\2') }}"
