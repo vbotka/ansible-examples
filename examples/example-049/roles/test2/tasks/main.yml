@@ -1,0 +1,9 @@
+---
+- include_vars:
+    file: files/inc_vars_1.yaml
+- debug:
+    var: Variable_A
+- debug:
+    var: Variable_B
+- debug:
+    var: Variable_C
