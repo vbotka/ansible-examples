@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_hosts:
+      - ['host1', 'host2']
+      - ['host3']
+  tasks:
+    - include_tasks: test4-loop.yml
+      loop: '{{ my_hosts }}'
+      loop_control:
+        loop_var: outer_item
+        index_var: outer_idx
+    - debug:
+        var: groups

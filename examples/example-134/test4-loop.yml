@@ -1,0 +1,4 @@
+- add_host:
+    name: "{{ item }}"
+    groups: "{{ 'group' ~ outer_idx }}"
+  loop: "{{ outer_item }}"
