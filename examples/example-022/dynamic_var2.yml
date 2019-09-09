@@ -1,0 +1,30 @@
+- hosts: test_01
+  gather_facts: false
+  vars:
+    my_vars: {}
+    my_ip_list:
+      - 10.1.1.1
+      - 10.2.2.2
+      - 10.3.3.3
+  tasks:
+    - set_fact:
+        my_vars: "{{ my_vars|combine({'IP_' ~ my_idx : item}) }}"
+      loop: "{{ my_ip_list }}"
+      loop_control:
+        index_var: my_idx
+    - debug:
+        var: my_vars
+    - debug:
+        var: my_vars.IP_1
+
+# Parse a list of multiple ip addresses into individual variables
+# https://stackoverflow.com/questions/57850626/parse-a-list-of-multiple-ip-addresses-into-individual-variables/
+# Q: How to separate the output into 3 IP addresses each stored as an individual variable?
+
+# "my_vars": {
+#     "IP_0": "10.1.1.1", 
+#     "IP_1": "10.2.2.2", 
+#     "IP_2": "10.3.3.3"
+# }
+# 
+# "my_vars.IP_1": "10.2.2.2"
