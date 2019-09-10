@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    varput: 'TEST123TEST.4.TES22TES.ZTER012UZT.20190910.555'
+  tasks:
+    - set_fact:
+       tmped: "{{ varput.split('.')[-2] }}"
+    - debug:
+        var: tmped
+
+# parsing substring from variable with ansible
+# https://stackoverflow.com/questions/57870633/parsing-substring-from-variable-with-ansible/
