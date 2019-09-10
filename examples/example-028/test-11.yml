@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  serial: 1
+  vars:
+    completed: false
+  tasks:
+    - set_fact:
+        completed: true
+    - block:
+        - debug:
+            msg: All completed. End of play.
+        - meta: end_play
+      when: "groups['all']|
+             map('extract', hostvars, 'completed')|
+             list is all"
+#      when: "groups['all']|
+#             difference(inventory_hostname)|
+#             map('extract', hostvars, 'completed')|list
+#             is all"
+
+# Ansible playbook skip task on last node in serial execution
+# https://stackoverflow.com/questions/57871897/ansible-playbook-skip-task-on-last-node-in-serial-execution/
