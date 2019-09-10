@@ -1,0 +1,30 @@
+#jinja2: trim_blocks:False
+{% for x in range(3) %}
+Key{{ x }}:
+   # The following should be one list
+   - always here
+   {%- if x % 2 %}
+   - sometimes here
+   {%- endif %}
+{%- endfor %}
+
+# How to indent nested if/for statements in jinja2
+# https://stackoverflow.com/questions/57864828/how-to-indent-nested-if-for-statements-in-jinja2
+
+# * Turn off default trimming and manually ltrim only indented control
+#   statements {%-.
+# * The dash in {%- endfor %} removes the empty line among the keys.
+# * By default parameter "trim_blocks: yes". See template module.
+
+# > cat /scratch/tmp/test
+# 
+# Key0:
+#    # The following should be one list
+#    - always here
+# Key1:
+#    # The following should be one list
+#    - always here
+#    - sometimes here
+# Key2:
+#    # The following should be one list
+#    - always here
