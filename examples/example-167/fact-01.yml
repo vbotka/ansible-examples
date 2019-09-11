@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        var1: AAA
+      register: result
+      until: var1 is defined
+    - debug:
+        var: result.ansible_facts.var1
+    - debug:
+        var: hostvars[inventory_hostname].var1
+    - debug:
+        var: ansible_facts
