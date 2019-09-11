@@ -1,0 +1,13 @@
+- hosts: all
+  gather_facts: false
+  order: shuffle
+  serial: 1
+  tasks:
+    - debug:
+        var: ansible_play_hosts_all[-1]
+      run_once: true
+    - debug:
+        var: inventory_hostname
+
+# Ansible playbook skip task on last node in serial execution
+# https://stackoverflow.com/questions/57871897/ansible-playbook-skip-task-on-last-node-in-serial-execution/
