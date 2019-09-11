@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    x: y
+    y: z
+  tasks:
+    - debug:
+        var: "{{ x }}"

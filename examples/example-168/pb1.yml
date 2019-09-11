@@ -1,0 +1,12 @@
+  - hosts: localhost
+    tasks:
+      - debug:
+          msg: "{{ playbook_dir|basename }}"
+      - debug:
+          var: playbook_dir|basename
+
+  - import_playbook: dir/pb2.yml
+
+# Get the Caller Playbook directory name in ansible
+# https://stackoverflow.com/questions/57884260/get-the-caller-playbook-directory-name-in-ansible/
+

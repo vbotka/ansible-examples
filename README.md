@@ -169,6 +169,7 @@ Various examples of Ansbile code.
 - Example 165. ansible_facts
 - Example 166. serial
 - Example 167. set_fact
+- Example 168. debug
 
 ## License
 
