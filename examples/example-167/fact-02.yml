@@ -1,0 +1,34 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_retries: 5
+    my_delay: 3
+  tasks:
+
+#    - shell: "echo {{ lookup('pipe', '/scratch/tmp/my_script') }}"
+    - shell: "/scratch/tmp/my_script"
+      ignore_errors: true
+      register: result
+      until: result.stdout|from_yaml is mapping
+      retries: "{{ my_retries }}"
+      delay: "{{ my_delay }}"
+#      until: "(result.stdout is mapping)|ternary(
+#               'spec' in result.stdout|
+#                         from_yaml|
+#                         dict2items|
+#                         json_query('[].key'),
+#                false)"
+
+    - debug:
+        var: result
+
+    - debug:
+        msg: "{{ result.stdout|from_yaml is mapping }}"
+
+    - debug:
+        msg: "{{ 'spec' in result.stdout|from_yaml|dict2items|json_query('[].key') }}"
+
+    - set_fact:
+        my_var: "{{ result.stdout|from_yaml }}"
+    - debug:
+        var: my_var

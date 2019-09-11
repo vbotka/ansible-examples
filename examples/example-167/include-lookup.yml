@@ -1,0 +1,14 @@
+- name: 'Get data'
+  set_fact:
+    my_var: "{{ lookup('pipe', '/scratch/tmp/my_script')|from_yaml }}"
+  when: my_continue
+- name: 'Set continue=false when data OK'
+  set_fact:
+    my_continue: false
+  when:
+    - my_var.spec is defined
+    - my_continue
+- name: 'Delay next iteration'
+  wait_for:
+    timeout: "{{ my_delay }}"
+  when: my_continue

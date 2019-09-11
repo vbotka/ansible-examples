@@ -1,0 +1,71 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_continue: true
+    my_delay: 10
+    my_retries: 5
+  tasks:
+    - include_tasks: include-lookup.yml
+      loop: "{{ range(0, my_retries)|list }}"
+    - debug:
+        var: my_var.spec
+
+# The "lookup" plugin is evaluated only once before the module starts [1].
+# Hence it's not possible to get it working with the until/retries construct.
+# 
+# FWIW, it is possible to put it together. The "brute-force" playbook below
+# 
+#       - hosts: localhost
+#         vars:
+#           my_continue: true
+#           my_delay: 10
+#           my_retries: 5
+#         tasks:
+#           - include_tasks: include-lookup.yml
+#             loop: "{{ range(0, my_retries)|list }}"
+# 
+# with the included file include-lookup.yml
+# 
+#       - name: 'Get data'
+#         set_fact:
+#           my_var: "{{ lookup('pipe', '/scratch/tmp/my_script')|from_yaml }}"
+#         when: my_continue
+#       - name: 'Set continue=false when data OK'
+#         set_fact:
+#           my_continue: false
+#         when:
+#           - my_var.spec is defined
+#           - my_continue
+#       - name: 'Delay next iteration'
+#         wait_for:
+#           timeout: "{{ my_delay }}"
+#         when: my_continue
+# 
+# does the job. The concept works. When the variable "my_var.spec" is defined
+# then the variable "continue" will be set to False and following tasks will be
+# skipped.
+# 
+# [1] The "lookup" plugin is evaluated only once before the module starts. From
+#     the log written by "my_script" cat be seen that "lookup" is evaluated
+#     only once.
+# 
+#     tasks:
+#       - shell: "echo {{ lookup('pipe', '/scratch/tmp/my_script') }}"
+#     # - shell: "/scratch/tmp/my_script"
+#         ignore_errors: true
+#         register: result
+#         until: result.stdout == 'DUMMY'
+#         retries: 3
+#         delay: 2
+# 
+#     $ cat my_script
+#     #!/bin/sh
+#     my_data=/scratch/tmp/my_data
+#     my_log=/scratch/tmp/my_script.log
+#     if [ -e ${my_data} ]; then
+#            cat ${my_data}
+#     fi
+#     date >> ${my_log}
+# 
+#     $ cat my_data
+#     spec: 'Specification'

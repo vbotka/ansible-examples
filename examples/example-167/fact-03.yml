@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - shell: "echo {{ lookup('pipe', '/scratch/tmp/my_script') }}"
+#   - shell: "/scratch/tmp/my_script"
+      ignore_errors: true
+      register: result
+      until: result.stdout == 'OK'
+      retries: 3
+      delay: 2
+
+    - debug:
+        var: result
