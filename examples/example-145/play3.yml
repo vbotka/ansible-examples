@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    pwd_alias: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+  tasks:
+    - debug: var=pwd_alias
+    - debug: var=pwd_alias
+    - debug: var=pwd_alias
+
+# Can't assign password to user with ansible user module
+# https://stackoverflow.com/questions/57898189/cant-assign-password-to-user-with-ansible-user-module/
+
+# gives
+# 
+# "pwd_alias": "RrhCtAFEHievoTY"
+# "pwd_alias": "TxHCsdKlpweqVJL"
+# "pwd_alias": "xbFLVvuMkkNkqIE"
+#
+# The solution is simple. Put the evaluation of pwd_alias into the tasks. For example
+# 
+# tasks:
+#   - set_fact:
+#       pwd_alias: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+#   - set_fact:
+#       my_pass: "{{ pwd_alias | password_hash('sha512') }}"
