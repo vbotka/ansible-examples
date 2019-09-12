@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_var: "{{ lookup('pipe', '/scratch/tmp/my_script') }}"
+
+  tasks:
+    - debug:
+        msg: Waiting for data propagation...
+      register: result
+      until: "'spec' in my_var"
+      retries: 5
+      delay: 2
+
+    - debug:
+        var: result
+
+    - debug:
+        var: my_var
+
+# On Wed, 11 Sep 2019 14:50:24 -0700 (PDT)
+# flowerysong <ezekielh@umich.edu> wrote:
+# 
+# > That seems overly complex. I would instead wait until the required data is 
+# > available before running set_fact:
+# > 
+# > - vars:
+# >     che_keycloak_lookup: "{{ lookup('k8s', ...
+# > [...]
+# >     - debug:
+# >         msg: Waiting for data propagation...
+# >       until: "'spec' in che_keycloak_lookup"
+# >       retries: 30
+# >       delay: 10  
+# 
+# Great! This is the solution how to evaluate "lookup" in each iteration. Just
+# put the evaluation into "until".
