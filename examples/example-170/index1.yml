@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "0: {{ item.0 }}  1:{{ item.1 }}"
+      with_indexed_items:
+        - zone1.com
+        - zone2.com
+        - zone3.com
+
+    - debug:
+        msg: "0: {{ index }}  1:{{ item }}"
+      loop: "{{ ['zone1.com', 'zone2.com', 'zone3.com'] }}"
+      loop_control:
+        index_var: index
+
+# > ansible-playbook index1.yml | grep msg\":
+#     "msg": "0: 0  1:zone1.com"
+#     "msg": "0: 1  1:zone2.com"
+#     "msg": "0: 2  1:zone3.com"

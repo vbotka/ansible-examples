@@ -1,0 +1,43 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    dns_name: planb
+    zones:
+      - g2.netng.org
+      - g3.netng.org
+      - g4.netng.org
+
+  tasks:
+    
+    - set_fact:
+        found: "{{ found|default({})|
+                   combine({ item: {
+                            'rec_a': lookup('dig',
+                                            dns_name ~ '.' ~ item,
+                                            'qtype=A',
+                                            flat=0)}}) }}"
+      loop: "{{ zones }}"
+    - debug:
+        var: found
+    - set_fact:
+        dns_domains: "{{ found|
+                         dict2items|
+                         json_query('[?value.rec_a != `NXDOMAIN`].key') }}"
+    - debug:
+        var: dns_domains
+
+# How to get domain zone of the DNS A record using Ansible dig
+# https://stackoverflow.com/questions/57900462/how-to-get-domain-zone-of-the-dns-a-record-using-ansible-dig/
+
+#     "found": {
+#         "g2.netng.org": {
+#             "rec_a": "10.1.0.11"
+#         }, 
+#         "g3.netng.org": {
+#             "rec_a": "NXDOMAIN"
+#         }, 
+#         "g4.netng.org": {
+#             "rec_a": "NXDOMAIN"
+#         }
+#     }
