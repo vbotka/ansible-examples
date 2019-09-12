@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: files/test2.sh
+      register: result
+    - debug:
+        var: result
