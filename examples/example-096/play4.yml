@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    xvar: ['/path/file-AAA-abc', '/path/file-AAA-def']
+    avar: 'AAA'
+    bvar: 'def'
+
+  tasks:
+
+    - debug:
+        msg: OK
+      vars:
+        my_path: "{{ '/path/file-' ~ avar ~ '-' ~ bvar }}"
+      when: my_path in xvar
+
+    - debug:
+        msg: OK2
+      vars:
+        my_path2: "/path/file-{{ avar }}-{{ bvar }}"
+      when: my_path2 in xvar
+
+# Ansible when conditional with composed variable
+# https://stackoverflow.com/questions/57909304/ansible-when-conditional-with-composed-variable/
