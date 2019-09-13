@@ -172,6 +172,7 @@ Various examples of Ansbile code.
 - Example 168. debug
 - Example 169. dig
 - Example 170. with_indexed_items
+- Example 171. command
 
 ## License
 

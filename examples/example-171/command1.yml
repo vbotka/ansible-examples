@@ -1,0 +1,22 @@
+- hosts: localhost
+  tasks:
+
+    - command: env > enc.command
+      args:
+        chdir: /scratch/tmp/testFolder/
+      tags: t1
+
+    - command: sh -c "env > enc.sh"
+      args:
+        chdir: /scratch/tmp/testFolder/
+      tags: t2
+
+    - shell: jar -cf test.war *
+      args:
+        chdir: /scratch/tmp/testFolder/
+      tags: t3
+
+    - shell: ls -1 *
+      args:
+        chdir: /scratch/tmp/testFolder/
+      tags: t4
