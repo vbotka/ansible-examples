@@ -1,0 +1,11 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - shell: echo $(hostname)
+      register: result
+    - debug:
+        var: result.stdout
+
+# ok: [test_01] => {
+#     "result.stdout": "test_01.g2.netng.org"
+# }
