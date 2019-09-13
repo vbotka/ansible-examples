@@ -1,0 +1,27 @@
+- hosts: localhost
+  tasks:
+    - name: "play1:task1"
+      debug: msg="play1:task1"
+      tags:
+        - play1
+        - play1_task1
+    - name: "play1:task2"
+      debug: msg="play1:task2"
+      tags:
+        - play1
+        - play1_task2
+
+- name: Import play2
+  import_playbook: play2.yml
+  tags: play2_import
+
+
+# TASK [play2:task1] ***
+# ok: [localhost] => {
+#     "msg": "play2:task1"
+# }
+# 
+# TASK [play2:task2] ***
+# ok: [localhost] => {
+#     "msg": "play2:task2"
+# }

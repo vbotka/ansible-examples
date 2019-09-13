@@ -1,0 +1,17 @@
+- name: Import play2
+  import_playbook: play2.yml
+  tags: play2_import
+
+
+# TASK [play2:task1] ***
+# ok: [localhost] => {
+#     "msg": "play2:task1"
+# }
+# 
+# TASK [play2:task2] ***
+# ok: [localhost] => {
+#     "msg": "play2:task2"
+# }
+
+# Ansible: Prompting variables for roles
+# https://unix.stackexchange.com/questions/
