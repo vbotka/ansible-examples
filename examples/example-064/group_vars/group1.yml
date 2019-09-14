@@ -1,7 +1,4 @@
-manager_ports:
-  - 443
-
-script_dir: /tmp
+# script_dir: /tmp
 filewatches: "{{ filewatches_var|from_yaml }}"
 filewatches_var: |
     {% for host in groups['worker'] %}

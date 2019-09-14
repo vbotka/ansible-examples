@@ -173,6 +173,9 @@ Various examples of Ansbile code.
 - Example 169. dig
 - Example 170. with_indexed_items
 - Example 171. command
+- Example 172. hash_behaviour
+- Example 173. from_yaml from_yaml_all
+
 
 ## License
 

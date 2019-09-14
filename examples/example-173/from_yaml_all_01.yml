@@ -1,0 +1,26 @@
+- hosts: localhost
+  vars:
+    vars_text: |
+      var1: AAA
+      var2: BBB
+      var3: CCC
+  tasks:
+    - set_fact:
+        my_dict: "{{ my_dict|default({})|combine(item) }}"
+      loop: "{{ vars_text|from_yaml_all|list }}"
+    - debug:
+        var: my_dict
+    - debug:
+        var: my_dict.var2
+
+# ok: [localhost] => {
+#     "my_dict": {
+#         "var1": "AAA", 
+#         "var2": "BBB", 
+#         "var3": "CCC"
+#     }
+# }
+# 
+# ok: [localhost] => {
+#     "my_dict.var2": "BBB"
+# }

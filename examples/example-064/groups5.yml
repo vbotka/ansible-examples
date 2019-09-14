@@ -1,0 +1,9 @@
+- hosts: group1
+  gather_facts: false
+  vars:
+    script_dir: /tmp
+  tasks:
+    - debug:
+        var: filewatches
+    - debug:
+        var: filewatches.1.directory_name

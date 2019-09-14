@@ -1,14 +1,25 @@
 - hosts: localhost
   gather_facts: no
+
   tasks:
     - lineinfile:
-        path: "{{ playbook_dir }}/test10.txt"
-        insertafter: '[tag1]'
-        # firstmatch: yes
-        # insertbefore: '[tag2]'
-        line: "{{ item }}"
-      loop:
-        - '# This is line 1'
+        path: '<PATH>'
+        regexp: '<REGEX>'
+        line: '<REPLACE'
+      check_mode: true
+      notify: run handler1
 
-# How to add lines after pattern by ansible playbook
-# https://stackoverflow.com/questions/57125421/how-to-add-lines-after-pattern-by-ansible-playbook
+    - lineinfile:
+        path: "<PATH>"
+        regexp: '<REGEX>'
+        line: '<REPLACE'
+
+  handlers:
+    
+    - name: run handler1
+      debug:
+        msg: handler1 running ...
+
+# Ansible predict if entry will change before commiting it
+# https://stackoverflow.com/questions/57930646/ansible-predict-if-entry-will-change-before-commiting-it/
+
