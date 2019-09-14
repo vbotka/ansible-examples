@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    domain_lines:
+      - 'test1.domain.tld'
+      - '# test2.domain.tld'
+      - 'test3.domain.tld'
+      - 'test4.domain.tld'
+
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ domain_lines|reject('regex', '^#(.*)$')|list }}"
+    - set_fact:
+        domain_selected: "{{ domain_lines|reject('regex', '^\\s*#(.*)$')|list }}"
+    - debug:
+        var: domain_selected
+
+# Ansible: exclude item(s) from lookup result
+# https://stackoverflow.com/questions/57933477/ansible-exclude-items-from-lookup-result/
+
+# ok: [localhost] => {
+#     "domain_selected": [
+#         "test1.domain.tld", 
+#         "test3.domain.tld", 
+#         "test4.domain.tld"
+#     ]
+# }

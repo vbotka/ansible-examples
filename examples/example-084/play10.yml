@@ -3,23 +3,24 @@
 
   tasks:
     - lineinfile:
-        path: '<PATH>'
-        regexp: '<REGEX>'
-        line: '<REPLACE'
+        path: '/scratch/tmp/test-play-10.txt'
+        regexp: 'AAAAA'
+        line: 'BBBBB'
       check_mode: true
       notify: run handler1
+      tags: t1
 
     - lineinfile:
-        path: "<PATH>"
-        regexp: '<REGEX>'
-        line: '<REPLACE'
+        path: "/scratch/tmp/test-play-10.txt"
+        regexp: 'AAAAA'
+        line: 'BBBBB'
+      tags: t2
 
   handlers:
-    
     - name: run handler1
       debug:
-        msg: handler1 running ...
+        msg: Action because the line will change.
+      tags: t1
 
 # Ansible predict if entry will change before commiting it
 # https://stackoverflow.com/questions/57930646/ansible-predict-if-entry-will-change-before-commiting-it/
-
