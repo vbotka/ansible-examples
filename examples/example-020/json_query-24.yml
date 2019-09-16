@@ -1,0 +1,55 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - include_vars:
+        name: service_map
+        file: vars-21.yml
+      tags: always
+    - debug:
+        var: service_map
+      tags: t1
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value.service_name|
+                                       dict2items|
+                                       json_query(query)}) }}"
+      loop: "{{ service_map|dict2items }}"
+      vars:
+        query: "[?value.enabled=='False'].key"
+      tags: A
+    - debug:
+        var: result
+      tags: A
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value.service_name|
+                                       dict2items|
+                                       json_query(query)}) }}"
+      loop: "{{ service_map|dict2items }}"
+      vars:
+        query: "[?value.started=='True'].key"
+      tags: B
+    - debug:
+        var: result
+      tags: B
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value.service_name|
+                                       dict2items|
+                                       json_query(query)}) }}"
+      loop: "{{ service_map|dict2items }}"
+      vars:
+        query: "[?value.enabled=='False'].{service: key,
+                                           enabled: value.enabled,
+                                           started: value.started}"
+      tags: C
+    - debug:
+        var: result
+      tags: C
+
+# Ansible - accessing dict of dict of dicts
+# https://stackoverflow.com/questions/57936095/ansible-accessing-dict-of-dict-of-dicts/

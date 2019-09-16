@@ -1,0 +1,84 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - include_vars:
+        name: service_map
+        file: vars-21.yml
+      tags: always
+    - debug:
+        var: service_map
+      tags: t1
+
+    - set_fact:
+        service_map2: "{{ service_map2|default({})|
+                          combine({item.key:
+                                   item.value.service_name}) }}"
+      loop: "{{ service_map|dict2items }}"
+      tags: t2
+    - debug:
+        var: service_map2
+      tags: t3
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value|dict2items|json_query(query)})
+                    }}"
+      loop: "{{ service_map2|dict2items }}"
+      vars:
+        query: "[?value.enabled=='False'].key"
+      tags: t4
+    - debug:
+        var: result
+      tags: t4
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value|dict2items|json_query(query)})
+                    }}"
+      loop: "{{ service_map2|dict2items }}"
+      vars:
+        query: "[?value.started=='True'].key"
+      tags: t5
+    - debug:
+        var: result
+      tags: t5
+
+    - set_fact:
+        result: "{{ result|default({})|
+                    combine({item.key: item.value|dict2items|json_query(query)})
+                    }}"
+      loop: "{{ service_map2|dict2items }}"
+      vars:
+        query: "[?value.enabled=='False'].{service: key,
+                                           started: value.started}"
+      tags: t6
+    - debug:
+        var: result
+      tags: t6
+
+# Ansible - accessing dict of dict of dicts
+# https://stackoverflow.com/questions/57936095/ansible-accessing-dict-of-dict-of-dicts/
+
+# Q: Lists the server, the service name and then the 2 states.
+# 
+# A: Let's simplify the dictionary and get rid of the redundant parameter service_name
+# 
+# - set_fact:
+#     service_map2: "{{ service_map2|default({})|
+#                       combine({item.key:
+#                                item.value.service_name}) }}"
+#   loop: "{{ service_map|dict2items }}"
+# Dictionary service_map2 "lists the server, the service name and then the 2 states"
+
+# "service_map2": {
+#     "server1": {
+#         "jboss_prod_1": {
+#             "enabled": "True", 
+#             "started": "True"
+#         }, 
+#         "jboss_prod_2": {
+#             "enabled": "True", 
+#             "started": "True"
+#         }, 
+# ...

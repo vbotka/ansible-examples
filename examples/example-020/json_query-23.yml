@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - include_vars:
+        name: service_map
+        file: vars-21.yml
+      tags: always
+    - debug:
+        var: service_map
+      tags: t1
+
+    - set_fact:
+        service_map2: "{{ service_map2|default([]) +
+                          [{item.key:
+                            item.value.service_name}] }}"
+      loop: "{{ service_map|dict2items }}"
+      tags: t2
+    - debug:
+        var: service_map2
+      tags: t3
+
+# Ansible - accessing dict of dict of dicts
+# https://stackoverflow.com/questions/57936095/ansible-accessing-dict-of-dict-of-dicts/
+
+#  The task below creates the list service_map2 instead of the dictionary.
+# 
+# - set_fact:
+#     service_map2: "{{ service_map2|default([]) +
+#                       [{item.key:
+#                         item.value.service_name}] }}"
+#   loop: "{{ service_map|dict2items }}"
+
+#     "service_map2": [
+#         {
+#             "server1": {
+#                 "jboss_prod_1": {
+#                     "enabled": "True", 
+#                     "started": "True"
+#                 }, 
+#                 "jboss_prod_2": {
+#                     "enabled": "True", 
+#                     "started": "True"
+#                 }, 

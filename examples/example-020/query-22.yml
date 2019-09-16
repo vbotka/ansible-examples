@@ -1,0 +1,4 @@
+- debug:
+    msg: "{{ item.value }}"
+    # msg: "{{ item.value|json_query(my_query) }}"
+  loop: "{{ outer_item.value.service_name|dict2items }}"

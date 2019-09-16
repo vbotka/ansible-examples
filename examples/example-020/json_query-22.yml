@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - include_vars:
+        name: service_map
+        file: vars-21.yml
+      tags: always
+    - debug:
+        var: service_map
+      tags: [t1, never]
+    - include_tasks: query-22.yml
+      loop: "{{ service_map|dict2items }}"
+      loop_control:
+        loop_var: outer_item
+      vars:
+        my_query: "[]"

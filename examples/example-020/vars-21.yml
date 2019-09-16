@@ -1,0 +1,35 @@
+server1:
+  service_name:
+    jboss_prod_1:
+      enabled: "True"
+      started: "True"
+    jboss_prod_2:
+      enabled: "True"
+      started: "True"
+    jboss_prod_3:
+      enabled: "True"
+      started: "True"
+    jboss_prod_4:
+      enabled: "False"
+      started: "False"
+    jboss_prod_5:
+      enabled: "False"
+      started: "False"
+
+server2:
+  service_name:
+    jboss_prod_3:
+      enabled: "True"
+      started: "True"
+    jboss_prod_5:
+      enabled: "True"
+      started: "True"
+    jboss_prod_7:
+      enabled: "True"
+      started: "True"
+    jboss_prod_9:
+      enabled: "False"
+      started: "False"
+    jboss_prod_13:
+      enabled: "False"
+      started: "False"
