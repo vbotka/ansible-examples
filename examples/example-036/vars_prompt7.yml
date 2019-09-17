@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    - name: "test_var1"
+      prompt: "Continue yes/no"
+      private: no
+  tasks:
+
+    - name: vars_prompt variable is STRING
+      debug:
+        msg: test_var1 is string
+      when: test_var1 is string
+
+    - name: STRING is ITERABLE
+      debug:
+        msg: test_var1 is iterable
+      when: test_var1 is iterable
+
+    - name: test IN can be used on STRING
+      debug:
+        msg: yes is in test_var1
+      when: "'yes' in test_var1"
+
+    - name: explicit cast of test_var1 to BOOLEAN
+      debug:
+        msg: Continue yes
+      when: test_var1|bool
+
+    - name: YAML evaluation convert TEXT yes to BOOLEAN
+      set_fact:
+        test_var2: "{{ test_var1 }}"
+
+    - name: test_var2 is no more STRING
+      debug:
+        msg: test_var2 is string
+      when: test_var2 is string
+
+    - name: test_var2 in no more ITERABLE
+      debug:
+        msg: test_var2 is iterable
+      when: test_var2 is iterable
+
+    - name: test_var2 is BOOLEAN
+      debug:
+        msg: test_var2 is BOOLLEAN yes
+      when: test_var2
