@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    my_dir: /mnt
+  tasks:
+    - stat:
+        path: "{{ my_dir }}"
+      register: result
+    - debug:
+        msg: "size:{{ result.stat.size }} mode:{{ result.stat.mode }}"
+    - debug:
+        msg: "{{ my_dir }} is mount-point"
+      when: my_dir in ansible_mounts|json_query('[].mount')
+    - debug:
+        msg: "{{ my_dir }} is not mount-point"
+      when: my_dir not in ansible_mounts|json_query('[].mount')
+    - debug:
+        msg: "{{ ansible_mounts|selectattr('mount', true)|list }}"
+
+# How to get information of directory that is mounted or not mounted using ansible?
+# https://stackoverflow.com/questions/57981005/how-to-get-information-of-directory-that-is-mounted-or-not-mounted-using-ansible/
