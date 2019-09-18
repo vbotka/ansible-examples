@@ -1,0 +1,18 @@
+- hosts: group1
+  vars:
+    my_ip_list:
+      - 10.1.0.52
+      - 10.1.0.53
+  tasks:
+#    - debug:
+#        msg: "{{ hostvars[item].ansible_all_ipv4_addresses }}"
+#      loop: "{{ groups['group1'] }}"
+    - debug:
+        msg: "{{ hostvars[item].*.device }}"
+      loop: "{{ groups['group1'] }}"
+      when: my_ip_list|intersect(hostvars[item].ansible_all_ipv4_addresses)|length > 0
+      run_once: true
+#    - set_fact:
+#        my_mtu_list: "{{ my_mtu_list|default([]) +
+#                         [{item: 
+#      run_once: true

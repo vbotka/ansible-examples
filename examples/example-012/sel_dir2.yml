@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_variable_item: item_z
+    my_dict:
+      item_x:
+        other_item_a: 1
+      item_y:
+        other_item_b: 2
+      item_z:
+        other_item_c: 3
+  tasks:
+    - debug:
+        msg: '{{ my_dict[my_variable_item].other_item_c }}'
+
+# Reference variables in expressions in Ansible/Jinja
+# https://stackoverflow.com/questions/57987542/reference-variables-in-expressions-in-ansible-jinja/
