@@ -1,0 +1,13 @@
+- hosts: test_jails
+  gather_facts: false
+  vars:
+    hostnames: ['test_01', 'test_02', 'test_0x']
+  tasks:
+    - debug:
+        msg: "{{ hostvars[item].group_names }}"
+      loop: "{{ hostnames }}"
+      when: item in ansible_play_hosts_all
+      run_once: true
+
+# Ansible, checking inventory groups and hosts
+# https://stackoverflow.com/questions/58009591/ansible-checking-inventory-groups-and-hosts

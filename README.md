@@ -176,6 +176,7 @@ Various examples of Ansbile code.
 - Example 172. hash_behaviour
 - Example 173. from_yaml from_yaml_all
 - Example 174. extract
+- Example 175. group_names
 
 
 ## License

@@ -1,0 +1,5 @@
+- hosts: test_jails
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }}:{{ group_names }}"
