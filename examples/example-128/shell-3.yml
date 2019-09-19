@@ -3,9 +3,11 @@
   vars:
     file_del: xxx
   tasks:
-    - shell: "find /tmp/{{ file_del }} | xargs /bin/rm"
+    - shell: "find /tmp/{{ file_del }} | xargs /tmp/my_custom_command.sh"
       ignore_errors: True 
       register: result
+    - debug:
+        var: result
     - meta: end_play
       when: result.rc == 123
     - debug:
