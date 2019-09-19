@@ -1,0 +1,21 @@
+- hosts: localhost
+  tasks:
+
+    - command: whoami
+      register: result
+    - debug: var=result.stdout
+      tags: t1
+
+    - command: pwd
+      register: result
+      args:
+        chdir: $HOME
+    - debug: var=result.stdout
+      tags: t2
+
+    - command: pwd
+      register: result
+      args:
+        chdir: ~
+    - debug: var=result.stdout
+      tags: t3
