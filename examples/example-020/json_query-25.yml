@@ -1,0 +1,14 @@
+- hosts: dbservers
+  gather_facts: no
+  tasks:
+    - set_fact:
+        master_database_host: "{{ groups['dbservers']|
+                                  map('extract',hostvars)|
+                                  list|
+                                  json_query('[?master_slave==`master`].inventory_hostname')|
+                                  first }}"
+    - debug:
+        var: master_database_host
+
+# How can I resolve an inventory member who has a certain attribute?
+# https://stackoverflow.com/questions/58002354/how-can-i-resolve-an-inventory-member-who-has-a-certain-attribute/

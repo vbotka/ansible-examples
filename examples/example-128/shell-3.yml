@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    file_del: xxx
+  tasks:
+    - shell: "find /tmp/{{ file_del }} | xargs /bin/rm"
+      ignore_errors: True 
+      register: result
+    - meta: end_play
+      when: result.rc == 123
+    - debug:
+        msg: /tmp/{{ file_del }} found and deleted. Continue play.
+
+# Ansible task continuation only when find strings in registred variable
+# https://stackoverflow.com/questions/58002156/ansible-task-continuation-only-when-find-strings-in-registred-variable
