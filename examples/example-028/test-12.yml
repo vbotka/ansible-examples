@@ -1,0 +1,15 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - set_fact:
+        lvm_disks: "{{ hostvars[inventory_hostname]['ansible_devices'].keys()|
+                       list|
+                       map('regex_replace', '(.*)', '/dev/\\1')|
+                       list }}"
+    - debug:
+        var: lvm_disks
+
+# Format list of strings fact when using Ansible
+# https://stackoverflow.com/questions/58025044/format-list-of-strings-fact-when-using-ansible/
