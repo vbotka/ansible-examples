@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    existing_item_this: '1234'
+    existing_item_that: '2345'
+  tasks:
+    - set_fact:
+        existing_item_this: "{{ existing_item_this }}"
+    - set_fact:
+        existing_item_that: "{{ existing_item_that }}"
+    - debug:
+        var: inventory_hostname
+    - debug:
+        var: hostvars[inventory_hostname].existing_item_this
+    - debug:
+        msg: "{{ hostvars[inventory_hostname]['existing_item_' ~ item] }}"
+      loop:
+        - 'this'
+        - 'that'
+    - debug:
+        msg: "{{ lookup('vars', 'existing_item_' ~ item) }}"
+      loop:
+        - 'this'
+        - 'that'
+
+# Ansible Dynamic Host Vars
+# https://stackoverflow.com/questions/58021288/ansible-dynamic-host-vars/
