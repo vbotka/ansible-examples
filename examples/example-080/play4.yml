@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_group: webservers
+  tasks:
+    - template:
+        src: play4-template.j2
+        dest: /scratch/tmp/hostsx

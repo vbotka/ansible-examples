@@ -1,0 +1,4 @@
+[{{ my_group }}]
+{% for my_host in groups[my_group] %}
+{{ my_host }}
+{% endfor %}

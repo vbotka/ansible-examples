@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_group: webservers
+  tasks:
+    - debug:
+        msg: "{{ lookup('ini', 'my_hosts section=webservers file=hosts8a')|from_yaml }}"
+
+# Neither ini plugin, not from_yaml filter will expand the range
+
+# ok: [localhost] => {
+#     "msg": "www[01:11].example.com"
+# }
