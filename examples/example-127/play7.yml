@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - find:
+        paths: /scratch/test1
+        patterns: test.sh
+        recurse: true
+      register: results
+    - set_fact:
+        list_of_files: "{{ results.files|json_query('[].path') }}"
+    - debug:
+        var: list_of_files
+    - stat:
+        path: "{{ item }}"
+        get_checksum: true
+      loop: "{{ list_of_files }}"
+      register: results
+    - debug:
+        # msg: "{{ item }}"
+        msg: "{{ item.item }}
+              {{ item.stat.mode }}
+              {{ item.stat.pw_name }}
+              {{ item.stat.mtime }}
+              {{ item.stat.checksum }}"
+      loop: "{{ results.results }}"

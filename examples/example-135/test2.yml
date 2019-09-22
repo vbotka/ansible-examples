@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_roles_names:
+      - geerlingguy.nfs
+      - ANXS.openssh
+      - robertdebock.bootstrap
+      - robertdebock.squid
+  tasks:
+    - set_fact:
+        my_list: "{{ my_roles_names|
+                     map('regex_replace', regex, replace)|
+                     list }}"
+      vars:
+        regex: '^(.*)\.(.*)$'
+        replace: '\2'
+    - debug:
+        var: my_list
+
+# How to manipuate each item in a array when using Ansible
+# https://stackoverflow.com/questions/58046259/how-to-manipuate-each-item-in-a-array-when-using-ansible/
+
