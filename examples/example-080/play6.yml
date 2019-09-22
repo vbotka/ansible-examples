@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_group: webservers
+  tasks:
+
+    - debug:
+        msg: "{{ item }}"
+      with_ini:
+        - '.* section=webservers file=hosts8 re=True'
+
+    - debug:
+        msg: "{{ item }}"
+      with_ini:
+        - '.* type=properties file=hosts9 re=True'
+
+    - debug:
+        msg: "{{ lookup('file', playbook_dir ~ '/hosts8').splitlines()|
+                 reject('regex', '^[^a-zA-Z](.*)$')|list|first|from_yaml }}"
+
+# > cat hosts8
+# [webservers]
+# www[01:11].example.com
+# > cat hosts9
+# # [webservers]
+# my_host=www01.example.com
+# # www01.example.com
+# > cat hosts10
+# [webservers]
+# # my_host=www01.example.com
+# # www[01:11].example.com
+# www01.example.com
