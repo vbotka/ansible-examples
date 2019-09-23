@@ -1,0 +1,19 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - set_fact:
+        nginx_list: "{{ hostvars|dict2items|
+                        json_query('[?value.tech==`nginx`].key') }}"
+      run_once: true
+    - debug:
+        var: nginx_list
+
+    - lineinfile:
+        path: /tmp/webservers.cfg
+        regex: "^nginx\\s*=(.*)$"
+        line: "nginx = {{ nginx_list|join(', ') }}"
+        create: true
+      delegate_to: localhost
+
+# Choosing host from inventory based on variable
+# https://stackoverflow.com/questions/58061285/choosing-host-from-inventory-based-on-variable

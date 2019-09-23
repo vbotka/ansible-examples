@@ -18,6 +18,15 @@
     - debug:
         var: template
 
+    - copy:
+        content: |
+          {{ template|to_yaml }}
+        dest: /tmp/my_template.yaml
+    - copy:
+        content: |
+          {{ template|to_nice_json }}
+        dest: /tmp/my_template.json
+
 # Ansible: Build an array of object on every iteration
 # https://stackoverflow.com/questions/58059154/ansible-build-an-array-of-object-on-every-iteration/
 
