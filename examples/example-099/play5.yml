@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list_of_objects:
+      - name: A
+        element1: A1
+        element2: A2
+      - name: B
+        element1: B1
+        element2: B2
+  tasks:
+    - set_fact:
+        template: "{{ template|default([]) +
+                      [{'name': item.name,
+                        'element1': item.element1,
+                        'element2': item.element2}] }}"
+      loop: "{{ list_of_objects }}"
+    - debug:
+        var: template
+
+# Ansible: Build an array of object on every iteration
+# https://stackoverflow.com/questions/58059154/ansible-build-an-array-of-object-on-every-iteration/
+
+#   template:
+#   - element1: A1
+#     element2: A2
+#     name: A
+#   - element1: B1
+#     element2: B2
+#     name: B
