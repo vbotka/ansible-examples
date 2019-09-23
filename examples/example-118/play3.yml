@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - name: numberOfSwitches
+      prompt: 'How many switches in the stack?'
+      private: no
+  tasks:
+    - set_fact:
+        my_switches: "{{ my_switches|default([]) +
+                       [ 'gi' ~ item ~ '/0/1-48' ] }}"
+      loop: "{{ range(1, numberOfSwitches|int + 1, 1)|list }}"
+    - template:
+        src: my_switches.j2
+        dest: /tmp/my_switches.conf
+
+# Transform ansible variable value based on input
+# https://stackoverflow.com/questions/58056641/transform-ansible-variable-value-based-on-input/

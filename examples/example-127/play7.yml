@@ -20,6 +20,6 @@
         msg: "{{ item.item }}
               {{ item.stat.mode }}
               {{ item.stat.pw_name }}
-              {{ item.stat.mtime }}
+              {{ item.stat.mtime|datetime_epoch_strftime('%d-%m-%Y') }}
               {{ item.stat.checksum }}"
       loop: "{{ results.results }}"
