@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    separator: '\t'
+    db_lines:
+      - 'host6,host5\targ3'
+      - 'host4,host3\targ1'
+      - 'host1,host2,host5\targ2'
+  tasks:
+    - set_fact:
+        my_data: "{{ my_data|default([]) +
+                     [{'host': item.split(separator)[0].split(','),
+                       'arg': item.split(separator)[1].split(',')}] }}"
+      loop: "{{ db_lines }}"
+    - debug:
+        var: my_data
