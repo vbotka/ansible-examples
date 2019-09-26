@@ -7,6 +7,9 @@
         path: "{{ my_conf }}"
         regexp: '^(/var/log/apache2/\*\.log)\s+{$'
         replace: '\1 /var/log/apache2/*/*.log {'
+      register: results
+    - debug:
+        var: results
 
 # Replace a line in a file with Ansible, while ensuring that line is present
 # https://serverfault.com/questions/985701/replace-a-line-in-a-file-with-ansible-while-ensuring-that-line-is-present/
