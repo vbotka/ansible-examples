@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug: var=hostvars
+
+# EOF
+...

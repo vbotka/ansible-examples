@@ -1,0 +1,10 @@
+---
+
+- hosts: test_jails
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ hostvars[inventory_hostname]['inventory_hostname'] }}"
+
+# EOF
+...
