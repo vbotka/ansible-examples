@@ -1,11 +1,14 @@
 ---
 
-- hosts: test99
+- hosts: test_01
+  gather_facts: false
   pre_tasks:
     - debug: var=play_hosts
       delegate_to: localhost
       register: result
     - debug: var=result
+      delegate_to: localhost
+    - debug: var=inventory_hostname
       delegate_to: localhost
 
 # EOF

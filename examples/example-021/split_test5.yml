@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    separator: '\'
+    dirs: ['Web\this','Web\that','Web']
+  tasks:
+    - debug:
+        msg: "{{ dirs[1].split(separator)[-1] }}"
+
+# Ansible split string on backslash
+# https://serverfault.com/questions/985957/ansible-split-string-on-backslash/

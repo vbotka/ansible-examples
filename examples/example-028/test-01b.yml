@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        var: hostvars.localhost.inventory_hostname
+    - debug:
+        var: hostvars['localhost']['inventory_hostname']
+
+# EOF
+...

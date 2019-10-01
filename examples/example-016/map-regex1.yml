@@ -1,0 +1,61 @@
+---
+
+- name: "Test map regex"
+  hosts: localhost
+  gather_facts: no
+  vars:
+    my_facts:
+      srcgrpname: [
+            'RegButton-48773',
+            "test_vio",
+            "RegButton-23395",
+            "RegButton-520859",
+            "RegButton-743141",
+            "RegButton-297578",
+            "RegButton-186156"
+        ]
+
+  tasks:
+
+    - debug:
+        var: my_facts
+
+# It's possible to use select and regex. For example the tasks below
+    - set_fact:
+        srcgrpname1: "{{ my_facts.srcgrpname|
+                         select('regex', '^RegButton-(.*)$')|
+                         list }}"
+    - debug:
+        var: srcgrpname1
+
+#    "my_facts": {
+#        "srcgrpname": [
+#            "RegButton-48773", 
+#            "test_vio", 
+#            "RegButton-23395", 
+#            "RegButton-520859", 
+#            "RegButton-743141", 
+#            "RegButton-297578", 
+#            "RegButton-186156"
+#        ]
+#    }
+    - set_fact:
+        srcgrpname2: "{{ my_facts.srcgrpname|json_query(query) }}"
+      vars:
+        query: "[?contains(@, 'RegButton')]"
+    - debug:
+        var: srcgrpname2
+
+# fatal: [localhost]: FAILED! => {"msg": "JMESPathError in json_query
+# filter plugin:\nIn function contains(), invalid type for value:
+# RegButton-48773, expected one of: ['array', 'string'], received:
+# \"unknown\""}
+
+# http://jmespath.org/specification.html#contains
+# https://stackoverflow.com/questions/53615369/json-format-query-with-contains
+
+# Ansible JEMSPATH errors while parasing ansible facts
+# https://stackoverflow.com/questions/58177519/ansible-jemspath-errors-while-parasing-ansible-facts/
+
+# EOF
+...

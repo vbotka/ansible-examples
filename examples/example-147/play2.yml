@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - command: docker --version
+      register: result
+    - set_fact:
+        docker_version: "{{ result.stdout.split(' ')[2].split('-')[0] }}"
+    - debug:
+        var: docker_version
+    - debug:
+        msg: Install docker
+      when: docker_version is version('19.03.2', '<=')
+
+# Include task when compared version is lower
+# https://stackoverflow.com/questions/58166192/include-task-when-compared-version-is-lower/
