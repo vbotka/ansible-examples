@@ -1,0 +1,29 @@
+- hosts: localhost
+  tasks:
+  - name: get hosts from hosts directory
+    command: ls -1 var/hosts
+    register: ssh_hosts
+  - name: create my_group
+    add_host:
+      hostname: "{{ item }}"
+      groups:
+        - 'my_group'
+    loop: "{{ ssh_hosts.stdout_lines }}"
+
+- hosts: my_group
+  become: true
+  tasks:
+    - name: get usernames
+      command: "ls -1 var/hosts/{{ inventory_hostname }}"
+      register: usernames_host
+    - name: add users
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        group: sudo
+      loop: "{{ usernames_host.stdout_lines }}"
+    - name: add user keys
+      authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', 'var/ssh/' ~ item ) }}"
+      loop: "{{ usernames_host.stdout_lines }}"
