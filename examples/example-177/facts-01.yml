@@ -1,0 +1,22 @@
+- hosts: test_01
+  gather_facts: false
+  vars:
+    abc:  "10"
+    xyz:  "11"
+  tasks:
+    - name: write custom fact
+      copy:
+        dest: /etc/ansible/facts.d/somefact_a.fact
+        owner: root
+        group: wheel
+        mode: 0644
+        content: |
+          {'some_var1': {{ abc|int }}}
+
+- hosts: test_01
+  tasks:
+    - debug:
+        var: ansible_local.somefact_a.some_var1
+
+# Playbook is unable to read local_facts when facts files created in same playbook
+# https://stackoverflow.com/questions/58199635/playbook-is-unable-to-read-local-facts-when-facts-files-created-in-same-playbook/
