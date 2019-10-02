@@ -1,0 +1,5 @@
+- hosts: test_01
+  gather_facts: yes
+  tasks:
+    - debug:
+        var: hostvars['test_02']
