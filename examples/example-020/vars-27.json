@@ -1,0 +1,20 @@
+domains:
+  json:
+    data: [
+        {
+            "axfr_ips": [],
+            "description": "",
+            "domain": "mydomain.net",
+            "expire_sec": 0,
+            "group": "",
+            "id": 687088,
+        },
+        {
+            "axfr_ips": [],
+            "description": "",
+            "domain": "myotherdomain.net",
+            "expire_sec": 0,
+            "group": "",
+            "id": 687089,
+        }
+]

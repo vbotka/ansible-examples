@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    vars-27.json
+  tasks:
+    - debug:
+        msg: "{{ domains.json.data|json_query(query) }}"
+      vars:
+        server_domain: 'mydomain.net'
+        query: "[?domain=='{{ server_domain }}'].id"
+
+# Retrieving value from json array where attribute equals variable with Ansible
+# https://stackoverflow.com/questions/58208915/retrieving-value-from-json-array-where-attribute-equals-variable-with-ansible/
