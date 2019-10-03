@@ -1,0 +1,25 @@
+- hosts: localhost
+  tasks:
+    - block:
+        - command: "{{ item }}"
+          register: result
+          loop: ['/bin/true', '/bin/false', '/bin/true']
+          when: (not (result|default({})) is failed)
+      rescue:
+        - debug:
+            var: result
+
+# changed: [localhost] => (item=/bin/true)
+# failed: [localhost] (item=/bin/false) => {"ansible_loop_var": ...
+# skipping: [localhost] => (item=/bin/true)
+
+#            {
+#                "ansible_loop_var": "item", 
+#                "changed": false, 
+#                "item": "/bin/true", 
+#                "skip_reason": "Conditional result was False", 
+#                "skipped": true
+#            }
+
+# How to go rescue module when any package fails in Ansible Playbook
+# https://serverfault.com/questions/986545/how-to-go-rescue-module-when-any-package-fails-in-ansible-playbook/
