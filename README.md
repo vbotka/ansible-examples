@@ -179,6 +179,7 @@ Various examples of Ansbile code.
 - Example 175. group_names
 - Example 176. loop
 - Example 177. facts.d
+- Example 178. role/vars
 
 
 ## License

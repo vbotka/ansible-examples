@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - role1
+
+# Ansible 2.8 Roles - using the vars/main directory
+# https://stackoverflow.com/questions/58247421/ansible-2-8-roles-using-the-vars-main-directory/
