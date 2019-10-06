@@ -1,0 +1,7 @@
+openconfig-vlan:vlans:
+  vlan:
+  - vlan-id: '1001'
+    config:
+      vlan-id: 1001
+      name: test22
+      status: ACTIVE

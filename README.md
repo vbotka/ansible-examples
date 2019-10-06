@@ -180,6 +180,7 @@ Various examples of Ansbile code.
 - Example 176. loop
 - Example 177. facts.d
 - Example 178. role/vars
+- Example 179. JSON YAML data
 
 
 ## License

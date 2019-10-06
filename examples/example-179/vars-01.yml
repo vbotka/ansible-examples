@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: vars-1-data.yml
+        name: test_var
+    - debug:
+        var: test_var['openconfig-vlan:vlans']
+
+# Ansible Double Colon in with_items
+# https://stackoverflow.com/questions/58257437/ansible-double-colon-in-with-items/
