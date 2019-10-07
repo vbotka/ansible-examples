@@ -1,0 +1,34 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    rec_len: 4
+  tasks:
+    - set_fact:
+        nics: "{{ (lookup('file', 'data-4.csv')|trim).split(' ') }}"
+    - debug:
+        msg: "{{ nics }}"
+
+    - set_fact:
+        len: "{{ (nics|length/rec_len)|int }}"
+    - debug:
+        var: len
+
+#    - set_fact:
+#        nics_list: "{{ nics_list|default([]) + [[
+#                       {'vlan': nics[(item*rec_len)|int]},
+#                       {'ip': nics[(item*rec_len+1)|int]},
+#                       {'mask': nics[(item*rec_len+2)|int]},
+#                       {'scope': nics[(item*rec_len+3)|int]}]] }}"
+#      loop: "{{ range(0, len|int)|list }}"
+    - set_fact:
+        nics_list: "{{ nics_list|default([]) + [[
+                       nics[(item*rec_len)|int],
+                       nics[(item*rec_len+1)|int],
+                       nics[(item*rec_len+2)|int],
+                       nics[(item*rec_len+3)|int] ]] }}"
+      loop: "{{ range(0, len|int)|list }}"
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ nics_list }}"

@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    rec_len: 4
+    delimeter: ' '
+  tasks:
+    - set_fact:
+        nics: "{{ (lookup('file', 'data-4.csv')|trim).split(delimeter) }}"
+    - set_fact:
+        len: "{{ (nics|length/rec_len)|int }}"
+    - set_fact:
+        nics_list: "{{ nics_list|default([]) + [[
+                       nics[(item*rec_len)|int],
+                       nics[(item*rec_len+1)|int],
+                       nics[(item*rec_len+2)|int],
+                       nics[(item*rec_len+3)|int] ]] }}"
+      loop: "{{ range(0, len|int)|list }}"
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ nics_list }}"
+
+# Parsing CSV with Ansible
+# https://stackoverflow.com/questions/58265004/parsing-csv-with-ansible/
