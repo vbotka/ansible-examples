@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    results:
+      - - {"id": 1, "type": "x"}
+        - {"id": 2, "type": "y"}
+      - - {"id": 1, "type": "x"}
+
+  tasks:
+#    - debug:
+#        msg: "{{ item|json_query('[?type==`y`]') }}"
+#      loop: "{{ results }}"
+    - set_fact:
+        my_list: "{{ my_list|default([]) + item }}"
+      loop: "{{ results }}"
+      when: "item|json_query('[?type==`y`]')|length > 0"
+      tags: t1
+    - debug:
+        var: my_list
+      tags: t1
+
+    - set_fact:
+        my_list: "{{ my_list|default([]) +
+                     item|json_query('[?type==`x`]') }}"
+      loop: "{{ results }}"
+      when: "item|length > 1"
+      tags: t2
+    - debug:
+        var: my_list
+      tags: t2
+
+#  vars:
+#    results:
+#      - {"id": 1, "type": "x"}
+#      - {"id": 2, "type": "y"}
+#      - {"id": 3, "type": "z"}
+#  tasks:
+#    - set_fact:
+#        my_list: "{{ results|
+#                     selectattr('type', 'defined')|
+#                     selectattr('type', 'equalto','y')|list }}"
+#    - set_fact:
+#        my_list: "{{ results|
+#                     selectattr('type', 'defined')|
+#                     selectattr('type', 'equalto','x')|list }}"
+#      when: my_list|length == 0
+#    - name: Use type y, otherwise use type x
+#      debug:
+#        var: item
+#      loop: "{{ my_list }}"
+
+# How to dynamically select json object to be used in an Ansible task?
+# https://stackoverflow.com/questions/58293047/how-to-dynamically-select-json-object-to-be-used-in-an-ansible-task/
