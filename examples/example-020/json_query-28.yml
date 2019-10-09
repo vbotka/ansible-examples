@@ -1,0 +1,61 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    vars-28.json
+  tasks:
+    - debug:
+        msg: "{{ cluster_host_vmhbas.hosts_vmhbas_facts }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ cluster_host_vmhbas.hosts_vmhbas_facts|
+                 dict2items|json_query(query) }}"
+      vars:
+        query: "[]"
+      tags: t2
+
+    - debug:
+        msg:
+      loop: "{{ cluster_host_vmhbas.hosts_vmhbas_facts|
+                json_query('*.vmhba_details')|
+                flatten }}"
+      tags: t3
+
+    - set_fact:
+        net_status: "{{ net_status|
+                        default({})|
+                        combine({item.key: item.value.vmhba_details|
+                                           json_query('[].{key: device,
+                                                           value: status}')})
+                        }}"
+      loop: "{{ cluster_host_vmhbas.hosts_vmhbas_facts|dict2items }}"
+      tags: t4
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          {{ item.key }}:
+          {% for dev in item.value %}
+          {{ dev.key }} status {{ dev.value }}
+          {% endfor %}
+      loop: "{{ net_status|dict2items }}"
+      tags: t4
+
+# Ansible print specific fields from vmware_host_vmhba_facts
+# https://stackoverflow.com/questions/58299380/ansible-print-specific-fields-from-vmware-host-vmhba-facts/
+    
+# The abridged output is
+#
+# "msg": [
+#     "ita-esx02.net:", 
+#     "vmhba38 status unknown", 
+#     "vmhba4 status online", 
+#     ""
+# ]
+# 
+# "msg": [
+#     "ita-esx01.net:", 
+#     "vmhba38 status unknown", 
+#     "vmhba3 status online", 
+#     ""
+# ]

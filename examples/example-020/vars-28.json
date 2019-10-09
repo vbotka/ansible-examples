@@ -1,0 +1,62 @@
+    "cluster_host_vmhbas": {
+        "changed": false,
+        "failed": false,
+        "hosts_vmhbas_facts": {
+            "ita-esx01.net": {
+                "vmhba_details": [
+                    {
+                        "adapter": "Intel Corporation Lewisburg SATA AHCI Controller",
+                        "bus": 0,
+                        "device": "vmhba38",
+                        "driver": "ahci",
+                        "location": "0000:00:11.5",
+                        "model": "Lewisburg SATA AHCI Controller",
+                        "status": "unknown",
+                        "type": "BlockHba"
+                    },
+                    {
+                        "adapter": "QLogic Corp 2600 Series 16Gb Fibre Channel to PCI Express HBA",
+                        "bus": 95,
+                        "device": "vmhba3",
+                        "driver": "qlnativefc",
+                        "location": "0000:5f:00.0",
+                        "model": "2600 Series 16Gb Fibre Channel to PCI Express HBA",
+                        "node_wwn": "23:06:11:22:94:35:05:46:63",
+                        "port_type": "unknown",
+                        "port_wwn": "23:06:39:37:69:32:72:57:29",
+                        "speed": 16,
+                        "status": "online",
+                        "type": "Fibre Channel"
+                    }
+                ]
+            },
+            "ita-esx02.net": {
+                "vmhba_details": [
+                    {
+                        "adapter": "Intel Corporation Lewisburg SATA AHCI Controller",
+                        "bus": 0,
+                        "device": "vmhba38",
+                        "driver": "ahci",
+                        "location": "0000:00:11.5",
+                        "model": "Lewisburg SATA AHCI Controller",
+                        "status": "unknown",
+                        "type": "BlockHba"
+                    },
+                    {
+                        "adapter": "QLogic Corp 2600 Series 16Gb Fibre Channel to PCI Express HBA",
+                        "bus": 95,
+                        "device": "vmhba4",
+                        "driver": "qlnativefc",
+                        "location": "0000:5f:00.1",
+                        "model": "2600 Series 16Gb Fibre Channel to PCI Express HBA",
+                        "node_wwn": "23:06:11:22:94:35:05:46:64",
+                        "port_type": "unknown",
+                        "port_wwn": "23:06:39:37:69:32:72:57:30",
+                        "speed": 16,
+                        "status": "online",
+                        "type": "Fibre Channel"
+                    }
+		]
+	    }
+	}
+    }
