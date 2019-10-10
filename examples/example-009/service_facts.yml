@@ -7,11 +7,27 @@
 
   tasks:
     - service_facts:
+      tags: always
+
     - set_fact:
         running_services_A: "{{ ansible_facts.services|dict2items|
                  json_query('[?value.state == `running`].key') }}"
+      tags: t1
     - debug:
         var: running_services_A
+      tags: t1
+
+    - set_fact:
+        all_services_A: "{{ ansible_facts.services|dict2items|
+                            json_query('[].key') }}"
+      tags: t2
+    - debug:
+        var: all_services_A
+      tags: t2
+
+    - debug:
+        var: ansible_facts.services
+      tags: t3
 
 # Is there a way to compare different variables with json?
 # https://stackoverflow.com/questions/57995250/is-there-a-way-to-compare-different-variables-with-json
