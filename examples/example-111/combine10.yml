@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    port: GigabitEthernet1/0/10
+  tasks:
+    - set_fact:
+        temp_interface: "{{ temp_interface|
+                            default({})|
+                            combine({port: {'name': port,
+                                            'description': 'free',
+                                            'status': 'shutdown'}})
+                                            }}"
+    - debug:
+        var: temp_interface
+
+#   "temp_interface": {
+#        "GigabitEthernet1/0/10": {
+#            "description": "free", 
+#            "name": "GigabitEthernet1/0/10", 
+#            "status": "shutdown"
+#        }
+#    }
+
