@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    regex: '[^A-Za-z0-9._-]'
+    replace: '_'
+    command_list:
+      - show running-config
+      - show ip interface brief | include up
+  tasks:
+    - debug:
+        msg: "{{ item|map('regex_replace', regex, replace)|list|join() }}"
+      loop: "{{ command_list }}"
+
+# Remove special characters using regex on list item with Ansible
+# https://stackoverflow.com/questions/58320513/remove-special-characters-using-regex-on-list-item-with-ansible/58322876#58322876
+
+# gives
+# 
+# "msg": "show_running-config"
+# "msg": "show_ip_interface_brief___include_up"
