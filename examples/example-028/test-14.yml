@@ -1,0 +1,18 @@
+- hosts: host1
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "a:{{ item.a }} b:{{ item.b }}"
+      loop:
+        - "{'a': {{ a }}, 'b': {{ b }} }"
+        - "{'a': {{ a }}, 'b': {{ hostvars['host2'].b }} }"
+
+# ok: [host1] => (item={'a': 1, 'b': 10}) => {
+#     "msg": "a:1 b:10"
+# }
+# ok: [host1] => (item={'a': 1, 'b': 20}) => {
+#     "msg": "a:1 b:20"
+# }
+        
+# ansible: run task multiple times on the same host, using variables from another
+# https://serverfault.com/questions/987625/ansible-run-task-multiple-times-on-the-same-host-using-variables-from-another/
