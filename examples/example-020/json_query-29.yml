@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    vars-29.json
+  tasks:
+    - debug:
+        var: nodes
+      tags: t1
+    - set_fact:
+        my_list: "{{ nodes.imdata|
+                     json_query('[].{dn: fabricNode.attributes.dn,
+                                     name: fabricNode.attributes.name}')
+                                     }}"
+      tags: t2
+    - debug:
+        var: my_list
+      tags: t2
+
+# Need to map json to list
+# https://stackoverflow.com/questions/58333557/need-to-map-json-to-list/
+
+#    "my_list": [
+#        {
+#            "dn": "topology/pod-1/node-1", 
+#            "name": "NOQCJALAB1"
+#        }, 
+#        {
+#            "dn": "topology/pod-1/node-1", 
+#            "name": "NOQCJALAB2"
+#        }
+#    ]

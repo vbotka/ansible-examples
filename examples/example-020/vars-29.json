@@ -1,0 +1,31 @@
+{
+    "nodes": {
+        "status": -1,
+        "imdata": [
+            {
+                "fabricNode": {
+                    "attributes": {
+                        "status": "",
+                        "dn": "topology/pod-1/node-1",
+                        "name": "NOQCJALAB1"
+                    }
+                }
+            },
+            {
+                "fabricNode": {
+                    "attributes": {
+                        "status": "",
+                        "dn": "topology/pod-1/node-1",
+                        "name": "NOQCJALAB2"
+                    }
+                }
+            }
+        ],
+        "totalCount": 2,
+        "changed": false,
+        "failed": false
+    },
+    "changed": false,
+    "_ansible_verbose_always": true,
+    "_ansible_no_log": false
+}
