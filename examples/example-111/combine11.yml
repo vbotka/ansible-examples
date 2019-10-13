@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    combine11-data.yml
+  tasks:
+    - set_fact:
+        users: "{{ users|
+           combine({'johndoe': {'name': 'John Doe',
+                                'username': 'johnd'}}) }}"
+    - debug:
+        var: users
+
+# Override specific key of a dict in host_vars
+# https://unix.stackexchange.com/questions/546537/override-specific-key-of-a-dict-in-host-vars/

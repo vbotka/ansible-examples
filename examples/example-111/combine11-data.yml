@@ -1,0 +1,7 @@
+users:
+  johndoe:
+    name: John Doe
+    username: john
+  janedoe:
+    name: Jane Doe
+    username: jane
