@@ -181,6 +181,7 @@ Various examples of Ansbile code.
 - Example 177. facts.d
 - Example 178. role/vars
 - Example 179. JSON YAML data
+- Example 180. ternary
 
 
 ## License

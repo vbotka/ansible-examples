@@ -1,0 +1,45 @@
+- hosts: localhost
+  vars:
+    bar: '{{ foo|default(None) }}'
+    bar2: '{{ None }}'
+  tasks:
+
+    - name: Variable foo is nill
+      debug:
+        msg: foo is nill
+      when: foo|default(None) is none
+
+    - name: Variable bar is an empty string (task will be skipped)
+      debug:
+        msg: bar is nill
+      when: bar is none
+
+    - name: Variable bar is empty string
+      debug:
+        msg: bar is empty string
+      when: bar|length == 0
+
+    - name: Variable bar2 is empty string
+      debug:
+        msg: bar2 is empty string
+      when: bar2|length == 0
+
+#    - name: Variable foo is nill (task will fail)
+#      debug:
+#        msg: foo is empty string
+#      when: foo|default(None)|length == 0
+
+# object of type 'NoneType' has no len()
+
+    - debug:
+        msg: "{{ bar|ternary('TRUE', 'FALSE', 'NONE') }}"
+    - debug:
+        msg: "{{ foo|default(None)|ternary('TRUE', 'FALSE', 'NONE') }}"
+
+    - debug:
+        msg: "{{ bar|ternary('TRUE', 'FALSE') }}"
+    - debug:
+        msg: "{{ foo|default(None)|ternary('TRUE', 'FALSE') }}"
+
+# Why does `default( None )` not always appear to produce `None`
+# https://stackoverflow.com/questions/58363489/why-does-default-none-not-always-appear-to-produce-none/
