@@ -1,0 +1,10 @@
+fruits:
+  apple:
+    - apple1
+    - apple2
+  banana:
+    - banana1
+    - banana2
+    - banana3
+  orange:
+    - orange1

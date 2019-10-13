@@ -1,0 +1,26 @@
+- hosts: localhost
+  tasks:
+    - include_vars:
+        dict2items-3a-data.yml
+    - debug:
+        msg: "{{ item.key }} {{ item.value.var }}"
+      loop: "{{ fruits|dict2items }}"
+    - include_vars:
+        dict2items-3b-data.yml
+    - debug:
+        msg: "{{ item.key }} {{ item.value }}"
+      loop: "{{ fruits|dict2items }}"
+    - set_fact:
+        fruits_keys: "{{ fruits.keys() }}"
+    - debug:
+        var: fruits_keys
+    - debug:
+        msg: "{{ fruits[item] }}"
+      loop: "{{ fruits_keys }}"
+    - debug:
+        var: fruits.banana
+    - debug:
+        var: fruits.apple.1
+
+# What is the best way to do case statement in Ansible?
+# https://stackoverflow.com/questions/58360322/what-is-the-best-way-to-do-case-statement-in-ansible/

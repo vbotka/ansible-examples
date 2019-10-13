@@ -1,0 +1,13 @@
+fruits:
+  apple:
+    var:
+      - apple1
+      - apple2
+  banana:
+    var:
+      - banana1
+      - banana2
+      - banana3
+  orange:
+    var:
+      - orange1
