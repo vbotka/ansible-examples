@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    rtt: [38,1,97]
+    site: ["A","B","C"]
+  tasks:
+    - debug:
+        msg: "{{ item.0 }} is {{ item.1 }}"
+      loop: "{{ site|zip(rtt)|list }}"
+
+#  msg: A is 38
+#  msg: B is 1
+#  msg: C is 97

@@ -1,0 +1,7 @@
+- hosts: test_01
+  gather_facts: true
+  tasks:
+    - set_fact:
+        var1: 'test_var1'
+    - debug:
+        msg: Cache jsonfile stored in /tmp
