@@ -1,0 +1,20 @@
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_service: 'lightdm.service'
+
+  tasks:
+    - service_facts:
+    - set_fact:
+        my_state: "{{ services|
+                      dict2items|
+                      selectattr('key', 'match', my_service)|
+                      map(attribute='value.state')|
+                      list|
+                      first }}"
+    - debug:
+        msg: "{{ my_service }} is {{ my_state }}"
+
+# lightdm port to listen if it is up
+# https://unix.stackexchange.com/questions/547061/lightdm-port-to-listen-if-it-is-up/
