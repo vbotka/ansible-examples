@@ -183,6 +183,7 @@ Various examples of Ansbile code.
 - Example 179. JSON YAML data
 - Example 180. ternary
 - Example 181. jsonfile cache plugin
+- Example 182. CONDITIONAL_BARE_VARS conditional_bare_variables
 
 
 ## License

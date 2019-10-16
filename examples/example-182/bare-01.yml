@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: False
+
+  vars:
+    my_dict:
+      level1:
+        level10: niveau_10
+      level2: niveau_2
+    my_list:
+      - my_dict.level2
+      - my_dict.level1.level10
+      - my_dict.level3
+
+  tasks:
+    - name: display dictionary content
+      debug:
+        var:
+          my_dict
+      tags: t1
+
+    - name: loop list
+      debug:
+        var: "{{ item }}"
+      loop:
+        - my_dict.level2
+        - my_dict.level1.level10
+        - my_dict.level3
+      when: item
+      ignore_errors: true
+      tags: t2
+
+# export ANSIBLE_CONDITIONAL_BARE_VARS=True
+    
+    - name: loop list
+      debug:
+        msg: "{{ item is defined }}"
+      loop: "{{ my_list }}"
+      tags: t3
+
+    - name: loop list
+      debug:
+        msg: "{{ my_list|select('defined')|list }}"
+      tags: t4
+
+# ansible execute task if key exist in a dictionary variable
+# https://stackoverflow.com/questions/58408744/ansible-execute-task-if-key-exist-in-a-dictionary-variable/
