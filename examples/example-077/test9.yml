@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    regexp: '^(.*)@@([a-zA-Z_ ]*)@@$'
+    replace: '{{ "\1" + "{{" + "\2" + "}}" }}'
+  tasks:
+#    - replace:
+#        path: "/scratch/tmp/test"
+#        regexp: '^(.*)@@([a-zA-Z_ ]*)@@$'
+#        replace: '{{ "\1" + "{{" + "\2" + "}}" }}'
+    - replace:
+        path: "/scratch/tmp/test"
+        regexp: '^(.*)@@(.*)@@$'
+        replace: '{{ "\1" + "{{" + "\2" + "}}" }}'
+
+# Problem with regexp in ansible module shell
+# https://stackoverflow.com/questions/58427910/problem-with-regexp-in-ansible-module-shell/
