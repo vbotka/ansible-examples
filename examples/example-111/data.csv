@@ -1,0 +1,5 @@
+SITE "A" (id:1,bindings:http/*:80:,net.tcp/808:*,net.pipe/*,state:Stopped)
+SITE "B" (id:2,bindings:https/*:344:,net.tcp/325:*,net.pipe/*,state:Started)
+SITE "C" (id:3,bindings:http/:80:xyz.domain.com,http/*:80:xyz,http/*:80:seiging,http/*:80:seiging.domain.com,state:Started)
+SITE "D" (id:4,bindings:http/:901:,http/*:80:actdaov,state:Started)
+SITE "E" (id:5,bindings:https/:443:idu.domain.com,http/*:80:idu.domain.com,state:Started)

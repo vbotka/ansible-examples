@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - set_fact:
+        my_lines: "{{ lookup('file', 'data.csv').splitlines() }}"
+    - debug:
+        var: my_lines
+    - set_fact:
+        my_lists: "{{ my_lists|default([]) + [item.split(' ')] }}"
+      loop: "{{ my_lines }}"
+    - debug:
+        var: my_lists
+    - set_fact:
+        my_dict: "{{ my_dict|default({})|
+                     combine({item.1.1: {'id': item.2.split(',')[0].split(':')[1],
+                                         'state': item.2.split(',')[-1].split(':')[1][:-1],
+                                         'bindings': item.2.split(',')[1:-1]|
+                                          map('regex_replace', 'bindings:', '')|list}})
+                                          }}"
+      loop: "{{ my_lists }}"
+    - debug:
+        var: my_dict
+
+# "The third field - If domain.com is present I need to extract that,
+# if not it should be blank. If more than one domain.com exists then I
+# need to take the last one."
+
+    - debug:
+        msg: |
+          {{ item.key }},id:{{ item.value.id }},
+          {%- if item.value.bindings|select('search', 'domain\.com')|list %}
+          {{ item.value.bindings|select('search', 'domain\.com')|reverse|list|first }},
+          {% endif %}
+      loop: "{{ my_dict|dict2items }}"
+
+# Ansible extract value using regex
+# https://stackoverflow.com/questions/58432240/ansible-extract-value-using-regex/
+
+# $ ansible-playbook combine12.yml | grep msg\":
+#     "msg": "A,id:1,\n"
+#     "msg": "C,id:3,http/*:80:seiging.domain.com,\n"
+#     "msg": "B,id:2,\n"
+#     "msg": "E,id:5,http/*:80:idu.domain.com,\n"
+#     "msg": "D,id:4,\n"
+
