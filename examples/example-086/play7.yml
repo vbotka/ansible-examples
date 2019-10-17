@@ -1,0 +1,18 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - debug:
+        var: test_var1
+
+# How to define complex variable in inventory file of Ansible
+# https://stackoverflow.com/questions/58416672/how-to-define-complex-variable-in-inventory-file-of-ansible/
+
+# ansible-playbook -i hosts2 play7.yml
+
+# Q: "Define variables in the inventory the INI way ... Is it possible
+#     to define complex variables?"
+# 
+# A: Yes. It is possible. e.g.
+# 
+#    [atlanta:vars]
+#    userParameters=[{'string': 'foo', 'list': ['foo', 'bar']}]

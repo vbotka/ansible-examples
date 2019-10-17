@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  vars:
+    myfile: test9.txt
+#   myfile_list: "{{ lookup('file', myfile).split('\n') }}"
+    myfile_list: "{{ lookup('file', myfile).splitlines() }}"
+  tasks:
+    - debug:
+        var: myfile_list
+    - template:
+        src: test9.j2
+        dest: /scratch/tmp/test
+
+# Ansible Jinja template - read file line by line
+# https://stackoverflow.com/questions/58424981/ansible-jinja-template-read-file-line-by-line
