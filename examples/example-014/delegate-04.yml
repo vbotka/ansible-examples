@@ -3,9 +3,27 @@
   tasks:
     - name: delegate include
       include: task4.yml
-      loop: "{{ groups['host1'] }}"
+      loop: "{{ groups['group1'] }}"
       delegate_to: "{{ item }}"
 
+# $ cat hosts
+# ...
+#   children:
+#     group1:
+#       hosts:
+#         test_01:
+#         test_02:
+    
+# $ cat task4.yml 
+# - debug: msg="{{ inventory_hostname }} {{ item }}"
+     
+# ok: [localhost] => {
+#     "msg": "localhost test_01"
+# }
+# ok: [localhost] => {
+#     "msg": "localhost test_02"
+# }
+    
 # a host executes an entire yaml task in ansible
 # https://stackoverflow.com/questions/56145065/a-host-executes-an-entire-yaml-task-in-ansible/
 
