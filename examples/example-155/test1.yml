@@ -1,0 +1,5 @@
+- hosts: test_01
+  tasks:
+    - command: which python
+      vars:
+        ansible_python_interpreter: /usr/local/bin/python3.6
