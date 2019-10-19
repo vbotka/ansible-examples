@@ -1,0 +1,7 @@
+my_ansible_user: "{{ bot_os_user }}"
+Serial_Value: 2
+
+ports:
+  - 22
+  - 2376
+  - 2377
