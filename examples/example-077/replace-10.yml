@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    lbrackets: "{{ '{{' }}"
+    rbrackets: "{{ '}}' }}"
+    quote: "'"
+  tasks:
+    - replace:
+        path: "/scratch/tmp/test"
+        regexp: '^my_var = ""(.*)$'
+        replace: '{{ "my_var = " ~
+                     lbrackets ~ "getv " ~ quote ~
+                     "/staging/my_dir/my_file" ~ quote ~ rbrackets
+                     }}'
+
+# Ansible/Jinja2 nested escaping
+# https://stackoverflow.com/questions/58481609/ansible-jinja2-nested-escaping/
+
+# $ cat /scratch/tmp/test
+# my_var = {{getv '/staging/my_dir/my_file'}}
