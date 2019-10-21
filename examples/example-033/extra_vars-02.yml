@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "{{ my_host|default('') }} is allowed to ..."
+      when: "my_host|default('') in  lookup('file', 'allowed_hosts.yml')|from_yaml"
+
+# How to block overriding variables by extra_vars in Ansible?
+# https://stackoverflow.com/questions/58485393/how-to-block-overriding-variables-by-extra-vars-in-ansible/
