@@ -1,0 +1,17 @@
+array: [
+  { 
+      'name': 'one',
+      'place': 'high',
+      'value': 'set',
+  },
+  {
+      'name': 'two',
+      'place': null,
+      'value': 'unset',
+  },
+  {
+      'name': 'three',
+      'place': 'low',
+      'value': 'whyme',
+  }
+]

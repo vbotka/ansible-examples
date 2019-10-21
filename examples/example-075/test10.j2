@@ -1,0 +1,5 @@
+{% for item in array %}
+  - name: {{ item.name }}
+{% if item.place %}    place: {{ item.place }}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  vars_files:
+    - test10.json
+  tasks:
+    - debug:
+        var: array
+    - template:
+        src: test10.j2
+        dest: /scratch/tmp/test
