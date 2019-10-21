@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    source_list:
+      MyFlag1: true
+      myFlag3: true
+      MyFlag2: false
+    target_list:
+      myFlag3: true
+      MyFlag1: false
+      MyFlag2: false
+#     MyFlag4: false
+
+  tasks:
+    - debug:
+        msg: "{{ source_list.keys()|difference(
+                 target_list.keys()) }}"
+      tags: t1
+    - debug:
+        msg: "{{ source_list.keys() }}"
+      tags: t2
+    - debug:
+        msg: "{{ target_list.keys() }}"
+      tags: t2
+    - debug:
+        msg: "{{ item }} is {{ (source_list[item] == target_list[item])|
+                            ternary('OK', 'KO') }}"
+      loop: "{{ source_list.keys()|sort }}"
+      when: "source_list.keys()|
+             symmetric_difference(target_list.keys())|
+             length == 0"
+      tags: t2
+    - debug:
+        msg: "{{ source_list.keys()|symmetric_difference(target_list.keys()) }}"
+      tags: t3
+    - debug:
+        msg: "{{ (source_list[item] == target_list[item])|ternary('OK','KO') }}"
+      loop: "{{ source_list.keys()|sort }}"
+      when: "source_list.keys()|
+             symmetric_difference(target_list.keys())|
+             length == 0"
+      tags: t4
+ 
+# Ansible - how to compare two dictionaries with same keys
+# https://stackoverflow.com/questions/58486761/ansible-how-to-compare-two-dictionaries-with-same-keys
