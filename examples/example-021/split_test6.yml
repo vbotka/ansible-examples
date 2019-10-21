@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    separator: '\'
+    text: 'domain\user'
+  tasks:
+    - debug:
+        msg: "{{ text.split(separator) }}"
+
+# Ansible Jinja split on backslash fails
+# https://stackoverflow.com/questions/58487845/ansible-jinja-split-on-backslash-fails/
