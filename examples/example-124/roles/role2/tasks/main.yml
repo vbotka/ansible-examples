@@ -1,0 +1,12 @@
+---
+# tasks for role1
+
+- debug:
+    msg: 'This is task 1'
+  tags: t1
+
+- debug:
+    msg: 'This is task 2'
+  tags: t2
+
+# EOF
