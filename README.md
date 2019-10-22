@@ -184,6 +184,7 @@ Various examples of Ansbile code.
 - Example 180. ternary
 - Example 181. jsonfile cache plugin
 - Example 182. CONDITIONAL_BARE_VARS conditional_bare_variables
+- Example 183. quote filter
 
 
 ## License

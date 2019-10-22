@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: False
+
+  vars:
+    vault_password: abc(123
+  tasks:
+    - script: 'my-script.sh {{ vault_password|quote }}'
+      register: result
+    - debug:
+        var: result.stdout
