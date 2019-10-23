@@ -8,3 +8,7 @@
       register: result
     - debug:
         var: result.stdout
+    - script: 'my-script.sh {{ vault_password }}'
+      register: result
+    - debug:
+        var: result.stdout
