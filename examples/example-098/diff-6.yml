@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+
+    source_list:
+      MyFlag1: true
+      myFlag3: true
+      MyFlag2: false
+    target_list:
+      myFlag3: true
+      MyFlag1: false
+      MyFlag2: false
+      MyFlag4: false
+
+  tasks:
+ 
+    - debug:
+        msg: |
+          {% if source_list.keys()|symmetric_difference(target_list.keys())|length == 0 %}
+          True
+          {% else %}
+          False
+          {% endif %}
+      tags: t5
+ 
+# Ansible - how to compare two dictionaries with same keys
+# https://stackoverflow.com/questions/58486761/ansible-how-to-compare-two-dictionaries-with-same-keys
