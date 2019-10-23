@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    vars-30.json
+  tasks:
+    - debug:
+        var: ansible_mounts
+      tags: t1
+    - set_fact:
+        my_device: "{{ ansible_mounts|json_query(query) }}"
+      vars:
+        query: "[?mount=='/'].device "
+      tags: t2
+    - debug:
+        var: my_device
+      tags: t2
+
+# How to get the device name of a specified mount point with ansible facts?
+# https://devops.stackexchange.com/questions/9536/how-to-get-the-device-name-of-a-specified-mount-point-with-ansible-facts/
+

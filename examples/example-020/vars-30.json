@@ -1,0 +1,50 @@
+"ansible_mounts": [
+            {
+                "block_available": 423698, 
+                "block_size": 4096, 
+                "block_total": 507604, 
+                "block_used": 83906, 
+                "device": "/dev/sdb1", 
+                "fstype": "ext4", 
+                "inode_available": 130999, 
+                "inode_total": 131072, 
+                "inode_used": 73, 
+                "mount": "/boot", 
+                "options": "rw", 
+                "size_available": 1735467008, 
+                "size_total": 2079145984, 
+                "uuid": "b5cfa485-21d2-4e66-b3a3-80f250acf9d9"
+            }, 
+            {
+                "block_available": 42446481, 
+                "block_size": 4096, 
+                "block_total": 131007993, 
+                "block_used": 88561512, 
+                "device": "/dev/sdd1", 
+                "fstype": "xfs", 
+                "inode_available": 524243436, 
+                "inode_total": 524287936, 
+                "inode_used": 44500, 
+                "mount": "/u01", 
+                "options": "rw", 
+                "size_available": 173860786176, 
+                "size_total": 536608739328, 
+                "uuid": "f34a9499-ca4e-4db6-801a-16efb72a629d"
+            }, 
+            {
+                "block_available": 3010686, 
+                "block_size": 4096, 
+                "block_total": 4095466, 
+                "block_used": 1084780, 
+                "device": "/dev/sdc1", 
+                "fstype": "ext4", 
+                "inode_available": 984674, 
+                "inode_total": 1048576, 
+                "inode_used": 63902, 
+                "mount": "/", 
+                "options": "rw", 
+                "size_available": 12331769856, 
+                "size_total": 16775028736, 
+                "uuid": "829e9504-965b-4660-acc2-12d10d022a3c"
+            }
+]
