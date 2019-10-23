@@ -1,0 +1,43 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "#1:OpenVPN connect"
+
+- hosts: test_01
+  tasks:
+    - block:
+        - command: "{{ my_command|default('/usr/bin/true') }}"
+      rescue:
+        - debug:
+            msg: "#2:Command failed. End of host."
+        - set_fact:
+            continue_play: false
+        - meta: clear_host_errors
+        - meta: end_host
+
+- hosts: localhost
+  tasks:
+    - set_fact:
+        continue_play: "{{ hostvars.test_01.continue_play|default(true) }}"
+    - debug:
+        msg: "#3:OpenVPN disconnect"
+    - meta: end_host
+      when: not continue_play
+    - debug:
+        msg: "#3:Continue play."
+
+# $ ansible-playbook block-04.yml -e "my_command='/usr/bin/false'
+# 
+# ok: [localhost] => {
+#     "msg": "#3:OpenVPN disconnect"
+# }
+
+# $ ansible-playbook block-04.yml
+# 
+# ok: [localhost] => {
+#     "msg": "#3:OpenVPN disconnect"
+# }
+# 
+# ok: [localhost] => {
+#     "msg": "#3:Continue play."
+# }

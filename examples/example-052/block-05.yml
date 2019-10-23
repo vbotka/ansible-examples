@@ -1,0 +1,17 @@
+- hosts: localhost
+  tasks:
+    - debug: msg="#1:OpenVPN connect."
+
+- hosts: test_01
+  tasks:
+    - block:
+        - command: "{{ my_command|default('/usr/bin/true') }}"
+      rescue:
+        - debug: msg="#2:Command failed. End of host."
+        - meta: clear_host_errors
+        - meta: end_host
+    - debug: msg="#2:Continue play."
+
+- hosts: localhost
+  tasks:
+    - debug: msg="#3:OpenVPN disconnect"
