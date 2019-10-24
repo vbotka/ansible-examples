@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - debug:
+        msg: "{{ hostvars['localhost']['ansible_eth1'] }}"
+
+# fatal: [localhost]: FAILED! => {"msg": "The task includes an option
+# with an undefined variable. The error was:
+# 'ansible.vars.hostvars.HostVarsVars object' has no attribute
+# 'ansible_eth1'\n\nThe error appears to be in
+# '/export/home/vlado.config/.ansible/ansible-examples/examples/example-028/test-15.yml':
+# line 4, column 7, but may\nbe elsewhere in the file depending on the
+# exact syntax problem.\n\nThe offending line appears to be:\n\n
+# tasks:\n - debug:\n ^ here\n"}
+      
+# Problem with Ansible host groups and filtering IPs
+# https://stackoverflow.com/questions/58540202/problem-with-ansible-host-groups-and-filtering-ips
