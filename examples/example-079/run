@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "installed: InstallPlugin1, InstallPlugin2"
+exit 0

@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: install plugins
+      command: '{{ playbook_dir }}/run {{ item }}'
+      loop:
+        - 'install plugins'
+        - 'status'
+      register: result
+      until:
+        - result.stdout is search('InstallPlugin1')
+        - result.stdout is search('InstallPlugin2')
+      retries: 5
+      delay: 10
+    - debug:
+        msg: "{{ result.results|json_query('[].stdout') }}"
+...
