@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - set_fact:
+        linux_headers_pkg: "{{ 'linux-headers-' ~ lookup('pipe', 'uname -r') }}"
+    - debug:
+        var: linux_headers_pkg
+
+# Evaluation of bash commands as ansible variables
+# https://stackoverflow.com/questions/58555454/evaluation-of-bash-commands-as-ansible-variables
+
+# Use pipe plugin. For example
+# 
+# - set_fact:
+#     linux_headers_pkg: "{{ 'linux-headers-' ~ lookup('pipe', 'uname -r') }}"
+# - debug:
+#     var: linux_headers_pkg
+# gives
+# 
+# "linux_headers_pkg": "linux-headers-5.0.0-31-generic"
