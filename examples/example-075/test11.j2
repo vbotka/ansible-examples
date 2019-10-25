@@ -1,0 +1,5 @@
+trustedIPs = ["{{ trustedIps|join("\", \"") }}"]
+
+trustedIPs = ["{{ trustedIps|join('", "') }}"]
+
+trustedIPs = {{ trustedIps|safe }}

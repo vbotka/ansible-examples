@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  vars:
+    trustedIps: ["127.0.0.1/32", "XX.XXX.X.XX"]
+  tasks:
+    - template:
+        src: test11.j2
+        dest: /scratch/tmp/test11
+
+# Copying array into template introduces extra 'u' per variable
+# https://stackoverflow.com/questions/58559803/copying-array-into-template-introduces-extra-u-per-variable
+
+# The template below does the job
+# 
+# trustedIPs = ["{{ trustedIps|join('", "') }}"]
+# 
+# The play
+# 
+#   vars:
+#     trustedIps: ["127.0.0.1/32", "XX.XXX.X.XX"]
+#   tasks:
+#     - template:
+#         src: test.j2
+#         dest: test
+# 
+# gives
+# 
+# $ cat test
+# trustedIPs = ["127.0.0.1/32", "XX.XXX.X.XX"]
