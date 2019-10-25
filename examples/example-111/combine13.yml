@@ -1,0 +1,34 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    sysctl_default:
+      net.inet.ip.forwarding: 1
+      vm.swappiness: 10
+  tasks:
+    - debug:
+        msg: "name={{ item.0 }} value={{ item.1 }} state=present"
+      loop: "{{ sysctl_default | combine(sysctl|default({})) | dictsort }}"
+
+# How to create default empty dict to combine filter in Ansible?
+# https://stackoverflow.com/questions/58556225/how-to-create-default-empty-dict-to-combine-filter-in-ansible/
+
+# Q: "{{ sysctl_default | combine(sysctl | default({}) | dictsort }} doesn't working"
+# A:  ... because of the missing closing parenthesis ")". Correct syntax is
+#     {{ sysctl_default | combine(sysctl|default({})) | dictsort }}
+# Q: "Again this not working: fatal: [192.168.140.96]: FAILED! =>
+#     {"msg": "|combine expects dicti onaries, got AnsibleUndefined"}"
+# A:  The next problem is the undefined variable sysctl_default. For example the play
+# 
+#   vars:
+#     sysctl_default:
+#       net.inet.ip.forwarding: 1
+#       vm.swappiness: 10
+#   tasks:
+#     - debug:
+#         msg: "name={{ item.0 }} value={{ item.1 }} state=present"
+#       loop: "{{ sysctl_default | combine(sysctl|default({})) | dictsort }}"
+# 
+# gives
+# 
+# "msg": "name=net.inet.ip.forwarding value=1 state=present"
+# "msg": "name=vm.swappiness value=10 state=present"
