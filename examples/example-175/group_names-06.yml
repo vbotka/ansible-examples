@@ -1,0 +1,57 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+    - debug:
+        var: group_names
+
+    - debug:
+        msg: "{{ hostvars['test_01']['ansible_host'] }}"
+
+    - debug:
+        msg: "{{ groups[item] }}"
+      loop: "{{ group_names }}"
+
+    - debug:
+        msg: "{{ groups[item]|map('extract', hostvars, 'ansible_host')|list }}"
+      loop: "{{ group_names }}"
+
+    - set_fact:
+        my_hosts: "{{ my_hosts|default([]) +
+                      groups[item]|
+                      zip(groups[item]|map('extract', hostvars, 'ansible_host')|list)|
+                      list }}"
+      loop: "{{ group_names }}"
+
+    - set_fact:
+        my_hosts: "{{ my_hosts|unique }}"
+
+    - debug:
+        var: my_hosts
+
+    - template:
+        src: hosts.j2
+        dest: /tmp/hosts
+
+        
+# $ cat hosts.j2
+# {% for item in my_hosts %}
+# {{ item.0 }}  {{ item.1 }}
+# {% endfor %}
+
+# ok: [test_01] => {
+#     "my_hosts": [
+#         [
+#             "test_01", 
+#             "10.1.0.51"
+#         ], 
+#         [
+#             "test_02", 
+#             "10.1.0.52"
+#         ], 
+#         [
+#             "test_03", 
+#             "10.1.0.53"
+#         ]
+#     ]
+# }

@@ -1,0 +1,46 @@
+[Group 1]
+kube-g1-master1 ansible_host=10.90.1.11
+kube-g1-master2 ansible_host=10.90.1.12
+kube-g1-master3  ansible_host=10.90.1.13
+kube-g1-node1      ansible_host=10.90.1.14
+kube-g1-node2      ansible_host=10.90.1.15
+kube-g1-lb      ansible_host=10.90.1.16
+[Group 2]
+kube-g2-master1 ansible_host=10.90.1.21
+kube-g2-master2 ansible_host=10.90.1.22
+kube-g2-master3 ansible_host=10.90.1.23
+kube-g2-node1 ansible_host=10.90.1.24
+kube-g2-node2 ansible_host=10.90.1.25
+kube-g2-lb ansible_host=10.90.1.26
+[Group 3]
+kube-g3-master1 ansible_host=10.90.1.31
+kube-g3-master2 ansible_host=10.90.1.32
+kube-g3-master3 ansible_host=10.90.1.33
+kube-g3-node1 ansible_host=10.90.1.34
+kube-g3-node2 ansible_host=10.90.1.35
+kube-g3-lb ansible_host=10.90.1.36
+etc...
+
+When I use* [all]*, as Ansible iterates through the hosts file can it 
+search which Group the host belongs to and create an* /etc/hosts* from the 
+group hostnames and IPs.
+
+For example:
+
+1. Ansible interacts with: *kube-g2-master3*
+
+inventory_hostname = kube-g2-master3
+
+2. Finds *kube-g2-master3* belongs* [Group 2]*
+
+3. Creates */etc/hosts* on *kube-g2-master3* using the *inventory_hostname* 
+and *ansible_hosts* from* [Group 2]*
+
+/etc/hosts
+
+kube-g2-master1  10.90.1.21
+kube-g2-master2  10.90.1.22
+kube-g2-master3  10.90.1.23
+kube-g2-node1  10.90.1.24
+kube-g2-node2  10.90.1.25
+kube-g2-lb  10.90.1.26
