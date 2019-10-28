@@ -186,6 +186,7 @@ Various examples of Ansbile code.
 - Example 182. CONDITIONAL_BARE_VARS conditional_bare_variables
 - Example 183. quote filter
 - Example 184. pipe plugin
+- Example 185. Testing paths
 
 
 ## License

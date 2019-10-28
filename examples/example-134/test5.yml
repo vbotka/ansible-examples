@@ -1,0 +1,50 @@
+- name: Create group of hosts my_git_group
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: "{{ groups[item]|first }}"
+        groups: 'my_git_group'
+      loop: "{{ groups.keys()|difference(['ungrouped', 'all']) }}"
+
+- name: Download files from git
+  hosts: my_git_group
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }} shell git"
+
+- name: Proceed
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: Proceed
+      run_once: true
+
+# Ansible: clone just one file from git repo
+# https://stackoverflow.com/questions/58560275/ansible-clone-just-one-file-from-git-repo/
+    
+# Q: "Playbook starts with: - hosts: all. I want that for each first
+#    host under each group to r un the shell: git ...."
+# 
+# A: It's possible to put the tasks into separate plays. Create a group
+#    of the first hosts from all groups in the first play. Use the
+#    created group to download files from git in the second play. Once
+#    the data is prepared run the third play for all hosts. For example
+#     
+# ok: [B-0] => {
+#     "msg": "B-0 shell git"
+# }
+# ok: [A-0] => {
+#     "msg": "A-0 shell git"
+# }
+# ok: [C-0] => {
+#     "msg": "C-0 shell git"
+# }
+# 
+# 
+# ok: [B-0] => {
+#     "msg": "Proceed"
+# }
+#

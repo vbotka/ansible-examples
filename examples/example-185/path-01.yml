@@ -1,0 +1,34 @@
+- hosts: all
+  gather_facts: False
+  vars:
+    my_file: '/tmp/test.html'
+  tasks:
+    - fail:
+        msg: "{{ my_file }} does not exist. End of play."
+      when: my_file is not exists
+      delegate_to: localhost
+      run_once: true
+
+    - debug:
+        msg: "Continue play."
+      run_once: true
+
+# Run Ansible Task in localhost
+# https://stackoverflow.com/questions/58589131/run-ansible-task-in-localhost/
+    
+# Module stat is not needed when paths are tested at localhost. For
+# example fail the play if the file /tmp/test.html does not exist and
+# continue the play otherwise.
+
+# fatal: [test_01 -> localhost]: FAILED! => {"changed": false, "msg":
+# "/tmp/test.html does not exist. End of play."}
+#
+# NO MORE HOSTS LEFT ****
+
+# skipping: [test_01]
+# 
+# ok: [test_01] => {
+#     "msg": "Continue play."
+# }
+
+# EOF
