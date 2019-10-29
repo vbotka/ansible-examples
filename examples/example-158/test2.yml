@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - role1
+
+# Subject: Re: [ansible-project] Find out where variable was defined
+# Date: Mon, 28 Oct 2019 18:17:25 +0100
+# 
+# > If the variable is in the default state, I want to promt the message "Are 
+# > you sure you want to use the role default variable?" and the user must 
+# > confirm.   
+# 
+# I'm not aware of such information being available. But the use-case can be
+# easily achieved by including role's defaults into a dictionary and comparing
+# the variable. For example
+# 
+# $ cat roles/role1/tasks/main.yml 
+# - debug:
+#     var: var1
+# - include_vars:
+#     file: "{{ role_path }}/defaults/main.yml"
+#     name: "defaults"
+# - block:
+#     - pause:
+#         prompt: "Are you sure you want to use the role default variable?"
+#         echo: yes
+#       register: result
+#     - debug:
+#         var: result.user_input
+#   when: var1 == defaults.var1
+
+# EOF

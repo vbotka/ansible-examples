@@ -1,0 +1,13 @@
+- debug:
+    var: var1
+- include_vars:
+    file: "{{ role_path }}/defaults/main.yml"
+    name: "defaults"
+- block:
+    - pause:
+        prompt: "Are you sure you want to use the role default variable?"
+        echo: yes
+      register: result
+    - debug:
+        var: result.user_input
+  when: var1 == defaults.var1
