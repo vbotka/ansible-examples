@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: "my_dir:oa-version.0.99-3256"
+      set_fact:
+        my_dir: "{{ lookup('pipe', 'tar tvf /scratch/tmp/test.tar.gz').splitlines().0.split(' ')[-1][:-1] }}"
+    - debug:
+        var: my_dir
+
+    - name: "my_version:3256"
+      set_fact:
+        my_version: "{{ lookup('pipe', 'tar tvf /scratch/tmp/test.tar.gz').splitlines().0.split(' ')[-1].split('-')[-1][:-1] }}"
+    - debug:
+        var: my_version
+        
+    - name: "result.files.0[:-1]:oa-version.0.99-3256"
+      unarchive:
+        src: /scratch/tmp/test.tar.gz
+        dest: /scratch/tmp
+        remote_src: yes
+        list_files: yes
+      register: result
+    - debug:
+        var: result.files.0[:-1]
+...
+
+# Ansible playbook - unzip to specific (renamed directory
+# https://stackoverflow.com/questions/58623870/ansible-playbook-unzip-to-specific-renamed-directory/
+
+# Q: "Find out number after oap-version and store it into a variable."
+# A: Given the tarball
+# 
+# $ tar tvf test.tar.gz 
+# drwxrwxr-x vlado/vlado       0 2019-10-30 12:29 oa-version.0.99-3256/
+# -rw-rw-r-- vlado/vlado       0 2019-10-30 12:29 oa-version.0.99-3256/02
+# -rw-rw-r-- vlado/vlado       0 2019-10-30 12:29 oa-version.0.99-3256/01
+# -rw-rw-r-- vlado/vlado       0 2019-10-30 12:29 oa-version.0.99-3256/03
+#
+# The tasks give
+# 
+#    "my_dir": "oa-version.0.99-3256"
+#    "my_version": "3256"
+#    "result.files.0[:-1]": "oa-version.0.99-3256"
+
+# EOF
+...
