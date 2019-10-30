@@ -1,0 +1,13 @@
+{% for node in groups['g2_netng_org'] %}
+{% set node_ip = lookup('dig', node) %}
+  IP: {{ node_ip }}
+{% endfor %}
+
+{% for node in groups['g2_netng_org'] %}
+  IP: {{ lookup('dig', node)  }}
+{% endfor %}
+
+{% for node in groups['test_jails'] %}
+{% set node_ip = lookup('dig', node) %}
+  IP: {{ node_ip }}
+{% endfor %}

@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  tasks:
+    - template:
+        src: test12.j2
+        dest: /scratch/tmp/test12
+
+# Variable undefined error when variable is used inside lookup dig
+# filter while looping through group of hosts
+# https://stackoverflow.com/questions/58629486/variable-undefined-error-when-variable-is-used-inside-lookup-dig-filter-while-lo/
+
+# The correct syntax is
+# 
+# {% for node in groups['group1'] %}
+#   IP: {{ lookup('dig', node) }}
+# {% endfor %}
+# 
+# $ cat test12.j2
+# {% for node in groups['g2_netng_org'] %}
+# {% set node_ip = lookup('dig', node) %}
+#   IP: {{ node_ip }}
+# {% endfor %}
+# 
+# {% for node in groups['g2_netng_org'] %}
+#   IP: {{ lookup('dig', node)  }}
+# {% endfor %}
+# 
+# {% for node in groups['test_jails'] %}
+# {% set node_ip = lookup('dig', node) %}
+#   IP: {{ node_ip }}
+# {% endfor %}
+# 
+# $ cat /scratch/tmp/test12
+#   IP: 10.1.0.12
+#   IP: 10.1.0.17
+# 
+#   IP: 10.1.0.12
+#   IP: 10.1.0.17
+# 
+#   IP: NXDOMAIN
+#   IP: NXDOMAIN
+#   IP: NXDOMAIN
+
+# EOF
