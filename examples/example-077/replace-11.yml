@@ -1,0 +1,57 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: '/scratch/tmp/test4'
+        regexp: '{{ regex }}'
+        replace: '{{ replace }}'
+      vars:
+        regex: '\[monitor\://D\:\\Logs\\Org\.SNP\.Publisher\\\*]'
+        replace: '[monitor://D:\\new\\path\\dir\\*]'
+
+# Subject: Re: [ansible-project] Re: How to replace a line with
+# special characters to another line with special characters using
+# variables?
+# Date: Wed, 30 Oct 2019 05:52:57 +0100
+
+# > > replace [monitor://D:\Logs\Org.SNP.Publisher\*]
+# > > to      [monitor://D:\new\path\dir\*]
+# > >
+# > > ---
+# > > - hosts: all
+# > >   gather_facts: false
+# > >   vars:
+# > >     *var1:* '[monitor://D:\Logs\Org.SNP.Publisher\*]'
+# > >     *var2**:* '[monitor://D:\new\path\dir\*]'
+# > >   tasks:
+# > >       - name: test unsafe variable in the file
+# > >         replace:
+# > >           path: /home/anks/yaml/filewithcontent
+# > >           regexp: '{{ *var1 *| regex_escape() }}'
+# > >           replace: "{{ *var2 *}}"
+# > > ...  
+# 
+# Try this
+# 
+#     - replace:
+#         path: 'playbook.yml'
+#         regexp: '{{ regex }}'
+#         replace: '{{ replace }}'
+#       vars:
+#         regex: '\[monitor\://D\:\\Logs\\Org\.SNP\.Publisher\\\*]'
+#         replace: '[monitor://D:\\new\\path\\dir\\*]'
+# 
+# 
+# 1) Put *regex* and *replace* into separate variables and use "7.3.2.
+#    Single-Quoted Style".
+#    Quoting: '...the “\” and “"” characters may be freely used. This restricts
+#    single-quoted scalars to printable characters ...'
+#    https://yaml.org/spec/1.2/spec.html#id2788097
+# 
+# 2) In *regex* escape Python regular expressions special characters only
+#    https://pythex.org/
+# 
+# 3) In *replace* escape control characters only
+#    https://en.wiktionary.org/wiki/Appendix:Control_characters
+#
+# EOF
