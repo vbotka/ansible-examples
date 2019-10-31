@@ -1,0 +1,70 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_stdout_lines: [
+         "Database_0.0.100.zip",
+         "EMC_ECS-package_0.0.100.zip",
+         "hotfix-DDMInfra.zip",
+         "hotfix-IIS.zip",
+         "hotfix-QCIM1H126382-v3.zip",
+         "MMiS_Offering_0.0.108.zip",
+         "Network_v_0.0.100.zip",
+         "NormalizationRules_100.zip",
+         "UDAgentManagement_10.33.0.zip",
+         "UDI_Data_Model_0.0.104.zip",
+         "UDI_Discovery_Administration_100.zip",
+         "UDI_Discovery_Base_Enrichment_0.0.105.zip",
+         "UDI_TenantAssociationRules_100.zip",
+         "WebService_0.0.103.zip",
+         "XCDE_Outbound_Adapter_0.0.101.zip"]
+  tasks:
+    - debug:
+        msg: "{{ item[:-4] }}"
+      loop: "{{ my_stdout_lines }}"
+    - set_fact:
+        my_list: "{{ my_stdout_lines|
+                     map('regex_replace', regex, replace)|
+                     list }}"
+      vars:
+        regex: '(.*?)(\.zip)?'
+        replace: '\1'
+    - debug:
+        var: my_list
+
+# Subject: Re: [ansible-project] Remove last characters(.zip) from listed  output llines in windows ansible
+# Date: Thu, 31 Oct 2019 12:02:28 +0100
+# 
+# On Thu, 31 Oct 2019 15:22:18 +0530
+# Uppara venkat <venkatesh6.scm@gmail.com> wrote:
+# 
+# > I wanted to remove the .zip from output line in the ansible from below;
+# > 
+# > "result.stdout_lines": [
+# >         "Database_0.0.100.zip",
+# >         "EMC_ECS-package_0.0.100.zip",
+# >          ...
+# > [...]
+# > - debug: msg="{{ result.stdout_lines[0:-2] }}"
+# >   with_items:
+# >     - "{{ result.stdout_lines }}"
+# > [...]
+# > the expected output should be;
+# >         "Database_0.0.100",
+# >         "EMC_ECS-package_0.0.100",  
+# 
+# This debug probably fix the problem
+# 
+#     - debug:
+#         msg: "{{ item[:-4] }}"
+#       loop: "{{ result.stdout_lines }}"
+# 
+# 
+# , but to get the modified list use this
+# 
+#     - set_fact:
+#         my_list: "{{ result.stdout_lines|
+#                      map('regex_replace', regex, replace)|
+#                      list }}"
+#       vars:
+#         regex: '(.*?)(\.zip)?'
+#         replace: '\1'
