@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    My_VAR1: Hello
+    My_VAR2: "{{ My_VAR1 }} World"
+    My_VAR3: "{{ My_VAR2 }}"
+  tasks:
+    - debug:
+        var: My_VAR3
+
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    My_VAR1: Hello
+    My_DIC1:
+      key1: "{{ My_VAR1 }} World"
+    My_VAR2: "My_DIC1"
+    My_VAR3: "{{ lookup('vars', My_VAR2).key1 }}"
+  tasks:
+    - debug:
+        var: My_VAR3
+
+# Ansible vars not substituting variables
+# https://stackoverflow.com/questions/58695804/ansible-vars-not-substituting-variables
+        
+# Is there a way to force vars to substitute the variable and get the
+# following output :
+# TASK [output : Hello World] ***
+

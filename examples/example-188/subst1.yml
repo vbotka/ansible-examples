@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    dict1:
+      England: London
+      France: Paris
+      Spain: Madrid
+    var1: France
+
+  tasks:
+    - debug:
+        msg: "Capitol of {{ var1 }} is {{ dict1[var1] }}"

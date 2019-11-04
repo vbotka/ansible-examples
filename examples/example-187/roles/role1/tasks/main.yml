@@ -1,0 +1,23 @@
+---
+# tasks file for role1
+
+- debug:
+    msg: run handlers
+  changed_when: true
+  notify: "{{ my_handlers }}"
+  vars:
+    my_handlers:
+      - dummy test1
+      - dummy test2
+
+# changed: [localhost] => {
+#     "msg": "run handlers"
+# }
+# 
+# ok: [localhost] => {
+#     "msg": "dummy test1"
+# }
+# 
+# ok: [localhost] => {
+#     "msg": "dummy test2"
+# }

@@ -188,6 +188,8 @@ Various examples of Ansbile code.
 - Example 184. pipe plugin
 - Example 185. Testing paths
 - Example 186. delegate_facts
+- Example 187. notify
+- Example 188. substitution
 
 
 ## License

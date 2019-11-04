@@ -1,0 +1,10 @@
+---
+# handlers file for role1
+
+- name: dummy test1
+  debug:
+    msg: dummy test1
+
+- name: dummy test2
+  debug:
+    msg: dummy test2
