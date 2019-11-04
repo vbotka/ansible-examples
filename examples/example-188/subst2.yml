@@ -29,3 +29,5 @@
 # following output :
 # TASK [output : Hello World] ***
 
+#    "My_VAR3": "Hello World"
+#    "My_VAR3": "Hello World"
