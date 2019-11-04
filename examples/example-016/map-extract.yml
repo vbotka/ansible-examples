@@ -18,5 +18,9 @@
         msg: "{{ item.hostname }} {{ item.name }}"
       loop:  "{{ select | map('extract', v_hosts)|list }}"
 
+#    "msg": "vm1 VMName1"
+#    "msg": "vm2 VMName2"
+#    "msg": "vm3 VMName3"
+
 # EOF
 ...

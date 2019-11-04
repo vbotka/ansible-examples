@@ -12,3 +12,17 @@
 
 # Ansible/Jinja2 - How to write jinja if statement that queries if a variable is defined?
 # https://stackoverflow.com/questions/55714792/ansible-jinja2-how-to-write-jinja-if-statement-that-queries-if-a-variable-is-d/55722672
+
+#    "msg": [
+#        "test_01",
+#        "test_02",
+#        "test_03"
+#    ]
+#
+#    "msg": "<generator object select_or_reject at 0x7fcdeadddd70>"
+#
+#    "msg": [
+#        "test_01",
+#        "test_02",
+#        "test_03"
+#    ]

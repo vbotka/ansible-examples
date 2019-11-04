@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    confs:
+      - path: /etc/ssh/sshd_config
+        handler: ssh reload
+        lines:
+          - {regexp: '^Ciphers ', line: 'Ciphers aes192-ctr'}
+      - path: /etc/ssh/ssh_config
+        blocks:
+          - marker: 'srv1.example.com'
+            block: |2
+              Host srv1.example.com
+                  Protocol 2
+                  ForwardAgent no
+      - path: /etc/hosts
+        template: hosts.j2
+
+  tasks:
+    - debug:
+        msg: "{{ confs|selectattr('template', 'defined')|list }}"

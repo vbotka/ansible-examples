@@ -187,6 +187,7 @@ Various examples of Ansbile code.
 - Example 183. quote filter
 - Example 184. pipe plugin
 - Example 185. Testing paths
+- Example 186. delegate_facts
 
 
 ## License

@@ -1,0 +1,113 @@
+- hosts: test_01
+  tasks:
+    - setup:
+      delegate_to: test_02
+#     delegate_facts: true
+    - debug:
+        var: ansible_hostname
+
+# ok: [test_01] => {
+#     "ansible_hostname": "test_02"
+# }
+
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Delgate_facts understanding
+# Date: Mon, 4 Nov 2019 10:35:30 +0100
+# 
+# On Mon, 4 Nov 2019 00:46:03 -0800 (PST)
+# Vicente Domínguez <vi19790@gmail.com> wrote:
+# 
+# > So I can say that the wording of the doc is not totally accurate...  
+# 
+#   No. The wording is OK.
+#   https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html#delegated-facts
+# 
+#   Short story
+#   ===========
+#   Read "delegate_facts: true" as "In the task, which is delegated to hostX,
+#   use the facts of hostX as well".
+# 
+#   Details
+#   =======
+# 
+#   Statement: "By default, (1) any fact gathered by a delegated task (2) are
+#   assigned to the inventory_hostname (the current host) (3) instead of the
+#   host which actually produced the facts (the delegated to host). (4) The
+#   directive delegate_facts may be set to True to assign the task’s gathered
+#   facts to the delegated host instead of the current one."
+# 
+#   Example
+# 
+#       - hosts: test_01
+#         tasks:
+#         - setup:
+#           delegate_to: test_02
+#           delegate_facts: true
+#         - debug:
+#             var: ansible_hostname
+# 
+#   1) "any fact gathered by a delegated task" - Is the setup facts of test_02
+#     in my example
+# 
+#       "ansible_hostname": "test_02"
+# 
+#   2) "are assigned to the inventory_hostname (the current host)" - Which is
+#     test_01 in my example 
+# 
+#   3) "instead of the host which actually produced the facts (the delegated to
+#   host)" - which is test_02 in my example
+# 
+# 
+#       This has been confirmed. The play without the line "delegate_facts:
+#       true" gives
+# 
+#       ok: [test_01] => {
+#         "ansible_hostname": "test_02"
+#       }
+# 
+#   4) "The directive delegate_facts may be set to True to assign the task’s
+#   gathered facts to the delegated host" - which is test_02 in my example
+# 
+#       This has been confirmed. The variable "ansible_hostname" of test_01 was
+#       not replaced with "test_02". The play gives
+# 
+#       ok: [test_01] => {
+#         "ansible_hostname": "test_01"
+#       }
+# 
+#   * Opposite to "delegate_facts: true" is "delegate_facts: false"
+
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Delgate_facts understanding
+# Date: Mon, 4 Nov 2019 00:32:25 +0100
+# 
+#       
+# > But it means that you have to manage this clause carefully, because if you 
+# > use delegate_facts = FALSE  (true by default) , the rest of your tasks 
+# > after the delegated one will be using {{ ansible_fqdn }} with a wrong 
+# > hostname (different from the current managed host), which could lead to 
+# > errors... =S  
+# 
+#   YES. (... if you use "delegate_facts: false" (false by default) ...)
+# 
+#   To avoid the problem use "delegate_facts: true" with the "setup" module.
+# 
+# > I don't get the point of this functionality at all, any useful example that 
+# > you have in mind?  
+# 
+#   The example in the doc is a good use-case
+#   https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html#delegated-fa
+#   cts
+# 
+#   - hosts: app_servers
+#     tasks:
+#       - name: gather facts from db servers
+#         setup:
+#         delegate_to: "{{item}}"
+#         delegate_facts: True
+#         loop: "{{groups['dbservers']}}"
+# 
+#   The play is running at app_servers and knows nothing about the dbservers.
+#   The task will "setup" dbservers facts that can be used by app_servers.

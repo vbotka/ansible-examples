@@ -1,0 +1,30 @@
+- hosts: test_jails
+  gather_facts: true
+  tasks:
+    - debug:
+        var: ansible_nodename
+      delegate_to: localhost
+      delegate_facts: false
+
+- hosts: test_01
+  gather_facts: true
+  tasks:
+    - set_fact:
+        var1: test var1
+      delegate_to: test_02
+      delegate_facts: true
+    - debug:
+        var: var1
+    - debug:
+        var: hostvars['test_01'].var1
+    - debug:
+        var: hostvars['test_02'].var1
+
+- hosts: test_01
+  gather_facts: true
+  tasks:
+    - setup:
+      delegate_to: test_02
+      delegate_facts: true
+    - debug:
+        var: ansible_hostname
