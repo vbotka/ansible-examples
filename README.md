@@ -190,6 +190,7 @@ Various examples of Ansbile code.
 - Example 186. delegate_facts
 - Example 187. notify
 - Example 188. substitution
+- Example 189. tempfile
 
 
 ## License
