@@ -1,0 +1,40 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    FullList:
+      - name: "Test1"
+        value1: "blabla123"
+        value2: "someothervalue"
+      - name: "Test2"
+        value1: "blsdfsdfasfabla"
+        value2: "someothervalue"
+      - name: "Test3"
+        value1: "sdjfbhsadbfv"
+        value2: "someothervalue"
+      - name: "Test4"
+        value1: "sdjkfnsjkf"
+        value2: "sdjkfnsjkf"
+    List1:
+      - "Test2"
+      - "Test3"
+  tasks:
+    - set_fact:
+        Result: "{{ FullList|selectattr('name', 'in', List1)|list }}"
+    - debug:
+        var: Result
+
+# Ansible - check if item is in the list
+# https://stackoverflow.com/questions/58708295/ansible-check-if-item-is-in-the-list
+
+#    "Result": [
+#        {
+#            "name": "Test2", 
+#            "value1": "blsdfsdfasfabla", 
+#            "value2": "someothervalue"
+#        }, 
+#        {
+#            "name": "Test3", 
+#            "value1": "sdjfbhsadbfv", 
+#            "value2": "someothervalue"
+#        }
+#    ]
