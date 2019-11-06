@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    Z:
+      A1:
+        - "a"
+        - "b"
+      A2:
+        - "c"
+      A3:
+        - "d"
+        - "e"
+    list2:
+      - ""
+      - "/in"
+      - "/in/output/"
+      - "/in/output/fail"
+      - "/in/output/success"
+
+  tasks:
+    - debug:
+        msg: "/opt/Z/{{ item.0 }}{{ item.1 }}"
+      loop: "{{ Z.A1|product(list2)|list }}"
+
+# array over array create folder ansible
+# https://stackoverflow.com/questions/58723098/array-over-array-create-folder-ansible/
+
+#  msg: /opt/Z/a
+#  msg: /opt/Z/a/in
+#  msg: /opt/Z/a/in/output/
+#  msg: /opt/Z/a/in/output/fail
+#  msg: /opt/Z/a/in/output/success
+#  msg: /opt/Z/b
+#  msg: /opt/Z/b/in
+#  msg: /opt/Z/b/in/output/
+#  msg: /opt/Z/b/in/output/fail
+#  msg: /opt/Z/b/in/output/success
+
+# EOF
+...
