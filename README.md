@@ -191,6 +191,7 @@ Various examples of Ansbile code.
 - Example 187. notify
 - Example 188. substitution
 - Example 189. tempfile
+- Example 190. include_tasks
 
 
 ## License

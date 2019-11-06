@@ -1,0 +1,9 @@
+- name: tasks-1 debug1
+  debug:
+    msg: Debug1 in task1.yml
+- name: tasks-1 debug2
+  debug:
+    msg: Debug2 in task1.yml
+- name: tasks-1 debug3
+  debug:
+    msg: Debug3 in task1.yml

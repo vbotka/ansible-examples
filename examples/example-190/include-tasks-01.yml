@@ -1,0 +1,51 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - include_tasks: tasks-1.yml
+      when: test|default(false)
+
+    - include: tasks-1.yml
+      when: test|default(false)
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Tasks in a task file that should not
+# have been included are being listed
+# Date: Wed, 6 Nov 2019 12:56:27 +0100
+# X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+# Organization: na
+# 
+# 
+# > - include: string.yml
+# >   when: string_test|default(False)
+# > [...]
+# > TASK [test : Create strings] **************************************
+# > *
+# > skipping: [testmail]
+# > [...]
+# > which are listing tasks inside string.yml. Yes, it is skipping said
+# > tasks but I thought it would not try to peek at that task file to
+# > begin with. Is that expected behaviour or I did something wrong?  
+# 
+# 
+# Use *include_tasks* instead of *include*.
+# 
+# Quoting:"Prior to Ansible 2.4, only include was available and it
+# behaved differently depending on context".
+
+
+# > ansible-playbook include-tasks-01.yml
+# 
+# PLAY [localhost] **********************
+# 
+# TASK [include_tasks] ******************
+# skipping: [localhost]
+# 
+# TASK [tasks-1 debug1] *****************
+# skipping: [localhost]
+# 
+# TASK [tasks-1 debug2] *****************
+# skipping: [localhost]
+# 
+# TASK [tasks-1 debug3] *****************
+# skipping: [localhost]
