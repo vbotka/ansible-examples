@@ -1,0 +1,24 @@
+users:
+  - name: bruce
+    age: 22
+    params:
+      - key: "k1"
+        value: "v1bruce"
+      - key: "k2"
+        value: "v2bruce"
+  - name: alan
+    age: 25
+    params:
+      - key: "k1"
+        value: "v1alan"
+      - key: "k5"
+        value: "v5alan"
+  - name: carl
+    age: 43
+    params:
+      - key: "k1"
+        value: "v1carl"
+      - key: "k2"
+        value: "v2carl"
+      - key: "k5"
+        value: "v5carl"

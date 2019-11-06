@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - play2-data.yml
+  tasks:
+    - set_fact:
+        employee: "{{ employee|default([]) +
+                      [{'name': item.name,
+                        'age': item.age,
+                        'params': item.params|items2dict}] }}"
+      loop: "{{ users }}"
+    - debug:
+        var: employee
+
+# Convert nested list of dicts to dict in Ansible
+# https://stackoverflow.com/questions/58727924/convert-nested-list-of-dicts-to-dict-in-ansible/
+
+#    "employee": [
+#        {
+#            "age": 22, 
+#            "name": "bruce", 
+#            "params": {
+#                "k1": "v1bruce", 
+#                "k2": "v2bruce"
+#            }
+#        }, 
+#        {
+#            "age": 25, 
+#            "name": "alan", 
+#            "params": {
+#                "k1": "v1alan", 
+#                "k5": "v5alan"
+#            }
+#        }, 
+#        {
+#            "age": 43, 
+#            "name": "carl", 
+#            "params": {
+#                "k1": "v1carl", 
+#                "k2": "v2carl", 
+#                "k5": "v5carl"
+#            }
+#        }
+#    ]
