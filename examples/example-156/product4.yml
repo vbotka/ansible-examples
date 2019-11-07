@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    uid: 'uid1'
+    product_types:
+      - product1
+      - product2
+      - product3
+    data_types:
+      - {data_name: data1, data_port: 111}
+      - {data_name: data2, data_port: 222}
+      - {data_name: data3, data_port: 333}
+
+  tasks:
+    - debug:
+        msg: "{{ data_types|json_query('[].data_name')|
+                 product(product_types)|map('join', '-')|
+                 product([uid])|map('join', '-')|
+                 product(data_types|json_query('[].data_port'))|map('join', '_')|
+                 product(['pool'])|map('join', '_')|
+                 list
+                 }}"
+    - set_fact:
+        test_list: "{{ test_list|default([]) +
+                       [item.data_name]|
+                       product(product_types)|map('join', '-')|
+                       product([uid])|map('join', '-')|
+                       product([item.data_port])|map('join', '_')|
+                       product(['pool'])|map('join', '_')|
+                       list }}"
+      loop: "{{ data_types }}"
+    
+    - debug:
+        var: test_list
+
+# What is a better way to set a new list variable with cartesian products of several lists in Ansible?
+# https://stackoverflow.com/questions/58740652/what-is-a-better-way-to-set-a-new-list-variable-with-cartesian-products-of-sever/
+        
+# Q: "A better way for me to assemble the list/data?"
+# A: No. It's good. Formatting might improve readability
