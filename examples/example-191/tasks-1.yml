@@ -1,0 +1,42 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        var: outputmsg
+    - set_fact:
+        outputmsg: "{{ outputmsg|default('GET THE STATUS') }}"
+    - debug:
+        var: outputmsg
+
+    - set_fact:
+        outputmsg: "{{ 'UNDEFINED' if outputmsg is undefined else
+                       'DEFINED' }}"
+    - debug:
+        var: outputmsg
+
+# fatal: no else section was defined
+#
+#    - set_fact:
+#        outputmsg: "{{ 'GET THE STATUS' if outputmsg is undefined }}"
+
+# Subject: [ansible-project] How to check for undefined variable in Ansible.  Getting error.
+# Date: Wed, 6 Nov 2019 22:24:39 -0800 (PST)
+#  
+#    - name: Status of Running process
+#      tags: always
+#      set_fact:
+#        outputmsg: "{{ 'GET THE STATUS' if outputmsg is undefined }}"
+#
+# I was expecting the above code to assign 'GETTING THE STATUS' incase 
+# I'm getting the below error 
+# 
+# > fatal: [10.9.9.111]: FAILED! => {"msg": "The task includes an option with 
+# > an undefined variable. The error was: the inline if-expression on line 1 
+# > evaluated to false and no else section was defined.
+
+# Use *default*. For example
+# 
+#     - set_fact:
+#         outputmsg: "{{ outputmsg|default('GET THE STATUS') }}"
