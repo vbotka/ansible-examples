@@ -1,0 +1,69 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        dest: rsyslog.conf
+        regexp: '^#\s*{{ item.regex }}(.*)$'
+        replace: '{{ item.replace }}'
+      loop:
+        - regex: 'module\(load="imudp"\)'
+          replace: 'module(load="imudp")'
+        - regex: 'input\(type="imudp" port="514"\)'
+          replace: 'input(type="imudp" port="514")'
+
+# How to uncomment more than one line in Ansible?
+# https://stackoverflow.com/questions/58748588/how-to-uncomment-more-than-one-line-in-ansible/
+
+# Module lineinfile will place line even when regex is not matched.
+# The task below
+# 
+#   tasks:
+#     - lineinfile:
+#         # firstmatch: true
+#         dest: rsyslog.conf
+#         regex: '^#\s*{{ item.regex }}(.*)$'
+#         line: '{{ item.line }}'
+#       loop:
+#         - regex: 'module\(load="imudp"\)'
+#           line: 'module(load="imudp")'
+#         - regex: 'input\(type="imudp" port="514"\)'
+#           line: 'input(type="imudp" port="514")'
+# gives
+# 
+# # provides UDP syslog reception
+# # module(load="imudp")
+# # input(type="imudp" port="514")
+# 
+# # provides TCP syslog reception
+# module(load="imudp")
+# input(type="imudp" port="514")
+# and with "firstmatch: true" gives
+# 
+# # provides UDP syslog reception
+# module(load="imudp")
+# input(type="imudp" port="514")
+# 
+# # provides TCP syslog reception
+# # module(load="imudp")
+# # input(type="imudp" port="514")
+#
+# The module replace will replace all instances of a pattern within the file
+# 
+# - replace:
+#     dest: rsyslog.conf
+#     regexp: '^#\s*{{ item.regex }}(.*)$'
+#     replace: '{{ item.replace }}'
+#   loop:
+#     - regex: 'module\(load="imudp"\)'
+#       replace: 'module(load="imudp")'
+#     - regex: 'input\(type="imudp" port="514"\)'
+#       replace: 'input(type="imudp" port="514")'
+# gives
+# 
+# # provides UDP syslog reception
+# module(load="imudp")
+# input(type="imudp" port="514")
+# 
+# # provides TCP syslog reception
+# module(load="imudp")
+# input(type="imudp" port="514")

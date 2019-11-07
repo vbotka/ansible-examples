@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - lineinfile:
+        # firstmatch: true
+        dest: rsyslog.conf
+        regex: '^#\s*{{ item.regex }}(.*)$'
+        line: '{{ item.line }}'
+      loop:
+        - regex: 'module\(load="imudp"\)'
+          line: 'module(load="imudp")'
+        - regex: 'input\(type="imudp" port="514"\)'
+          line: 'input(type="imudp" port="514")'
