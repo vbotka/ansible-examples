@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    logs_src_ip1: '127.0.0.1'
+    logs_src_ip2: '127.0.0.2'
+  tasks:
+    - name: Adding rsyslog script to redirect Mikrotik logs
+      blockinfile:
+        path: /scratch/tmp/test
+        block: |
+         :fromhost-ip, isequal, '{{ logs_src_ip1 }}' /var/log/mikrotik.log
+         & ~
+         :fromhost-ip, isequal, '{{ logs_src_ip2 }}' /var/log/mikrotik.log
+         & ~
+
+# How to add variable with special character in Ansible
+# https://stackoverflow.com/questions/58756983/how-to-add-variable-with-special-character-in-ansible/
+
+# Just add the quotation in the block. Quotation will not be
+# interpreted in 8.1.2. Literal Style "There is no way to escape
+# characters inside literal scalars. This restricts them to printable
+# characters."
+
+# - name: Adding rsyslog script to redirect Mikrotik logs
+#   blockinfile:
+#     path: /scratch/tmp/test
+#     block: |
+#      :fromhost-ip, isequal, '{{ logs_src_ip1 }}' /var/log/mikrotik.log
+#      & ~
+#      :fromhost-ip, isequal, '{{ logs_src_ip2 }}' /var/log/mikrotik.log
+#      & ~
