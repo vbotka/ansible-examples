@@ -1,0 +1,12 @@
+- hosts: test_01
+  gather_facts: yes
+  tasks:
+    - debug:
+        var: test_var
+    - debug:
+        var: test_var_all
+
+# Ansible: overide roles default values
+# https://stackoverflow.com/questions/58758530/ansible-overide-roles-default-values
+
+# inventories/production/host_vars/all is useless (staging the same)
