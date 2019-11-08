@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ FIREWALLD_ZONE_SERVICE }}"
+      when: FIREWALLD_ZONE_SERVICE is defined
+
+    - debug:
+        var: item
+      loop: "{{ FIREWALLD_ZONE_SERVICE }}"
+      when: item|length > 10 and
+            FIREWALLD_ZONE_SERVICE is defined
+
+# EOF
+...
