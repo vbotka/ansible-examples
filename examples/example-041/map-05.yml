@@ -1,0 +1,49 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    blades:
+      1: [devA, devB, devC]
+      2: [devA, devB, devC, devD]
+      3: [devA, devB, devC, devD, devE]
+
+  tasks:
+    - debug:
+        var: blades
+
+    - set_fact:
+        devices: "{{ blades|dict2items
+                     }}"
+    - debug:
+        var: devices
+
+    - set_fact:
+        devices: "{{ blades|dict2items|
+                     json_query('[].value')
+                     }}"
+    - debug:
+        var: devices
+
+    - set_fact:
+        devices: "{{ blades|dict2items|
+                     json_query('[].value')|
+                     map('length')|
+                     list }}"
+    - debug:
+        var: devices
+
+# how to get only value from var using debug in ansible
+# https://stackoverflow.com/questions/58772467/how-to-get-only-value-from-var-using-debug-in-ansible/
+
+# Q: " ... getting the device count ... how can I get only value part ie, 10, 8, 4?"
+# A: Given the dictionary below for testing the number of devices in each blade (3,4,5)
+# [...]
+# and map applies the filter length to each element of the list
+# 
+# [
+#     3, 
+#     4, 
+#     5
+# ]
+
+# EOF
