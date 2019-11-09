@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    env_var: '10.6.1'
+
+  tasks:
+
+    - set_fact:
+        some_var1: "{{ env_var | default('10.5.0')|splitext|first }}"
+    - debug:
+        var: some_var1
+
+    - set_fact:
+        some_var1: "{{ env_var|default('10.5.0')|
+                       regex_replace(regex, replace) }}"
+      vars:
+        regex: '^(.*)(\..*)(\..*)$'
+        replace: '\1\2'
+    - debug:
+        var: some_var1
+
+# Capturing repeating subpatterns in Python regex
+# https://stackoverflow.com/questions/9764930/capturing-repeating-subpatterns-in-python-regex
+
+#  "some_var1": "10.6"
