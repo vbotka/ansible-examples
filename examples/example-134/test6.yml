@@ -1,0 +1,74 @@
+- name: Create reachable/unreachable groups of hosts
+  hosts: all
+  gather_facts: true
+  tasks:
+    - add_host:
+        name: '{{ item }}'
+        groups: 'reachable'
+      loop: "{{ ansible_play_hosts }}"
+#     delegate_to: localhost
+      run_once: true
+    - set_fact:
+        unreachable_hosts: "{{ ansible_play_hosts_all|
+                               difference(ansible_play_hosts) }}"
+      delegate_to: localhost
+      delegate_facts: true
+      run_once: true
+
+- name: Manage reachable hosts
+  hosts: reachable
+  gather_facts: true
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+- name: Manage unreachable hosts
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ unreachable_hosts }}"
+
+# PLAY [Manage reachable hosts]
+#     
+# ok: [test_03] => {
+#     "inventory_hostname": "test_03"
+# }
+# 
+# PLAY [Manage unreachable hosts]
+# 
+# ok: [localhost] => (item=test_01) => {
+#     "ansible_loop_var": "item", 
+#     "item": "test_01"
+# }
+# ok: [localhost] => (item=test_02) => {
+#     "ansible_loop_var": "item", 
+#     "item": "test_02"
+# }
+    
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Ansible react on unreachable / failed hosts
+# Date: Mon, 11 Nov 2019 14:09:38 +0100
+# 
+# It's possible to test the connection, register and use the result. For example
+# 
+#     - delegate_to: localhost
+#       command: ping -c1 "{{ inventory_hostname }}"
+#       register: result
+#       ignore_errors: true
+# 
+# Your solution is cleaner. I'd propose to create a group of reachable
+# hosts and structure the the playbook into more plays. For example
+# 
+# [...]
+# 
+# Notes:
+# 
+# 1) "gather_facts: true" in the first play is necessary to
+#    remove unreachable hosts from "ansible_play_hosts".
+# 
+# 2) It's not necessary to delegate "add_hosts".
+# 
+# 3) It's necessary "delegate_facts: true" to declare the variable
+#    "unreachable_hosts" in the "hostvars['localhost']".
