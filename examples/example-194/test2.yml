@@ -1,0 +1,56 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - template:
+        src: main2.j2
+        dest: /scratch/tmp/test
+
+    - blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item }}"
+        path: /scratch/tmp/test
+        block: "{{ lookup('template', item) }}"
+      loop:
+        - test.conf.j2
+        - example.conf.j2
+
+# Ansible templates and jinja {%block%}
+# https://stackoverflow.com/questions/58793434/ansible-templates-and-jinja-block/
+
+#  It's possible to use blockinfile and loop the lookup of the templates
+# 
+# $ cat main2.j2 -----------------------------------------------------
+# value1 = 123
+# 
+# # BEGIN ANSIBLE MANAGED BLOCK test.conf.j2
+# value_test = default value in main2.j2
+# # END ANSIBLE MANAGED BLOCK test.conf.j2
+# 
+# # BEGIN ANSIBLE MANAGED BLOCK example.conf.j2
+# value_example = default value in main2.j2
+# # END ANSIBLE MANAGED BLOCK example.conf.j2
+# 
+# value3 = 789
+# 
+# $ cat test.conf.j2 -------------------------------------------------
+# value_test = custom value in test.conf.j2
+# 
+# $ cat example.conf.j2
+# value_example = custom value in example.conf.j2
+# give
+# 
+# $ cat test ---------------------------------------------------------
+# value1 = 123
+# 
+# # BEGIN ANSIBLE MANAGED BLOCK test.conf.j2
+# value_test = custom value in test.conf.j2
+# # END ANSIBLE MANAGED BLOCK test.conf.j2
+# 
+# # BEGIN ANSIBLE MANAGED BLOCK example.conf.j2
+# value_example = custom value in example.conf.j2
+# # END ANSIBLE MANAGED BLOCK example.conf.j2
+# 
+# value3 = 789
+
+# EOF
