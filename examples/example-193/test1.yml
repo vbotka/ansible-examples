@@ -1,0 +1,52 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - fail:
+        msg: "Test fail."
+      when: true
+
+# $ set | grep ANSIBLE_STDOUT_CALLBACK
+# ANSIBLE_STDOUT_CALLBACK=mail
+ 
+# $ cat ansible.cfg
+# [defaults]
+# inventory = $PWD/hosts
+# roles_path = $PWD/roles
+# log_path = /var/log/ansible.log
+# # callback_whitelist = default, minimal, mail
+# # stdout_callback = mail
+# 
+# [mail]
+# mta = localhost
+# mtaport = 25
+# sender = admin
+# to = root
+
+# From: "Ansible: localhost" <admin@example.com>
+# To: root@example.com
+# Subject: Failed: Test fail.
+# Date: Sun, 10 Nov 2019 18:05:52 +0100 (CET)
+# 
+# Playbook: test1.yml
+# Module: fail
+# Host: localhost
+# 
+# The following task failed:
+# 
+#         fail
+#         
+# with the following message:
+# 
+#         Test fail.
+#         
+# and a complete dump of the error:
+# 
+#         Failed: {
+#             "msg": "Test fail.", 
+#             "changed": false, 
+#             "_ansible_no_log": false
+#         }
+
+# EOF

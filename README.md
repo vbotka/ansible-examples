@@ -194,6 +194,7 @@ Various examples of Ansbile code.
 - Example 190. include_tasks
 - Example 191. if then else
 - Example 192. splitext
+- Example 193. mail
 
 
 ## License
