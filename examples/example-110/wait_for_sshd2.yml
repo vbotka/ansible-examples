@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - wait_for:
+        port: '22'
+        state: 'started'
+        timeout: 3
+        msg: SSH is not running. End of play.

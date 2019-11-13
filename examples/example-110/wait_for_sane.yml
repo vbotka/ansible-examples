@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - wait_for:
+        port: '6566'
+        state: 'started'
+        timeout: 3
+        msg: SANE is not running. End of play.
+
+    - debug:
+        var: result
+
