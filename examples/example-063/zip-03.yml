@@ -1,0 +1,62 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        var: vg_name
+
+    - debug:
+        var: lv_name
+
+    - debug:
+        msg: "{{ item.0 }} {{ item.1 }}"
+      loop: "{{ vg_name|default([])|
+                zip(lv_name|default([]))|
+                list }}"
+
+#    - name: Create LV's
+#      lvol:
+#        vg: "{{ item.0 }}"
+#        lv: "{{ item.1 }}"
+#        size: "{{ lv_size }}"
+#      loop: "{{ vg_name|default([])|
+#                zip(lv_name|default([]))|
+#                list }}"
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Multiple values in variable
+# 
+# On Wed, 13 Nov 2019 12:00:29 +0100
+# Pierre Ochsenbein <pierreochsenbein@gmail.com> wrote:
+# 
+# > I have create a loop in my playbook to set multiple values for lvol and vg.
+# > How I can write my ansible-playbook command with multiple values in a
+# > variable?
+# > 
+# > Example:
+# > ansible-playbook data-fs.yml -i inventory -e vg_name=vg01,vg02 -e
+# > lv_name=lv01,lv02
+# > 
+# > - name: Create LV's
+# >   lvol:
+# >     vg: "{{ vg_name }}"
+# >     lv: "{{ lv_name }}"
+# >     size: "{{ lv_size }}"
+# >   loop:
+# >     - { vg: ' {{ vg_name }}, lv: '{{ vg_name }}' }  
+# 
+# It's possible to put the extra variables into the lists and use the *zip*
+# filter. For example
+# 
+#     ansible-playbook data-fs.yml -e "{'vg_name': ['vg01','vg02']}" -e
+#     "{'lv_name': ['lv01', 'lv02']}"
+# 
+#     - name: Create LV's
+#       lvol:
+#         vg: "{{ item.0 }}"
+#         lv: "{{ item.1 }}"
+#         size: "{{ lv_size }}"
+#       loop: "{{ vg_name|default([])|
+#                 zip(lv_name|default([]))|
+#                 list }}"
