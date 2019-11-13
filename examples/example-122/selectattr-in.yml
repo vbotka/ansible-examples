@@ -1,0 +1,36 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_list:
+      - '1.1.1.1'
+      - '2.2.2.2'
+    my_dict:
+      - {'name': 'obj1', 'addr': '1.1.1.1'}
+      - {'name': 'obj2', 'addr': '2.2.2.2'}
+      - {'name': 'objx', 'addr': 'x.x.x.x'}
+
+  tasks:
+    - set_fact:
+        sel_dict: "{{ sel_dict|default([]) +
+                      my_dict|
+                      selectattr('addr', 'in', my_list)|
+                      list }}"
+    - debug:
+        var: sel_dict
+
+# Nested loops using list and dict in ansible
+# https://stackoverflow.com/questions/58836377/nested-loops-using-list-and-dict-in-ansible/
+
+#    "sel_dict": [
+#        {
+#            "addr": "1.1.1.1", 
+#            "name": "obj1"
+#        }, 
+#        {
+#            "addr": "2.2.2.2", 
+#            "name": "obj2"
+#        }
+#    ]
