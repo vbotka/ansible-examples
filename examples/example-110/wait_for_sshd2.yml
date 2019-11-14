@@ -6,3 +6,5 @@
         state: 'started'
         timeout: 3
         msg: SSH is not running. End of play.
+    - debug:
+        msg: continue

@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - wait_for:
+        port: "{{ item }}"
+        state: started
+        timeout: 3
+        msg: "{{ item }} is not started. Installation cannot happen."
+      loop:
+        - 22
+        - 25
+        - 6566
+
+    - debug:
+        msg: Continue
+
+# Installation of an agent when port is opened using ansible
+# https://stackoverflow.com/questions/58834000/installation-of-an-agent-when-port-is-opened-using-ansible/
