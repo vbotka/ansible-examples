@@ -1,0 +1,10 @@
+- hosts: localhost
+  vars:
+    mikrotik_ip: 10.1.0.10
+  tasks:
+    - template:
+        src: test13.j2
+        dest: /scratch/tmp/test13
+
+# Problem with variables and creating a file using rsyslog and ansible
+# https://stackoverflow.com/questions/58854601/problem-with-variables-and-creating-a-file-using-rsyslog-and-ansible

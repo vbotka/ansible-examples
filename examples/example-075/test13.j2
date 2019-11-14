@@ -1,0 +1,3 @@
+$template RouterLog, "/var/log/mikrotik.log"
+if $fromhost-ip == {{ mikrotik_ip }} then -?RouterLog
+& stop
