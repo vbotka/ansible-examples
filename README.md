@@ -196,6 +196,7 @@ Various examples of Ansbile code.
 - Example 192. splitext
 - Example 193. mail
 - Example 194. extends (Jinja2)
+- Example 195. is any, is all
 
 
 ## License

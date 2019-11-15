@@ -1,0 +1,57 @@
+"hw_info": [
+    {
+        "Hostname": "cavia",
+        "Farm": "paolo",
+    "Cluster": "paperino",
+        "Gateway":  "10.14.35.1",
+    "Dns": "172.26.5.110,172.26.5.111,172.26.16.11,172.26.16.12",
+    "Routes": "0",
+        "Network": [
+            {
+                "MAC":"00:50:56:b6:c0:db",
+                "Vlan":"107 - 10.14.8.0/24 - BE WW TF",
+                "Scope": "Production",
+                "IP": "10.14.35.9",
+                "MASK": "255.255.255.224"
+            },
+            {
+                "MAC":"50:56:b6:19:0c",
+                "Vlan":"5 - 10.4.81.0/24 - BE WW TF",
+                "Scope": "BE",
+                "IP": "10.4.5.9",
+                "MASK": "255.255.255.224"
+            },
+            {
+                "MAC":"00:50:56:b6:19:aa",
+                "Vlan":"4 - 0.14.81.0/24 - BE WW TF",
+                "Scope": "NFS",
+                "IP": "172.10.0.5",
+                "MASK": "255.255.0.0"
+            },
+            {
+                "MAC":"00:50:b6:19:0c",
+                "Vlan":"10087 - 10.14.81.0/24 - BE WW TF",
+                "Scope": "Backup",
+                "IP": "10.4.96.28",
+                "MASK": "255.255.254.0"
+            }
+        ],   
+        "Disk": [
+            {
+                "ID": "36000c29ccb2f18976786181535e88772",
+                "Scope": "New",
+                "DiskFs": "/prova"
+            },
+            {
+                "ID": "36000c29ccb2f18976786181535e86553",
+                "Scope": "New",
+                "DiskFs": "/pippo"
+            },
+            {
+                "ID": "5cd2e42981b06cef",
+                "Scope": "New",
+                "DiskFs": "/pippo2"
+            }
+        ]
+    }
+]
