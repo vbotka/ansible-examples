@@ -1,0 +1,29 @@
+- hosts: my_hosts
+  gather_facts: no
+  vars:
+    my_list:
+      - {src: "/mnt/host1/error.log", searchme: "host1"}
+      - {src: "/mnt/var/log/httpd/other.log", searchme: "host2"}
+      - {src: "/mnt/host3/error.log", searchme: "host3"}
+  tasks:
+    - set_fact:
+        log_source: "{{ my_list|json_query(query)|first }}"
+      vars:
+        query: "[?searchme=='{{ inventory_hostname }}'].src"
+    - debug:
+        var: log_source
+
+# Subject: Re: [ansible-project] What approach should I take with this loop?
+# Date: Thu, 14 Nov 2019 21:59:01 +0100
+# 
+# gives
+# 
+#     ok: [host1] => {
+#         "log_source": "/mnt/host1/error.log"
+#     }
+#     ok: [host2] => {
+#         "log_source": "/mnt/var/log/httpd/other.log"
+#     }
+#     ok: [host3] => {
+#         "log_source": "/mnt/host3/error.log"
+#     }
