@@ -1,0 +1,45 @@
+- hosts: test_01
+  gather_facts: true
+
+  tasks:
+
+#    - debug:
+#       var: ansible_distribution_major_version
+
+    - debug:
+        msg: Distro Major Version 12 installed
+      when: ansible_distribution_major_version is version('12', '=')
+
+    - debug:
+        msg: Distro Major Version 12 installed
+      when: ansible_distribution_major_version is version_compare('12', '=')
+
+    - debug:
+        msg: Distro Major Version 12 installed
+      when: ansible_distribution_major_version | version_compare('12', '=')
+
+# [DEPRECATION WARNING]: Using tests as filters is deprecated. Instead
+# of using `result|version_compare` use `result is
+# version_compare`. This feature will be removed in version
+# 2.9. Deprecation warnings can be disabled by setting
+# deprecation_warnings=False in ansible.cfg.
+
+# Subject: Re: [ansible-project] Updated ansible failed on checks
+# Date: Fri, 15 Nov 2019 08:45:20 +0100
+# 
+# (Just curious). It's not clear why 2.9 complains "no filter named
+# 'version_compare'". Both names of the filter are present in 2.9 source
+# https://github.com/ansible/ansible/blob/stable-2.9/lib/ansible/plugins/test/core.py
+# 
+#             # version comparison
+#             'version_compare': version_compare,
+#             'version': version_compare,
+# 
+# (lines 199-201)
+# 
+# , and I can't find any explanation in the "porting guides" and "release notes"
+# either.
+# https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
+# https://docs.ansible.com/ansible/latest/porting_guides/
+# 
+# What am I missing ?
