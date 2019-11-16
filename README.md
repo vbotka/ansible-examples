@@ -197,6 +197,7 @@ Various examples of Ansbile code.
 - Example 193. mail
 - Example 194. extends (Jinja2)
 - Example 195. is any, is all
+- Example 196. Block Scalar Styles (Chapter 8. Block Styles)
 
 
 ## License

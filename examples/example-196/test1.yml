@@ -1,0 +1,50 @@
+- hosts: localhost
+  gather_facts: true
+
+  vars:
+    msg1: |
+      "{{ansible_distribution}}"
+      "{{ansible_distribution_major_version}}"
+      "{{ansible_distribution_release}}"
+      "{{ansible_distribution_version}}"
+    msg2: |
+      {{ansible_distribution}}
+      {{ansible_distribution_major_version}}
+      {{ansible_distribution_release}}
+      {{ansible_distribution_version}}
+
+  tasks:
+    - debug:
+        var: msg1
+    - debug:
+        var: msg2
+
+# ok: [localhost] => 
+#   msg1: |-
+#     "Ubuntu"
+#     "19"
+#     "disco"
+#     "19.04"
+# 
+# ok: [localhost] => 
+#   msg2: |-
+#     Ubuntu
+#     19
+#     disco
+#     19.04
+
+# Multiline Template - string escaping in Ansible
+# https://stackoverflow.com/questions/58889303/multiline-template-string-escaping-in-ansible/
+#
+# Q: "How do I correctly escape this multiline string so that Ansible can parse it?"
+# 
+# A: The problem is the indentation of the block. Quoting from Example
+# 8.3. Invalid Block Scalar Ind entation Indicators
+#
+# ERROR:
+# 
+# * A leading all-space line must not have too many spaces.
+# * A following text line must not be less indented.
+# * The text is less indented than the indicated level.
+#
+# The correct syntax is (with or without quotation)
