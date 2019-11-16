@@ -1,0 +1,24 @@
+---
+# tasks file for test
+
+- name: FIRST
+  debug:
+    msg: "first {{ lookup('pipe', 'date -Is') }}"
+
+- block:
+    - fail:
+      when: inventory_hostname == 'test_01'
+  rescue:
+    - pause:
+        seconds: 5
+    - name: SECOND
+      debug:
+        msg: "second {{ lookup('pipe', 'date -Is') }}"
+
+- name: THIRD
+  debug:
+    msg: "third {{ lookup('pipe', 'date -Is') }}"
+
+- name: FOURTH
+  debug:
+    msg: "fourth {{ lookup('pipe', 'date -Is') }}"

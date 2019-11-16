@@ -1,0 +1,158 @@
+- hosts: group1
+  strategy: linear
+  gather_facts: false
+  tasks:
+    - import_role:
+        name: test
+
+# see block-06.yml)
+      
+# PLAY [group1] ***************************************************************************************
+# 
+# TASK [test : FIRST] *********************************************************************************
+# ok: [test_01] => 
+#   msg: first 2019-11-16T10:55:48+01:00
+# ok: [test_02] => 
+#   msg: first 2019-11-16T10:55:48+01:00
+# 
+# TASK [test : fail] **********************************************************************************
+# fatal: [test_01]: FAILED! => changed=false 
+#   msg: Failed as requested from task
+# skipping: [test_02]
+# 
+# TASK [test : THIRD] *********************************************************************************
+# ok: [test_02] => 
+#   msg: third 2019-11-16T10:55:48+01:00
+# 
+# TASK [test : FOURTH] ********************************************************************************
+# ok: [test_02] => 
+#   msg: fourth 2019-11-16T10:55:48+01:00
+# 
+# TASK [test : pause] *********************************************************************************
+# Pausing for 5 seconds
+# (ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+# ok: [test_01]
+# 
+# TASK [test : SECOND] ********************************************************************************
+# ok: [test_01] => 
+#   msg: second 2019-11-16T10:55:53+01:00
+# 
+# TASK [test : THIRD] *********************************************************************************
+# ok: [test_01] => 
+#   msg: third 2019-11-16T10:55:53+01:00
+# 
+# TASK [test : FOURTH] ********************************************************************************
+# ok: [test_01] => 
+#   msg: fourth 2019-11-16T10:55:53+01:00
+
+# Subject: Re: [ansible-project] Block and Rescue behavior question
+# Date: Sat, 16 Nov 2019 00:41:52 +0100
+# 
+# > I've been able to reproduce it with a small test case. The issue is 
+# > with
+# > multiple hosts using a real inventory (localhost is fine) and the
+# > block/rescue must be inside a role.  
+# 
+# It's a bug with import_role and include_role.
+# I made test code that only run against localhost and somewhat easier to 
+# follow.
+
+# inventory
+# ---------
+# [test_inv]
+# h1
+# h2
+# 
+# role test
+# ---------
+# - name: FIRST
+#    debug: msg="first {{ lookup('pipe', 'date -Is') }}"
+# 
+# - block:
+#     - fail:
+#       when: inventory_hostname == 'h1'
+#    rescue:
+#      - pause:
+#          seconds: 5
+#      - name: SECOND
+#        debug: msg="second {{ lookup('pipe', 'date -Is') }}"
+# 
+# - name: THIRD
+#    debug: msg="third {{ lookup('pipe', 'date -Is') }}"
+# - name: FOURTH
+#    debug: msg="fourth {{ lookup('pipe', 'date -Is') }}"
+
+# playbook with roles and working
+# -------------------------------
+# - hosts: test_inv
+#    gather_facts: false
+#    roles:
+#      - test
+# 
+# output
+# ------
+# h1 | SUCCESS => {    "changed": false,     "msg": "first 
+# 2019-11-16T00:32:19,950301026+01:00"}
+# h2 | SUCCESS => {    "changed": false,     "msg": "first 
+# 2019-11-16T00:32:19,955562309+01:00"}
+# h1 | FAILED! => {"changed": false, "msg": "Failed as requested from 
+# task"}
+# h2 | SKIPPED
+# Pausing for 5 seconds
+# (ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+# h1 | SUCCESS => {"changed": false, "delta": 5, "echo": true, "rc": 0, 
+# "start": "2019-11-16 00:32:19.984584", "stderr": "", "stdout": "Paused 
+# for 5.0 seconds", "stop": "2019-11-16 00:32:24.984690", "user_input": 
+# ""}
+# h1 | SUCCESS => {    "changed": false,     "msg": "second 
+# 2019-11-16T00:32:25,001714127+01:00"}
+# h1 | SUCCESS => {    "changed": false,     "msg": "third 
+# 2019-11-16T00:32:25,018989962+01:00"}
+# h2 | SUCCESS => {    "changed": false,     "msg": "third 
+# 2019-11-16T00:32:25,024043908+01:00"}
+# h1 | SUCCESS => {    "changed": false,     "msg": "fourth 
+# 2019-11-16T00:32:25,043906428+01:00"}
+# h2 | SUCCESS => {    "changed": false,     "msg": "fourth 
+# 2019-11-16T00:32:25,049696619+01:00"}
+
+# As we can see, h1 fails and the rescue part is run with pause and output 
+# of "second" on h1.
+# But when using import_role or include_role it run task in wrong order.
+
+# playbook with import_role and task executed in wrong order
+# ----------------------------------------------------------
+# - hosts: test_inv
+#    gather_facts: false
+#    tasks:
+#      - import_role:
+#          name: test
+# 
+# output
+# ------
+# h1 | SUCCESS => {    "changed": false,     "msg": "first 
+# 2019-11-16T00:34:02,669290823+01:00"}
+# h2 | SUCCESS => {    "changed": false,     "msg": "first 
+# 2019-11-16T00:34:02,674770477+01:00"}
+# h1 | FAILED! => {"changed": false, "msg": "Failed as requested from 
+# task"}
+# h2 | SKIPPED
+# h2 | SUCCESS => {    "changed": false,     "msg": "third 
+# 2019-11-16T00:34:02,709790864+01:00"}
+# h2 | SUCCESS => {    "changed": false,     "msg": "fourth 
+# 2019-11-16T00:34:02,728107251+01:00"}
+# Pausing for 5 seconds
+# (ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+# h1 | SUCCESS => {"changed": false, "delta": 5, "echo": true, "rc": 0, 
+# "start": "2019-11-16 00:34:02.741146", "stderr": "", "stdout": "Paused 
+# for 5.0 seconds", "stop": "2019-11-16 00:34:07.741254", "user_input": 
+# ""}
+# h1 | SUCCESS => {    "changed": false,     "msg": "second 
+# 2019-11-16T00:34:07,759276494+01:00"}
+# h1 | SUCCESS => {    "changed": false,     "msg": "third 
+# 2019-11-16T00:34:07,779777709+01:00"}
+# h1 | SUCCESS => {    "changed": false,     "msg": "fourth 
+# 2019-11-16T00:34:07,799599716+01:00"}
+# 
+# After h1 failes, rescue is not run, but all task on h2 run before the 
+# rescue task on h1 is started.
+#
