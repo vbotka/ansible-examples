@@ -1,0 +1,35 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - userlist.yml
+    - passwords.yml
+  tasks:
+#    - name: adduser
+#      user:
+#        name: "{{ item.0.username }}"
+#        password: "{{ item.1 | password_hash('sha512') }}"
+#        uid: "{{ item.0.uid }}"
+#        state: present
+#      loop: "{{ users | zip(password) | list }}"
+    - name: Print adduser
+      debug:
+        msg: "name [{{ item.0.username }}] password [{{ item.1 }}] uid [{{ item.0.uid }}]"
+      loop: "{{ users | zip(password) | list }}"
+
+# Hi is there a way to use 2 different variable files within same task in ansible?
+# https://stackoverflow.com/questions/58902580/hi-is-there-a-way-to-use-2-different-variable-files-within-same-task-in-ansible/
+
+# Given "passwords will be taken in passwords.yml". For example
+# 
+# #passwords.yml
+# password:
+#   - 'devops2019!'
+#   - 'devops2020!'
+#   - 'devops2021!'
+# The task below does the job
+#
+#  msg: name [xman] password [devops2019!] uid [8254]
+#  msg: name [yman] password [devops2020!] uid [8252]
+#  msg: name [zman] password [devops2021!] uid [8258]
