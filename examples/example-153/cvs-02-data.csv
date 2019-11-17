@@ -1,0 +1,4 @@
+hostname,partition,ip
+hostname1,/dev/sda1,10.1.0.21
+hostname2,/dev/sda1,10.1.0.22
+hostname3,/dev/sda1,10.1.0.23
