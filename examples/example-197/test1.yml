@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    macaddress: '1a2b3c4d5e6f'
+  tasks:
+    - debug:
+        msg: "{{ macaddress|hwaddr('unix') }}"
+
+# Ansible: build a Mac Adresse from a string
+# https://stackoverflow.com/questions/58918877/ansible-build-a-mac-adresse-from-a-string/
+
+# Use hwaddr filter. For example
+# 
+#   vars:
+#     macaddress: '1a2b3c4d5e6f'
+#   tasks:
+#     - debug:
+#         msg: "{{ macaddress|hwaddr('unix') }}"
+# gives
+# 
+# msg: 1a:2b:3c:4d:5e:6f
