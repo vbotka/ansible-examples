@@ -1,0 +1,12 @@
+- hosts: server_group2
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_keys: "{{ hostvars|dict2items|json_query('[].key') }}"
+      run_once: true
+    - debug:
+        var: my_keys
+      run_once: true
+
+# How to pair hosts with variables in ansible
+# https://stackoverflow.com/questions/58929351/how-to-pair-hosts-with-variables-in-ansible/
