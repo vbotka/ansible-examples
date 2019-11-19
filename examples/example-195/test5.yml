@@ -1,0 +1,57 @@
+- hosts: localhost
+  vars:
+    data: "{{ lookup('file', 'test4-data.json') }}"
+  tasks:
+    - set_fact:
+        list_fs: "{{ data.0.Disk|
+                     json_query('[].{dev: DiskFs,
+                                     id: ID,
+                                     scope: Scope}') }}"
+    - debug:
+        var: list_fs
+    - set_fact:
+        list_disk: "{{ ansible_facts.devices|
+                       dict2items|
+                       json_query('[].{dev: key,
+                                       ids: value.links.ids}') }}"
+    - debug:
+        var: list_disk
+    - debug:
+        msg: "{{ item.0.dev }} mounted to device
+              {{ item.1.dev }} scope
+              {{ item.0.scope }}"
+      loop: "{{ list_fs|product(list_disk)|list }}"
+      when:
+        - item.1.ids|map('search', item.0.id) is any
+        - item.0.scope == "New"
+
+# Ansible loop lists from json file
+# https://stackoverflow.com/questions/58933050/ansible-loop-lists-from-json-file/
+
+# In details, the playbook gives
+# 
+#   list_fs:
+#   - dev: /prova
+#     id: 36000c29ccb2f18976786181535e88772
+#     scope: New
+#   - dev: /pippo
+#     id: 36000c29ccb2f18976786181535e86553
+#     scope: New
+#   - dev: /pippo2
+#     id: 5cd2e42981b06cef
+#     scope: New
+# 
+#   list_disk:
+#   - dev: mmcblk0
+#     ids:
+#     - mmc-SU16G_0x1ccbfa6f
+#   - dev: nvme0n1
+#     ids:
+#     - nvme-SSDPEKKF256G8_NVMe_INTEL_256GB_BTHH832111P1256B
+#     - nvme-eui.5cd2e42981b06cef
+#   - dev: loop3
+#     ids: []
+#   - dev: loop2
+#     ...
+# 
+#   msg: /pippo2 mounted to device nvme0n1 scope New

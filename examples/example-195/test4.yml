@@ -1,0 +1,62 @@
+- hosts: localhost
+  gather_facts: true
+
+  vars:
+    data: "{{ lookup('file', 'test4-data.json') }}"
+
+  tasks:
+
+    - debug:
+        var: item
+      loop: "{{ data.0.Disk|
+                json_query('[].{dev: DiskFs, id: ID}') }}"
+      tags: t1
+
+    - debug:
+        var: item
+      loop: "{{ ansible_facts.devices|dict2items|
+                json_query('[].{dev: key, ids: value.links.ids}') }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ item.0.dev }} mounted to device
+              {{ item.1.dev }} scope
+              {{ item.0.scope }}"
+      loop: "{{ data.0.Disk|
+                json_query('[].{dev: DiskFs, id: ID, scope: Scope}')|
+                product(
+                ansible_facts.devices|dict2items|
+                json_query('[].{dev: key, ids: value.links.ids}'))|
+                list
+                }}"
+      when: item.1.ids|map('search', item.0.id) is any
+      tags: t2
+
+    - debug:
+        msg: "{{ item.0.dev }} mounted to device
+              {{ item.1.dev }} scope
+              {{ item.0.scope }}"
+      loop: "{{ data.0.Disk|
+                json_query('[].{dev: DiskFs, id: ID, scope: Scope}')|
+                product(
+                ansible_facts.devices|dict2items|
+                json_query('[].{dev: key, ids: value.links.ids}'))|
+                list
+                }}"
+      when:
+        - item.1.ids|map('search', item.0.id) is any
+        - item.0.scope == "New"
+      tags: t3
+
+# Ansible lists from json file
+# https://stackoverflow.com/questions/58875377/ansible-lists-from-json-file/
+
+# $ ansible-playbook test3.yml -t t2
+#
+# ok: [localhost] => (item=
+# [{'id': u'5cd2e42981b06cef', 'dev': u'/pippo2'},
+#  {'ids': [u'nvme-SSDPEKKF256G8_NVMe_INTEL_256GB_BTHH832111P1256B',
+#           u'nvme-eui.5cd2e42981b06cef'], 'dev': u'nvme0n1'}]) => 
+# msg: /pippo2 mounted to device nvme0n1
+
+# EOF
