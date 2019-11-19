@@ -1,0 +1,68 @@
+- hosts: server_group2
+  gather_facts: false
+  tasks:
+    - set_fact:
+        my_keys: "{{ hostvars.keys() }}"
+      run_once: true
+    - debug:
+        var: my_keys
+      run_once: true
+    - debug:
+        msg: "{{ hostvars[item].app1.name1 }}"
+      loop: "{{ my_keys }}"
+      when: "item in groups['app1']"
+      run_once: true
+    - debug:
+        msg: "{{ hostvars[item].app2.name1 }}"
+      loop: "{{ my_keys }}"
+      when: "item in groups['app2']"
+      run_once: true
+
+# How to pair hosts with variables in ansible
+# https://stackoverflow.com/questions/58929351/how-to-pair-hosts-with-variables-in-ansible/
+
+# ``hostvars[0].name1`` The error was: 'name1' is undefined
+# Q: "Where am I going wrong?"
+#
+# A: hostvars is a dictionary not an array. hostvars[0] does not
+# exist. An item of a dictionary must be referenced by a key. For
+# example the play below
+
+# - hosts: server_group2
+#   tasks:
+#     - set_fact:
+#         my_keys: "{{ hostvars.keys() }}"
+#       run_once: true
+#     - debug:
+#         var: my_keys
+#       run_once: true
+#     - debug:
+#         msg: "{{ hostvars[item].app1.name1 }}"
+#       loop: "{{ my_keys }}"
+#       when: "item in groups['app1']"
+#       run_once: true
+#     - debug:
+#         msg: "{{ hostvars[item].app2.name1 }}"
+#       loop: "{{ my_keys }}"
+#       when: "item in groups['app2']"
+#       run_once: true
+# gives
+# 
+# ok: [host5] => 
+#   my_keys:
+#   - host5
+#   - host4
+#   - host3
+#   - host2
+#   - host1
+# 
+# ok: [host5] => (item=host3) => 
+#   msg: value1
+# ok: [host5] => (item=host2) => 
+#   msg: value1
+# 
+# ok: [host5] => (item=host5) => 
+#   msg: value11
+# ok: [host5] => (item=host4) => 
+#   msg: value11
+#

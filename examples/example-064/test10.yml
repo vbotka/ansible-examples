@@ -1,0 +1,55 @@
+- hosts: server_group2
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ hostvars[inventory_hostname].app1.name1 }}"
+      when: "inventory_hostname in groups['app1']"
+    - debug:
+        msg: "{{ hostvars[inventory_hostname].app2.name1 }}"
+      when: "inventory_hostname in groups['app2']"
+
+    - debug:
+        msg: "{{ app1.name1 }}"
+      when: "inventory_hostname in groups['app1']"
+    - debug:
+        msg: "{{ app2.name1 }}"
+      when: "inventory_hostname in groups['app2']"
+
+# How to pair hosts with variables in ansible
+# https://stackoverflow.com/questions/58929351/how-to-pair-hosts-with-variables-in-ansible
+
+# The simplified version of the playbook
+# 
+# - hosts: server_group2
+#   tasks:
+#     - debug:
+#         msg: "{{ hostvars[inventory_hostname].app1.name1 }}"
+#       when: "inventory_hostname in groups['app1']"
+#     - debug:
+#         msg: "{{ hostvars[inventory_hostname].app2.name1 }}"
+#       when: "inventory_hostname in groups['app2']"
+# gives
+# 
+# skipping: [host5]
+# skipping: [host4]
+# ok: [host3] => 
+#   msg: value1
+# ok: [host2] => 
+#   msg: value1
+# 
+# ok: [host5] => 
+#   msg: value11
+# ok: [host4] => 
+#   msg: value11
+# skipping: [host3]
+# skipping: [host2]
+#
+# In fact, addressing hostvars[inventory_hostname] is not
+# necessary. The simplified tasks below give the same output.
+# 
+# - debug:
+#     msg: "{{ app1.name1 }}"
+#   when: "inventory_hostname in groups['app1']"
+# - debug:
+#     msg: "{{ app2.name1 }}"
+#   when: "inventory_hostname in groups['app2']"
