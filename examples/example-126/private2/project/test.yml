@@ -1,0 +1,4 @@
+- hosts: test_hosts
+  gather_facts: false
+  tasks:
+    - debug: msg="Test!"
