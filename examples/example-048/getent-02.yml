@@ -1,0 +1,35 @@
+- hosts: localhost
+
+  tasks:
+    - getent:
+        database: passwd
+    - set_fact:
+        my_users: "{{ getent_passwd|
+                      dict2items|
+                      json_query('[? contains(value,`/bin/bash`)].key') }}"
+    - authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', 'defaults/main.yml') }}"
+      loop: "{{ my_users }}"
+
+# Get users and users dirs using getent
+# https://stackoverflow.com/questions/58979607/get-users-and-users-dirs-using-getent/
+
+# Q: "How to make a loop from that task with a list of users as loop variable."
+# 
+# A: Read passwd. The variable getent_passwd will be created automatically by the module getent
+# 
+# - getent:
+#     database: passwd
+# Create the list of users my_users by selecting records that contain shell /bin/bash
+# 
+# - set_fact:
+#     my_users: "{{ getent_passwd|
+#                   dict2items|
+#                   json_query('[? contains(value,`/bin/bash`)].key') }}"
+# Loop the list my_users and use authorized_key to configure authorized_keys
+# 
+# - authorized_key:
+#     user: "{{ item }}"
+#     key: "{{ lookup('file', 'defaults/main.yml') }}"
+#   loop: "{{ my_users }}"
