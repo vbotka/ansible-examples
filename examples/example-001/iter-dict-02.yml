@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    dict:
+      key1:
+        value1: A
+        value2: B
+      key2:
+        value1: C
+        value2: D
+  tasks:
+    - template:
+        src: test-02.j2
+        dest: /scratch/tmp/test-02.txt

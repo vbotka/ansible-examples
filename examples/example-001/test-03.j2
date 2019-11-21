@@ -1,0 +1,6 @@
+{% for ifc in network|dict2items %}
+{{ ifc.key }}
+{% for ip in ifc.value %}
+{{ ip.address }} {{ ip.netmask }}
+{% endfor %}
+{% endfor %}

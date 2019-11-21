@@ -1,0 +1,27 @@
+- name: test play
+  hosts: grp2
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "inventory_hostname = {{ inventory_hostname}} and item.key = {{ item.key }} and value = {{ item.value }} "
+      when: "{{ item['key'] }} == config_vars "
+      loop: "{{ lookup('dict', hostvars[inventory_hostname]) }}"
+
+# How to bind configs to host groups in ansible?
+# https://stackoverflow.com/questions/58965617/how-to-bind-configs-to-host-groups-in-ansible/
+
+# Q: "How can I preserve the binding of the group with the config?"
+# 
+# A: The paths in group_vars are wrong
+# 
+# group_vars/grp2/subgrp1/main.yml
+# group_vars/grp2/subgrp2/main.yml
+# In the inventory, the variables are declared in the groups subgrp1
+# and subgrp2 respectively. This # corresponds to group_vars
+# 
+# $ tree group_vars
+# group_vars/
+# ├── subgrp1
+# │   └── main.yml
+# └── subgrp2
+#     └── main.yml

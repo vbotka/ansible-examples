@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    network:
+      igb0:
+        - address: x.x.x.x
+          netmask: 255.255.255.0
+        - address: y.y.y.y
+          netmask: 255.255.255.0
+        - address: z.z.z.z
+          netmask: 255.255.255.0
+  tasks:
+    - template:
+        src: test-03.j2
+        dest: /scratch/tmp/test-03.txt
+
+# Trouble passing Ansible dictionary to template
+# https://stackoverflow.com/questions/58963207/trouble-passing-ansible-list-to-template/
+
+# Use dict2items to "To turn a dictionary into a list of items, suitable for looping". For example the play below
+# 
+# with the template
+# 
+# $ cat test.j2
+# {% for ifc in network|dict2items %}
+# {{ ifc.key }}
+# {% for ip in ifc.value %}
+# {{ ip.address }} {{ ip.netmask }}
+# {% endfor %}
+# {% endfor %}
+# gives
+# 
+# $ cat test.txt 
+# igb0
+# x.x.x.x 255.255.255.0
+# y.y.y.y 255.255.255.0
+# z.z.z.z 255.255.255.0
