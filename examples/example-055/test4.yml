@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    total: 3
+    wanted: 4
+  tasks:
+    - set_fact:
+        outcome: |
+          {% if total|int < wanted|int %}
+          You need to much
+          {% elif total|int == wanted|int %}
+          Could work out
+          {% else %}
+          Ok
+          {% endif %}
+    - debug:
+        var: outcome
+
+# Conditional text in variable in ansible
+# https://stackoverflow.com/questions/58993957/conditional-text-in-variable-in-ansible/
+
+# ok: [localhost] => 
+#   outcome: |-
+#     You need to much
