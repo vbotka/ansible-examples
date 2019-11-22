@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    instances:
+      - id: i-0fe48c061f6a323a0
+        type: web
+      - id: i-0403e39813defda31
+        type: web
+      - id: i-0442f13b528e5e1c6
+        type: proxy
+      - id: i-0ebea75d008becaa6
+        type: proxy
+      - id: i-067c5d985c194e036
+        type: db
+      - id: i-0679e87f06d0cf9a2
+        type: db
+
+  tasks:
+    - debug:
+        msg: "{{ instances|groupby('type') }}"
+
+    - debug:
+        msg: "{{ item.0 }} {{ item.1|json_query('[].id') }}"
+      loop: "{{ instances|groupby('type') }}"
+
+    - set_fact:
+        instances2: "{{ instances2|
+                        default({})|
+                        combine({item.0: item.1|
+                                 json_query('[].{id: id}')}) }}"
+      loop: "{{ instances|groupby('type') }}"
+    - debug:
+        var: instances2
+
+#  web:
+#    - id: i-0fe48c061f6a323a0
+#    - id: i-0403e39813defda31
+#  proxy:
+#    - id: i-0442f13b528e5e1c6
+#    - id: i-0ebea75d008becaa6
+#  db:
+#    - id: i-067c5d985c194e036
+#    - id: i-0679e87f06d0cf9a2
