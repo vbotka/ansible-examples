@@ -1,0 +1,11 @@
+---
+# tasks for role4
+
+- debug:
+    var: test_var1
+- debug:
+    var: test_var2
+- debug:
+    var: test_var3
+
+# EOF
