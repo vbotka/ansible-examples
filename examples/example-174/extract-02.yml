@@ -1,0 +1,56 @@
+- hosts: group1
+  tasks:
+    - debug:
+        msg: "{{ ansible_all_ipv4_addresses }}"
+    - debug:
+        msg: "{{ groups['group1'] }}"
+      run_once: true
+    - debug:
+        msg: "{{ groups['group1'] |
+                 map('extract', hostvars, 'ansible_all_ipv4_addresses') |
+                 map('first') |
+                 list }}"
+      run_once: true
+
+# ok: [test_01] => {
+#     "msg": [
+#         "10.1.0.51"
+#     ]
+# }
+# ok: [test_02] => {
+#     "msg": [
+#         "10.1.0.52"
+#     ]
+# }
+# ok: [test_03] => {
+#     "msg": [
+#         "10.1.0.53"
+#     ]
+# }
+
+# ok: [test_01] => {
+#     "msg": [
+#         "test_01", 
+#         "test_02", 
+#         "test_03"
+#     ]
+# }
+
+# ok: [test_01] => {
+#     "msg": [
+#         "10.1.0.51", 
+#         "10.1.0.52", 
+#         "10.1.0.53"
+#     ]
+# }
+    
+# Subject: Re: [ansible-project] how do we read a set_fact variable of
+# a dynamic host into different play localhost ?
+# Date: Sun, 24 Nov 2019 15:23:59 +0100
+# 
+# "To get the value of storerecords from desthost" use the *extract*
+# filter. For example
+# 
+#     storerecords: "{{ groups['desthosts'] |
+#                       map('extract', hostvars, 'storerec') |
+#                       list }}"
