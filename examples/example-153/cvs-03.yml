@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  become: no
+  tasks:
+    - name: read data CSV
+      read_csv:
+        path: cvs-02-data.csv
+      register: vms
+    - debug:
+        var: vms.list
+
+# Ansible: convert csv data into a directory
+# https://stackoverflow.com/questions/59027675/ansible-convert-csv-data-into-a-directory/
+
+#    "vms.list": [
+#        {
+#            "hostname": "hostname1", 
+#            "ip": "10.1.0.21", 
+#            "partition": "/dev/sda1"
+#        }, 
+#        {
+#            "hostname": "hostname2", 
+#            "ip": "10.1.0.22", 
+#            "partition": "/dev/sda1"
+#        }, 
+#        {
+#            "hostname": "hostname3", 
+#            "ip": "10.1.0.23", 
+#            "partition": "/dev/sda1"
+#        }
+#    ]
+
+# EOF
+...

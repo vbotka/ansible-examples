@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  vars:
+    my_array:
+      - [hostname, partition, ip]
+      - [hostname1, /dev/sda1, 10.1.0.21]
+      - [hostname2, /dev/sda2, 10.1.0.22]
+      - [hostname3, /dev/sda3, 10.1.0.23]
+  tasks:
+    - set_fact:
+        keys_list: "{{ my_array.0 }}"
+    - debug:
+        var: keys_list
+    - set_fact:
+        my_list: "{{ my_list|default([]) + [dict(keys_list|zip(item))] }}"
+      loop: "{{ my_array[1:] }}"
+    - debug:
+        var: my_list
+
+# Ansible: convert csv data into a directory
+# https://stackoverflow.com/questions/59027675/ansible-convert-csv-data-into-a-directory/
+
+#    "my_list": [
+#        {
+#            "hostname": "hostname1", 
+#            "ip": "10.1.0.21", 
+#            "partition": "/dev/sda1"
+#        }, 
+#        {
+#            "hostname": "hostname2", 
+#            "ip": "10.1.0.22", 
+#            "partition": "/dev/sda2"
+#        }, 
+#        {
+#            "hostname": "hostname3", 
+#            "ip": "10.1.0.23", 
+#            "partition": "/dev/sda3"
+#        }
+#    ]
+
+# EOF
+...
