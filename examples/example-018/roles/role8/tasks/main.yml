@@ -1,0 +1,4 @@
+- set_fact:
+    succeeded: true
+- debug:
+    var: succeeded

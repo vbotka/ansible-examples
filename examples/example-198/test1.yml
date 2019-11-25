@@ -1,0 +1,17 @@
+- hosts: test_01
+  connection: ssh
+  remote_user: admin
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - pkgng:
+        name: security/sudo
+    - package:
+        name: security/sudo
+
+# TASK [pkgng] 
+# ok: [test_01]
+
+# TASK [package]
+# ok: [test_01]

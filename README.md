@@ -199,6 +199,7 @@ Various examples of Ansbile code.
 - Example 195. is any, is all
 - Example 196. Block Scalar Styles (Chapter 8. Block Styles)
 - Example 197. hwaddr
+- Example 198. package module
 
 
 ## License

@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    retries: 10
+  tasks:
+
+    - include_tasks: tasks8.yml
+      register: result
+      until: succeeded|default(false)
+      retries: 5
+      delay: 3
+
+# ERROR! 'retries' is not a valid attribute for a TaskInclude
+    
+    - include_role:
+        name: role8
+      loop: "{{ range(0, retries|int)|list }}"
+      until: succeeded|default(false)
+
+# ERROR! 'until' is not a valid attribute for a IncludeRole
