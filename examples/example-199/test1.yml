@@ -1,0 +1,9 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - xml:
+        path: /scratch/tmp/foo.xml
+        xpath: /results/ComputerSystem
+      register: result
+    - debug:
+        var: result
