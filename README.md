@@ -201,6 +201,7 @@ Various examples of Ansbile code.
 - Example 197. hwaddr
 - Example 198. package module
 - Example 199. xml
+- Example 200. string manipulation
 
 
 ## License
