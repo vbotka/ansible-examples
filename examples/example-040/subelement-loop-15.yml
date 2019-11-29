@@ -1,0 +1,39 @@
+---
+
+- hosts: test_01
+  gather_facts: false
+
+  vars:
+    app_name1: A
+    app_name2: B
+    my_conf:
+      test_01:
+        lines:
+          - '/etc/*.conf'
+          - '/etc/{{ app_name1 }}/*.conf'
+          - '/etc/{{ app_name2 }}/*.conf'
+
+  tasks:
+    - debug:
+        msg: "files = {{ my_conf[inventory_hostname].lines|join(' ') }}"
+
+# ok: [test_01] => {
+#     "msg": "files = /etc/*.conf /etc/A/*.conf /etc/B/*.conf"
+# }
+
+# Adding paths to config file in most efficent way via Ansible
+# https://stackoverflow.com/questions/59102334/adding-paths-to-config-file-in-most-efficent-way-via-ansible/
+
+# With appropriate dictionary my_conf the task below should do the job
+# 
+# - name: Add apps paths in include section
+#   lineinfile:
+#     dest: /etc/supervisor/supervisord.conf
+#     regex: '^files ='
+#     line: "files = {{ my_conf[inventory_hostname].lines|join(' ') }}"
+#   notify: restart supervisor
+#   tags: multi_workers
+# (not tested)
+
+# EOF
+...
