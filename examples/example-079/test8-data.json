@@ -1,0 +1,46 @@
+    "updated": [
+        [
+            "kernel-headers", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "kernel", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "sudo", 
+            "1.8.23-4.el7_7.1.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "bpftool", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "python-perf", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "kernel-tools-libs", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "kernel-devel", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "microcode_ctl", 
+            "2:2.1-53.3.el7_7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "SDL", 
+            "1.2.15-14.el7_7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "kernel-tools", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ], 
+        [
+            "perf", 
+            "3.10.0-1062.4.3.el7.x86_64 from rhel-7-server-rpms"
+        ]
+    ]

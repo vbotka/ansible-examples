@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - test8-data.json
+  tasks:
+    - debug:
+        msg: OK
+      when: '"kernel" in updated|flatten'
+      tags: t1
+    - debug:
+        msg: "{{ updated|flatten|select('regex', '^kernel$')|list }}"
+      tags: t2
+    - debug:
+        msg: OK
+      when: updated|flatten|select('regex', '^kernel$') is any
+      tags: t3
+    - debug:
+        msg: OK
+      when: updated|flatten|select('regex', '^kernel$')|list|length > 0
+      tags: t4
+
+# Ansible 2.8: How to reboot Machine only after Kernel update? Evaluating Array Varaible
+# https://unix.stackexchange.com/questions/554692/ansible-2-8-how-to-reboot-machine-only-after-kernel-update-evaluating-array-va/
+    
+# $ ansible-playbook test8.yml -t t3
+# 
+# ok: [localhost] => {
+#     "msg": "OK"
+# }
+
+# $ ansible-playbook test8.yml -t t4
+# ok: [localhost] => {
+#     "msg": "OK"
+# }
+
+# EOF
