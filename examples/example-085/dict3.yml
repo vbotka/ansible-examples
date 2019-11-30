@@ -1,0 +1,36 @@
+- hosts: localhost
+  vars:
+    dict:
+      'tag:environment': 'qa' 
+      'tag:instance_id': 'i-123456789'
+  tasks:
+    - debug:
+        msg: "{{ dict|dict_del_key('tag:instance_id') }}"
+
+# Q: "How do you remove a JSON key?"
+# 
+# A: It's possible to create custom filter plugins. For example
+# 
+# $ cat filter_plugins/dict_utils.py
+# def dict_del_key(d, key):
+#     del d[key]
+#     return d
+# 
+# class FilterModule(object):
+#     ''' Ansible filters. Interface to Python dictionary methods.'''
+# 
+#     def filters(self):
+#         return {
+#             'dict_del_key' : dict_del_key
+#         }
+# The play below gives
+#
+#   msg:
+#     tag:environment: qa
+#
+# Notes:
+# See If you quote those config keys, they will become strings.
+# See the difference between 7.3.1. Double-Quoted Style and 7.3.2. Single-Quoted Style.
+# FWIW. See other filters available at GitHub.
+
+# EOF
