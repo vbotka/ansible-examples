@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - file:
+        state: absent
+        path: /tmp/myfolder/
