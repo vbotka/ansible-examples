@@ -202,6 +202,7 @@ Various examples of Ansbile code.
 - Example 198. package module
 - Example 199. xml
 - Example 200. string manipulation
+- Example 201. mapping test variable is a dictionary
 
 
 ## License

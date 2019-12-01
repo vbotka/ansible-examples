@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+#    ou_reg_list:
+#      - { name: OU1 }
+#      - { name: OU2 }
+    ou_reg_list:
+      { name: OU1 }
+    srv_type: 'ou1'
+
+  tasks:
+    - set_fact:
+        ou_name: "OU={{ (ou_reg_list.name == srv_type|upper)|
+                        ternary( ou_reg_list.name, 'NOTFOUND') }}"
+      when: ou_reg_list is mapping
+
+    - block:
+
+        - set_fact:
+            ou_names: "{{ ou_reg_list|json_query(query) }}"
+          vars:
+            query: "[?name=='{{ srv_type|upper }}'].name"
+
+        - set_fact:
+            ou_name: "OU={{ (ou_names|length > 0)|
+                            ternary( ou_names.0, 'NOTFOUND') }}"
+      when: ou_reg_list is not mapping
+    
+    - debug:
+        var: ou_name
+
+# Ansible consume AD command output
+# https://stackoverflow.com/questions/59122026/ansible-consume-ad-command-output/
+
+# Test the type of the variable and branch the code.
+# 
+# json_query filter helps to select the items from the list. Then
+# ternary helps to conditionally select the value. The value of the
+# first item that matches the condition is used. Defaults to 'NOTFOUND'.
+# 
+# For example the play bellow for both versions of ou_reg_list gives
+# "ou_name": "OU=OU1"
+
+# EOF
