@@ -1,0 +1,16 @@
+- hosts: localhost
+  vars_files:
+    data-02.yml
+  tasks:
+    - debug:
+        msg: username is admin
+      loop: "{{ all_tokens.json.results }}"
+      when: item.summary_fields.user.username == 'admin'
+
+# Ansible 3.6 json token management
+# https://stackoverflow.com/questions/59140664/ansible-3-6-json-token-management/
+#
+# For example loop the results and test the item.
+#
+# "msg": "username is admin"
+# "msg": "username is admin"

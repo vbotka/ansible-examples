@@ -1,0 +1,49 @@
+---
+all_tokens:
+  json:
+    count: 2
+    next: null
+    previous: null
+    results:
+      - application: null
+        created: '2019-12-02T14:05:47.471743Z'
+        description: ''
+        expires: '3019-04-04T14:05:47.449065Z'
+        id: 314
+        modified: '2019-12-02T14:05:47.517372Z'
+        refresh_token: null
+        related:
+          activity_stream: /api/v2/tokens/314/activity_stream/
+          user: /api/v2/users/1/
+        scope: write
+        summary_fields:
+          user:
+            first_name: ''
+            id: 1
+            last_name: ''
+            username: admin
+        token: '************'
+        type: o_auth2_access_token
+        url: /api/v2/tokens/314/
+        user: 1
+      - application: null
+        created: '2019-12-02T14:08:02.408487Z'
+        description: ''
+        expires: '3019-04-04T14:08:02.402298Z'
+        id: 315
+        modified: '2019-12-02T14:08:02.432427Z'
+        refresh_token: null
+        related:
+          activity_stream: /api/v2/tokens/315/activity_stream/
+          user: /api/v2/users/1/
+        scope: write
+        summary_fields:
+          user:
+            first_name: ''
+            id: 1
+            last_name: ''
+            username: admin
+        token: '************'
+        type: o_auth2_access_token
+        url: /api/v2/tokens/315/
+        user: 1
