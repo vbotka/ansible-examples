@@ -1,0 +1,11 @@
+---
+pg_hba:
+  - section: "DEFAULT"
+    entries:
+      - { type: local, database: all, user: all, auth_method: trust }
+      - { type: host, database: all, user: all, address: 127.0.0.1/32, auth_method: trust }
+      - { type: host, database: all, user: all, address: 174.34.2.0/24, auth_method: md5, comment: "Private Wifi" }
+  - section: "DBA"
+    entries:
+      - { type: host, database: all, user: all, address: 192.168.2.130/32, auth_method: md5, comment: "Name" }
+      - { type: host, database: all, user: all, address: 174.34.2.156/32, auth_method: md5, comment: "Name" }

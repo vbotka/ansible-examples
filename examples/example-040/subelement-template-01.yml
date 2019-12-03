@@ -1,0 +1,56 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - data-template-01.yml
+  tasks:
+    - template:
+        src: template-01.j2
+        dest: /scratch/tmp/test.txt
+
+# Jinja2 nested loop template for processing Ansible YAML variables from two lists
+# https://stackoverflow.com/questions/59152709/jinja2-nested-loop-template-for-processing-ansible-yaml-variables-from-two-lists
+
+# The template below iterate nested loops
+# 
+# {% for item in pg_hba %}
+# {% if item.section == 'DEFAULT' %}
+# #########
+# # DEFAULT
+# #########
+# {% for client in item.entries %}
+# {{ '{:10}'.format(client.type) }} {{ '{:15}'.format(client.database) }} {{ '{:20}'.format(client.user) }} {{ '{:20}'.format(client.address|default('')) }} {{ '{:10}'.format(client.auth_method) }} {% if client.comment is defined %} # {{ client.comment|default("") }}{% endif %}
+# 
+# {% endfor %}
+# {% endif %}
+# {% endfor %}
+# 
+# {% for item in pg_hba %}
+# {% if item.section == 'DBA' %}
+# #####
+# # DBA
+# #####
+# {% for client in item.entries %}
+# {{ '{:10}'.format(client.type) }} {{ '{:15}'.format(client.database) }} {{ '{:20}'.format(client.user) }} {{ '{:20}'.format(client.address|default('')) }} {{ '{:10}'.format(client.auth_method) }} {% if client.comment is defined %} # {{ client.comment|default("") }}{% endif %}
+# 
+# {% endfor %}
+# {% endif %}
+# {% endfor %}
+#
+# gives
+# 
+# #########
+# # DEFAULT
+# #########
+# local      all             all                                       trust      
+# host       all             all                  127.0.0.1/32         trust      
+# host       all             all                  174.34.2.0/24        md5         # Private Wifi
+# 
+# #####
+# # DBA
+# #####
+# host       all             all                  192.168.2.130/32     md5         # Name
+# host       all             all                  174.34.2.156/32      md5         # Name
+#
