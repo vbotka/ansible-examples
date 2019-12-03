@@ -1,0 +1,61 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    vars-3-data.json
+  tasks:
+    - set_fact:
+        finished: "{{ items|
+                      json_query('[?state==`finished`].{node: node,
+                                                        state: state,
+                                                        output: output}')
+                      }}"
+    - set_fact:
+        error: "{{ items|
+                   json_query('[?state==`error`].{node: node,
+                                                  output: output}')
+                   }}"
+    - debug:
+        msg: "{{ finished + error }}"
+
+# Ansible code to read json file to create output
+# https://stackoverflow.com/questions/59153117/ansible-code-to-read-json-file-to-create-output/
+
+# Given valid data. For example
+# 
+# $ cat problem.json
+# 
+#     "items": [
+#         {
+#             "type": "node1",
+#             "id": "11",
+#             "node": "server1",
+#             "state": "finished",
+#             "output": "output1"
+#         },
+#         {
+#             "type": "node2",
+#             "id": "22",
+#             "node": "server2",
+#             "state": "error",
+#             "output": "output2"
+#         }
+#     ]
+# 
+# the play use json_query to process finished and error state.
+# 
+# "If state is error, then display node name with error message."
+# 
+# gives
+# 
+# "msg": [
+#     {
+#         "node": "server1", 
+#         "output": "output1", 
+#         "state": "finished"
+#     }, 
+#     {
+#         "node": "server2", 
+#         "output": "output2"
+#     }
+# ]
+#

@@ -1,0 +1,20 @@
+
+    "items": [
+        {
+            "type": "node1",
+            "id": "11",
+            "node": "server1",
+            "state": "finished",
+            "output": "output1"
+        }
+    ]
+
+    "items": [
+        {
+            "type": "node2",
+            "id": "22",
+            "node": "server2",
+            "state": "error",
+            "output": "output2"
+        }
+    ]

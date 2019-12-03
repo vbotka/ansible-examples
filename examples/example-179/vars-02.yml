@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: vars-2-data.json
+        name: test_var
+    - debug:
+        var: test_var
