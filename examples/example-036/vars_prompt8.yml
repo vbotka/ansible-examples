@@ -1,0 +1,42 @@
+- hosts: test_jails
+  gather_facts: no
+  vars_prompt:
+    - name: "username"
+      prompt: "Username?"
+    - name: "password"
+      prompt: "Password?"
+  tasks:
+    - debug:
+        msg: "{{ username }} {{ password }}"
+      run_once: true
+    - set_fact:
+        username: "{{ username }}"
+        password: "{{ password }}"
+      run_once: true
+
+- hosts: test_01
+  gather_facts: no
+  vars:
+    ansible_user: "{{ username }}"
+    ansible_password: "{{ password }}"
+  tasks:
+    - debug:
+        msg: "{{ ansible_user }} {{ ansible_password }}"
+
+# Making prompted vars usable across the playbook
+# https://stackoverflow.com/questions/59159466/making-prompted-vars-usable-across-the-playbook/
+
+# Q: "Make prompted vars usable across the whole play and all tasks>"
+# 
+# A: Run the first play with the group of all hosts that should be
+# connected later. Run once the set_fact task. This will create the
+# variables username and password for all hosts in the group.
+# 
+# For example if the group test_jails comprises hosts test_01, test_02,
+# test_03 the play
+# 
+# gives
+# 
+# ok: [test_01] => {
+#     "msg": "admin 1234"
+# }
