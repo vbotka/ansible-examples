@@ -1,0 +1,61 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    arp_interfaces: {
+    "3.3.3.3": "eth0",
+    "4.4.4.4": "eth1"
+    }
+
+    route_interfaces: [
+    {
+        "interface": "eth0",
+        "next_hop_ip": "3.3.3.3",
+        "unreachable": ""
+    },
+    {
+        "interface": "eth2",
+        "next_hop_ip": "4.4.4.4",
+        "unreachable": ""
+    }
+    ]
+
+  tasks:
+    - debug:
+        var: arp_interfaces
+      tags: t1
+    - debug:
+        var: route_interfaces
+      tags: t1
+    - debug:
+        msg: "{{ arp_interfaces|dict2items }}"
+      tags: t2
+    - debug:
+        msg: "{{ arp_interfaces|dict2items|product(route_interfaces)|list }}"
+      tags: t3
+    - set_fact:
+        different_interfaces: "{{ different_interfaces|default({})|
+                                  combine({item.0.key: {'arp': item.0.value,
+                                                        'ip_route': item.1.interface}})
+                                  }}"
+      loop: "{{ arp_interfaces|dict2items|product(route_interfaces)|list }}"
+      when:
+        - item.0.key == item.1.next_hop_ip
+        - item.0.value != item.1.interface
+      tags: t4
+    - debug:
+        var: different_interfaces
+      tags: t4
+
+# Ansible playbook - how to code nested for loop with multiple if conditions?
+# https://stackoverflow.com/questions/59167133/ansible-playbook-how-to-code-nested-for-loop-with-multiple-if-conditions/
+
+# give
+# 
+# "different_interfaces": {
+#     "4.4.4.4": {
+#         "arp": "eth1", 
+#         "ip_route": "eth2"
+#     }
+# }
