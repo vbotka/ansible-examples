@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    my_string: "a-b-c-d"
+  tasks:
+    - debug:
+        msg: "{{ my_string.split('-') }}"
+#    - debug:
+#        msg: "{{ my_string.split('-')[0,3] }}"
+    - set_fact:
+        my_split: "{{ [0,3]|map('extract',my_string.split('-'))|join() }}"
+    - debug:
+        var: my_split
+
+# Ansible split returning multiple indexes
+# https://stackoverflow.com/questions/59200685/ansible-split-returning-multiple-indexes/
+
+# give
+# 
+# "my_split": "ad"
+# The problem is the selection of the first and third elements of the sequence. The expression below
+# 
+# my_string.split('-')[0,3]
+# fails
+# 
+# The error was: list object has no element (0, 3)
+# 
+# Instead, it's possible Extracting values from containers.
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#extracting-values-from-containers
