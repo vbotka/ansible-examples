@@ -1,0 +1,67 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    k8s_version_live:
+      stdout_lines: [
+        "Client Version: v1.13.3",
+        "Server Version: v1.13.10"
+        ]
+  tasks:
+
+    - debug:
+        var: k8s_version_live
+          
+    - set_fact:
+        k8s_client_version: "{{ k8s_version_live.stdout_lines.0.split(':').1[2:] }}"
+        k8s_server_version: "{{ k8s_version_live.stdout_lines.1.split(':').1[2:] }}"
+          
+    - debug:
+        msg: "{{ k8s_server_version }} match 1.13"
+      when:
+        - k8s_server_version is version('1.13', '>=')
+        - k8s_server_version is version('1.14', '<')
+
+    - fail:
+        msg: "{{ k8s_server_version }} does not match 1.12"
+      when: not (k8s_server_version is version('1.12', '>=') and
+                 k8s_server_version is version('1.13', '<'))
+
+# Ansible search for a substring in stdout output
+# https://stackoverflow.com/questions/59187246/ansible-search-for-a-substring-in-stdout-output/
+
+# Q: "Match a version ... match first two octets"
+# 
+# A: Use Version Comparison. For example, create the variable k8s_server_version from the registred output
+# 
+# - set_fact:
+#     k8s_server_version: "{{ k8s_version_live.stdout_lines.1.split(':').1[2:] }}"
+#
+# Compare the first two numbers of the version. For example
+# ============================================
+# 
+# - debug:
+#     msg: "{{ k8s_server_version }} match 1.13"
+#   when:
+#     - k8s_server_version is version('1.13', '>=')
+#     - k8s_server_version is version('1.14', '<')
+#
+# gives
+# 
+# }
+# localhost | SUCCESS => {
+#     "msg": "1.13.10 match 1.13"
+# }
+#
+# Fail when the version does not match. For example
+# ====================================
+# 
+# - fail:
+#     msg: "{{ k8s_server_version }} does not match 1.12"
+#   when: not (k8s_server_version is version('1.12', '>=') and
+#              k8s_server_version is version('1.13', '<'))
+# gives
+# 
+# localhost | FAILED! => {
+#     "changed": false, 
+#     "msg": "1.13.10 does not match 1.12"
+# }

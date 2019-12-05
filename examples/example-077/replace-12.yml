@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: '/scratch/tmp/test12'
+        regexp: '^/root/(.*) 0+$'
+        replace: '/root/\1 1'
+
+# Modify a file but only one occurence
+# https://stackoverflow.com/questions/59184457/using-ansible-how-do-i-modify-a-file-but-only-one-occurence/
+
+# Q: "Edit only the last column in the row that starts with root."
+# 
+# A: The regexp and replace below do the job
+# 
+#     regexp: '^/root/(.*) 0+$'
+#     replace: '/root/\1 1'
+# 
+# $ cat /scratch/tmp/test12
+# /root/bar/foo /                           defaults        1 1
+# /foo/bar/foo /                            defaults        1 0

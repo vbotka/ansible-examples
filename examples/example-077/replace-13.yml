@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: '/scratch/tmp/test12'
+        regexp: '0+$'
+        replace: '1'
