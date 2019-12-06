@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    #Identification du role dans un cluster Pacemaker
+    - name: "Set cluster role"
+      block:
+        #Identification du serveur comme slave pacemaker cluster
+        - name: "Is a cluster node?"
+          shell: "cat config | grep 'Pacemaker Nodes:' -A1 | tail -1 | grep {{ inventory_hostname }}"
+          register: cluster
+          changed_when: cluster.rc == 0
+          failed_when: false
+        - debug:
+            var: cluster
+
+# Deprecation warning from shell module
+# https://stackoverflow.com/questions/59206346/deprecation-warning-from-shell-module
+#
+# [DEPRECATION WARNING]: ... as a bare variable
+#
+# It's a bug. See
+# * spurious CONDITIONAL_BARE_VARS warnings #53428
+# * improve conditional warnings #57190
+# * Fixed in Ansible 2.9.
