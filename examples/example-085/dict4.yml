@@ -1,0 +1,54 @@
+- hosts: localhost
+  vars:
+    common_stubs:
+      "127.0.0.1": 
+        - localhost
+    env_stubs:
+      "127.0.0.1": 
+        - someservice.mydomain
+    host_stubs: {}
+  tasks:
+    - set_fact:
+        combined_stubs: "{{ common_stubs|
+                            dict_merge_lossless(env_stubs)|
+                            dict_merge_lossless(host_stubs)}}"
+    - debug:
+        var: combined_stubs
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |-
+          {{ item.key }}: {{ item.value|flatten|to_nice_json }}
+      loop: "{{ combined_stubs|dict2items }}"
+
+# Merging hash of lists in Ansible?
+# https://serverfault.com/questions/994529/merging-hash-of-lists-in-ansible/
+
+# Next option is to create custom filter
+# $ cat filter_plugins/dict_utils.py
+# def dict_merge_lossless(x, y):
+#     d = x.copy()
+#     d.update(y)
+#     for key, value in d.items():
+#        if key in x and key in y:
+#                d[key] = [value , x[key]]
+#     return d
+# 
+# class FilterModule(object):
+#     ''' Ansible filters. Interface to Python dictionary methods.'''
+# 
+#     def filters(self):
+#         return {
+#             'dict_merge_lossless' : dict_merge_lossless
+#         }
+
+#   combined_stubs:
+#     127.0.0.1:
+#     - - someservice.mydomain
+#     - - localhost
+# 
+#   msg:
+#   - '127.0.0.1: ['
+#   - '    "someservice.mydomain",'
+#   - '    "localhost"'
+#   - ']'

@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    common_stubs:
+      "127.0.0.1": 
+        - localhost
+    env_stubs:
+      "127.0.0.1": 
+        - someservice.mydomain
+    host_stubs: {}
+
+  tasks:
+    - set_fact:
+        list_ip: "{{ list_ip|default([]) + item }}"
+      loop:
+        - "{{ common_stubs.keys()|list }}"
+        - "{{ env_stubs.keys()|list }}"
+        - "{{ host_stubs.keys()|list }}"
+    - set_fact:
+        list_ip: "{{ list_ip|flatten|unique }}"
+    - debug:
+        var:
+          list_ip
+
+    - set_fact:
+        combined_stubs: "{{ combined_stubs|default({})|
+                            combine({item: [[common_stubs[item]|default([])] +
+                                            [env_stubs[item]|default([])] +
+                                            [host_stubs[item]|default([])]]|
+                                           flatten}) }}"
+      loop: "{{ list_ip }}"
+    - debug:
+        var: combined_stubs
+
+# Merging hash of lists in Ansible?
+# https://serverfault.com/questions/994529/merging-hash-of-lists-in-ansible
+
+# give
+# 
+# "combined_stubs": {
+#     "127.0.0.1": [
+#         "localhost", 
+#         "someservice.mydomain"
+#     ]
+# }
