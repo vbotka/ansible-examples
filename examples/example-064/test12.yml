@@ -1,0 +1,9 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - debug:
+        var: test_var
+      run_once: true
+    - debug:
+        var: test_var2
+      run_once: true
