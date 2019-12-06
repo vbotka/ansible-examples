@@ -1,0 +1,33 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    msi_deploy_var:
+      results:
+        - {"changed": true,
+           "failed": false,
+           "rc": 0,
+           "reboot_required": false}
+        - {"changed": true,
+           "failed": false,
+           "app_name": "app007",
+           "rc": 1,
+           "reboot_required": false}
+        - {"changed": false,
+           "failed": false,
+           "reboot_required": false}
+
+  tasks:
+
+    - debug:
+        msg: "{{ inner_item.app_name }}"
+      loop: "{{ msi_deploy_var.results }}"
+      loop_control:
+        loop_var: inner_item
+      when:
+        - inner_item.rc is defined
+        - inner_item.rc != 0
+
+# Ansible register variable iteration issue with var.results
+# https://stackoverflow.com/questions/59208105/ansible-register-variable-iteration-issue-with-var-results
+
+#    "msg": "app007"
