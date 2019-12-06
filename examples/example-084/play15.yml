@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    rootLoggerAppender: bla
+  tasks:
+
+    - lineinfile:
+        path: log4j.properties
+        regexp: '^(log4j\.rootLogger=.*?)(, {{ rootLoggerAppender }})?$'
+        line: '\1, {{ rootLoggerAppender }}'
+        backrefs: true
+
+# Appending attribute to EOL with ansible according to prefix
+# https://stackoverflow.com/questions/59213363/appending-attribute-to-eol-with-ansible-according-to-prefix/
+        
+# Correct regexp is below. Escaped dot match a dot only. The first dot
+# should be escaped, but not the second one. This should match any
+# character.
+# 
+# regexp: '^(log4j\.rootLogger=.*)$'
+# 
+# But this solution is not idempotent. Running this task will add the
+# appender repeatedly
+# 
+# $ cat log4j.properties
+# log4j.rootLogger=WARN, memory, servlet, bla, bla
+# The regexp below makes the task idempotent
+# 
+# regexp: '^(log4j\.rootLogger=.*?)(, {{ rootLoggerAppender }})?$'
+# 
+# * make the first group non-gready
+# * the second group match 0 or 1 delimited appender
