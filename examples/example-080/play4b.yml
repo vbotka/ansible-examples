@@ -1,0 +1,28 @@
+- hosts: test
+  gather_facts: true
+  tasks:
+    - debug:
+        var: my_hostname
+
+# How to export Ansible Inventory name to Server as variable
+# https://stackoverflow.com/questions/59224788/how-to-export-ansible-inventory-name-to-server-as-variable/
+
+# [servergroupexample]
+# host1 ansible_host=1.2.3.4
+# host2 ansible_host=5.6.7.8
+# 
+# Q: Communicate to 1.2.3.4 that his name is "host1" ... use that name
+# in a script that changes the server's hostname."
+# 
+# A: It's not available as a variable in Ansible. An option would be to
+# create a variable for this purpose. For example
+# 
+# [servergroupexample]
+# host1 ansible_host=1.2.3.4 my_hostname=host1
+# host2 ansible_host=5.6.7.8 my_hostname=host2
+# This could be used to configure hostname. For example
+# 
+# - hosts: servergroupexample
+#   tasks:
+#     - hostname:
+#         name: "{{ my_hostname }}"
