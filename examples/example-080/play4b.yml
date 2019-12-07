@@ -1,5 +1,7 @@
 - hosts: servergroupexample
   tasks:
+    - debug:
+        var: ansible_host
     - set_fact:
         my_hostname: "{{ hostvars|dict2items|json_query(query) }}"
       vars:

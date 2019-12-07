@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    rootLoggerAppender: bla
+  tasks:
+
+    - lineinfile:
+        path: log4j.properties
+        regexp: '^(log4j\.rootLogger=.*)$'
+        line: '\1, {{ rootLoggerAppender }}'
+        backrefs: true
