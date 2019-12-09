@@ -1,0 +1,54 @@
+- hosts: test_jails
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ group_names|intersect(['PEGAALL', 'MDMALL']) }}"
+    - debug:
+        msg: "welcome"
+      when: group_names|intersect(['PEGAALL', 'MDMALL'])
+
+# group_names|intersect use of the intersect command
+# https://stackoverflow.com/questions/59233625/group-namesintersect-use-of-the-intersect-command/
+
+# intersect is a filter "to get a unique list of all items in both lists".
+# 
+# For example with the inventory
+# 
+# [test_jails]
+# test_01
+# test_02
+# test_03
+# 
+# [PEGAALL]
+# test_02
+# The playbook
+# 
+# - hosts: test_jails
+#   tasks:
+#     - debug:
+#         var: group_names
+#     - debug:
+#         msg: "welcome"
+#       when: group_names|intersect(['PEGAALL', 'MDMALL'])
+# gives
+# 
+# ok: [test_03] => {
+#     "group_names": [
+#         "test_jails"
+#     ]
+# }
+# ok: [test_01] => {
+#     "group_names": [
+#         "test_jails"
+#     ]
+# }
+# ok: [test_02] => {
+#     "group_names": [
+#         "PEGAALL", 
+#         "test_jails"
+#     ]
+# }
+# 
+# ok: [test_02] => {
+#     "msg": "welcome"
+# }
