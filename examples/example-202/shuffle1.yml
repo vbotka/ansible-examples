@@ -1,0 +1,40 @@
+- hosts: consul_server_true
+  gather_facts: true
+  tasks:
+    - set_fact:
+        private_ip_address: "{{ ansible_facts.all_ipv4_addresses.0 }}"
+#   - debug:
+#       var: private_ip_address
+
+
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    dc_grp: 'dc_grp1'
+
+  tasks:
+ #  - debug:
+ #      var: groups['consul_server_true']
+ #  - debug:
+ #      var: groups[dc_grp]
+
+    - template:
+        src: template1.j2
+        dest: /scratch/tmp/test1
+
+# Using ansible to shuffle list of dns servers
+# https://stackoverflow.com/questions/59258329/using-ansible-to-shuffle-list-of-dns-servers
+#
+# $ cat template1.j2 
+# supersede domain-name-servers
+#       {% set comma = joiner(", ") -%}
+#       {%- for host in groups['consul_server_true']|shuffle(seed=inventory_hostname) -%}
+#         {%- if host in groups[dc_grp] -%}
+#           {{ comma() }}{{ hostvars[host]['private_ip_address']  }}
+#         {%- endif -%}
+#       {%- endfor -%};
+# 
+# $ cat /scratch/tmp/test1
+# supersede domain-name-servers
+#       10.1.0.59, 10.1.0.56, 10.1.0.53, 10.1.0.51;

@@ -1,0 +1,91 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    server_changes:
+      - "Apps":
+          - {"AppOwner": "Me", "AppNm": "Vacations"}
+        "Hostnm": "server1"
+      - "Apps":
+          - {"AppOwner": "Me", "AppNm": "Vacations"}
+          - {"AppOwner": "Me", "AppNm": "other_app"}
+        "Hostnm": "server2"
+      - "Apps":
+          - {"AppOwner": "Me", "AppNm": "other_app"}
+        "Hostnm": "server3"
+  tasks:
+    - debug:
+        var: server_changes
+
+# Let's simplify the data. For example
+    - set_fact:
+        my_server_changes: "{{ my_server_changes|default([]) +
+                               [{'hostname': item.Hostnm,
+                                 'applications': item.Apps|
+                                                 json_query('[].AppNm')}] }}"
+      loop: "{{ server_changes }}"
+    - debug:
+        var: my_server_changes
+
+# gives
+# 
+# "my_server_changes": [
+#     {
+#         "applications": [
+#             "Vacations"
+#         ], 
+#         "hostname": "server1"
+#     }, 
+#     {
+#         "applications": [
+#             "Vacations", 
+#             "other_app"
+#         ], 
+#         "hostname": "server2"
+#     }, 
+#     {
+#         "applications": [
+#             "other_app"
+#         ], 
+#         "hostname": "server3"
+#     }
+# ]
+
+# Create the list of the applications
+    - set_fact:
+        my_apps: "{{ server_changes|json_query('[].Apps[].AppNm')|unique }}"
+    - debug:
+        var: my_apps
+
+# gives
+# 
+# "my_apps": [
+#     "Vacations", 
+#     "other_app"
+# ]
+
+# Then loop the list of the applications, select records that contains
+# the item and combine the dictionary
+    - set_fact:
+        apps_server: "{{ apps_server|default({})|
+                         combine({item: my_server_changes|json_query(query)}) }}"
+      loop: "{{ my_apps }}"
+      vars:
+        query: "[?applications.contains(@, '{{ item }}')].hostname"
+    - debug:
+        var: apps_server
+
+# gives
+# 
+# "apps_server": {
+#     "Vacations": [
+#         "server1", 
+#         "server2"
+#     ], 
+#     "other_app": [
+#         "server2", 
+#         "server3"
+#     ]
+# }
+      
+# Access nested items on a dictionary ansible
+# https://stackoverflow.com/questions/59259197/access-nested-items-on-a-dictionary-ansible/

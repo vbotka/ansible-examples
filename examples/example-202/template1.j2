@@ -1,0 +1,7 @@
+supersede domain-name-servers
+      {% set comma = joiner(", ") -%}
+      {%- for host in groups['consul_server_true']|shuffle(seed=inventory_hostname) -%}
+        {%- if host in groups[dc_grp] -%}
+          {{ comma() }}{{ hostvars[host]['private_ip_address']  }}
+        {%- endif -%}
+      {%- endfor -%};

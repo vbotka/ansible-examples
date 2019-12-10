@@ -1,0 +1,67 @@
+- hosts: localhost
+  roles:
+    - test14
+
+# ansible: specifying directory path using variable
+# https://stackoverflow.com/questions/59245525/ansible-specifying-directory-path-using-variable/
+
+# 1) It's possible to use role_path special variable
+# "The path to the dir of the currently running role"
+# For example
+# 
+# src: '{{ role_path }}/templates/DIR1/PATH1/file1'
+# 2) But, this shouldn't be necessary because of The magic of ‘local’ paths
+# 
+# "Relative paths get attempted first with a ‘files|templates|vars’
+# appended (if not already present), depending on the action being
+# taken, ‘files’ is the default. (i.e include_vars will use vars/). The
+# paths will be searched from most specific to most general (i.e role
+# before play).
+# 
+# Hence, the path below show work by default
+# 
+# src: 'DIR1/PATH1/file1'
+# 
+# For example the role
+# 
+# $ tree roles/test14/
+# roles/test14/
+# ├── defaults
+# │   └── main.yml
+# ├── files
+# ├── handlers
+# │   └── main.yml
+# ├── meta
+# │   └── main.yml
+# ├── README.md
+# ├── tasks
+# │   └── main.yml
+# ├── templates
+# │   └── DIR1
+# │       └── PATH1
+# │           └── file1
+# ├── tests
+# │   ├── inventory
+# │   └── test.yml
+# └── vars
+#     └── main.yml
+# 
+# $ cat roles/test14/tasks/main.yml 
+# - template:
+#     src: 'DIR1/PATH1/file1'
+#     dest: '/scratch/tmp/test14'
+# 
+# $ cat roles/test14/templates/DIR1/PATH1/file1 
+# {{ inventory_hostname }}
+# with the playbook
+# 
+# $ cat test14.yml
+# - hosts: localhost
+#   roles:
+#     - test14
+# works as expected
+# 
+# PLAY RECAP localhost: ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
+# 
+# $ cat /scratch/tmp/test14 
+# localhost

@@ -1,0 +1,6 @@
+---
+# tasks file for test14
+
+- template:
+    src: 'DIR1/PATH1/file1'
+    dest: '/scratch/tmp/test14'
