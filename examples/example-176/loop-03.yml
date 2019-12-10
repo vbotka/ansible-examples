@@ -1,0 +1,48 @@
+- hosts: localhost
+  tasks:
+    - include_vars:
+        file: data-03.yml
+    - debug:
+        var: config
+    - debug:
+        msg: "?action=update&{{ item.Name }}={{ item.Value }}"
+      loop: "{{ config }}"
+
+# Given the configuration values is a list. For example
+# 
+# $ cat data.yml 
+# config: [
+#   {"Name": "HTTPS.Port", "Value": "443"},
+#   {"Name": "Image.DateFormat", "Value": "YYYY-MM-DD"},
+#   {"Name": "Image.MaxViewers", "Value": "20"} ]
+#
+# The play
+# 
+# - hosts: localhost
+#   tasks:
+#     - include_vars:
+#         file: data.json
+#     - debug:
+#         msg: "?action=update&{{ item.Name }}={{ item.Value }}"
+#       loop: "{{ config }}"
+#
+# gives
+# 
+# ok: [localhost] => (item={u'Name': u'HTTPS.Port', u'Value': u'443'}) => {
+#     "msg": "?action=update&HTTPS.Port=443"
+# }
+# ok: [localhost] => (item={u'Name': u'Image.DateFormat', u'Value': u'YYYY-MM-DD'}) => {
+#     "msg": "?action=update&Image.DateFormat=YYYY-MM-DD"
+# }
+# ok: [localhost] => (item={u'Name': u'Image.MaxViewers', u'Value': u'20'}) => {
+#     "msg": "?action=update&Image.MaxViewers=20"
+# }
+#
+# If this is what you want loop the uri module. For example
+# 
+# - local_action:
+#     module: uri 
+#     user: x
+#     password: y
+#     url: "{{ axis_snmp_role.server_url }}?action=update&{{ item.Name }}={{ item.Value }}"
+#   loop: "{{ config }}"

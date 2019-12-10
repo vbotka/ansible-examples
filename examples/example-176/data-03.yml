@@ -1,0 +1,4 @@
+config: [
+  {"Name": "HTTPS.Port", "Value": "443"},
+  {"Name": "Image.DateFormat", "Value": "YYYY-MM-DD"},
+  {"Name": "Image.MaxViewers", "Value": "20"} ]
