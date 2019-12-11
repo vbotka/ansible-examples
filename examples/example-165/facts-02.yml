@@ -1,0 +1,71 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - debug:
+        msg: Disk nvme0n1 exists.
+      when: "'nvme0n1' in ansible_devices.keys()|list"
+    - debug:
+        msg: Disk sdb does not exist.
+      when: "'sdb' not in ansible_devices.keys()|list"
+
+    - debug:
+        msg: Disk nvme0n1 exists.
+      when: ansible_devices.nvme0n1 is defined
+    - debug:
+        msg: Disk sdb does not exist.
+      when: ansible_devices.sdb is undefined
+    - debug:
+        msg: Disk sdb does not exist.
+      when: ansible_devices.sdb is not defined
+
+    - debug:
+        msg: Disk nvme0n1 exists.
+      when: ansible_devices.nvme0n1|default('')
+    - debug:
+        msg: Disk sdb does not exist.
+      when: not ansible_devices.sdb|default('')
+
+# How can i display message like 'disk does not exist' if disk sdb is not present on server
+# https://stackoverflow.com/questions/59277367/how-can-i-display-message-like-disk-does-not-exist-if-disk-sdb-is-not-present/
+#
+# ansible_devices is a dictionary of the devices. There are more
+# options how to find out whether a device exists or not.
+# 
+# 1) Let's create a list of the devices and search the list of the
+# devices. For example
+# 
+# - hosts: localhost
+#   gather_facts: true
+#   tasks:
+#     - debug:
+#         msg: Disk nvme0n1 exists.
+#       when: "'nvme0n1' in ansible_devices.keys()|list"
+#     - debug:
+#         msg: Disk sdb does not exist.
+#       when: "'sdb' not in ansible_devices.keys()|list"
+# gives
+# 
+# "msg": "Disk nvme0n1 exists."
+# "msg": "Disk sdb does not exist."
+# 
+# 2) It's also possible to test if the variable is defined or not. For
+# example, this play gives the same result
+# 
+#     - debug:
+#         msg: Disk nvme0n1 exists.
+#       when: ansible_devices.nvme0n1 is defined
+#     - debug:
+#         msg: Disk sdb does not exist.
+#       when: ansible_devices.sdb is undefined
+# 
+# 3) It's also possible to use the fact that an empty variable
+# evaluates to False. For example, this play gives the same result
+# 
+#     - debug:
+#         msg: Disk nvme0n1 exists.
+#       when: ansible_devices.nvme0n1|default('')
+#     - debug:
+#         msg: Disk sdb does not exist.
+#       when: not ansible_devices.sdb|default('')
+
+# EOF
