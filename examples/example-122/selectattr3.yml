@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    item2Conf: 'item2Conf_value'
+    my_list:
+      - {name: '{{ item1Conf|default() }}', resource: 'item1'}
+      - {name: '{{ item2Conf|default() }}', resource: 'item2'}
+      - {name: '{{ item3Conf|default() }}', resource: 'item3'}
+
+  tasks:
+
+    - debug:
+        var: item
+      loop:
+        - {name: '{{ item2Conf }}', resource: 'item2'}
+      when: item2Conf is defined
+      tags: t1
+
+    - debug:
+        var: item
+      loop: "{{ my_list }}"
+      when: item.name
+      tags: t2
+
+    - debug:
+        msg: "{{ my_list|selectattr('name')|list }}"
+      tags: t3
