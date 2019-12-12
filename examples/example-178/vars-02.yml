@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - role2
+
+# Ansible not reading vault var file
+# https://serverfault.com/questions/995362/ansible-not-reading-vault-var-file/
+
+# The minimal example
+# 
+# $ cat playbook.yml
+# - hosts: localhost
+#   roles:
+#     - role2
+# 
+# $ cat roles/role2/defaults/main.yml
+# service_pswd: "{{ vault_service_pswd }}"
+# 
+# $ cat roles/role2/tasks/main.yml
+# - include_vars: vault.yml
+# - debug:
+#     var: service_pswd
+# 
+# $ cat roles/role2/vars/vault.yml 
+# vault_service_pswd: "I told you not to post this on the internet"
+# 
+# gives
+# 
+# "service_pswd": "I told you not to post this on the internet"
+# 
+# To find the problem, start with this example and add another
+# functionality step by step.

@@ -1,0 +1,6 @@
+---
+# tasks for role2
+
+- include_vars: vault.yml
+- debug:
+    var: service_pswd
