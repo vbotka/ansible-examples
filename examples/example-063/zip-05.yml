@@ -1,0 +1,61 @@
+---
+- hosts: servergroupexample
+  gather_facts: false
+  tasks:
+
+    - set_fact:
+        my_ID: "{{ my_ID|
+                   default({})|
+                   combine({item.1: item.0}) }}"
+      loop:    "{{ lookup('file', 'IDs.txt').splitlines()|
+                   zip(groups.servergroupexample)|
+                   list }}"
+      run_once: true
+
+#   - debug:
+#       var: my_ID[item]
+#     loop: "{{ my_ID.keys()|list }}"
+
+    - command: echo $MYID
+      register: result
+      environment:
+        MYID: "{{ my_ID[inventory_hostname] }}"
+
+    - debug:
+        var: result.stdout
+
+# How to set different environment variable for each client in Ansible playbook
+# https://stackoverflow.com/questions/59298678/how-to-set-different-environment-variable-for-each-client-in-ansible-playbook/
+
+# servergroupexample]
+# test_01
+# test_02
+# # ansible-host-1 ansible_host=1.2.3.4
+# # ansible-host-2 ansible_host=5.6.7.8
+# 
+# $ cat IDs.txt 
+# ID-asjdajdj399jad
+# ID-iajadijasijada
+
+# Q: "The bash script looks for an environment variable, and I need that
+# environment variable to be individually set for each Ansible host."
+# 
+# A: Run once the loop of the lists with the zip filter and combine a
+# dictionary my_ID. Then use my_ID to set the environment of the command
+# for each host. For example
+# 
+# PLAY [servergroupexample] ********************************************
+# 
+# TASK [set_fact] ******************************************************
+# ok: [test_01] => (item=[u'ID-asjdajdj399jad', u'test_01'])
+# ok: [test_01] => (item=[u'ID-iajadijasijada', u'test_02'])
+# 
+# TASK [command] *******************************************************
+# changed: [test_02]
+# changed: [test_01]
+# 
+# TASK [debug] *********************************************************
+# ok: [test_01] => 
+#   result.stdout: ID-asjdajdj399jad
+# ok: [test_02] => 
+#   result.stdout: ID-iajadijasijada
