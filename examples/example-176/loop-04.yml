@@ -11,12 +11,21 @@
         var: item
       loop: "{{ services }}"
 
+    - template:
+        src: template.j2
+        dest: item
+        with_items:
+          "{{ services }}"
+# ansible-playbook loop-04.yml --check
+# !!! does NOT complain "Invalid options for template: with_items"
+        
     - debug:
         var: item
         with_items:
           "{{ services }}"
-
+# ansible-playbook loop-04.yml --check
 # fatal: [localhost]: FAILED! => {"msg": "Invalid options for debug: with_items"}
+
 
 # ansible undefined variable in task
 # https://stackoverflow.com/questions/59318382/ansible-undefined-variable-in-task/
@@ -36,3 +45,14 @@
 # is the use of the new loop keyword instead of with_X style loop
 # 
 #     loop: "{{ services }}"
+
+# Inconsistent results of the command ansible-playbook playbook.yml
+# --check. The command does NOT complain "Invalid options for template:
+# with_items"! But with the module debug the checking works as expected
+# 
+#     - debug:
+#         var: item
+#         with_items:
+#           "{{ services }}"
+# fatal: [localhost]: FAILED! => {"msg": "Invalid options for debug:
+# with_items"}
