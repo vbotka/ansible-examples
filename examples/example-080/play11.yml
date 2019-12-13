@@ -1,0 +1,109 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - command: "/home/admin/createFacts.sh {{ env }}"
+      register: result
+    - debug:
+        var: result.stdout
+    - command: "/home/admin/createFacts.sh {{ groups[env] }}"
+      register: result
+    - debug:
+        var: result.stdout
+
+    - debug:
+        var: group_names
+    - debug:
+        var: groups
+
+# jinja2 expression to reference inventory collection to pass as parameter to shell script
+# https://stackoverflow.com/questions/59315686/jinja2-expression-to-reference-inventory-collection-to-pass-as-parameter-to-shel
+
+# Q: "Pass environment (value of env key) and list of apps in that environment (myEnv:children) to a shell script as parameters."
+# 
+# A: Given the inventory
+# 
+# $ cat hosts
+# test_01
+# test_02
+# test_03
+# 
+# [app0]
+# test_01
+# test_02
+# test_03
+# 
+# [app1]
+# test_01
+# test_02
+# 
+# [app2]
+# test_02
+# test_03
+# 
+# [myEnv:children]
+# app0
+# app1
+# app2
+# 
+# and the group_vars
+# 
+# $ cat group_vars/myEnv 
+# env: "myEnv"
+# The playbook
+# 
+# $ cat playbook.yml
+# - hosts: test_01
+#   tasks:
+#     - command: "/home/admin/createFacts.sh {{ env }}"
+#       register: result
+#     - debug:
+#         var: result.stdout
+#     - command: "/home/admin/createFacts.sh {{ groups[env] }}"
+#       register: result
+#     - debug:
+#         var: result.stdout
+# 
+# with the script
+# 
+# $ cat /home/admin/createFacts.sh 
+# #!/bin/sh
+# echo $@
+# exit 0
+# 
+# gives
+# 
+# ok: [test_01] => {
+#     "result.stdout": "myEnv"
+# }
+# 
+# ok: [test_01] => {
+#     "result.stdout": "[utest_01, utest_02, utest_03]"
+# }
+# 
+# Notes
+# 
+# myEnv, app0, app1, app2 are groups. See Inheriting variable values:
+# group variables for groups of groups
+# 
+# The value of env is myEnv. This is the name of a group. It's posible
+# to list the members of the group groups[env]. But hostvars[env] must
+# fail, because hostvars expects the name of a host as a parameter.
+# 
+# Ansible does not provide the runtime with the information that the
+# group myEnv is parent of the groups app0, app1, app2.
+# 
+# There is a special variable group_names: "List of groups the current host is part of"
+# 
+# The task below
+# 
+# - debug:
+#     var: group_names
+# gives
+# 
+# ok: [test_01] => {
+#     "group_names": [
+#         "app0", 
+#         "app1", 
+#         "myEnv"
+#     ]
+# }
