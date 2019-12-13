@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    services:
+      - billing
+      - cart
+      - checkout
+  tasks:
+
+    - debug:
+        var: item
+      loop: "{{ services }}"
+
+    - debug:
+        var: item
+        with_items:
+          "{{ services }}"
+
+# fatal: [localhost]: FAILED! => {"msg": "Invalid options for debug: with_items"}
+
+# ansible undefined variable in task
+# https://stackoverflow.com/questions/59318382/ansible-undefined-variable-in-task/
+
+# Q: "The error was: 'item' is undefined"
+# 
+# A: The indentation is wrong. with_items is not a parameter of the
+# module. It's the directive to loop the module. Correct syntax is
+# 
+# Notes
+# 
+# It is not necessary to nest the variable. Better syntax is
+# 
+#     with_items: "{{ services }}"
+# 
+# With the release of Ansible 2.5, the recommended way to perform loops
+# is the use of the new loop keyword instead of with_X style loop
+# 
+#     loop: "{{ services }}"
