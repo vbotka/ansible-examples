@@ -205,6 +205,7 @@ Various examples of Ansbile code.
 - Example 201. mapping test variable is a dictionary
 - Example 202. shuffle
 - Example 203. fetch – Fetches a file from remote nodes
+- Example 204. Jinja2
 
 
 ## License

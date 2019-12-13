@@ -1,0 +1,54 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    yum_output:
+      changes:
+        updated: [
+        [
+            "nss", 
+            "3.44.0-7.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms"
+        ], 
+        [
+            "kernel-tools", 
+            "3.10.0-1062.9.1.el7.x86_64 from rhui-rhel-7-server-rhui-rpms"
+        ], 
+        [
+            "nss-softokn-freebl", 
+            "3.44.0-8.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms"
+        ]
+        ]
+
+  tasks:
+
+    - debug:
+        var: yum_output.changes.updated
+
+    - debug:
+        msg: "{{ msg[:-1].split('\n') }}"
+      vars:
+        msg: |-
+          {% for pkg in yum_output.changes.updated %}
+          {{ pkg.0 }}, {{ pkg.1 }}
+          {% endfor %}
+
+    - debug:
+        msg: "{{ msg[:-1].split('\n') }}"
+      vars:
+        msg: |-
+          {{ yum_output.changes.updated|to_yaml }}
+
+
+# Ansible Update yum human friendly output
+# https://stackoverflow.com/questions/59321791/ansible-update-yum-human-friendly-output/
+
+#    "msg": [
+#        "nss, 3.44.0-7.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms", 
+#        "kernel-tools, 3.10.0-1062.9.1.el7.x86_64 from rhui-rhel-7-server-rhui-rpms", 
+#        "nss-softokn-freebl, 3.44.0-8.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms"
+#    ]
+
+#    "msg": [
+#        "- [nss, 3.44.0-7.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms]", 
+#        "- [kernel-tools, 3.10.0-1062.9.1.el7.x86_64 from rhui-rhel-7-server-rhui-rpms]", 
+#        "- [nss-softokn-freebl, 3.44.0-8.el7_7.x86_64 from rhui-rhel-7-server-rhui-rpms]"
+#    ]
