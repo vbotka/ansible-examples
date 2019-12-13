@@ -1,0 +1,82 @@
+- hosts: group2
+  gather_facts: false
+  vars:
+  tasks:
+    - tempfile:
+        state: directory
+      register: attach_dir
+      delegate_to: localhost
+      run_once: true
+
+    - debug:
+        var: attach_dir.path
+    - fetch:
+        dest: "{{ attach_dir.path }}"
+        src: /etc/passwd
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        attach_dir: "{{ hostvars[groups.group2.0]['attach_dir'] }}"
+    - find:
+        paths: "{{ attach_dir.path }}"
+        recurse: true
+      register: files_found
+
+    - set_fact:
+        files_to_email: "{{ files_found.files|json_query('[].path') }}"
+    - debug:
+        var: files_to_email
+
+    - mail: 
+        from: noreply@localhost
+        subject: Ansible test
+        to:
+          - root@localhost
+        body: |
+          List of attached files
+          {% for file in files_to_email %}
+          {{ file }}
+          {% endfor %}
+        attach: "{{ files_to_email }}"
+
+    - file:
+        state: absent
+        path: "{{ attach_dir.path }}"
+
+# Is it possible to send one email with multiple attachments on Ansible using Jinja2 templates
+# https://stackoverflow.com/questions/59312213/is-it-possible-to-send-one-email-with-multiple-attachments-on-ansible-using-jinj/
+
+# Q: "Send one email with multiple attachments."
+# A: Let's have a group of hosts
+# 
+# group2:
+#   hosts:
+#     test_01:
+#     test_02:
+#     test_03:
+# 
+# 1.Create a temporary directory at localhost
+# 2.Fetch all files to this directory
+# 3.Create a list of the files to be attached
+# 4.Send the email and attach the list of files
+# 5.Remove the temporary directory
+#
+# The email should look similar to this example
+# 
+# From: noreply@localhost
+# To: root@localhost
+# Cc: 
+# Subject: Ansible test
+# Date: Fri, 13 Dec 2019 02:35:19 +0100
+# X-Mailer: Ansible mail module
+# 
+# List of attached files
+# /tmp/ansible.kf2wHf/test_01/etc/passwd
+# /tmp/ansible.kf2wHf/test_02/etc/passwd
+# /tmp/ansible.kf2wHf/test_03/etc/passwd
+# 
+# [passwd  application/octet-stream (2294 bytes)] 
+# [passwd  application/octet-stream (2294 bytes)] 
+# [passwd  application/octet-stream (2294 bytes)]
