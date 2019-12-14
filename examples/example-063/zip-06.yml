@@ -4,10 +4,8 @@
   tasks:
 
     - set_fact:
-        my_ID: "{{ dict(
-                   groups.servergroupexample|
-                   zip(lookup('file', 'IDs.txt').splitlines())|
-                   list) }}"
+        my_ID: "{{ dict(groups.servergroupexample|
+                        zip(lookup('file', 'IDs.txt').splitlines())) }}"
       run_once: true
 
     - debug:
