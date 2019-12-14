@@ -1,0 +1,79 @@
+
+- hosts: planb
+  gather_facts: no
+  vars:
+    service_name: 'apache2'
+
+  tasks:
+    - shell: service apache2 status | grep Active | awk -v N=2 '{print $N}'
+      args:
+        warn: false
+      register: res
+      tags: t1
+    - debug:
+        var: res.stdout
+      tags: t1
+
+    - service_facts:
+      tags: t3
+    - debug:
+        var: ansible_facts.services.apache2.state
+      tags: t3
+
+    - service:
+        name: "{{ service_name }}"
+        state: started
+      tags: t2
+
+    - service_facts:
+      tags: t3
+    - debug:
+        var: ansible_facts.services.apache2
+      tags: t3
+    - debug:
+        var: ansible_facts.services.apache2.state
+      tags: t3
+    - debug:
+        var: ansible_facts.services[service_name]['state']
+      tags: t3
+
+    - set_fact:
+        service_state: "{{ services[service_name]['state'] }}"
+      tags: t4
+    - debug:
+        msg: "{{ service_name }} is {{ service_state }}"
+      tags: t4
+
+# ansible use tags but register variable is empty
+# https://stackoverflow.com/questions/59331255/ansible-use-tags-but-register-variable-is-empty/
+
+# The concept of Idempotency simplifies the Ansible workflow.
+# 
+# An operation is idempotent if the result of performing it once is
+# exactly the same as the result of performing it repeatedly without any
+# intervening actions.
+# 
+# The module service is idempotent. For example the task below
+# 
+# - name: Start Apache
+#   service:
+#     name: "{{ service_name }}"
+#     state: started
+#   tags:
+#     - toto
+# 
+# will make any changes only if the service has not been started yet. In
+# this respect, it does not matter what was the previous state of the
+# service i.e. there is no reason to run it conditionally. Once the
+# service is started the task will report [ok] and not touch the
+# service.
+# 
+# The service_facts module works as expected. For example
+# 
+# - service_facts:
+# - debug:
+#     var: ansible_facts.services.apache2.state
+# 
+# gives
+# 
+# "ansible_facts.services.apache2.state": "running"
