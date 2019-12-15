@@ -6,14 +6,26 @@
     - debug:
         var: inventory_hostname
     - debug:
-        msg: "{{ 'group2' | regex_search('^group*') }}"
-    - debug:
         var: var_hosts
     - debug:
-        msg: "{{ 'group2' | regex_search(var_hosts) }}"
+        var: groups[var_hosts]
 
 # How to patterns to specify multiple groups to run against
 # https://stackoverflow.com/questions/56068650/how-to-patterns-to-specify-multiple-groups-to-run-against/
+
+# group1:
+#   hosts:
+#     test_01:
+#
+# $ ansible-playbook play.yml -e 'var_hosts=group1'
+#
+# "inventory_hostname": "test_01"
+#
+# "var_hosts": "group1"
+#
+# "groups[var_hosts]": [
+#         "test_01"
+#     ]
 
 # EOF
 ...
