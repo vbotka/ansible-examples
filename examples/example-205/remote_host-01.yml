@@ -1,0 +1,65 @@
+- hosts: test_01
+  gather_facts: false
+  become: no
+  remote_user: root
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+
+- hosts: test_01
+  gather_facts: false
+  become: no
+  remote_user: admin
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+
+# `remote_user` is ignored in playbooks and roles
+# https://stackoverflow.com/questions/59334722/remote-user-is-ignored-in-playbooks-and-roles/
+
+# Q: "remote_user: root is ignored"
+# 
+# A: The playbook works as expected
+# 
+# - hosts: test_01
+#   gather_facts: false
+#   become: no
+#   remote_user: root
+#   tasks:
+#     - command: whoami
+#       register: result
+#     - debug:
+#         var: result.stdout
+# gives
+# 
+# "result.stdout": "root"
+# 
+# But, the variable can be overridden in the inventory. For example
+# with the inventory
+# 
+# $ cat hosts
+# all:
+#   hosts:
+#     test_01:
+#   vars:
+#     ansible_connection: ssh
+#     ansible_user: admin
+# 
+#     the result is
+# 
+# "result.stdout": "admin"
+# 
+# Double-check the inventory with the command
+# 
+# $ ansible-inventory --list
+# 
+# Notes
+# 
+# * It might be also necessary to double-check the role - role:
+#   papanito.bootstrap
+# 
+# * See Controlling how Ansible behaves: precedence rules
