@@ -1,0 +1,124 @@
+- hosts: test_01
+  gather_facts: false
+  vars:
+    parent:
+      child1: true
+    my_list:
+      - parent
+      - parent.child1
+      - parent.child2
+      
+  tasks:
+
+    - set_fact:
+        parent: "{{ parent }}"
+      tags: t0
+
+    - debug:
+        var: parent
+      tags: t0
+
+    - debug:
+        msg: "{{ lookup('vars', item, default='') }}"
+      loop: "{{ my_list }}"
+      tags: t1
+
+    - debug:
+        var: "{{ item }}"
+      loop: "{{ my_list }}"
+      tags: t2
+
+    - debug:
+        msg: "{{ item is defined }}"
+      loop: "{{ my_list }}"
+      tags: t3
+
+    - debug:
+        msg: "{{ hostvars }}"
+      tags: t4a
+
+    - debug:
+        msg: "{{ inventory_hostname }}"
+      tags: t4b
+
+    - debug:
+        msg: "{{ hostvars[inventory_hostname].parent }}"
+      tags: t4c
+
+    - debug:
+        msg: "{{ hostvars[inventory_hostname]|json_query('parent') }}"
+      tags: t4d
+
+    - debug:
+        msg: "{{ query }}"
+      loop: "{{ my_list }}"
+      vars:
+        query: "[].{{ item }}"
+      tags: t4
+
+    - debug:
+        msg: "{{ hostvars[inventory_hostname]|
+                 json_query(query) }}"
+      loop: "{{ my_list }}"
+      vars:
+        query: "{{ item }}"
+      tags: t5
+
+    - debug:
+        msg: "mandatory variable {{ item }} not passed as extra args"
+      when: not hostvars[inventory_hostname]|json_query(query)
+      loop: "{{ my_list }}"
+      vars:
+        query: "{{ item }}"
+      tags: t6
+
+    - debug:
+        msg: "mandatory variable {{ item }} not passed as extra args"
+      when: not hostvars[inventory_hostname]|json_query(item)
+      loop:
+        - parent
+        - parent.child1
+        - parent.child2
+      tags: t7
+
+    - fail:
+        msg: "mandatory variable {{ item }} not passed as extra args"
+      when: not hostvars[inventory_hostname]|json_query(item)
+      loop:
+        - parent
+        - parent.child1
+        - parent.child2
+      tags: t8
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Checking whether nested variable is
+# defined in the when statement
+# Date: Mon, 16 Dec 2019 13:10:24 +0100
+#     
+# 'json_query' returns 'False' when the parameter is not defined. 'set_fact'
+# before the evaluation to register the variable with 'hostvars'. For example
+# 
+#     - set_fact:
+#         parent: "{{ parent }}"
+# 
+#     - fail:
+#         msg: "mandatory variable {{ item }} not passed as extra args"
+#       when: not hostvars[inventory_hostname]|json_query(item)
+#       loop:
+#         - parent
+#         - parent.child1
+#         - parent.child2
+#     
+# $ ansible-playbook in-01.yml -t t0,t7
+# 
+# ok: [test_01] => {
+#     "parent": {
+#         "child1": true
+#     }
+# }
+# 
+# skipping: [test_01] => (item=parent) 
+# skipping: [test_01] => (item=parent.child1) 
+# ok: [test_01] => (item=parent.child2) => {
+#     "msg": "mandatory variable parent.child2 not passed as extra args"
+# }

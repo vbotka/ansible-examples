@@ -207,6 +207,7 @@ Various examples of Ansbile code.
 - Example 203. fetch – Fetches a file from remote nodes
 - Example 204. Jinja2
 - Example 205. remote_user
+- Example 206. Test in
 
 
 ## License
