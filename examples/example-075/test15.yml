@@ -1,0 +1,25 @@
+- hosts: localhost
+  vars:
+    var1: a
+    var2: b
+  tasks:
+    - debug:
+        msg: "{{ var1 }} {{ var2 }}"
+    - template:
+        src: test15.j2
+        dest: test15.txt
+
+# Why ansible template file looped
+# https://serverfault.com/questions/995672/why-ansible-template-file-looped/
+
+# $ cat /etc/somefile
+# b string
+# b string
+# 
+# Q: Why?
+# 
+# A: Step by step you'll have to find out where do the values of the
+# variables come from. Start with the debug task
+# 
+# See Variable precedence: Where should I put a variable?. The playbook
+# vars precedence is 12. and can be overridden by 13-22.
