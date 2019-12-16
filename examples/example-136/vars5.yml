@@ -1,0 +1,18 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - debug:
+        var: output
+      vars:
+        output: "{{ item }}"
+      loop: [1, 2, 3]
+
+# ansible ERROR! conflicting action statements: var, include_tasks
+# https://stackoverflow.com/questions/59349274/ansible-error-conflicting-action-statements-var-include-tasks/
+
+# Correct syntax is
+# 
+# (change var for vars)
+# 
+# $ ansible-playbook vars5.yml
+# ERROR! conflicting action statements: debug, var

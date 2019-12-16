@@ -1,0 +1,5 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - include_tasks: /scratch/tmp/test.yml
