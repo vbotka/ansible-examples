@@ -1,0 +1,8 @@
+{% if env_value == 'Dev' %}
+  {% set x = hostvars.ces_dev.ansible_host %}
+{% else %}
+  {% set x = hostvars.ces_demo.ansible_host %}
+{% endif %}
+API_CONFIG = {
+        'api_email_url': 'http://{{x}}:8080/api/users/mail',
+    }

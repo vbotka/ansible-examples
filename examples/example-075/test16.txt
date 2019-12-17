@@ -1,0 +1,3 @@
+  API_CONFIG = {
+        'api_email_url': 'http://a.b.c.d:8080/api/users/mail',
+    }

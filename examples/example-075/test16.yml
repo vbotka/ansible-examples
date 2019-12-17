@@ -1,0 +1,27 @@
+- hosts: test_A1
+  gather_facts: false
+
+- hosts: localhost
+  vars:
+    env_value: 'Dev'
+  tasks:
+    - debug:
+        var: hostvars.ces_dev.ansible_host
+    - template:
+        src: test16.j2
+        dest: test16.txt
+
+# How to use ansible template module with variable receiving value from hostvars?
+# https://stackoverflow.com/questions/59368548/how-to-use-ansible-template-module-with-variable-receiving-value-from-hostvars/
+
+￼
+# The variables are expanded by default. For example
+# 
+# {% if env_value == 'Dev' %}
+#   {% set x = hostvars.ces_dev.ansible_host %}
+# {% else %}
+#   {% set x = hostvars.ces_demo.ansible_host %}
+# {% endif %}
+# API_CONFIG = {
+#     'api_email_url': 'http://{{x}}:8080/api/users/mail',
+# }
