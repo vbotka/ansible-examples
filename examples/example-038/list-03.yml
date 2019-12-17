@@ -1,13 +1,14 @@
 - hosts: localhost
-  vars_files:
-    - list-03-data.json
+  gather_facts: false
+  vars:
+    commands:
+      a: 'command1 keyword1 --param1'
+      b: 'command1 keyword2 --param2'
+      c: 'command1 keyword3 --param3'
   tasks:
     - debug:
-        var: my_output
-    - debug:
-        var: item
-      loop: "{{ my_output }}"
-      when: item|length > 0
-
-# How to parse array with no label
-# https://stackoverflow.com/questions/57528932/how-to-parse-array-with-no-label/
+        msg: "{{ commands[item.attribute1] + ' ' + item.attribute1 }}"
+      loop:
+        - {attribute1: 'a'}
+        - {attribute1: 'b'}
+        - {attribute1: 'c'}
