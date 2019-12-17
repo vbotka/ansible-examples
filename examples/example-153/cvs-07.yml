@@ -1,101 +1,54 @@
 ---
 - hosts: localhost
+  gather_facts: false
   vars:
     command_out:
       stdout_lines:
         - 'first      second'
         - '29494060   23004496'
         - '29774383   22979864'
-      stdout: |-
-        first      second
-        29494060   23004496
-        29774383   22979864
   tasks:
     - set_fact:
-        keys: "{{ command_out.stdout_lines[0].split() }}"
-      tags: t3
+        keys: "{{ command_out.stdout_lines[0]|string_split }}"
     - debug:
         var: keys
-      tags: t3
-          
-    - debug:
-        msg: "{{ command_out.stdout_lines[1:]|
-                 map('split')|
-                 list }}"
-      tags: t3
-
     - set_fact:
-        keys: "{{ command_out.stdout_lines[0].split() }}"
-      tags: t1
-    - debug:
-        var: keys
-      tags: t1
-          
-    - set_fact:
-        sql_list: "{{ sql_list|default([]) +
-                      [dict(keys|zip(item.split()))] }}"
-      loop: "{{ command_out.stdout_lines[1:] }}"
-      tags: t1
+        sql_list: "{{ command_out.stdout_lines[1:]|
+                      map('string_split')|
+                      map('list_dict_zip_rev', keys)|
+                      list }}"
     - debug:
         var: sql_list
-      tags: t1
 
-    - set_fact:
-        sql_lines: "{{ command_out.stdout.splitlines() }}"
-      tags: t2
-    - set_fact:
-        keys: "{{ sql_lines[0].split() }}"
-      tags: t2
-    - debug:
-        var: keys
-      tags: t2
-          
-    - set_fact:
-        sql_list: "{{ sql_list|default([]) +
-                      [dict(keys|zip(item.split()))] }}"
-      loop: "{{ sql_lines[1:] }}"
-      tags: t2
-    - debug:
-        var: sql_list
-      tags: t2
 
 # How do I extract values from a width delimited table in Ansible?
 # https://stackoverflow.com/questions/59351567/how-do-i-extract-values-from-a-width-delimited-table-in-ansible/
 
-# Create keys. For example
+# The task simplified by custom plugins gives the same result
 # 
 # - set_fact:
-#     keys: "{{ command_out.stdout_lines[0].split() }}"
-# - debug:
-#     var: keys
-# gives
+#     sql_list: "{{ command_out.stdout_lines[1:]|
+#                   map('string_split')|
+#                   map('list_dict_zip_rev', keys)|
+#                   list }}"
 # 
-# "keys": [
-#     "first", 
-#     "second"
-# ]
+# $ cat filter_plugins/string_filters.py
+# def string_split(s, *i):
+#     if len(i) == 0:
+#         return s.split()
+#     elif len(i) == 1:
+#         return s.split(i[0])
+#     else:
+#         return s.split(i[0], i[1])
 # 
-# then add the dictionaries, created by the filters dict and zip, to the
-# list sql_list
+# def list_dict_zip_rev(l,k):
+#     return dict((y,x) for x,y in  zip(l,k))
 # 
-# - set_fact:
-#     sql_list: "{{ sql_list|default([]) +
-#                   [dict(keys|zip(item.split()))] }}"
-#   loop: "{{ command_out.stdout_lines[1:] }}"
-# - debug:
-#     var: sql_list
+# class FilterModule(object):
+#     ''' Ansible filters.'''
 # 
-# gives
-# 
-# "sql_list": [
-#     {
-#         "first": "29494060", 
-#         "second": "23004496"
-#     }, 
-#     {
-#         "first": "29774383", 
-#         "second": "22979864"
-#     }
-# ]
-
-# EOF
+#     def filters(self):
+#         return {
+#             'list_dict_zip_rev' : list_dict_zip_rev,
+#             'string_split' : string_split
+#         }
