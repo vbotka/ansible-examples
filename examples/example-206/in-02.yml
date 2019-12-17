@@ -1,0 +1,34 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    parent:
+      child1: true
+
+  tasks:
+
+# - set_fact:
+#     parent: "{{ parent }}"
+
+#  - debug:
+#      var: parent
+
+# - debug:
+#     var: vars
+
+# - debug:
+#     var: hostvars.localhost
+
+# - debug:
+#     msg: "{{ vars.keys()|list }}"
+
+  - name: "Check if variable is defined"
+    fail:
+      msg: "mandatory variable item not passed as extra args when invoking playbook"
+#   when: "{{item}} is not defined"
+    when: not vars|json_query(item)
+    loop:
+    - parent
+    - parent.child1
+    - parent.child2
+    tags: t1
