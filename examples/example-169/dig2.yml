@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    host2lookup: "yahoo.com"
+  tasks:
+    - debug:
+        msg: "{{ lookup('dig', host2lookup, 'qtype=A') }}"

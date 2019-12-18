@@ -1,0 +1,5 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - getent:
+        database: hosts

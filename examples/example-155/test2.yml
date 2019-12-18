@@ -1,0 +1,111 @@
+# Using `dig` Ansible module?
+# https://devops.stackexchange.com/questions/10142/using-dig-ansible-module/
+
+# 1) interpreter_python configuration parameter says:
+# 
+# Path to the Python interpreter to be used for module execution on
+# remote targets
+# 
+# See how to choose a python interpreter for Ansible playbook?
+# 
+# 2) Ansible will tell what Python is used on master
+# 
+# $ ansible --version
+# ansible 2.9.2
+#   config file = /home/vlado/.ansible.cfg
+#   configured module search path = [u'/home/vlado/.ansible/my_modules']
+#   ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+#   executable location = /usr/bin/ansible
+#   python version = 2.7.16 (default, Oct  7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# 3) dig says
+# 
+# The below requirements are needed on the local master node that
+# executes this lookup: dnspython
+# 
+# 4) It's possible to install both versions
+# 
+# $ dpkg -l | grep dnspython
+# ii  python-dnspython         1.16.0-1 all          DNS toolkit for Python
+# ii  python3-dnspython        1.16.0-1 all          DNS toolkit for Python 3
+# 
+# 5) All Ansible packages in Ubuntu have been built with Python2 at the moment.
+# 
+# 6) ansible_python_interpreter works as expected
+# 
+# With Ubuntu on master the playbook
+# 
+# $ cat playbook.yml
+# - hosts: test_01
+#   tasks:
+#     - getent:
+#         database: hosts
+# 
+# $ cat hosts
+# test_01 ansible_python_interpreter=/usr/local/bin/python3.6
+# 
+# $ ansible-playbook playbook.yml -i hosts -vvv | grep python
+# 
+# gives
+# 
+# ansible python module location =
+# /usr/lib/python2.7/dist-packages/ansible python version = 2.7.16
+# (default, Oct 7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# ...
+# 
+# SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o
+# KbdInteractiveAuthentication=no -o
+# PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
+# -o PasswordAuthentication=no -o 'User="admin"' -o ConnectTimeout=10 -o
+# ControlPath=/export/home/vlado.config/.ansible/cp/5a3ab05cf7 -tt
+# test_01 '/bin/sh -c '"'"'sudo -H -S -n -u root /bin/sh -c
+# '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-xnvwkdksdqqoehvrgebdgcnrzcrmoszv
+# ; /usr/local/bin/python3.6
+# /home/admin/.ansible/tmp/ansible-tmp-1576667662.62-67468482045094/AnsiballZ_getent.py'"'"'"'"'"'"'"'"'
+# && sleep 0'"'"''
+# 
+# ansible-playbook on master runs with python version = 2.7.16
+# module on remote (test_01) runs with /usr/local/bin/python3.6
+# Change ansible_python_interpreter
+# 
+# When the ansible_python_interpreter is changed
+# 
+# $ cat hosts
+# test_01 ansible_python_interpreter=/usr/local/bin/python2.7
+# the same playbook gives
+# 
+# ansible python module location =
+# /usr/lib/python2.7/dist-packages/ansible python version = 2.7.16
+# (default, Oct 7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# ...
+# 
+# SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o
+# KbdInteractiveAuthentication=no -o
+# PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
+# -o PasswordAuthentication=no -o 'User="admin"' -o ConnectTimeout=10 -o
+# ControlPath=/export/home/vlado.config/.ansible/cp/5a3ab05cf7 -tt
+# test_01 '/bin/sh -c '"'"'sudo -H -S -n -u root /bin/sh -c
+# '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-fidpgwptggdoizirumvjmzuorxqawypu
+# ; /usr/local/bin/python2.7
+# /home/admin/.ansible/tmp/ansible-tmp-1576668475.22-210929624017605/AnsiballZ_getent.py'"'"'"'"'"'"'"'"'
+# && sleep 0'"'"''
+# 
+# * ansible-playbook on master runs with python version = 2.7.16
+# * but module on remote (test_01) runs with /usr/local/bin/python2.7 as
+#   requested
+# 
+# 7) Lookup plugins:
+# 
+# "Like all templating, these plugins are evaluated on the Ansible control machine, not on the target/remote."
+# 
+# At the moment, in Ubuntu Ansible works with Python2 only. The playbook
+# 
+# - hosts: localhost
+#   vars:
+#     host2lookup: "yahoo.com"
+#     - debug:
+#         msg: "{{ lookup('dig', host2lookup, 'qtype=A') }}"
+# 
+# will use Python2.
