@@ -1,0 +1,47 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    architecture:
+      WebSphere:
+        block_was_cluster_1:
+          - cell
+          - cell2
+        block_was_cluster_2:
+          - cell3
+          - cell4
+  tasks:
+    - debug:
+        msg: "{{ architecture.WebSphere|json_query('*')|flatten }}"
+    - debug:
+        msg: "{{ item }} is in the architecture"
+      loop:
+        - cell
+        - cell4
+        - cell9
+      when: item in architecture.WebSphere|json_query('*')|flatten
+
+# How in Ansible use “in” for nested lists in a variable
+# https://serverfault.com/questions/996010/how-in-ansible-use-in-for-nested-lists-in-a-variable/
+
+# Q: "How do I set the condition so that the role starts on all servers
+# where type = cell or cell2 or cell3 or cell4, that is, considering all
+# the nested lists in 'architecture.WebSphere'?"
+# 
+# A: Use json_query. For example gives
+# 
+# ok: [localhost] => {
+#     "msg": [
+#         "cell", 
+#         "cell2", 
+#         "cell3", 
+#         "cell4"
+#     ]
+# }
+# 
+# ok: [localhost] => (item=cell) => {
+#     "msg": "cell is in the architecture"
+# }
+# ok: [localhost] => (item=cell4) => {
+#     "msg": "cell4 is in the architecture"
+# }
+# skipping: [localhost] => (item=cell9)

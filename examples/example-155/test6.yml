@@ -1,0 +1,4 @@
+- hosts: localhost
+  tasks:
+    - getent:                                                                                                        
+        database: hosts                                                                                              

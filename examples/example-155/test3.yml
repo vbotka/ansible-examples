@@ -1,0 +1,12 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        var: ansible_python_version
+    - debug:
+        var: ansible_python.version.major
+    - debug:
+        msg: Python major version is 2
+      when: ansible_python.version.major == 2
+    - debug:
+        msg: Python major version is 3
+      when: ansible_python.version.major == 3
