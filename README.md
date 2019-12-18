@@ -80,7 +80,7 @@ Various examples of Ansbile code.
 - Example 76. password_hash
 - Example 77. replace
 - Example 78. unarchive
-- Example 79. search
+- Example 79. search, match, regex
 - Example 80. inventory
 - Example 81. F5 modules
 - Example 82. sort

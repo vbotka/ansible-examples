@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_net_image: 'bootflash:///n5000-uk9-kickstart.5.1.3.N2.1b.bin'
+    NX_OS_Upgrade_Version1: 'n5000-uk9-kickstart.5.1.3.N2.1b'
+    my_regex1: '^bootflash:///{{ NX_OS_Upgrade_Version1 }}.bin'
+    NX_OS_Upgrade_Version2: 'n5000-uk9-kickstart.5.1.4.N2.1b'
+    my_regex2: '^bootflash:///{{ NX_OS_Upgrade_Version2 }}.bin'
+  tasks:
+    - assert:
+        that: ansible_net_image is match(my_regex1)
+        success_msg: "Image is version {{ NX_OS_Upgrade_Version1 }}"
+        fail_msg: "Image is NOT version {{ NX_OS_Upgrade_Version1 }}"
+    - assert:
+        that: ansible_net_image is match(my_regex2)
+        success_msg: "Image is version {{ NX_OS_Upgrade_Version2 }}"
+        fail_msg: "Image is NOT version {{ NX_OS_Upgrade_Version2 }}"
+
+# Ansiblle regex with assert operator
+# https://stackoverflow.com/questions/59400511/ansiblle-regex-with-assert-operator/
+
+# In regex use 7.3.2. Single-Quoted Style.
+# See Testing strings.
+# 
+# For example gives
+# 
+# ok: [localhost] => {
+#     "changed": false, 
+#     "msg": "Image is version n5000-uk9-kickstart.5.1.3.N2.1b"
+# }
+# 
+# fatal: [localhost]: FAILED! => {
+#     "assertion": "ansible_net_image is match(my_regex2)", 
+#     "changed": false, 
+#     "evaluated_to": false, 
+#     "msg": "Image is NOT version n5000-uk9-kickstart.5.1.4.N2.1b"
+# }

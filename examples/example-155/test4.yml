@@ -10,3 +10,183 @@
     - debug:
         msg: Python major version is 3
       when: ansible_python.version.major == 3
+
+# Using `dig` Ansible module?
+# https://devops.stackexchange.com/questions/10142/using-dig-ansible-module/
+    
+# Q: "None of that explains why - and that is/was my point -
+# ansible_python wrongly claims to be running on Python 3.x on the local
+# node. Because all I do by setting interpreter_python in ansible.cfg is
+# to give Ansible free rein on how it interprets things."
+# 
+# A: Configuration option interpreter_python works as expected
+# i.e. there is nothing wrong when Python3 is discovered (when asked by
+# interpreter_python=auto). See Note 1) and examples below.
+# 
+# auto_legacy default is /usr/bin/python
+# ======================================
+# 
+# "The default value of auto_legacy provides all the same behavior, but
+# for backwards-compatibility with older Ansible releases that always
+# defaulted to /usr/bin/python, will use that interpreter if present
+# (and issue a warning that the default behavior will change to that of
+# auto in a future Ansible release."
+# 
+# interpreter_python=auto_legacy
+# 
+# $ ansible localhost -m setup -a 'filter=ansible_python_version'
+# [DEPRECATION WARNING]: Distribution Ubuntu 19.04 on host localhost
+# should use /usr/bin/python3, but is using /usr/bin/python for backward
+# compatibility with prior Ansible releases. A future Ansible release
+# will default to using the discovered platform python for this
+# host. See
+# https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html
+# for more information. This feature will be removed in version
+# 2.12. Deprecation warnings can be disabled by setting
+# deprecation_warnings=False in ansible.cfg.  localhost | SUCCESS => {
+# 
+#     "ansible_facts": {
+#         "ansible_python_version": "2.7.16", 
+#         "discovered_interpreter_python": "/usr/bin/python"
+#     }, 
+#     "changed": false
+# }
+# 
+# auto
+# ====
+# 
+# See implementation details of the function discover_interpreter.
+# 
+# When the version of the distro is not in INTERPRETER_PYTHON_DISTRO_MAP
+# 
+# "return nearest previous version we're newer than"
+# 
+# def _version_fuzzy_match(version, version_map):
+# ...
+#     # slot match; return nearest previous version we're newer than
+#     kpos = bisect.bisect(sorted_looseversions, find_looseversion)
+# interpreter_python=auto
+# $ ansible localhost -m setup -a 'filter=ansible_python_version'
+# localhost | SUCCESS => {
+#     "ansible_facts": {
+#         "ansible_python_version": "3.7.3", 
+#         "discovered_interpreter_python": "/usr/bin/python3"
+#     }, 
+#     "changed": false
+# }
+# 
+# Q: "What does the ansible command line tool have to do with the
+# behavior I see with ansible-playbook?"
+# 
+# A: Both ansible command line tool and ansible-playbook will report the
+# same value of ansible_python_version. For example
+# 
+# $ ansible localhost -m setup | grep ansible_python_version
+#         "ansible_python_version": "2.7.16",
+# 
+# $ cat playbook.yml
+# - hosts: localhost
+#   tasks:
+#     - debug:
+#         var: ansible_python_version
+# 
+# $ ansible-playbook playbook.yml
+# 
+# ok: [localhost] => {
+#     "ansible_python_version": "2.7.16"
+# }
+# 
+# Notes
+# 
+# 1) interpreter_python configuration parameter says:
+# 
+# Path to the Python interpreter to be used for module execution on
+# remote targets
+# 
+# See how to choose a python interpreter for Ansible playbook?
+# 
+# 2) Ansible will tell what Python is used on master
+# 
+# $ ansible --version
+# ansible 2.9.2
+#   config file = /home/vlado/.ansible.cfg
+#   configured module search path = [u'/home/vlado/.ansible/my_modules']
+#   ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+#   executable location = /usr/bin/ansible
+#   python version = 2.7.16 (default, Oct  7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# 3) dig says
+# 
+# The below requirements are needed on the local master node that
+# executes this lookup: dnspython
+# 
+# 4) It's possible to install both versions
+# 
+# $ dpkg -l | grep dnspython
+# ii  python-dnspython         1.16.0-1 all          DNS toolkit for Python
+# ii  python3-dnspython        1.16.0-1 all          DNS toolkit for Python 3
+# 
+# 5) All Ansible packages in Ubuntu have been built with Python2 at the
+# moment.
+# 
+# 6) ansible_python_interpreter works as expected
+# 
+# With Ubuntu on master the playbook
+# 
+# $ cat playbook.yml
+# - hosts: test_01
+#   tasks:
+#     - getent:
+#         database: hosts
+# $ cat hosts
+# test_01 ansible_python_interpreter=/usr/local/bin/python3.6
+# $ ansible-playbook playbook.yml -i hosts -vvv | grep python
+# gives
+# 
+# ansible python module location =
+# /usr/lib/python2.7/dist-packages/ansible python version = 2.7.16
+# (default, Oct 7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# ...
+# 
+# SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o
+# KbdInteractiveAuthentication=no -o
+# PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
+# -o PasswordAuthentication=no -o 'User="admin"' -o ConnectTimeout=10 -o
+# ControlPath=/export/home/vlado.config/.ansible/cp/5a3ab05cf7 -tt
+# test_01 '/bin/sh -c '"'"'sudo -H -S -n -u root /bin/sh -c
+# '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-xnvwkdksdqqoehvrgebdgcnrzcrmoszv
+# ; /usr/local/bin/python3.6
+# /home/admin/.ansible/tmp/ansible-tmp-1576667662.62-67468482045094/AnsiballZ_getent.py'"'"'"'"'"'"'"'"'
+# && sleep 0'"'"''
+# 
+# ansible-playbook on master runs with python version = 2.7.16
+# module on remote (test_01) runs with /usr/local/bin/python3.6
+# Change ansible_python_interpreter
+# 
+# When the ansible_python_interpreter is changed
+# 
+# $ cat hosts
+# test_01 ansible_python_interpreter=/usr/local/bin/python2.7
+# the same playbook gives
+# 
+# ansible python module location =
+# /usr/lib/python2.7/dist-packages/ansible python version = 2.7.16
+# (default, Oct 7 2019, 17:36:04) [GCC 8.3.0]
+# 
+# ...
+# 
+# SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o
+# KbdInteractiveAuthentication=no -o
+# PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey
+# -o PasswordAuthentication=no -o 'User="admin"' -o ConnectTimeout=10 -o
+# ControlPath=/export/home/vlado.config/.ansible/cp/5a3ab05cf7 -tt
+# test_01 '/bin/sh -c '"'"'sudo -H -S -n -u root /bin/sh -c
+# '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-fidpgwptggdoizirumvjmzuorxqawypu
+# ; /usr/local/bin/python2.7
+# /home/admin/.ansible/tmp/ansible-tmp-1576668475.22-210929624017605/AnsiballZ_getent.py'"'"'"'"'"'"'"'"'
+# && sleep 0'"'"''
+# 
+# ansible-playbook on master runs with python version = 2.7.16 but
+# module on remote (test_01) runs with /usr/local/bin/python2.7 as
+# requested
