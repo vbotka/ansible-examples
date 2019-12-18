@@ -1,0 +1,27 @@
+{
+    "application": {
+         "VS": [
+            {
+                "LTM": "server1",
+                "ltm_vs": "VS_1",
+                "address": "IP",
+                "port": "80",
+                "link": "/Common/link"
+            },
+            {
+                "LTM": "server1",
+                "ltm_vs": "VS_2",
+                "address": "IP",
+                "port": "8081",
+                "link": "/Common/link"
+            },
+            {
+                "LTM": "server1",
+                "ltm_vs": "VS_3",
+                "address": "IP",
+                "port": "443",
+                "link": "/Common/link"
+            }
+        ] 
+    }
+}

@@ -1,0 +1,71 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars:
+        vars-35.json
+      tags: always
+    - debug:
+        var: application
+      tags: debug
+    - set_fact:
+        VS_lst: "{{ application.VS|
+                    json_query('[].{server: LTM,
+                                    virtual_server: ltm_vs}') }}"
+      tags: t1
+    - debug:
+        var: VS_lst
+      tags: t1
+
+    - set_fact:
+        VS_lst: "{{ VS_lst|default([]) +
+                    [dict(dictionary_keys|
+                          zip(selected_params|
+                              map('extract', item)))] }}"
+      loop: "{{ application.VS }}"
+      vars:
+        selected_params: ['LTM','ltm_vs']
+        dictionary_keys: ['server', 'virtual_server']
+      tags: t2
+    - debug:
+        var: VS_lst
+      tags: t2
+
+# Ansible create list of item base on other list of item
+# https://stackoverflow.com/questions/59400120/ansible-create-list-of-item-base-on-other-list-of-item/
+
+# Use json_query. For example
+# 
+# - set_fact:
+#     VS_lst: "{{ application.VS|
+#                 json_query('[].{server: LTM,
+#                                 virtual_server: ltm_vs}') }}"
+# - debug:
+#     var: VS_lst
+# give
+# 
+# "VS_lst": [
+#     {
+#         "server": "server1", 
+#         "virtual_server": "VS_1"
+#     }, 
+#     {
+#         "server": "server1", 
+#         "virtual_server": "VS_2"
+#     }, 
+#     {
+#         "server": "server1", 
+#         "virtual_server": "VS_3"
+#     }
+# ]
+# 
+# Without json_query, this task gives the same result
+# 
+# - set_fact:
+#     VS_lst: "{{ VS_lst|default([]) +
+#                 [dict(dictionary_keys|
+#                       zip(selected_params|
+#                           map('extract', item)))] }}"
+#   loop: "{{ application.VS }}"
+#   vars:
+#     selected_params: ['LTM','ltm_vs']
+#     dictionary_keys: ['server', 'virtual_server']
