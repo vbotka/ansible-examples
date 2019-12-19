@@ -1,12 +1,14 @@
 - hosts: localhost
   gather_facts: no
   tasks:
+
     - include_vars:
         vars-35.json
       tags: always
     - debug:
         var: application
       tags: debug
+
     - set_fact:
         VS_lst: "{{ application.VS|
                     json_query('[].{server: LTM,
@@ -29,6 +31,17 @@
     - debug:
         var: VS_lst
       tags: t2
+
+    - name: Add variables
+      set_fact:
+        VS_lst: "{{ VS_lst|default([]) +
+                    [{'server': item.LTM,
+                      'virtual_server': item.ltm_vs}] }}"
+      loop: "{{ application.VS }}"
+      tags: t3
+    - debug:
+        var: VS_lst
+      tags: t3
 
 # Ansible create list of item base on other list of item
 # https://stackoverflow.com/questions/59400120/ansible-create-list-of-item-base-on-other-list-of-item/
