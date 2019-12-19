@@ -1,0 +1,76 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    appliances:
+      fw01:
+        count: 2
+        vmname: name
+        image: redhat
+        os_type: Linux
+        data_disks:
+          - lun: 0
+            disk_size_gb: 128
+            managed_disk_type: Standard_LRS
+  tasks:
+    - include_tasks: create-vm.yml
+      loop: "{{ appliances|dict2items }}"
+
+# Subject: Re: [ansible-project] How use with_sequence and with_dict together
+# Date: Thu, 19 Dec 2019 09:33:43 +0100
+# 
+# > I want to do loop in the dict variable appliance and in variable have var
+# > count.  This count I should like loop count.
+# > 
+# > appliances:
+# >   fw01:
+# >     count: 2
+# >     vmname: name
+# >     image: redhat
+# >     os_type: Linux
+# >     data_disks:
+# >       - lun: 0
+# >         disk_size_gb: 128
+# >         managed_disk_type: Standard_LRS
+# > 
+# > - name: virtual_machine
+# >   debug:
+# >     msg: "{{ item.key }} - {{ item.value.count }}"
+# >   with_dict:
+# >     - "{{ virtual_machine }}"
+# >   with_sequence: start=0 end="{{ item.value.count }}"
+# > 
+# > but return this error:
+# > ERROR! duplicate loop in task: sequence
+# > 
+# > How can create this loop?  
+# 
+# It's possible to *include_tasks* and create nested loops. For this purpose
+# it's necessary to "Define inner and outer variable names with loop_var"
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#defining-inner-and-outer-variable-names-with-loop-var
+# 
+# For example the playbook
+# 
+#     $ cat playbook.yml
+#     - hosts: master
+#       tasks:
+#         - include_tasks: create-vm.yml
+#           loop: "{{ appliances|dict2items }}"
+# 
+# with this included file
+# 
+#     $ cat create-vm.yml
+#     - name: virtual_machine
+#       debug:
+#         msg: "{{ item.key }} - {{ inner_item }}"
+#       with_sequence: start=0 end="{{ item.value.count - 1 }}"
+#       loop_control:
+#         loop_var: inner_item
+# 
+# should give
+# 
+#     ok: [master] => (item=0) => {
+#         "msg": "fw01 - 0"
+#     }
+#     ok: [master] => (item=1) => {
+#         "msg": "fw01 - 1"
+#     }

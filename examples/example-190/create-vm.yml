@@ -1,0 +1,9 @@
+- debug:
+    var: item
+
+- name: virtual_machine
+  debug:
+    msg: "{{ item.key }} - {{ inner_item }}"
+  with_sequence: start=0 end="{{ item.value.count - 1 }}"
+  loop_control:
+    loop_var: inner_item
