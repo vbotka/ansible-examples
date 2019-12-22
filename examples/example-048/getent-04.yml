@@ -1,0 +1,58 @@
+- hosts: test_01
+  gather_facts: false
+
+  tasks:
+    - getent:
+        database: passwd
+      tags: always
+
+    - debug:
+        msg: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        query: "[?value.contains(@, '{{ item }}')].key"
+      loop:
+        - 'Charlie &'
+        - 'Bourne-again Superuser'
+        - 'Owner of many system processes'
+      tags: t1
+
+    - debug:
+        msg: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        query: "[?value[3] == '{{ item }}'].key"
+      loop:
+        - 'Charlie &'
+        - 'Bourne-again Superuser'
+        - 'Owner of many system processes'
+      tags: t2
+
+    - debug:
+        msg: "{{ result.key }}"
+      vars:
+        result: "{{ getent_passwd|dict2items|selectattr('value.3', 'equalto', item)|first }}"
+      loop:
+        - 'Charlie &'
+        - 'Bourne-again Superuser'
+        - 'Owner of many system processes'
+      tags: t3
+
+# Ansible - get username matching gecos from data obtained via getent module
+# https://stackoverflow.com/questions/59441706/ansible-get-username-matching-gecos-from-data-obtained-via-getent-module/
+
+# Use json_query with the function contains. For example gives
+# 
+# ok: [test_01] => (item=Charlie &) => {
+#     "msg": [
+#         "root"
+#     ]
+# }
+# ok: [test_01] => (item=Bourne-again Superuser) => {
+#     "msg": [
+#         "toor"
+#     ]
+# }
+# ok: [test_01] => (item=Owner of many system processes) => {
+#     "msg": [
+#         "daemon"
+#     ]
+# }

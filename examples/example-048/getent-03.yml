@@ -1,0 +1,13 @@
+- hosts: localhost
+
+  tasks:
+    - getent:
+        database: passwd
+    - debug:
+        msg: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        query: "[?value.contains(@, '{{ item }}')].key"
+      loop:
+        - 'systemd Core Dumper'
+        - 'Speech Dispatcher,,,'
+        - 'systemd Network Management,,,'
