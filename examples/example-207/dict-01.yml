@@ -1,0 +1,133 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    sites:
+      - {host: host1, path: path1, db: db1 }
+      - {host: host2, path: path2, db: db2 }
+      - {host: host3, path: path3, db: db3 }
+    mysql_databases:
+      - { name: db1, encoding: utf8mb4, collation: utf8mb4_unicode_ci }
+      - { name: db2, encoding: utf8mb4, collation: utf8mb4_unicode_ci }
+      - { name: db3, encoding: utf8mb4, collation: utf8mb4_unicode_ci }
+
+    mysql_users:
+      - { name: db1, host: "%", password: pass1, priv: "db1.*:ALL", db: db1 }
+      - { name: db2, host: "%", password: pass2, priv: "db2.*:ALL", db: db2 }
+      - { name: db3, host: "%", password: pass3, priv: "db3.*:ALL", db: db3 }
+      
+  tasks:
+    - debug:
+        var: mysql_databases
+      tags: t1
+    - debug:
+        var: mysql_users
+      tags: t2
+
+    - set_fact:
+        db_dict: "{{ db_dict|default({})|
+                     combine({item.name: item|dict2items|
+                             rejectattr('key', 'match', 'name')|
+                             list|items2dict}) }}"
+      loop: "{{ mysql_databases }}"
+      tags: t3
+    - debug:
+        var: db_dict
+      tags: t3
+
+    - set_fact:
+        users_dict: "{{ users_dict|default({})|
+                     combine({item.name: item|dict2items|
+                             rejectattr('key', 'match', 'name')|
+                             list|items2dict}) }}"
+      loop: "{{ mysql_users }}"
+      tags: t4
+    - debug:
+        var: users_dict
+      tags: t4
+
+    - template:
+        src: credentials.conf.j2
+        dest: "{{ item.path}}/{{ item.db }}.conf"
+      loop: "{{ sites }}"
+      tags: t5
+
+    - set_fact:
+        db_dict: "{{ db_dict|default({})|combine({item.name: item}) }}"
+      loop: "{{ mysql_databases }}"
+      tags: t6
+    - set_fact:
+        users_dict: "{{ users_dict|default({})|combine({item.name: item}) }}"
+      loop: "{{ mysql_users }}"
+      tags: t7
+    - template:
+        src: credentials.conf.j2
+        dest: "{{ item.path}}/{{ item.db }}.conf"
+      loop: "{{ sites }}"
+      tags: t8
+
+# Ansible - getting an item from one list based on a value from another
+# https://stackoverflow.com/questions/59448722/ansible-getting-an-item-from-one-list-based-on-a-value-from-another/
+
+# A systemic approach would be to convert the mysql_* lists to
+# dictionaries. For example gives
+# 
+# "db_dict": {
+#     "db1": {
+#         "collation": "utf8mb4_unicode_ci", 
+#         "encoding": "utf8mb4"
+#     }, 
+#     "db2": {
+#         "collation": "utf8mb4_unicode_ci", 
+#         "encoding": "utf8mb4"
+#     }, 
+#     "db3": {
+#         "collation": "utf8mb4_unicode_ci", 
+#         "encoding": "utf8mb4"
+#     }
+# }
+# 
+# and
+# 
+# "users_dict": {
+#     "db1": {
+#         "db": "db1", 
+#         "host": "%", 
+#         "password": "pass1", 
+#         "priv": "db1.*:ALL"
+#     }, 
+#     "db2": {
+#         "db": "db2", 
+#         "host": "%", 
+#         "password": "pass2", 
+#         "priv": "db2.*:ALL"
+#     }, 
+#     "db3": {
+#         "db": "db3", 
+#         "host": "%", 
+#         "password": "pass3", 
+#         "priv": "db3.*:ALL"
+#     }
+# }
+# 
+# Then, manipulation with properly structured data is trivial. For
+# example with template
+# 
+# $ cat credentials.conf.j2
+# {% for k,v in db_dict[item.db].iteritems() %}
+# {{ k }}: {{ v }}
+# {% endfor %}
+# 
+# {% for k,v in users_dict[item.db].iteritems() %}
+# {{ k }}: {{ v }}
+# {% endfor %}
+# 
+# gives
+# 
+# $ cat path1/db1.conf 
+# collation: utf8mb4_unicode_ci
+# encoding: utf8mb4
+# 
+# host: %
+# password: pass1
+# db: db1
+# priv: db1.*:ALL

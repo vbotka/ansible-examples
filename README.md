@@ -208,6 +208,7 @@ Various examples of Ansbile code.
 - Example 204. Jinja2
 - Example 205. remote_user
 - Example 206. Test in
+- Example 207. dict Create dictionary
 
 
 ## License
