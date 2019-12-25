@@ -6,3 +6,7 @@
         var: inventory_hostname
     - debug:
         var: inventory_hostname_short
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout

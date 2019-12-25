@@ -2,105 +2,105 @@
 
 Various examples of Ansbile code.
 
-- Example  1. Iterate dictionary in template
-- Example  2. json_query basics
-- Example  3. Iterate dictionary in play
-- Example  4. trim filter
-- Example  5. async_status
-- Example  6. with_sequence, loop_control and index_var
-- Example  7. Test if synchronize module is idempotent
-- Example  8. loop include_tasks
-- Example  9. gather_facts, service_facts
-- Example 10. Jinja Math
-- Example 11. Test user module with Ansible 2.6.1 and FreeBSD 11.2
-- Example 12. Select items from dictionary
-- Example 13. Test indentation of a block
-- Example 14. loop include_tasks and delegate_to
-- Example 15. import_playbook
-- Example 16. map filter
-- Example 17. Print magic variables
-- Example 18. include_role
-- Example 19. import_playbook and tags
-- Example 20. json_query
-- Example 21. split function
-- Example 22. Dynamic vars with set_fact
-- Example 23. Test names in a block
-- Example 24. include_role and include_vars
-- Example 25. parted (Linux only)
-- Example 26. from_yaml to_nice_json (netplan conf)
-- Example 27. ansible-invetory utility
-- Example 28. host_vars
-- Example 29. Invalid deprecation warning message with certain types of syntax errors
-- Example 30. Test command argv form in 2.6
-- Example 31. Debug tools
-- Example 32. Filters
-- Example 33. Precedence of the variables
-- Example 34. Passwords
-- Example 35. command creates
-- Example 36. vars_prompt, pause
-- Example 37. find module
-- Example 38. Strings and Lists
-- Example 39. lookup
-- Example 40. subelements
-- Example 41. map
-- Example 42. ZFS
-- Example 43. json_query filter contains
-- Example 44. Xen
-- Example 45. Iterate blockinfile from templates
-- Example 46. run_once
-- Example 47. Run the playbook only on one host per group
-- Example 48. getent module
-- Example 49. Variable precedence complex
-- Example 50. Share variables between playbooks
-- Example 51. uri module. Ansible Galaxy API list platforms
-- Example 52. block rescue
-- Example 53. Vault
-- Example 54. Nested loops
-- Example 55. Arithmetics Math
-- Example 56. zip filter
-- Example 57. cache facts
-- Example 58. set_stats
-- Example 59. random filter
-- Example 60. Test jq lightweight and flexible command-line JSON processor
-- Example 61. MySQL command
-- Example 62. select match dynamic vars
-- Example 63. with_together, zip
-- Example 64. group_vars
-- Example 65. include_role (vbotka.ansible_lib)
-- Example 66. include_vars (vbotka.ansible_lib)
-- Example 67. Boolean and, or, xor
-- Example 68. select
-- Example 69. json_query contains
-- Example 70. Fibonacci
-- Example 71. group_vars
-- Example 72. expect
-- Example 73. Jinja set_fact
-- Example 74. Test escape
-- Example 75. template
-- Example 76. password_hash
-- Example 77. replace
-- Example 78. unarchive
-- Example 79. search, match, regex
-- Example 80. inventory
-- Example 81. F5 modules
-- Example 82. sort
-- Example 83. local_action
-- Example 84. lineinfile
-- Example 85. filter_plugins
-- Example 86. hosts
-- Example 87. aysnc
-- Example 88. groupby. Group a sequence of objects by a common attribute.
-- Example 89. bulk-set task arguments
-- Example 90. fail module
-- Example 91. Test vbotka.linux_lib
-- Example 92. dconf
-- Example 93. handlers
-- Example 94. copy
-- Example 95. with_lines
-- Example 96. when
-- Example 97. vars_files
-- Example 98. difference
-- Example 99. add item to list
+- Example   1. Iterate dictionary in template
+- Example   2. json_query basics
+- Example   3. Iterate dictionary in play
+- Example   4. trim filter
+- Example   5. async_status
+- Example   6. with_sequence, loop_control and index_var
+- Example   7. synchronize module
+- Example   8. loop include_tasks
+- Example   9. gather_facts, service_facts
+- Example  10. Jinja math
+- Example  11. Test user module with Ansible 2.6.1 and FreeBSD 11.2
+- Example  12. Select items from dictionary
+- Example  13. Test indentation of a block
+- Example  14. loop include_tasks and delegate_to
+- Example  15. import_playbook
+- Example  16. map filter
+- Example  17. Print magic variables
+- Example  18. include_role
+- Example  19. import_playbook and tags
+- Example  20. json_query
+- Example  21. split function
+- Example  22. Dynamic vars with set_fact
+- Example  23. Test names in a block
+- Example  24. include_role and include_vars
+- Example  25. parted (Linux only)
+- Example  26. from_yaml to_nice_json (netplan conf)
+- Example  27. ansible-invetory utility
+- Example  28. host_vars
+- Example  29. Invalid deprecation warning message with certain types of syntax errors
+- Example  30. Test command argv form in 2.6
+- Example  31. Debug tools
+- Example  32. Filters
+- Example  33. Precedence of the variables
+- Example  34. Passwords
+- Example  35. command creates
+- Example  36. vars_prompt, pause
+- Example  37. find module
+- Example  38. Strings and Lists
+- Example  39. lookup
+- Example  40. subelements
+- Example  41. map
+- Example  42. ZFS
+- Example  43. json_query filter contains
+- Example  44. Xen
+- Example  45. Iterate blockinfile from templates
+- Example  46. run_once
+- Example  47. Run the playbook only on one host per group
+- Example  48. getent module
+- Example  49. Variable precedence complex
+- Example  50. Share variables between playbooks
+- Example  51. uri module. Ansible Galaxy API list platforms
+- Example  52. block rescue
+- Example  53. Vault
+- Example  54. Nested loops
+- Example  55. Arithmetics Math
+- Example  56. zip filter
+- Example  57. cache facts
+- Example  58. set_stats
+- Example  59. random filter
+- Example  60. Test jq lightweight and flexible command-line JSON processor
+- Example  61. MySQL command
+- Example  62. select match dynamic vars
+- Example  63. with_together, zip
+- Example  64. group_vars
+- Example  65. include_role (vbotka.ansible_lib)
+- Example  66. include_vars (vbotka.ansible_lib)
+- Example  67. Boolean and, or, xor
+- Example  68. select
+- Example  69. json_query contains
+- Example  70. Fibonacci
+- Example  71. group_vars
+- Example  72. expect
+- Example  73. Jinja set_fact
+- Example  74. Test escape
+- Example  75. template
+- Example  76. password_hash
+- Example  77. replace
+- Example  78. unarchive
+- Example  79. search, match, regex
+- Example  80. inventory
+- Example  81. F5 modules
+- Example  82. sort
+- Example  83. local_action
+- Example  84. lineinfile
+- Example  85. filter_plugins
+- Example  86. hosts
+- Example  87. aysnc
+- Example  88. groupby. Group a sequence of objects by a common attribute.
+- Example  89. bulk-set task arguments
+- Example  90. fail module
+- Example  91. Test vbotka.linux_lib
+- Example  92. dconf
+- Example  93. handlers
+- Example  94. copy
+- Example  95. with_lines
+- Example  96. when
+- Example  97. vars_files
+- Example  98. difference
+- Example  99. add item to list
 - Example 100. Jinja2 whitespace control (trim_blocks, lstrip_blocks)
 - Example 101. Quotation
 - Example 102. ini_file, workflow
@@ -209,6 +209,7 @@ Various examples of Ansbile code.
 - Example 205. remote_user
 - Example 206. Test in
 - Example 207. dict Create dictionary
+- Example 208. colors
 
 
 ## License

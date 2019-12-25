@@ -1,0 +1,7 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - synchronize:
+        src: /scratch/test-file
+        dest: /scratch/tmp
+#     delegate_to: test_02

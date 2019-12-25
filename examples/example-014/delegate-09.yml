@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: 'hostname'
+      register: result
+      delegate_to: vm1
+    - debug:
+        var: result.stdout

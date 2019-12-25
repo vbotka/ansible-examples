@@ -1,0 +1,52 @@
+- hosts: test_01
+  gather_facts: false
+
+  vars:
+    message_errors:
+      stdout_lines:
+        - some content from hostname1 message_errors.stdout 
+        - some content from hostname1 message_errors.stdout 
+
+  tasks:
+
+    - debug:
+        var: message_errors.stdout_lines
+
+    - set_fact:
+        log_lines: "{{ message_errors.stdout_lines|
+                       map('regex_replace', regex, replace )|
+                       list }}"
+      vars:
+        regex: '^(.*)$'
+        replace: "{{ inventory_hostname }} ~ ' - \\1'"
+      delegate_to: 127.0.0.1
+
+    - debug:
+        var: log_lines
+
+    - lineinfile:
+        line: "{{ message_errors.stdout_lines|
+                  map('regex_replace', regex, replace )|
+                  list|
+                  join('\n') }}"
+        insertafter: EOF
+        dest: /scratch/tmp/playbookXX.logs
+      vars:
+        regex: '^(.*)$'
+        replace: '{{ inventory_hostname }} - \1'
+      delegate_to: 127.0.0.1
+
+# Ansible - Lineinfile add string before each line
+# https://stackoverflow.com/questions/59465001/ansible-lineinfile-add-string-before-each-line/
+
+# $ cat /scratch/tmp/playbookXX.logs 
+# test_01 - some content from hostname1 message_errors.stdout
+# test_01 - some content from hostname1 message_errors.stdout
+
+# Use the list message_errors.stdout_lines and map the filter
+# regex_replace. Then join the lines. For example
+# 
+# Notes
+# 
+# * regex matches the whole line and put it into the capture group \1
+# * replace prepends the capture group \1 with inventory_hostname

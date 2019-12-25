@@ -1,0 +1,41 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+
+    - name: Whoami root
+      become: true
+      command: whoami
+      register: result
+    - name : Debug
+      debug:
+        var: result.stdout
+      tags: [print_action]
+
+    - name: Whoami admin
+      command: whoami
+      register: result
+    - name : Debug
+      debug:
+        var: result.stdout
+      tags: [print_action]
+
+# Subject: Re: [ansible-project] Ansible - Display message color
+# Date: Tue, 24 Dec 2019 17:44:16 +0100
+# 
+# On Tue, 24 Dec 2019 00:44:21 -0800 (PST)
+# Karther <ryadmouhoub92@gmail.com> wrote:
+# 
+# > I want to know if possible display message with module *debug: msg="my 
+# > first message an color red"*  
+# 
+# Yes. It's possible. Set "ok = red" in ansible.cfg or export
+# "ANSIBLE_COLOR_OK=red". See "COLOR_OK"
+# https://docs.ansible.com/ansible/latest/reference_appendices/config.html#color-ok
+#  
+# > I don't know if there is argument color: red or other argument for specify 
+# > only one task message is an color ....  
+# 
+# No. There is no such argument. It's not possible to specify a color for one
+# task only. See "Callback Plugins"
+# https://docs.ansible.com/ansible/latest/plugins/callback.html#callback-plugins
+# https://github.com/ansible/ansible/tree/devel/lib/ansible/plugins/callback
