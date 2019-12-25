@@ -1,0 +1,70 @@
+# TOPIC: delegate_facts
+# RESULT: Set hostvars of not running hosts. The hosts must be in an
+# inbentory.
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    flash_hosts: ['host1', 'host2']
+  tasks:
+    - name:  Assign values to to host var
+      command: "{{ playbook_dir }}/get-assigned-value.sh {{ item }}"
+      register: result
+      loop: "{{ flash_hosts }}"
+#    - debug:
+#        var: result
+    - debug:
+        msg:
+          - "mac: {{ item.stdout }}"
+          - "host: {{ item.item }}"
+      loop: "{{ result.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+    - set_fact:
+        mac: "{{ item.stdout }}"
+      loop: "{{ result.results }}"
+      delegate_to: "{{ item.item }}"
+      delegate_facts: true
+    - debug:
+        msg: "{{ hostvars[item].mac }}"
+      loop: "{{ flash_hosts }}"
+
+
+# ansible assign shell results specific hosts in hostvars using with_items
+# https://stackoverflow.com/questions/59476689/ansible-assign-shell-results-specific-hosts-in-hostvars-using-with-items/
+    
+# It's possible set_facts and delegate_to the flash_hosts with
+# delegate_facts.
+# 
+# But, to create a variable in hostvars the host must be declared in an
+# inventory(static, dynamic or add_host). It's not necessary the host is
+# accessible. For example
+# 
+#     $ cat hosts
+#     host1
+#     host2
+# 
+# The playbook gives
+# 
+#     ok: [localhost] => (item=host1) => 
+#       msg: mac address of host1
+#     ok: [localhost] => (item=host2) => 
+#       msg: mac address of host2
+# 
+# with the script
+# 
+#     $ cat get-assigned-value.sh
+#     #!/bin/sh
+#     case $1 in
+#         host1)
+#         printf "mac address of host1"
+#         ;;
+#         host2)
+#         printf "mac address of host2"
+#         ;;
+#         *)
+#         printf "unknown host"
+#         exit 1
+#         ;;
+#     esac
+#     exit 0

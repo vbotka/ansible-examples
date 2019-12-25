@@ -1,0 +1,16 @@
+- hosts: localhost
+  vars:
+    flash_hosts = ['test_01', 'test_02']
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        groups: 'flash_hosts'
+      loop: "{{ flash_hosts }}"
+
+- hosts: flash_hosts
+  tasks:
+    - name:  Assign values to to host var
+      command: "get-assigned-value.sh"
+      register: result
+    - set_fact:
+        mac: "{{ result.stdout }}"
