@@ -1,0 +1,62 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+#    current_profiles: [
+#      {"context": "client-side", 
+#       "full_path": "/Common/clientssl", 
+#       "name": "clientssl"}]
+    current_profiles:
+      -
+        context: client-side
+        full_path: /Common/clientssl
+        name: clientssl
+
+  tasks:
+    - debug:
+        var: current_profiles
+      tags: t1
+
+    - set_fact:
+        current_profiles: "{{ current_profiles|
+                              map('dict2items')|
+                              map('rejectattr', 'key', 'match', 'full_path')|
+                              map('list')|
+                              map('items2dict')|
+                              list }}"
+      tags: t2
+    - debug:
+        var: current_profiles
+      tags: t2
+    - debug:
+        var: current_profiles[0]
+      tags: t2
+
+# Modify JSON output?
+# https://stackoverflow.com/questions/59487207/modify-json-output/
+
+# The task below creates the list current_profiles wit one item
+# 
+#   current_profiles:
+#   - context: client-side
+#     name: clientssl
+# 
+# 
+#   current_profiles[0]:
+#     context: client-side
+#     name: clientssl
+# 
+# Valid YAML
+# 
+# --- 
+# current_profiles: 
+#   - 
+#     context: client-side
+#     full_path: /Common/clientssl
+#     name: clientssl
+# --- 
+# current_profiles: 
+#   - 
+#     context: /Common/clientssl
+#     name: client-side
+#
