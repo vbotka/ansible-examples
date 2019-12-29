@@ -210,6 +210,7 @@ Various examples of Ansbile code.
 - Example 206. Test in
 - Example 207. dict Create dictionary
 - Example 208. colors
+- Example 209. wait_for_connection
 
 
 ## License

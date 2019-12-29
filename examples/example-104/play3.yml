@@ -32,6 +32,34 @@
         var: current_profiles[0]
       tags: t2
 
+    - debug:
+        msg: "{{ msg.split('\n')[:-1] }}"
+      vars:
+        msg: |
+          current_profiles: {{ current_profiles|to_nice_json }}
+      tags: t2
+    - debug:
+        msg: "{{ msg.split('\n')[:-1] }}"
+      vars:
+        msg: |
+          current_profiles[0]: {{ current_profiles[0]|to_nice_json }}
+      tags: t2
+
+    - debug:
+        msg: "{{ msg.split('\n')[:-1] }}"
+      vars:
+        msg: |
+          current_profiles:
+            {{ current_profiles|to_yaml }}
+      tags: t2
+    - debug:
+        msg: "{{ msg.split('\n')[:-1] }}"
+      vars:
+        msg: |
+          current_profiles[0]:
+            {{ current_profiles[0]|to_yaml }}
+      tags: t2
+
 # Modify JSON output?
 # https://stackoverflow.com/questions/59487207/modify-json-output/
 

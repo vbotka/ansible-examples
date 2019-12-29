@@ -1,0 +1,21 @@
+- hosts: all
+  gather_facts: false
+
+  tasks:
+
+    - block:
+        - wait_for_connection:
+            sleep: 1
+            timeout: 10
+      rescue:
+        - debug:
+            msg: "{{ inventory_hostname }} not connected. End of host."
+        - meta: clear_host_errors
+        - meta: end_host
+
+    - debug:
+        msg: "{{ inventory_hostname }} is running"
+    - setup:
+
+# How do i check if a machine is up and running using an Ansible playbook
+# https://stackoverflow.com/questions/59504241/how-do-i-check-if-a-machine-is-up-and-running-using-an-ansible-playbook/
