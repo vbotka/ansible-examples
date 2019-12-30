@@ -1,0 +1,51 @@
+  - hosts: localhost
+    vars:
+
+      my_hosts:
+        - group: 'POC_ENV'
+          hosts: "{{ lookup('file',
+                            'POC-ENV_list.yml').splitlines() }}"
+    tasks:
+      - add_host:
+          name: "{{ item.1 }}"
+          groups: "{{ item.0.group }}"
+        loop: "{{ lookup('subelements', my_hosts, 'hosts') }}"
+
+  - hosts: POC_ENV
+    tasks:
+      - debug:
+          msg: "{{ msg.split('\n') }}"
+        vars:
+          msg: |
+            host [{{ inventory_hostname }}]
+            key [{{ ansible_ssh_private_key_file }}]
+            args [{{ ansible_ssh_common_args }}]
+            user [{{ ansible_user }}]
+
+# ok: [POC_ENV_02] => {
+#     "msg": [
+#         "host [POC_ENV_02]", 
+#         "key [/home/ansible/.ssh/id_rsa]", 
+#         "args [-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null]", 
+#         "user [ansible]", 
+#         ""
+#     ]
+# }
+# ok: [POC_ENV_01] => {
+#     "msg": [
+#         "host [POC_ENV_01]", 
+#         "key [/home/ansible/.ssh/id_rsa]", 
+#         "args [-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null]", 
+#         "user [ansible]", 
+#         ""
+#     ]
+# }
+# ok: [POC_ENV_03] => {
+#     "msg": [
+#         "host [POC_ENV_03]", 
+#         "key [/home/ansible/.ssh/id_rsa]", 
+#         "args [-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null]", 
+#         "user [ansible]", 
+#         ""
+#     ]
+# }

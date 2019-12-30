@@ -9,6 +9,13 @@
                      '/home/ansible/MACCABI/hosts/nexus_list.yml').splitlines() }}"
 #          ...
     tasks:
+      - debug:
+          var: my_hosts
+      - debug:
+          msg:
+            - "name: {{ item.1 }}"
+            - "groups: {{ item.0.group }}"
+        loop: "{{ lookup('subelements', my_hosts, 'hosts') }}"
       - add_host:
           name: "{{ item.1 }}"
           groups: "{{ item.0.group }}"
