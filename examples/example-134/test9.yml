@@ -1,0 +1,50 @@
+  - hosts: localhost
+    vars:
+      my_hosts:
+        - group: 'POC_ENV'
+          hosts: "{{ lookup('file',
+                     '/home/ansible/MACCABI/hosts/POC-ENV_list.yml').splitlines() }}"
+        - group: 'Nexus'
+          hosts: "{{ lookup('file',
+                     '/home/ansible/MACCABI/hosts/nexus_list.yml').splitlines() }}"
+#          ...
+    tasks:
+      - add_host:
+          name: "{{ item.1 }}"
+          groups: "{{ item.0.group }}"
+        loop: "{{ lookup('subelements', my_hosts, 'hosts') }}"
+
+  - hosts: POC_ENV
+    gather_facts: false
+    tasks:
+      - debug:
+          var: inventory_hostname
+
+  - hosts: Nexus
+    gather_facts: false
+    tasks:
+      - debug:
+          var: inventory_hostname
+
+# Subject: Re: [ansible-project] Need help on building ansible inventory file  properly
+# Date: Mon, 30 Dec 2019 10:05:31 +0100
+# 
+# For example, create the dictionary "my_hosts" with all groups and
+# hosts, and "loop subelements"
+# 
+# https://docs.ansible.com/ansible/latest/plugins/lookup/subelements.html#subelements-traverse-nested-key-from-a-# list-of-dictionaries
+# 
+# Then use the groups in the next plays.
+# 
+# 
+# Notes:
+# 
+# * See "How to build your inventory"
+#   https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#how-to-build-your-inventory
+# 
+# * 'POC-ENV', 'Branch-Switches' and 'Branch-Routers' are not valid names of
+#   the groups. See "Creating valid variable names"
+#   https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#creating-valid-variable-names
+# 
+# * See "Developing dynamic inventory"
+#   https://docs.ansible.com/ansible/latest/dev_guide/developing_inventory.html#developing-dynamic-inventory
