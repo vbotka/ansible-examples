@@ -1,0 +1,42 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        var: item
+      loop: "{{ lookup('file', '/scratch/tmp/default.properties').splitlines() }}"
+      when: import_consul|default(false)|bool
+
+# Ansible Conditional lookup
+# https://stackoverflow.com/questions/59536875/ansible-conditional-lookup/
+
+# Q: Original message: could not locate file in lookup:
+#    /opt/awx/tmp/config-tibco/properties/*.properties
+#
+#    The offending line appears to be:
+#         var: item
+#       loop: loop: "{{ lookup('file', '/scratch/tmp/*.properties').splitlines() }}"
+# 
+# A: The when condition must be evaluated in each iteration because the
+#    condition might depend on the item. As a result, the loop must be
+#    evaluated before when.
+# 
+# Notes
+# 
+# * The file plugin does not work with wildcards. Use fileglob instead.
+# 
+# * To avoid errors, check the existence of the file(s) and terminate
+#   the play if the file(s) are not present.
+# 
+# * Always create at least empty file default.properties
+# 
+# * The when conditions (both first and second) will result in the warning:
+# 
+#   [WARNING]: conditional statements should not include jinja2 templating
+#   delimiters such as {{ }} or {% %}. Found: {{
+#   import_consul|default(false)|bool }}
+# 
+#   Fix it (the first one ditto):
+# 
+#   when: import_consul|default(false)|bool
