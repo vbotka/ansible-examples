@@ -212,6 +212,7 @@ Various examples of Ansbile code.
 - Example 208. colors
 - Example 209. wait_for_connection
 - Example 210. file lookup plugin
+- Example 211. unique filter
 
 
 ## License

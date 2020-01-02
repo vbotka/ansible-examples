@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    data_set_1:
+      host1:
+        field1: '1'
+        field2: '2'
+      host2:
+        field3: '3'
+        field4: '4'
+      host3:
+        field1: '1'
+        field3: '3'
+      host4:
+        field5: '5'
+        field6: '6'
+    data_set_2:
+      - host1
+      - host2
+      - host3
+
+  tasks:
+
+    - set_fact:
+        result: "{{ result|default({})|combine(item) }}"
+      loop: "{{ data_set_2|map('extract', data_set_1)|list }}"
+    - debug:
+        var: result|to_nice_json
+
+# ansible nested loop parse two dictionaries
+# https://stackoverflow.com/questions/59549171/ansible-nested-loop-parse-two-dictionaries/
+#
+# Combine dictionaries in the loop of the list created by map and
+# extract. For example give
+#
+# (export ANSIBLE_STDOUT_CALLBACK=yaml)
+#
+#  result|to_nice_json: |-
+#    {
+#        "field1": "1",
+#        "field2": "2",
+#        "field3": "3",
+#        "field4": "4"
+#    }
