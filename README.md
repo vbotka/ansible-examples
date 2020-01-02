@@ -213,6 +213,7 @@ Various examples of Ansbile code.
 - Example 209. wait_for_connection
 - Example 210. file lookup plugin
 - Example 211. unique filter
+- Example 212. setup module
 
 
 ## License

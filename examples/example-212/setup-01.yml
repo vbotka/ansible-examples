@@ -1,0 +1,29 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - setup:
+        filter: "{{ item }}"
+      loop:
+        - 'ansible_memtotal_mb'
+        - 'ansible_machine'
+        - 'ansible_distribution_version'
+    - debug:
+        var: hostvars.test_01.ansible_facts
+
+# Subject: Re: [ansible-project] How to use multiple filter in setup module
+# Date: Thu, 2 Jan 2020 12:45:01 +0100
+# 
+# It's possible to 'loop' the 'filter' in the module 'setup'
+# https://docs.ansible.com/ansible/latest/modules/setup_module.html
+# 
+# gives
+# 
+#   ok: [test_01] => 
+#     hostvars.test_01.ansible_facts:
+#       distribution_version: '12.0'
+#       machine: i386
+#       memtotal_mb: 3400
+# 
+# It's not possible to create single 'filter' because of the limited
+# functionality of 'fnmatch', I think
+# https://docs.python.org/3.8/library/fnmatch.html
