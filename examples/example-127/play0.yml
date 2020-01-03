@@ -1,0 +1,8 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - stat:
+        path: /etc/passwd
+      register: result
+    - debug:
+        var: result.stat.checksum
