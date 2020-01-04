@@ -1,0 +1,90 @@
+- hosts: localhost
+  vars:
+    my_dict:
+      key1: { "key1a": ["key1aa": "value1aa", "key1ab": "value1ab"]}
+      key2: { "key2a": ["key2aa": "value2aa", "key2ab": "value2ab"]}
+  tasks:
+
+# Append to list
+    - set_fact:
+        my_list: "{{ my_list|default([]) + [{item.key: item.value}] }}"
+      loop: "{{ my_dict|dict2items }}"
+      tags: t1
+    - debug:
+        msg: "{{ my_list|to_json }}"
+      tags: t1
+    - debug:
+        msg: "{{ my_list|to_nice_yaml }}"
+      tags: t1
+
+# json_query
+    - set_fact:
+        my_list: "{{ my_dict|
+                     dict2items|
+                     json_query('[].[{key: key, value: value}]')|
+                     map('items2dict')|
+                     list }}"
+      tags: t2
+    - debug:
+        msg: "{{ my_list|to_json }}"
+      tags: t2
+    - debug:
+        msg: "{{ my_list|to_nice_yaml }}"
+      tags: t2
+
+# Custom filter_plugin dict2list
+    - set_fact:
+        my_list: "{{ my_dict|dict2list }}"
+      tags: t3
+    - debug:
+        msg: "{{ my_list|to_json }}"
+      tags: t3
+    - debug:
+        msg: "{{ my_list|to_nice_yaml }}"
+      tags: t3
+
+# JMESPath to generate an array of objects from an object of objects
+# https://stackoverflow.com/questions/59590507/jmespath-to-generate-an-array-of-objects-from-an-object-of-objects/
+# 
+# msg: '[{"key2": {"key2a": [{"key2aa": "value2aa"}, {"key2ab": "value2ab"}]}},
+#        {"key1": {"key1a": [{"key1aa": "value1aa"}, {"key1ab": "value1ab"}]}}]'
+# 
+# The output was printed with yaml callback export
+# ANSIBLE_STDOUT_CALLBACK=yaml and then the output has been split
+# manually after the first item of the list.
+# 
+# It's easier to see the data's structure when printed with the filter
+# to_nice_yaml. For example gives
+# 
+#   msg: |-
+#     -   key2:
+#             key2a:
+#             -   key2aa: value2aa
+#             -   key2ab: value2ab
+#     -   key1:
+#             key1a:
+#             -   key1aa: value1aa
+#             -   key1ab: value1ab
+# 
+# filter_plugins
+# 
+# It's also possible to use custom Filter plugins. For example with the
+# plugin the task below gives the same result
+# 
+# $ cat filter_plugins/dict_utils.py
+# 
+# def dict2list(d):
+#     l = []
+#     for i in d:
+#         h = {i:d[i]}
+#         l.append(h)
+#     return l
+# 
+# class FilterModule(object):
+# 
+#     def filters(self):
+#         return {
+#             'dict2list': dict2list
+#         }
+
+# EOF
