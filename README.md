@@ -214,6 +214,7 @@ Various examples of Ansbile code.
 - Example 210. file lookup plugin
 - Example 211. unique filter
 - Example 212. setup module
+- Example 213. ansible-playbook --check ansible_check_mode
 
 
 ## License

@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        var: ansible_check_mode
+
+# $ ansible-playbook setup-01.yml --check
+# 
+# PLAY [localhost] **********************
+# 
+# TASK [debug] **************************
+# ok: [localhost] => 
+#   ansible_check_mode: true
+# 
+# PLAY RECAP ****************************
+# localhost: ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
