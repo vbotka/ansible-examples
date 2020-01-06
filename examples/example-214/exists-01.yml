@@ -1,0 +1,24 @@
+- hosts: test_01
+  gather_facts: false
+  vars:
+    my_file1: /scratch/tmp/test1
+    my_file2: /scratch/tmp/test2
+  tasks:
+    - debug:
+        msg: File {{ my_file1 }} exists
+      when: my_file1 is exists
+    - debug:
+        msg: File {{ my_file2 }} exists
+      when: my_file2 is exists
+    - debug:
+        msg: File {{ my_file1 }} does not exist
+      when: my_file1 is not exists
+    - debug:
+        msg: File {{ my_file2 }} does not exist
+      when: my_file2 is not exists
+
+# ok: [test_01] => 
+#   msg: File /scratch/tmp/test1 exists
+# 
+# ok: [test_01] => 
+#   msg: File /scratch/tmp/test2 does not exist

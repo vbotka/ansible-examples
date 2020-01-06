@@ -215,6 +215,7 @@ Various examples of Ansbile code.
 - Example 211. unique filter
 - Example 212. setup module
 - Example 213. ansible-playbook --check ansible_check_mode
+- Example 214. Testing paths. is directory file link exists same_file mount
 
 
 ## License

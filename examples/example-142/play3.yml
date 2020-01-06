@@ -1,0 +1,16 @@
+- hosts: localhost
+  tasks:
+    - include_vars:
+        dir: /scratch/tmp/vars
+        files_matching:
+          - default.yml
+          - debian.yml
+        name: my_vars
+    - debug:
+        var: my_vars
+
+# Import variables from yaml file in ansible
+# https://stackoverflow.com/questions/59607343/import-variables-from-yaml-file-in-ansible/
+
+# RESULT: Despite the fact that the parameter files_matching should be
+# a string the list works too

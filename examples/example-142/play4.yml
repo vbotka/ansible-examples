@@ -1,0 +1,24 @@
+- hosts: localhost
+  tasks:
+    - include_vars:
+        dir: /scratch/tmp/vars
+        # files_matching: '*.yml'
+        files_matching: '^(.*).yml$'
+        name: my_vars
+    - debug:
+        var: my_vars
+
+# Import variables from yaml file in ansible
+# https://stackoverflow.com/questions/59607343/import-variables-from-yaml-file-in-ansible/
+      
+# RESULT: files_matching is Python regex i.e. '^(.*).yml$' works
+#         shel regex '*.yml' does not work
+#      
+# # TASK [include_vars] **************************************
+# An exception occurred during task execution. To see the full
+# traceback, use -vvv. The error was: error: nothing to repeat
+# 
+# fatal: [localhost]: FAILED! => 
+#   msg: Unexpected failure during module execution.
+#   stdout: ''
+

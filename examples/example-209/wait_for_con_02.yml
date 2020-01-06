@@ -1,0 +1,18 @@
+- hosts: test_01
+  gather_facts: false
+
+  tasks:
+
+    - block:
+        - wait_for_connection:
+            sleep: 1
+            timeout: 10
+          register: result
+      rescue:
+        - debug:
+            msg: "{{ inventory_hostname }} not connected. End of host."
+        - meta: clear_host_errors
+        - meta: end_host
+
+    - debug:
+        var: result
