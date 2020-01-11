@@ -14,6 +14,8 @@
     - debug:
         msg: "{{ item.0 }} {{ item.1 }}"
       loop: "{{ users.name|zip(users.age)|list }}"
+    - debug:
+        msg: "{{ users.name|zip(users.age)|list }}"
     - template:
         src: template.j2
         dest: /scratch/tmp/test.txt

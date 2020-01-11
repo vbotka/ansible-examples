@@ -1,0 +1,119 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - find:
+        recurse: true
+        path: /scratch/tmp/some
+      register: result
+
+    - set_fact:
+        my_files: "{{ result.files|json_query('[].path') }}"
+    - debug:
+        var: my_files
+
+    - set_fact:
+        my_dict: "{{ my_dict
+                    |default([]) + [
+                     dict(['path', 'archive', 'version']
+                          |zip([item,
+                                (item|basename).split('-')[0],
+                                (item|basename).split('-')[1]|splitext|list|first])) ] }}"
+      loop: "{{ my_files }}"
+    - debug:
+        var: my_dict
+
+    - set_fact:
+        my_groups: "{{ my_dict|groupby('archive') }}"
+    - debug:
+        var: my_groups
+
+    - debug:
+        msg: "Latest version of {{ item.0 }} is {{ item.1|json_query(query)|first }}"
+      vars:
+        query: "[?version == '{{ latest_version }}'].path"
+        latest_version: "{{ item.1|json_query('[].version')|max }}"
+      loop: "{{ my_groups }}"
+
+# How to filter the latest version of every file in a tree using Ansible?
+# https://stackoverflow.com/questions/59691073/how-to-filter-the-latest-version-of-every-file-in-a-tree-using-ansible/
+
+# Let's transform the data for this purpose first. For example
+# 
+#    - set_fact:
+#         my_files: "{{ result.files|json_query('[].path') }}"
+#     - debug:
+#         var: my_files
+# gives
+# 
+#   my_files:
+#   - /some/place/distfiles/foo-1.2.jar
+#   - /some/place/distfiles/bar-1.1.jar
+#   - /some/place/distfiles/bar-1.1.2.jar
+#   - /some/place/distfiles/subdir/foo-1.3.jar
+# 
+# Create a list of dictionaries
+# 
+#     - set_fact:
+#         my_dict: "{{ my_dict
+#                     |default([]) + [
+#                      dict(['path', 'archive', 'version']
+#                           |zip([item,
+#                                 (item|basename).split('-')[0],
+#                                 (item|basename).split('-')[1]|splitext|list|first])) ] }}"
+#       loop: "{{ my_files }}"
+#     - debug:
+#         var: my_dict
+# gives
+# 
+#   my_dict:
+#   - archive: foo
+#     path: /some/place/distfiles/foo-1.2.jar
+#     version: '1.2'
+#   - archive: bar
+#     path: /some/place/distfiles/bar-1.1.jar
+#     version: '1.1'
+#   - archive: bar
+#     path: /some/place/distfiles/bar-1.1.2.jar
+#     version: 1.1.2
+#   - archive: foo
+#     path: /some/place/distfiles/subdir/foo-1.3.jar
+#     version: '1.3'
+# 
+# Group the items by the name of the archive
+# 
+#     - set_fact:
+#         my_groups: "{{ my_dict|groupby('archive') }}"
+#     - debug:
+#         var: my_groups
+# gives
+# 
+#   my_groups:
+#   - - bar
+#     - - archive: bar
+#         path: /some/place/distfiles/bar-1.1.jar
+#         version: '1.1'
+#       - archive: bar
+#         path: /some/place/distfiles/bar-1.1.2.jar
+#         version: 1.1.2
+#   - - foo
+#     - - archive: foo
+#         path: /some/place/distfiles/foo-1.2.jar
+#         version: '1.2'
+#       - archive: foo
+#         path: /some/place/distfiles/subdir/foo-1.3.jar
+#         version: '1.3'
+# 
+# When the data is ready find the latest versions and print the results
+# 
+#     - debug:
+#         msg: "Latest version of {{ item.0 }} is {{ item.1|json_query(query)|first }}"
+#       vars:
+#         query: "[?version == '{{ latest_version }}'].path"
+#         latest_version: "{{ item.1|json_query('[].version')|max }}"
+#       loop: "{{ my_groups }}"
+# gives
+# 
+#   msg: Latest version of bar is /some/place/distfiles/bar-1.1.2.jar
+#   msg: Latest version of foo is /some/place/distfiles/subdir/foo-1.3.jar
