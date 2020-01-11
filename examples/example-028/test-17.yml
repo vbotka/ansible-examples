@@ -1,0 +1,14 @@
+- hosts: test_01
+  tasks:
+    - debug:
+        var: test_var
+
+- hosts: test_02
+  tasks:
+    - debug:
+        var: test_var
+
+- hosts: test_03
+  tasks:
+    - debug:
+        var: test_var

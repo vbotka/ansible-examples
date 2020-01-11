@@ -1,0 +1,43 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_var: "{{ lookup('pipe', '/scratch/tmp/my_script')|from_yaml }}"
+  tasks:
+    - debug:
+        var: my_var
+    - debug:
+        msg: "AppName [{{ my_var.AppName }}]"
+
+# Passing Variables to Ansible from Py script
+# https://stackoverflow.com/questions/59685338/passing-variables-to-ansible-from-py-script/
+
+# Q: "Passing Variables to Ansible from Py script"
+# 
+# A: It's possible to use lookup, pipe, from_yaml and assign the output
+# of a script to a variable. For example with the script
+# 
+# $ cat my_script
+# #!/bin/sh
+# printf 'AppName: my_AppName\n'
+# printf 'Host: my_Host\n'
+# printf 'SealID: my_SealID\n'
+# the playbook
+# 
+# - hosts: localhost
+#   vars:
+#     my_var: "{{ lookup('pipe', 'my_script')|from_yaml }}"
+#   tasks:
+#     - debug:
+#         var: my_var
+#     - debug:
+#         msg: "AppName [{{ my_var.AppName }}]"
+# gives
+# 
+# ok: [localhost] => 
+#   my_var:
+#     AppName: my_AppName
+#     Host: my_Host
+#     SealID: my_SealID
+# 
+# ok: [localhost] => 
+#   msg: AppName [my_AppName]

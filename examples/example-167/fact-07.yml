@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - script: /scratch/tmp/my_script
+      register: result
+    - debug:
+        var: result
+    - set_fact:
+        my_var: "{{ my_var|default({})|combine(item|from_yaml) }}"
+      with_items: "{{ result.stdout_lines }}"
+    - debug:
+        var: my_var
+    - debug:
+        msg: "AppName [{{ my_var.AppName }}]"
+
+# Passing Variables to Ansible from Py script
+# https://stackoverflow.com/questions/59685338/passing-variables-to-ansible-from-py-script/
+#         
+# Q: "Ansible 2.3 doesn't have lookup plugin. What will be the alternate way for this?"
+# 
+# A: It' possible to register the output of the script and combine the
+# dictionary with_items. For example, the play below gives the same
+# result
+# 
+# ok: [localhost] => 
+#   my_var:
+#     AppName: my_AppName
+#     Host: my_Host
+#     SealID: my_SealID
+# 
+# ok: [localhost] => 
+#   msg: AppName [my_AppName]
