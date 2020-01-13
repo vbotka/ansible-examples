@@ -1,0 +1,89 @@
+- hosts: all
+  gather_facts: false
+
+  vars:
+    exclusive_groups:
+      - group1
+      - group3
+    
+  tasks:
+    - set_fact:
+        member_exclusive_groups: "{{ exclusive_groups|intersect(group_names) }}"
+    - debug:
+        var: member_exclusive_groups
+    - block:
+        - debug:
+            msg: "{{ msg.split('\n') }}"
+          vars:
+            msg: |-
+              {{ inventory_hostname }} is member of exclusive groups
+              {{ member_exclusive_groups|to_yaml }}
+              End of host.
+        - meta: end_host
+      when: member_exclusive_groups|length > 1
+
+# Does Ansible provide exclusive groups?
+# https://unix.stackexchange.com/questions/561636/does-ansible-provide-exclusive-groups/
+# 
+# Q: "Is there a method to imbue that logic in the groups in the
+# inventory. To be sure that one host isn't attached to two conflicting
+# groups?"
+# 
+# A: No. There is no such method in the inventory. But it can be easily
+# implemented in a task. Ansible variable group_names keeps the list of
+# the groups a host is a member of. Let's define a list of
+# exclusive_groups and test the intersect
+# 
+#     exclusive_groups|intersect(group_names)|length > 1
+# 
+# For example, with the inventory
+# 
+# $ cat hosts
+# [group1]
+# test_01 ansible_host=10.1.0.51
+# test_02 ansible_host=10.1.0.52
+# 
+# [group2]
+# test_03 ansible_host=10.1.0.53
+# test_04 ansible_host=10.1.0.54
+# 
+# [group3]
+# test_02 ansible_host=10.1.0.52
+# test_03 ansible_host=10.1.0.53
+# 
+# the playbook
+# 
+# - hosts: all
+# 
+#   vars:
+#     exclusive_groups:
+#       - group1
+#       - group3
+# 
+#   tasks:
+#     - set_fact:
+#         member_exclusive_groups: "{{ exclusive_groups|intersect(group_names) }}"
+#     - block:
+#         - debug:
+#             msg: "{{ msg.split('\n') }}"
+#           vars:
+#             msg: |-
+#               {{ inventory_hostname }} is member of exclusive groups
+#               {{ member_exclusive_groups|to_yaml }}
+#               End of host.
+#         - meta: end_host
+#       when: member_exclusive_groups|length > 1
+# 
+# gives
+# 
+# skipping: [test_01]
+# ok: [test_02] => {
+#     "msg": [
+#         "test_02 is member of exclusive groups", 
+#         "[group1, group3]", 
+#         "", 
+#         "End of host."
+#     ]
+# }
+# skipping: [test_03]
+# skipping: [test_04]

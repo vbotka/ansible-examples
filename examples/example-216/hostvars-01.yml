@@ -1,0 +1,73 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        psql_users: "{{ groups['django']|
+                        map('extract', hostvars)|
+                        list|
+                        json_query('[].{name: username,
+                                        password: userpass,
+                                        encrypted: `true`}') }}"
+      delegate_to: localhost
+      run_once: true
+
+- hosts: db
+  gather_facts: false
+  tasks:
+    - debug:
+        var: psql_users
+
+# How to enumerate hostvars into a role setting in Ansible
+# https://serverfault.com/questions/998712/how-to-enumerate-hostvars-into-a-role-setting-in-ansible/
+      
+# $ cat hosts
+# all:
+#   hosts:
+#   children:
+#     django:
+#       hosts:
+#         django_1:
+#           username: django1
+#           userpass: django1_pass
+#         django_2:
+#           username: django2
+#           userpass: django2_pass
+#     db:
+#       hosts:
+#         db1:
+# 
+# It's possible to create the variable in the first play and use it later. For example
+# 
+# - hosts: all
+#   tasks:
+#     - set_fact:
+#         psql_users: "{{ groups['django']|
+#                         map('extract', hostvars)|
+#                         list|
+#                         json_query('[].{name: username,
+#                                         password: userpass,
+#                                         encrypted: `true`}') }}"
+#       delegate_to: localhost
+#       run_once: true
+# 
+# - hosts: db
+#   tasks:
+#     - debug:
+#         var: psql_users
+# 
+# gives
+# 
+# ok: [db1] => {
+#     "psql_users": [
+#         {
+#             "encrypted": true, 
+#             "name": "django1", 
+#             "password": "django1_pass"
+#         }, 
+#         {
+#             "encrypted": true, 
+#             "name": "django2", 
+#             "password": "django2_pass"
+#         }
+#     ]
+# }
