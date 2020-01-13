@@ -1,0 +1,67 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - read_csv:
+        path: csv_file.csv
+      register: my_files
+    - debug:
+        var: my_files.list
+    - copy:
+        dest: "{{ item.filename }}"
+        content: "{{ item.note }}"
+      loop: "{{ my_files.list }}"
+
+# Subject: Re: [ansible-project] Create file who is in my csv file
+# Date: Mon, 13 Jan 2020 17:34:53 +0100
+# On Mon, 13 Jan 2020 08:10:14 -0800 (PST)
+# 
+# > filename,state,note,temps
+# > file1,0,my fisrt note,52
+# > file2,0,my second note,34
+# > file3,0,my thirst note,71
+# > 
+# > ... my goal is that create all file sucessively (file1, file2, 
+# > file3, ...)  
+# 
+# You might be better off with the 'read_csv' module
+# https://docs.ansible.com/ansible/latest/modules/read_csv_module.html#read-csv-read-a-csv-file
+# 
+# For example
+# 
+#     - hosts: localhost
+#       tasks:
+#         - read_csv:
+#             path: csv_file.csv
+#           register: my_files
+#         - debug:
+#             var: my_files.list
+# 
+# gives
+# 
+#     "my_files.list": [
+#         {
+#             "filename": "file1", 
+#             "note": "my fisrt note", 
+#             "state": "0", 
+#             "temps": "52"
+#         }, 
+#         {
+#             "filename": "file2", 
+#             "note": "my second note", 
+#             "state": "0", 
+#             "temps": "34"
+#         }, 
+#         {
+#             "filename": "file3", 
+#             "note": "my thirst note", 
+#             "state": "0", 
+#             "temps": "71"
+#         }
+#     ]
+# 
+# The loop the list and create files. For example
+# 
+#     - copy:
+#         dest: "{{ item.filename }}"
+#         content: "{{ item.note }}"
+#       loop: "{{ my_files.list }}"
