@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        psql_users: "{{ groups['django']|
+                        map('extract', hostvars)|
+                        list|
+                        json_query('[].{name: username,
+                                        password: userpass,
+                                        encrypted: `true`}') }}"
+    - template:
+        src: hosts-02.j2
+        dest: hosts2
+
+# How to enumerate hostvars into a role setting in Ansible
+# https://serverfault.com/questions/998712/how-to-enumerate-hostvars-into-a-role-setting-in-ansible/
+      
+# It's also possible to use template and create an inventory file. For
+# example with the template
+# 
+# $ cat hosts.j2
+# db:
+#   hosts:
+#     db1:
+#       postgresql_users:
+# {{ psql_users|to_nice_yaml|indent(8,true) }}
+# 
+# the task
+# 
+# - template:
+#     src: hosts.j2
+#     dest: hosts2
+# 
+# creates inventory
+# 
+# $ cat hosts2
+# db:
+#   hosts:
+#     db1:
+#       postgresql_users:
+#         -   encrypted: true
+#             name: django1
+#             password: django1_pass
+#         -   encrypted: true
+#             name: django2
+#             password: django2_pass
