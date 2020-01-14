@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    username: user1
+    userpass: pass1
+    # users: "{{ {}|combine({username: {'pass': userpass}}) }}"
+    users: "{{ {username: {'pass': userpass}} }}"
+  tasks:
+    - debug:
+        var: users
+
+# Templated dict keys in ansible YAML
+# https://serverfault.com/questions/998903/templated-dict-keys-in-ansible-yaml/
+#       
+# The play gives
+# 
+# "users": {
+#     "user1": {
+#         "pass": "pass1"
+#     }
+# }
+# 
+# Is this what you're looking for?
