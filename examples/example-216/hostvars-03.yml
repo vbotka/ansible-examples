@@ -1,0 +1,112 @@
+- hosts: PRO
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }}
+              {{ my_environment }}
+              {{ my_function }}
+              {{ my_cluster }}
+              {{ my_app }}"
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ hostvars|
+                dict2items|
+                json_query('[?value.my_cluster == `cluster_A`].key') }}"
+      delegate_to: localhost
+      run_once: true
+
+    - add_host:
+        name: "{{ item }}"
+        group: cluster_A
+      loop: "{{ hostvars|
+                dict2items|
+                json_query('[?value.my_cluster == `cluster_A`].key') }}"
+      delegate_to: localhost
+      run_once: true
+
+- hosts: cluster_A
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# Ansible inventory: Categorize hosts with multiple criteria
+# https://stackoverflow.com/questions/59735057/ansible-inventory-categorize-hosts-with-multiple-criteria/
+
+# Q: "Every host must have 4 "categories": environment, function,
+# cluster and app. How could I achieve this without having to constantly
+# repeat entries?"
+# 
+# A: It's possible to declare default options in a [*:vars] section and
+# override it with the host's specific options. See How variables are
+# merged. For example the inventory
+# 
+# $ cat hosts
+# [PRO_OSB]
+# test_01 my_cluster='cluster_A'
+# test_02
+# [PRO_WL]
+# test_03 my_cluster='cluster_A'
+# test_04
+# [PRO:children]
+# PRO_OSB
+# PRO_WL
+# [PRO:vars]
+# my_environment='default_env'
+# my_function='default_fnc
+# my_cluster='default_cluster'
+# my_app='default_app'
+# with the playbook
+# 
+# - hosts: PRO
+#   gather_facts: false
+#   tasks:
+#     - debug:
+#         msg: "{{ inventory_hostname }}
+#               {{ my_environment }}
+#               {{ my_function }}
+#               {{ my_cluster }}
+#               {{ my_app }}"
+# 
+# gives (my_cluster variable of test_01 and test_03 was overridden by hosts' value)
+# 
+# "msg": "test_01 default_env 'default_fnc cluster_A default_app"
+# "msg": "test_02 default_env 'default_fnc default_cluster default_app"
+# "msg": "test_04 default_env 'default_fnc default_cluster default_app"
+# "msg": "test_03 default_env 'default_fnc cluster_A default_app"
+# 
+# Q: "Run playbooks specifying even more, i.e attending to the
+# environment, its function, cluster of hosts and application."
+# 
+# It's possible to create dynamic groups with the module add_host and
+# select the hosts as needed. For example create new group `cluster_A'
+# in the first play and use it in the next ones
+# 
+# - hosts: all
+#   tasks:
+#     - add_host:
+#         name: "{{ item }}"
+#         group: cluster_A
+#       loop: "{{ hostvars|
+#                 dict2items|
+#                 json_query('[?value.my_cluster == `cluster_A`].key') }}"
+#       delegate_to: localhost
+#       run_once: true
+# 
+# - hosts: cluster_A
+#   tasks:
+#     - debug:
+#         var: inventory_hostname
+# 
+# gives
+# 
+# ok: [test_01] => {
+#     "inventory_hostname": "test_01"
+# }
+# ok: [test_03] => {
+#     "inventory_hostname": "test_03"
+# }
