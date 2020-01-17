@@ -1,0 +1,50 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+
+    target: [
+            " SSLFile  /web/test1.crt", 
+            " SSLFile  /web/SSL.crt", 
+            " SSLFile  /web/test.crt"
+            ]
+
+  tasks:
+
+    - debug:
+        var: target
+
+    - debug:
+        msg: Variable is a list
+      when: target is iterable
+
+    - debug:
+        msg: "{{ item.split()[1] }}"
+      loop: "{{ target }}"
+
+    - set_fact:
+        my_list: "{{ my_list|default([]) + [ item.split()[1] ] }}"
+      loop: "{{ target }}"
+
+    - debug:
+        var: my_list[0]
+
+# Unable to print variable having regex match results in Ansible
+# https://stackoverflow.com/questions/59750436/unable-to-print-variable-having-regex-match-results-in-ansible/
+# 
+# Q: I wish to get only the filenames i.e 2nd column from variable "target" i.e
+# 
+# /web/test1.crt
+# /web/SSL.crt
+# /web/test.crt
+# 
+# A: The variable target is a list. It's possible to iterate it. The task
+# 
+#     - debug:
+#         msg: "{{ item.split()[1] }}"
+#       loop: "{{ target }}"
+# gives
+# 
+#     "msg": "/web/test1.crt"
+#     "msg": "/web/SSL.crt"
+#     "msg": "/web/test.crt"

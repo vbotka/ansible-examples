@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list:
+      - name: "ZZZ"
+        _id:
+          $oid: "5ba3c813c2dc4bf8392f8ec0"
+  tasks:
+    - debug:
+        var: list
+    - debug:
+        msg: "{{ list|json_query(query) }}"
+      vars:
+        query: "[?name=='ZZZ']._id.\"$oid\""
+
+# Accessing fields that contain a special character in json_query
+# https://stackoverflow.com/questions/59768593/accessing-fields-that-contain-a-special-character-in-json-query/
+      
+# If the name comprises special characters it's possible to quote the
+# attribute. For example
+# 
+# - hosts: localhost
+#   vars:
+#     list:
+#       - name: "ZZZ"
+#         _id:
+#           $oid: "5ba3c813c2dc4bf8392f8ec0"
+#   tasks:
+#     - debug:
+#         msg: "{{ list|json_query(query) }}"
+#       vars:
+#         query: "[?name=='ZZZ']._id.\"$oid\""
+# gives
+# 
+# "msg": [
+#     "5ba3c813c2dc4bf8392f8ec0"
+# ]

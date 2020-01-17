@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    sssd_config: 
+      sssd: 
+        debug_level: 1 
+        additional_key: additional_value
+        another_addtional_key: another_additional_value
+      nss: 
+        reconnection_retries: 3 
+        additional_key: additional_value
+        another_addtional_key: another_additional_value
+      pam: 
+        debug_level: 5 
+        additional_key: additional_value
+        another_addtional_key: another_additional_value
+
+  tasks:
+
+    - set_fact:
+        my_list: "{{ my_list|
+                     default([]) +
+                     [{'section': item.key}|
+                      combine({'params': item.value|dict2list})] }}"
+      loop: "{{ sssd_config|dict2items }}"
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: "{{ my_list|to_nice_yaml }}"
+
+    - ini_file:
+        path: /scratch/tmp/config.ini
+        section: "{{ item.0.section }}"
+        option: "{{ item.1.keys()|list|first }}"
+        value: "{{ item.1.values()|list|first }}"
+      with_subelements:
+        - "{{ my_list }}"
+        - params
