@@ -1,0 +1,89 @@
+- hosts: group1
+  gather_facts: false
+  tasks:
+    - debug:
+        var: ansible_fqdn
+
+    - set_fact:
+        master_server: "{{ (groups.group1|
+                            map('extract', hostvars)|
+                            selectattr('master', 'eq', True)|
+                            list|
+                            first).ansible_fqdn }}"
+      run_once: true
+      tags: t1
+    - debug:
+        var: master_server
+      tags: t1
+
+    - set_fact:
+        master_server: "{{ groups.group1|
+                           map('extract', hostvars)|
+                           list|
+                           json_query('[?master].ansible_fqdn')|
+                           first }}"
+      run_once: true
+      tags: t2
+    - debug:
+        var: master_server
+      tags: t2
+
+# Get facts when var defined in hostvars
+# https://stackoverflow.com/questions/59785097/get-facts-when-var-defined-in-hostvars/
+# 
+# Q: "How to get ansible_fqdn with master=yes from server2, server3?"
+# 
+# A: There are more options. For example, either use selectattr
+# 
+# - hosts: group1
+#   tasks:
+#     - set_fact:
+#         master_server: "{{ (groups.group1|
+#                             map('extract', hostvars)|
+#                             selectattr('master', 'eq', True)|
+#                             list|
+#                             first).ansible_fqdn }}"
+#       run_once: true
+#     - debug:
+#         var: master_server
+# 
+# , or use json_query
+# 
+# - hosts: group1
+#   tasks:
+#     - set_fact:
+#         master_server: "{{ groups.group1|
+#                            map('extract', hostvars)|
+#                            list|
+#                            json_query('[?master].ansible_fqdn')|
+#                            first }}"
+#       run_once: true
+#     - debug:
+#         var: master_server
+# 
+# Both options give
+# 
+# ok: [test_02] => {
+#     "master_server": "test_01.example.org"
+# }
+# ok: [test_01] => {
+#     "master_server": "test_01.example.org"
+# }
+# ok: [test_03] => {
+#     "master_server": "test_01.example.org"
+# }
+# 
+# Inventory used in the examples
+# 
+# $ cat hosts
+# group1:
+#   hosts:
+#     test_01:
+#       master: yes
+#       ansible_fqdn: test_01.example.org
+#     test_02:
+#       master: no
+#       ansible_fqdn: test_02.example.org
+#     test_03:
+#       master: no
+#       ansible_fqdn: test_03.example.org
