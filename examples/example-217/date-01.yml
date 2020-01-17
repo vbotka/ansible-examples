@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    compareTime: "2020-01-15T17:55:3S.390Z"
+  tasks:
+    - include_vars: date-01-data.yml
+    - debug:
+        var: my_list
+    - debug:
+        msg: "{{ my_list|
+                 selectattr('last_activity_at', 'gt', compareTime)|
+                 list }}"
+    - debug:
+        msg: "{{ my_list|json_query(query) }}"
+      vars:
+        query: "[?last_activity_at > '{{ compareTime  }}']"

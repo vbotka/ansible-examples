@@ -218,6 +218,7 @@ Various examples of Ansbile code.
 - Example 214. Testing paths. is directory file link exists same_file mount
 - Example 215. max, min filters
 - Example 216. hostvars
+- Example 217. date, time, datetime
 
 
 ## License
