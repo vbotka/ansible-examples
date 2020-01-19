@@ -1,0 +1,8 @@
+rel1:
+  deployment:
+    webui:
+      dockerName: "rel1"
+rel2:
+  deployment:
+    webui:
+      dockerName: "rel2"

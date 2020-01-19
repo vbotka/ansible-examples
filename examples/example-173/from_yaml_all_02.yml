@@ -1,0 +1,7 @@
+- hosts: localhost
+  tasks:
+    - include_vars: develop/group_var/all.yml
+    - debug:
+        var: global
+    - debug:
+        var: docker
