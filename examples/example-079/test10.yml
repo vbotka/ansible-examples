@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    paths:
+      - "/home/vagrant/.ansible"
+      - path-one
+      - path-two
+      - path-three
+      - "/home/vagrant/.ssh"
+      - "/home/vagratn/"
+    patterns:
+      - ".*ssh.*"
+      - ".*ansible.*"
+      - ".*one.*"
+
+  tasks:
+
+    - set_fact:
+        files_to_be_removed: "{{ paths }}"
+    - set_fact:
+        files_to_be_removed: "{{ files_to_be_removed|
+                                 reject('search', item)|
+                                 list }}"
+      loop: "{{ patterns }}"
+    - debug:
+        var: files_to_be_removed
+
+# How to reduce a list against another list of patterns?
+# https://stackoverflow.com/questions/59814211/how-to-reduce-a-list-against-another-list-of-patterns/
+
+# Q: In the end I would like to have a list like this:
+# 
+# ok: [localhost] => {
+#     "msg": [
+#         "path-two",
+#         "path-three",
+#         "/home/vagratn/"
+#     ]
+# }
+
+# A: The tasks below do the job
+# 
+#     "files_to_be_removed": [
+#         "path-two", 
+#         "path-three", 
+#         "/home/vagratn/"
+#     ]
