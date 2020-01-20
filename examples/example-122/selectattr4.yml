@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+
+    mydict:
+      foo:
+        key1: val1
+        key2: val2
+      bar:
+        key3: val3
+        key4: val4
+      abc:
+        key5: val5
+        key6: val6
+
+  tasks:
+
+    - debug:
+        msg: "{{ item.key }}: {{ item.value }}"
+      loop: "{{ mydict|dict2items|selectattr('key', 'regex', '^(foo)|(bar)$')|list }}"
+
+# Ansible combining a filter or predicate with dict2items?
+# https://unix.stackexchange.com/questions/563052/ansible-combining-a-filter-or-predicate-with-dict2items/
+
+# Q: "Filter the result of dict2items based on a specific key."
+# A: Use selectattr. For example
+# {{ mydict|dict2items|selectattr('key', 'regex', '^(foo)|(bar)$')|list }}
+
+#     "msg": "foo: {u'key2': u'val2', u'key1': u'val1'}"
+#     "msg": "bar: {u'key3': u'val3', u'key4': u'val4'}"
