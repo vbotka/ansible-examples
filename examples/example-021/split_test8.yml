@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - debug:
+        msg: "{{ Number.split('_', 1) }}"
+    - set_fact:
+        Number_New: "{{ nsplit.0 }}"
+        Status: "{{ nsplit.1|default('%') }}"
+      vars:
+        nsplit: "{{ Number.split('_', 1) }}"
+    - debug:
+        var: Number_New
+    - debug:
+        var: Status
+
+# Unable to set default value for set_fact in Ansible
+# https://stackoverflow.com/questions/59818925/unable-to-set-default-value-for-set-fact-in-ansible/
+
+# Q:
+# ansible-playbook test.yml -e  "Number=22235_ReDep_292001105550"
+# Expectation:
+# Number_New should be "22235"
+# Status should be "ReDep_292001105550"
+# 
+# ansible-playbook test.yml -e  "Number=22235"
+# Expectation:
+# Number_New should be "22235"
+# Status should be "%"
+# 
+# A: The task below does the job
+# 
+#     - set_fact:
+#         Number_New: "{{ nsplit.0 }}"
+#         Status: "{{ nsplit.1|default('%') }}"
+#       vars:
+#         nsplit: "{{ Number.split('_', 1) }}"
+
+# $ ansible-playbook split_test8.yml -e  "Number=22235_ReDep_29200110555"
+#     "Number_New": "22235"
+#     "Status": "ReDep_29200110555"
+# 
+# $ ansible-playbook split_test8.yml -e  "Number=22235"
+#     "Number_New": "22235"
+#     "Status": "%"
