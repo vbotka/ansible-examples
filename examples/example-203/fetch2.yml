@@ -1,0 +1,40 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - fetch:
+        dest: /tmp/fetched
+        src: /etc/passwd
+        flat: yes
+
+# How to fetch remote file only if file does not already exist in Ansible
+# https://stackoverflow.com/questions/59844819/how-to-fetch-remote-file-only-if-file-does-not-already-exist-in-ansible
+# 
+# Q: "Fetch module, only if the file does not already exist at the destination."
+# A: The fetch module is idempotent and downloads only changed file. For
+#   example the first run of the playbook
+# 
+# - hosts: test_01
+#   tasks:
+#     - fetch:
+#         dest: /tmp/fetched
+#         src: /etc/passwd
+#         flat: yes
+# 
+# gives
+# 
+# TASK [fetch] *****************************************************************************************************
+# changed: [test_01]
+# 
+# PLAY RECAP *******************************************************************************************************
+# test_01                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+# 
+# Repeated run of the same playbook gives
+# 
+# TASK [fetch] *****************************************************************************************************
+# ok: [test_01]
+# 
+# PLAY RECAP *******************************************************************************************************
+# test_01                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+# 
+# The source shows that the file will be fetched only if the remote and local checksums differ.
+# --
