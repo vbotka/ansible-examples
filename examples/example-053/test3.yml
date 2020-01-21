@@ -1,0 +1,92 @@
+- hosts: servers
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        msg:
+          - "{{ inventory_hostname }}"
+          - "{{ ansible_user }}"
+          - "{{ my_vault[inventory_hostname].ansible_password }}"
+
+    - set_fact:
+        ansible_password: "{{ my_vault[inventory_hostname].ansible_password }}"
+  
+- hosts: servers
+  gather_facts: false
+  tasks:
+  - debug:
+      var: ansible_password
+
+# How to define sudo passwords for multiple hosts in one file vault?
+# https://stackoverflow.com/questions/59842933/how-to-define-sudo-passwords-for-multiple-hosts-in-one-file-vault/
+
+# Q: "How do I get the different ansible_password from the inventory in
+#    one file vault?"
+# 
+# A: It's possible to use set_fact and add the decrypted variables. For
+#    example
+# 
+# 1) Remove the passwords from the inventory file
+# 
+# [servers]
+# 1.2.3.4    ansible_user=user1
+# 1.2.3.5    ansible_user=user2
+# 1.2.3.6    ansible_user=user3
+# 
+# 2) Create a dictionary with the passwords
+# 
+# $ cat group_vars/servers/my_vault.yml
+# my_vault:
+#   '1.2.3.4':
+#     ansible_password: 'password1'
+#   '1.2.3.5':
+#     ansible_password: 'password2'
+#   '1.2.3.6':
+#     ansible_password: 'password3'
+# 
+# 3) Encrypt the file
+# 
+# $ ansible-vault encrypt group_vars/servers/my_vault.yml
+# Encryption successful
+# $ cat group_vars/servers/my_vault.yml
+# $ANSIBLE_VAULT;1.1;AES256
+# 33613937636462643266613264333138376135313762663832393837616137323165363531666438
+# 3564366531386130623162386332646366646561663763320a633533653631396637316138393339
+# 66623531633936346363313965633565623566313264396636303136666432373037313666653630
+# 3530343461616338370a323565346564383266323934376432383436646261313639663961343662
+# 35336439646133333434363462616537323130373733363863646435376435343864323336323135
+# 35623330303732666233313135643265393030386561306235303038353133386230336431396637
+# 64663331316439336638646366636530626363353034326462393938363230386666303066383834
+# 38643538343137633966336130393362303534666139373034356530303661643339623234356366
+# 61316363333331613762663230616239643965333261353936373464366162646662323361626431
+# 33663839386261313561396337393330616131663561646562373233373265646334383937386431
+# 38386165653864363235646538353337373063376665386638653333646632316533363731663234
+# 35663336663936653233
+# 
+# 4) The playbook below adds the variable ansible_password to each host
+#    in the first play and uses it in the second play. For example
+# 
+# - hosts: servers
+#   gather_facts: false
+#   tasks:
+#     - set_fact:
+#         ansible_password: "{{ my_vault[inventory_hostname].ansible_password }}"
+# 
+# - hosts: servers
+#   tasks:
+#   - debug:
+#       var: ansible_password
+# 
+# gives
+# 
+# ok: [1.2.3.4] => {
+#     "ansible_password": "password1"
+# }
+# ok: [1.2.3.5] => {
+#     "ansible_password": "password2"
+# }
+# ok: [1.2.3.6] => {
+#     "ansible_password": "password3"
+# }
+# --
