@@ -1,0 +1,68 @@
+- hosts: test_01
+  tasks:
+  - debug:
+      var: test_var1
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Encrypted Password in Playbook
+# Date: Tue, 21 Jan 2020 12:18:05 +0100
+# 
+# > I am trying to maintain password (encrypted using ansible-vault) and my
+# > playbook (clear-text) in separate files.  
+# 
+# Below is a step-by-step scenario:
+# 
+# 1) Let's assume the vault password has bee configured properly (you
+#    have set the 'vault_password_file' in ansible.cfg) . Let's use
+#    global variable here.  For example
+# 
+#    $ set | grep VAULT
+#    ANSIBLE_VAULT_PASSWORD_FILE=/home/admin/.vault_pass.txt
+# 
+#    See "Providing Vault Passwords"
+#    https://docs.ansible.com/ansible/latest/user_guide/vault.html#providing-vault-passwords
+# 
+# 2) Create a file foo.yml with variable(s). Encrypt the file. See the
+#    content.
+# 
+#    $ cat foo.yml
+#    test_var1: secret
+#    $ ansible-vault encrypt foo.yml
+#    $ cat foo.yml
+#    $ANSIBLE_VAULT;1.1;AES256
+#    39333766363735373133663263613063313331326263373433353434653566663439623366373338
+#    6438306562323262363965653336653362616136366439620a326533316463346437373066333433
+#    30353336623733303762613639636138336666366631386531633064323733313936663831393731
+#    3036633964323235310a613766346633613765643832306539346137613731663865636564636164
+#    61303534393363616263666564636366303861623131306536316432383230393736
+#    $ ansible-vault view foo.yml
+#    test_var1: secret1
+# 
+#    See "Encrypting Unencrypted Files"
+#    https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-unencrypted-files
+# 
+# 3) Create inventory (fit the groups and hosts to your needs)
+# 
+#    $ cat hosts
+#    [test]
+#    test_01
+# 
+# 4) Put the encrypted file into the directory host_vars (fit the host
+#    to your needs).
+# 
+#    $ mkdir -p host_vars/test_01
+#    $ mv foo.yml host_vars/test_01/
+# 
+# 5) Create and run playbook. See the variable was successfully decrypted.
+# 
+#    $ cat test.yml
+#    - hosts: test_01
+#      tasks:
+#      - debug:
+#          var: test_var1
+#    $ ansible-playbook test1.yml
+#    ok: [test_01] => { "test_var1": "secret1" }
+# 
+# There are many variations how-to handle vault variables. If you have
+# troubles report minimal, complete, reproducible example.
+# --
