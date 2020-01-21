@@ -1,0 +1,41 @@
+- hosts: leafs
+  gather_facts: no
+  tasks:
+    - debug:
+        var: res_tags
+
+# How to create an Ansible inventory with dict variables
+# https://stackoverflow.com/questions/59844847/how-to-create-an-ansible-inventory-with-dict-variables/
+# 
+# [leafs]
+# leaf01 ansible_host=10.16.10.11 ansible_network_os=vyos ansible_user=my_vyos_user res_tags={Owner:Ted, Role: Support, Environment: Dev }
+# 
+# Q: "Is it actually possible to use dict in inventory?"
+# A: Yes. It is possible. Use YAML format if you have problems with INI
+#    format. See Inventory basics: formats, hosts, and groups. For example
+# 
+# $ cat hosts
+# leafs:
+#   hosts:
+#     leaf:
+#       ansible_host: 10.16.10.11
+#       ansible_network_os: vyos
+#       ansible_user: my_vyos_user
+#       res_tags: {Owner: Ted, Role: Support, Environment: Dev}
+# 
+# The playbook
+# 
+# - hosts: leafs
+#   tasks:
+#     - debug:
+#         var: res_tags
+# gives
+# 
+# ok: [leaf] => {
+#     "res_tags": {
+#         "Environment": "Dev", 
+#         "Owner": "Ted", 
+#         "Role": "Support"
+#     }
+# }
+# --
