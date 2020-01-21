@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_users: ['bob', 'john', 'jack', 'rick']
+  tasks:
+    - set_fact:
+        my_var: "{{ my_var|default([]) +
+                    [{'name': item.1, 'content': item.0}] }}"
+      loop: "{{ range(10,20,2)|zip( my_users )|list }}"
+    - debug:
+        var: my_var
+
+# ansible loop list and range
+# https://stackoverflow.com/questions/59845718/ansible-loop-list-and-range/
+# 
+# Loop the lists with the zip filter. For example the playbook
+# 
+# - hosts: localhost
+#   vars:
+#     my_users: ['bob', 'john', 'jack', 'rick']
+#   tasks:
+#     - set_fact:
+#         my_var: "{{ my_var|default([]) +
+#                     [{'name': item.1, 'content': item.0}] }}"
+#       loop: "{{ range(10,20,2)|zip( my_users )|list }}"
+#     - debug:
+#         var: my_var
+# 
+# gives
+# 
+# ok: [localhost] => 
+#   my_var:
+#   - content: 10
+#     name: bob
+#   - content: 12
+#     name: john
+#   - content: 14
+#     name: jack
+#   - content: 16
+#     name: rick
+# --
