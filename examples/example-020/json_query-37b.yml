@@ -11,6 +11,11 @@
     - debug:
         var: sel_AL32UTF8
 
+    - set_fact:
+        cdbs_keys: "{{ cdbs.keys()|list }}"
+    - debug:
+        var: cdbs_keys
+
 # Ansible playbook json_query
 # https://stackoverflow.com/questions/59861117/ansible-playbook-json-query/
 

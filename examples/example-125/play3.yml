@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: test_01
+        groups: all
+      run_once: true
+    - debug:
+        var: groups.all
+
+- hosts: all
+  tasks:
+    - debug:
+        var: inventory_hostname
