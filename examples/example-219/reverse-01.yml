@@ -1,0 +1,27 @@
+- hosts: localhost
+  vars:
+    all_nodes: ['eth0', 'eth1', 'eth2']
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ all_nodes|reverse|list }}"
+
+# Running an Ansible loop in reverse
+# https://stackoverflow.com/questions/59868780/running-an-ansible-loop-in-reverse/
+
+# Q: How can I run my "Loop" in reverse order ?
+# 
+# Use reverse filter. For example
+# 
+# - hosts: localhost
+#   vars:
+#     all_nodes: ['eth0', 'eth1', 'eth2']
+#   tasks:
+#     - debug:
+#         var: item
+#       loop: "{{ all_nodes|reverse|list }}"
+# gives
+# 
+#     "item": "eth2"
+#     "item": "eth1"
+#     "item": "eth0"
