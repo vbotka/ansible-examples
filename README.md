@@ -219,6 +219,7 @@ Various examples of Ansbile code.
 - Example 215. max, min filters
 - Example 216. hostvars
 - Example 217. date, time, datetime
+- Example 218. connection
 
 
 ## License

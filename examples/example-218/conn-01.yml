@@ -1,0 +1,24 @@
+- hosts: "{{ rhost }}"
+  remote_user: "{{ ruser }}"
+  gather_facts: false
+  tasks:
+
+    - debug:
+        var: ansible_user
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+
+    - set_fact:
+        ansible_user: "{{ 'ac' + ruser }}"
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+
+# remote_user: “company_{{env}}” is not working
+# https://stackoverflow.com/questions/59851579/remote-user-company-env-is-not-working
+
+# Works for me
+# $ ansible-playbook -i hosts1 conn-01.yml -e "ruser=admin rhost=test_01"

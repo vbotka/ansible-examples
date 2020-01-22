@@ -1,0 +1,40 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars: vars-37.json
+    - debug:
+        var: cdbs
+    - set_fact:
+        sel_AL32UTF8: "{{ cdbs|json_query(myquery) }}"
+      vars:
+        myquery: "*|[?char_set=='AL32UTF8']"
+    - debug:
+        var: sel_AL32UTF8
+
+# Ansible playbook json_query
+# https://stackoverflow.com/questions/59861117/ansible-playbook-json-query/
+
+# SEE: https://github.com/jmespath/jmespath.site/issues/20#issuecomment-361150664
+
+# give
+# 
+#    "sel_AL32UTF8": [
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_3", 
+#             "npdbs": "0", 
+#             "pdbs": ""
+#         }, 
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_1", 
+#             "npdbs": "1", 
+#             "pdbs": "pdb1"
+#         }, 
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_2", 
+#             "npdbs": "0", 
+#             "pdbs": ""
+#         }
+#     ]

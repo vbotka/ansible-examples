@@ -1,0 +1,48 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars: vars-37.json
+    - debug:
+        var: cdbs
+    - set_fact:
+        sel_AL32UTF8: "{{ cdbs|dict2items|json_query(myquery) }}"
+      vars:
+        myquery: "[?value.char_set=='AL32UTF8'].value"
+    - debug:
+        var: sel_AL32UTF8
+
+# Ansible playbook json_query
+# https://stackoverflow.com/questions/59861117/ansible-playbook-json-query/
+
+# Q: Select cdbs.*.char_set == 'AL32UTF8'
+# A: The tasks below
+# 
+#     - set_fact:
+#         sel_AL32UTF8: "{{ cdbs|dict2items|json_query(myquery) }}"
+#       vars:
+#         myquery: "[?value.char_set=='AL32UTF8'].value"
+#     - debug:
+#         var: sel_AL32UTF8
+# 
+# give
+# 
+#    "sel_AL32UTF8": [
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_3", 
+#             "npdbs": "0", 
+#             "pdbs": ""
+#         }, 
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_1", 
+#             "npdbs": "1", 
+#             "pdbs": "pdb1"
+#         }, 
+#         {
+#             "char_set": "AL32UTF8", 
+#             "home": "/u01/dbhome_2", 
+#             "npdbs": "0", 
+#             "pdbs": ""
+#         }
+#     ]

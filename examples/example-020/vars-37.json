@@ -1,0 +1,48 @@
+    "cdbs": {
+        "e01ca601": {
+            "char_set": "AL32UTF8",
+            "home": "/u01/dbhome_1",
+            "npdbs": "1",
+            "pdbs": "pdb1"
+        },
+        "e01ca602": {
+            "char_set": "WE8ISO8859P1",
+            "home": "/u01/dbhome_2",
+            "npdbs": "0",
+            "pdbs": ""
+        },
+        "e01ca603": {
+            "char_set": "AL32UTF8",
+            "home": "/u01/dbhome_3",
+            "npdbs": "0",
+            "pdbs": ""
+        },
+        "e01ca604": {
+            "char_set": "WE8ISO8859P1",
+            "home": "/u01/dbhome_1",
+            "npdbs": "0",
+            "pdbs": ""
+        },
+        "e01ca605": {
+            "char_set": "AL32UTF8",
+            "home": "/u01/dbhome_2",
+            "npdbs": "0",
+            "pdbs": ""
+        },
+        "e01ca900": {
+            "char_set": "WE8ISO8859P1",
+            "home": "/u01/dbhome_3",
+            "npdbs": "1",
+            "pdbs": "pdb2"
+        }
+    }
+    "pdbs": {
+        "pdb1": {
+            "cdb": "e01ca601",
+            "creation_time": "2020-01-21 14:10:39"
+        },
+        "pdb2": {
+            "cdb": "e01ca900",
+            "creation_time": "2020-01-13 13:34:21"
+        }
+    }
