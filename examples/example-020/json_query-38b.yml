@@ -1,0 +1,87 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - include_vars: vars-38.json
+      tags: always
+    - debug:
+        var: list
+      tags: t1
+
+    - set_fact:
+        sel_K: "{{ list|
+                   selectattr('key3', 'regex', '^.*k.*$')|
+                   list }}"
+      tags: t2
+    - debug:
+        var: sel_K
+      tags: t2
+
+    - set_fact:
+        result_list: "{{ result_list|
+                         default([]) + [
+                         item|dict_select_list(keys)] }}"
+      vars:
+        keys: "{{ ['key1', 'key3', 'key4']|
+                  intersect(item.keys()|list) }}"
+      loop: "{{ list|
+                selectattr('key3', 'regex', '^.*k.*$')|
+                list }}"
+      tags: t3
+    - debug:
+        var: result_list
+      tags: t3
+
+# Cc: ansible-project@googlegroups.com
+# Subject: Re: [ansible-project] Filtering a complex list of
+# dictionaries into another list of dictionaries in an efficient way
+# Date: Wed, 22 Jan 2020 21:49:43 +0100
+# 
+# > list:
+# >     -   key1:
+# >         - 'abc'
+# >         - 'def'
+# >         key2: 'ghi'
+# >         key3: 'jkl'
+# >     -   key1:
+# >         - 'mno'
+# >         - 'pqr'
+# >         key3: 'stu'
+# >         key4: 'dfg'
+# >     -   key1:
+# >         - 'vwx'
+# >         - 'yza'
+# >         key3: 'okl'
+# >         key4: 'azel'
+# > [...]
+# >    - extract records if "key3" contains a 'k'
+# >    - keep only keys "key1", "key3" and "key4"
+# >    - to be as efficient as possible with thousands of records
+# > 
+# > In this case, we expect the resulting list:
+# > result_list:
+# >     -   key1:
+# >         - 'abc'
+# >         - 'def'
+# >         key3: 'jkl'
+# >     -   key1:
+# >         - 'vwx'
+# >         - 'yza'
+# >         key3: 'okl'
+# >         key4: 'azel'  
+# 
+# The task below does the job
+# 
+#     - set_fact:
+#         result_list: "{{ result_list|
+#                          default([]) + [
+#                          dict(keys|
+#                               zip(keys|
+#                                   map('extract', item)|
+#                                   list))] }}"
+#       vars:
+#         keys: "{{ ['key1', 'key3', 'key4']|
+#                   intersect(item.keys()|list) }}"
+#       loop: "{{ list|
+#                 selectattr('key3', 'regex', '^.*k.*$')|
+#                 list }}"
+# 

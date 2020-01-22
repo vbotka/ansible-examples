@@ -1,0 +1,16 @@
+list:
+    -   key1:
+        - 'abc'
+        - 'def'
+        key2: 'ghi'
+        key3: 'jkl'
+    -   key1:
+        - 'mno'
+        - 'pqr'
+        key3: 'stu'
+        key4: 'dfg'
+    -   key1:
+        - 'vwx'
+        - 'yza'
+        key3: 'okl'
+        key4: 'azel'
