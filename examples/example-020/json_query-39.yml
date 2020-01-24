@@ -1,0 +1,73 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    pkgs:
+      pkg1:
+        package_description: xzy
+        owner: node1
+      pkg2:
+        package_description: desc2
+        owner: node2
+
+  tasks:
+
+    - set_fact:
+        pkgl: "{{ pkgs|
+                  dict2items|
+                  json_query('[].{name: key,
+                                 package_description: value.package_description,
+                                 owner: value.owner}') }}"
+      tags: t1
+    - debug:
+        var: pkgl
+      tags: t1
+
+    - set_fact:
+        pkgl: "{{ pkgl|default([]) +
+                  [{'name': item.key,
+                    'package_description': item.value.package_description,
+                    'owner': item.value.owner}] }}"
+      loop: "{{ pkgs|dict2items }}"
+      tags: t2
+    - debug:
+        var: pkgl
+      tags: t2
+
+# json_query - Get object key of current node
+# https://stackoverflow.com/questions/59899187/json-query-get-object-key-of-current-node/
+
+# The query below does the job
+# 
+#     - set_fact:
+#         pkgl: "{{ pkgs|
+#                   dict2items|
+#                   json_query('[].{name: key,
+#                                  package_description: value.package_description,
+#                                  owner: value.owner}') }}"
+#     - debug:
+#         var: pkgl
+# 
+# gives
+# 
+#     "pkgl": [
+#         {
+#             "name": "pkg2", 
+#             "owner": "node2", 
+#             "package_description": "desc2"
+#         }, 
+#         {
+#             "name": "pkg1", 
+#             "owner": "node1", 
+#             "package_description": "xzy"
+#         }
+#     ]
+# 
+# The same result gives the task without json_query
+# 
+#     - set_fact:
+#         pkgl: "{{ pkgl|default([]) +
+#                   [{'name': item.key,
+#                     'package_description': item.value.package_description,
+#                     'owner': item.value.owner}] }}"
+#       loop: "{{ pkgs|dict2items }}"
+#
