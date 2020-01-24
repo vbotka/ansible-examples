@@ -1,0 +1,48 @@
+- hosts: localhost
+  vars:
+    axis:
+      config:
+        "Bandwidth.Limit": 0
+        "HTTPS.AllowTLS1": "no"
+        "HTTPS.AllowTLS11": "no"
+        "HTTPS.AllowSSLV3": "no"
+        "HTTPS.Ciphers": AES256-SHA:AES128-SHA
+        "HTTPS.Enabled": "yes"
+        "HTTPS.Port": 443
+    period: 2
+  tasks:
+
+    - set_fact:
+        config_list: "{{ config_list|default([]) + [item.key ~ '=' ~ item.value] }}"
+      loop: "{{ axis.config|dict2items }}"
+    - debug:
+        var: config_list
+    - set_fact:
+        config_length: "{{ config_list|length }}"
+    - debug:
+        var: config_length
+      
+    - debug:
+        msg: "{{ split0 }} {{ split1 }}"
+      vars:
+        split0: "{{ ansible_loop.previtem|default(0) }}"
+        split1: "{{ ansible_loop.last|ternary(config_length, item) }}"
+      loop: "{{ range(period, config_length|int, period)|list }}"
+      loop_control:
+        extended: yes
+ 
+    - set_fact:
+        split_list: "{{ split_list|default([]) +
+                        [config_list[split0|int:split1|int]] }}"
+      vars:
+        split0: "{{ ansible_loop.previtem|default(0) }}"
+        split1: "{{ ansible_loop.last|ternary(config_length, item) }}"
+      loop: "{{ range(period, config_length|int, period)|list }}"
+      loop_control:
+        extended: yes
+    - debug:
+        var: split_list
+
+    - debug:
+        msg: "{{ item|join('&') }}"
+      loop: "{{ split_list }}"

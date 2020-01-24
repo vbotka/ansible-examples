@@ -1,0 +1,8 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - template:
+        src: test14-template.j2
+        dest: /scratch/tmp/hosts
+      run_once: true
+      delegate_to: localhost

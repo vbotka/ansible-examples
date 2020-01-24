@@ -1,0 +1,7 @@
+{% for group in groups %}
+[{{ group }}]
+{% for host in groups[group] %}
+{{ host }}
+{% endfor %}
+
+{% endfor %}

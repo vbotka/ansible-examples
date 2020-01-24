@@ -221,6 +221,7 @@ Various examples of Ansbile code.
 - Example 217. date, time, datetime
 - Example 218. connection
 - Example 219. reverse filter
+- Example 220. Extended loop variables
 
 
 ## License

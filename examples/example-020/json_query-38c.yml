@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - include_vars: vars-38.json
+      tags: always
+
+    - debug:
+        var: list
+      tags: t1
+
+    - debug:
+        var: item
+      loop: "{{ list|
+                selectattr('key3', 'regex', '^.*k.*$')|
+                selectattr('key4', 'defined')|
+                list }}"
+      tags: t2
+
+#    "item": {
+#        "key1": [
+#            "vwx", 
+#            "yza"
+#        ], 
+#        "key3": "okl", 
+#        "key4": "azel"
+#    }
