@@ -1,0 +1,18 @@
+- hosts: localhost
+  tasks:
+  - find:
+      paths: /scratch/tmp
+      patterns: "*.test"
+    register: result
+
+  - debug:
+      msg: "No files found."
+    when: result.matched == 0
+
+  - debug:
+      msg: "File found: {{ item.path }}"
+    loop: "{{ result.files }}"
+
+# How go check file exist in path with extension in ansible?
+# https://stackoverflow.com/questions/59892912/how-go-check-file-exist-in-path-with-extension-in-ansible/
+
