@@ -1,0 +1,186 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    ritem:
+      name: serviceName2
+      manifest: someManifest2
+      source: efgh.tgz
+      files:
+        - file3.tar
+        - file4.tar
+    rhash: "{{ ritem|dict_flatten|hash }}"
+
+  tasks:
+    - include_vars: reject4-data.yml
+
+    - set_fact:
+        inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
+    - debug:
+        var: inst2
+
+    - set_fact:
+        inst1: "{{ installers|difference(inst2) }}"
+    - debug:
+        var: inst1
+
+    - set_fact:
+        inst3: "{{ inst3|default([]) + [
+                   filter|
+                   list_select_list_bool(item.packages, negative=True)|
+                   list] }}"
+      vars:
+        filter: "{{ item.packages|
+                    map('dict_flatten')|
+                    map('hash')|
+                    map('bool_eq', rhash)|
+                    list }}"
+      loop: "{{ inst2 }}"
+    - debug:
+        var: inst3
+
+    - set_fact:
+       inst4: "{{ inst4|default(inst1) + [
+                  item.0|combine({'packages': item.1})] }}"
+      loop: "{{ inst2|zip(inst3)|list }}"
+
+    - debug:
+        var: inst4
+
+# Ansible : delete an item from a dictionary
+# https://stackoverflow.com/questions/59901150/ansible-delete-an-item-from-a-dictionary
+
+# With a couple of custom filters, the tasks below do the job.
+# 
+# Let's declare the variable rhash to simplify the comparison of the
+# dictionary
+# 
+#   vars:
+#     ritem:
+#       name: serviceName2
+#       manifest: someManifest2
+#       source: efgh.tgz
+#       files:
+#         - file3.tar
+#         - file4.tar
+#     rhash: "{{ ritem|dict_flatten|hash }}"
+# 
+# Select items with and without the attribute packages
+# 
+#     - set_fact:
+#         inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
+#     - set_fact:
+#         inst1: "{{ installers|difference(inst2) }}"
+# 
+# Remove the dictionary from the list
+# 
+#     - set_fact:
+#         inst3: "{{ inst3|default([]) + [
+#                    filter|
+#                    list_select_list_bool(item.packages, negative=True)|
+#                    list] }}"
+#       vars:
+#         filter: "{{ item.packages|
+#                     map('dict_flatten')|
+#                     map('hash')|
+#                     map('bool_eq', rhash)|
+#                     list }}"
+#       loop: "{{ inst2 }}"
+# 
+# Replace the attributes packages and concatenate the result
+# 
+#     - set_fact:
+#       inst4: "{{ inst4|default(inst1) + [
+#                  item.0|combine({'packages': item.1})] }}"
+#       loop: "{{ inst2|zip(inst3)|list }}"
+# 
+#     - debug:
+#         var: inst4
+# 
+# gives
+# 
+#     "inst4": [
+#         {
+#             "name": "someName1", 
+#             "version": 1.0
+#         }, 
+#         {
+#             "name": "someName2", 
+#             "version": 2.0
+#         }, 
+#         {
+#             "name": "someName3", 
+#             "packages": [
+#                 {
+#                     "fileName": "fileName1", 
+#                     "version": "1.1.1"
+#                 }, 
+#                 {
+#                     "fileName": "fileName2", 
+#                     "version": "2.2.2"
+#                 }
+#             ]
+#         }, 
+#         {
+#             "name": "service", 
+#             "packages": [
+#                 {
+#                     "files": [
+#                         "file1.tar", 
+#                         "file2.tar"
+#                     ], 
+#                     "manifest": "someManifest2", 
+#                     "name": "serviceName1", 
+#                     "source": "abcd.tgz"
+#                 }, 
+#                 {
+#                     "files": [
+#                         "file5.tar", 
+#                         "file6.tar"
+#                     ], 
+#                     "manifest": "someManifest3", 
+#                     "name": "serviceName3", 
+#                     "source": "ijkl.tgz"
+#                 }
+#             ], 
+#             "type": "install"
+#         }
+#     ]
+# 
+# Custom filters
+# 
+# $ cat filter_plugins/filers.py
+# def bool_eq(l, r):
+#     return (l == r)
+# 
+# def dict_flatten(d, separator='.'):
+#     out = {}
+#     def flatten(x, name=''):
+#         if type(x) is dict:
+#             for a in x:
+#                 flatten(x[a], name + a + separator)
+#         elif type(x) is list:
+#             i = 0
+#             for a in sorted(x):
+#                 flatten(a, name + str(i) + separator)
+#                 i += 1
+#         else:
+#             out[name[:-1]] = x
+#     flatten(d)
+#     return out
+# 
+# def list_select_list_bool(b, l, negative=False):
+#     l2=[]
+#     for bi,li in zip(b,l):
+#         if negative:
+#             if not bi:
+#                 l2.append(li)
+#         else:
+#             if bi:
+#                 l2.append(li)
+#     return l2
+# 
+# class FilterModule(object):
+# 
+#     def filters(self):
+#         return {

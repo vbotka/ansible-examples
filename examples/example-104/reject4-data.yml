@@ -1,0 +1,32 @@
+installers:
+   - name: someName1
+     version: 1.0
+   - name: someName2
+     version: 2.0
+   - name: someName3
+     packages:
+       - fileName: fileName1
+         version: 1.1.1
+       - fileName: fileName2
+         version: 2.2.2
+   - name: service
+     type: install
+     packages:
+       - name: serviceName1
+         manifest: someManifest2
+         source: abcd.tgz
+         files:
+           - file1.tar
+           - file2.tar
+       - name: serviceName2
+         manifest: someManifest2
+         source: efgh.tgz
+         files:
+           - file3.tar
+           - file4.tar
+       - name: serviceName3
+         manifest: someManifest3
+         source: ijkl.tgz
+         files:
+           - file5.tar
+           - file6.tar

@@ -1,0 +1,128 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    users:
+      - {name: 'user1', dirs: ['dir1', 'dir2']}
+      - {name: 'user2', dirs: ['dir1', 'dir3']} 
+      - {name: 'user3', dirs: []}
+    dirs_allowed:
+      - {'dir1': ['user1', 'user2']}
+      - {'dir2': ['user1']}
+      - {'dir3': ['user2']}
+
+  tasks:
+ 
+    - debug:
+        var: users
+    - set_fact:
+        users_all: "{{ users|json_query('[].name') }}"
+    - debug:
+        var: users_all
+
+    - set_fact:
+        dirs_forbidden: "{{ dirs_forbidden|default([]) + [
+          {(item.keys()|list|first):
+           (users_all|difference(item.values()|list|first))}] }}"
+      loop: "{{ dirs_allowed }}"
+    - debug:
+        msg: "{{ msg.split('\n')[:-1] }}"
+      vars:
+        msg: |
+          {{ dirs_forbidden|to_yaml }}
+    - debug:
+        var: dirs_forbidden
+
+    - set_fact:
+        dirs_all: "{{ users|
+                       json_query('[].dirs')|flatten|unique }}"
+    - debug:
+        var: dirs_all
+
+# Ansible - negative filter question
+# https://unix.stackexchange.com/questions/564151/ansible-negative-filter-question
+
+# Use filter difference. For example
+# 
+#     - set_fact:
+#         users_all: "{{ users|json_query('[].name') }}"
+#     - set_fact:
+#         dirs_forbidden: "{{ dirs_forbidden|default([]) + [
+#           {(item.keys()|list|first):
+#            (users_all|difference(item.values()|list|first))}] }}"
+#       loop: "{{ dirs_allowed }}"
+#     - debug:
+#         var: dirs_forbidden
+# 
+# give
+# 
+#     "dirs_forbidden": [
+#         {
+#             "dir1": [
+#                 "user3"
+#             ]
+#         }, 
+#         {
+#             "dir2": [
+#                 "user2", 
+#                 "user3"
+#             ]
+#         }, 
+#         {
+#             "dir3": [
+#                 "user1", 
+#                 "user3"
+#             ]
+#         }
+#     ]
+# 
+# FWIW. Working with dictionaries makes the code simpler in this case. For example
+# 
+#     - set_fact:
+#         users_all: "{{ users|json_query('[].name') }}"
+#     - set_fact:
+#         dirs_all: "{{ users|
+#                        json_query('[].dirs')|flatten|unique }}"
+#     - set_fact:
+#         dirs_allowed: "{{ dirs_allowed|default({})|
+#                           combine({item: users|json_query(query)}) }}"
+#       vars:
+#         query: "[?dirs.contains(@, '{{ item }}')].name"
+#       loop: "{{ dirs_all }}"
+#     - debug:
+#         var: dirs_allowed
+#     - set_fact:
+#         dirs_forbidden: "{{ dirs_forbidden|default({})|
+#                             combine({item: (users_all|difference(dirs_allowed[item]))}) }}"
+#       loop: "{{ dirs_all }}"
+#     - debug:
+#         var: dirs_forbidden
+# 
+# give
+# 
+#     "dirs_allowed": {
+#         "dir1": [
+#             "user1", 
+#             "user2"
+#         ], 
+#         "dir2": [
+#             "user1"
+#         ], 
+#         "dir3": [
+#             "user2"
+#         ]
+#     }
+# 
+#     "dirs_forbidden": {
+#         "dir1": [
+#             "user3"
+#         ], 
+#         "dir2": [
+#             "user2", 
+#             "user3"
+#         ], 
+#         "dir3": [
+#             "user1", 
+#             "user3"
+#         ]
+#     }
