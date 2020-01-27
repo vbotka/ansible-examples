@@ -1,0 +1,96 @@
+- name: Play A
+  hosts: all
+  gather_facts: false
+  strategy: host_pinned
+  tasks:
+    - debug:
+        msg: "A:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              started"
+    - wait_for:
+        timeout: "{{ wait_timeout }}"
+    - debug:
+        msg: "A:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              finished"
+
+- name: Play B
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "B:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              finished"
+
+# execute ansible playbook for next host after finishing one host not all forked hosts
+# https://stackoverflow.com/questions/59877712/execute-ansible-playbook-for-next-host-after-finishing-one-host-not-all-forked-h/
+
+# Q: "Is it possible to tell ansible start the next play for one host
+#     after one has finished?"
+# 
+# A: Yes. It's possible. The strategy plugin host_pinned is what you're
+#    looking for. Quoting:
+# 
+#    Ansible will not wait for other hosts to finish the current task
+#    before queuing the next task for a host that has finished. Once a
+#    host is done with the play, it opens it’s slot to a new host that
+#    was waiting to start.
+# 
+# Example
+# 
+# Lets' create an inventory
+# 
+# $ cat hosts
+# all:
+#   hosts:
+#     test_01:
+#       wait_timeout: 1
+#     test_02:
+#       wait_timeout: 2
+#     test_03:
+#       wait_timeout: 3
+#     test_06:
+#       wait_timeout: 4
+#     test_09:
+#       wait_timeout: 5
+# 
+# The playbook below
+# 
+# $ cat pinned-01.yml
+# - name: Play A
+#   hosts: all
+#   gather_facts: false
+#   strategy: host_pinned
+#   tasks:
+#     - debug:
+#         msg: "A:{{ inventory_hostname }}
+#               {{ lookup('pipe', 'date +%H-%M-%S') }}
+#               started"
+#     - wait_for:
+#         timeout: "{{ wait_timeout }}"
+#     - debug:
+#         msg: "A:{{ inventory_hostname }}
+#               {{ lookup('pipe', 'date +%H-%M-%S') }}
+#               finished"
+# 
+# gives
+# 
+# $ ansible-playbook pinned-01.yml -f 3 | grep msg\":
+#     "msg": "A:test_06 15-33-05 started"
+#     "msg": "A:test_09 15-33-05 started"
+#     "msg": "A:test_01 15-33-05 started"
+#     "msg": "A:test_01 15-33-08 finished"
+#     "msg": "A:test_02 15-33-08 started"
+#     "msg": "A:test_06 15-33-11 finished"
+#     "msg": "A:test_03 15-33-11 started"
+#     "msg": "A:test_02 15-33-11 finished"
+#     "msg": "A:test_09 15-33-12 finished"
+#     "msg": "A:test_03 15-33-15 finished"
+# 
+# Results
+# 
+# Because of -f 3 Ansible started 3 hosts (1,9,6). Host 1 finished first
+# and opened it's slot to a new host that was waiting to start. Host 2
+# started. The same way host 3 started right after host 6 finished. Host
+# 2, which started after host 9, finished before host 9.

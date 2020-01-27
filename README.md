@@ -222,6 +222,7 @@ Various examples of Ansbile code.
 - Example 218. connection
 - Example 219. reverse filter
 - Example 220. Extended loop variables
+- Example 221. host_pinned strategy
 
 
 ## License
