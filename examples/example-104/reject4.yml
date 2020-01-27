@@ -3,16 +3,18 @@
 
   vars:
     ritem:
-      name: serviceName2
-      manifest: someManifest2
-      source: efgh.tgz
-      files:
-        - file3.tar
-        - file4.tar
-    rhash: "{{ ritem|dict_flatten|hash }}"
+      - name: serviceName2
+        manifest: someManifest2
+        source: efgh.tgz
+        files:
+          - file3.tar
+          - file4.tar
+    rhash: "{{ ritem|map('dict_flatten')|map('hash')|list }}"
 
   tasks:
     - include_vars: reject4-data.yml
+    - debug:
+        var: rhash
 
     - set_fact:
         inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
@@ -33,7 +35,7 @@
         filter: "{{ item.packages|
                     map('dict_flatten')|
                     map('hash')|
-                    map('bool_eq', rhash)|
+                    map('bool_in', rhash)|
                     list }}"
       loop: "{{ inst2 }}"
     - debug:
@@ -50,29 +52,28 @@
 # Ansible : delete an item from a dictionary
 # https://stackoverflow.com/questions/59901150/ansible-delete-an-item-from-a-dictionary
 
-# With a couple of custom filters, the tasks below do the job.
+# Formatting of the dictionaries
 # 
-# Let's declare the variable rhash to simplify the comparison of the
-# dictionary
+# The simple solution does not work if the dictionaries are not
+# formatted (sorted) exactly the same way. For example, if the files'
+# order differs, the item won't be removed
 # 
 #   vars:
 #     ritem:
-#       name: serviceName2
-#       manifest: someManifest2
-#       source: efgh.tgz
-#       files:
-#         - file3.tar
-#         - file4.tar
-#     rhash: "{{ ritem|dict_flatten|hash }}"
+#       - name: serviceName2
+#         manifest: someManifest2
+#         source: efgh.tgz
+#         files:
+#           - file4.tar
+#           - file3.tar
+#           
+# This can be fixed with a couple of custom filters. Let's create the
+# list rhash to simplify the comparison of the dictionaries and put it
+# to vars
 # 
-# Select items with and without the attribute packages
+# rhash: "{{ ritem|map('dict_flatten')|map('hash')|list }}"
 # 
-#     - set_fact:
-#         inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
-#     - set_fact:
-#         inst1: "{{ installers|difference(inst2) }}"
-# 
-# Remove the dictionary from the list
+# The tasks below give the same result
 # 
 #     - set_fact:
 #         inst3: "{{ inst3|default([]) + [
@@ -83,12 +84,9 @@
 #         filter: "{{ item.packages|
 #                     map('dict_flatten')|
 #                     map('hash')|
-#                     map('bool_eq', rhash)|
+#                     map('bool_in', rhash)|
 #                     list }}"
 #       loop: "{{ inst2 }}"
-# 
-# Replace the attributes packages and concatenate the result
-# 
 #     - set_fact:
 #       inst4: "{{ inst4|default(inst1) + [
 #                  item.0|combine({'packages': item.1})] }}"
@@ -97,61 +95,11 @@
 #     - debug:
 #         var: inst4
 # 
-# gives
-# 
-#     "inst4": [
-#         {
-#             "name": "someName1", 
-#             "version": 1.0
-#         }, 
-#         {
-#             "name": "someName2", 
-#             "version": 2.0
-#         }, 
-#         {
-#             "name": "someName3", 
-#             "packages": [
-#                 {
-#                     "fileName": "fileName1", 
-#                     "version": "1.1.1"
-#                 }, 
-#                 {
-#                     "fileName": "fileName2", 
-#                     "version": "2.2.2"
-#                 }
-#             ]
-#         }, 
-#         {
-#             "name": "service", 
-#             "packages": [
-#                 {
-#                     "files": [
-#                         "file1.tar", 
-#                         "file2.tar"
-#                     ], 
-#                     "manifest": "someManifest2", 
-#                     "name": "serviceName1", 
-#                     "source": "abcd.tgz"
-#                 }, 
-#                 {
-#                     "files": [
-#                         "file5.tar", 
-#                         "file6.tar"
-#                     ], 
-#                     "manifest": "someManifest3", 
-#                     "name": "serviceName3", 
-#                     "source": "ijkl.tgz"
-#                 }
-#             ], 
-#             "type": "install"
-#         }
-#     ]
-# 
 # Custom filters
 # 
 # $ cat filter_plugins/filers.py
-# def bool_eq(l, r):
-#     return (l == r)
+# def bool_in(x, l):
+#     return (x in l)
 # 
 # def dict_flatten(d, separator='.'):
 #     out = {}
@@ -184,3 +132,7 @@
 # 
 #     def filters(self):
 #         return {
+#             'bool_in': bool_in,
+#             'dict_flatten': dict_flatten,
+#             'list_select_list_bool': list_select_list_bool
+#             }

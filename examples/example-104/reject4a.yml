@@ -1,0 +1,102 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    ritem:
+      - name: serviceName2
+        manifest: someManifest2
+        source: efgh.tgz
+        files:
+          - file3.tar
+          - file4.tar
+
+  tasks:
+    - include_vars: reject4-data.yml
+    - set_fact:
+        inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
+    - set_fact:
+        inst1: "{{ installers|difference(inst2) }}"
+    - set_fact:
+       inst4: "{{ inst4|default(inst1) + [
+                  item|combine({'packages': item.packages|difference(ritem)})] }}"
+      loop: "{{ inst2 }}"
+    - debug:
+        var: inst4
+
+# Ansible : delete an item from a dictionary
+# https://stackoverflow.com/questions/59901150/ansible-delete-an-item-from-a-dictionary
+
+# Simple solution
+# 
+# Let's create a list of items that shall be removed
+# 
+#   vars:
+#     ritem:
+#       - name: serviceName2
+#         manifest: someManifest2
+#         source: efgh.tgz
+#         files:
+#           - file3.tar
+#           - file4.tar
+# 
+# The tasks below do the job
+# 
+#     - set_fact:
+#         inst2: "{{ installers|selectattr('packages', 'defined')|list }}"
+#     - set_fact:
+#         inst1: "{{ installers|difference(inst2) }}"
+#     - set_fact:
+#        inst4: "{{ inst4|default(inst1) + [
+#                   item|combine({'packages': item.packages|difference(ritem)})] }}"
+#       loop: "{{ inst2 }}"
+#     - debug:
+#         var: inst4
+# give
+# 
+#     "inst4": [
+#         {
+#             "name": "someName1", 
+#             "version": 1.0
+#         }, 
+#         {
+#             "name": "someName2", 
+#             "version": 2.0
+#         }, 
+#         {
+#             "name": "someName3", 
+#             "packages": [
+#                 {
+#                     "fileName": "fileName1", 
+#                     "version": "1.1.1"
+#                 }, 
+#                 {
+#                     "fileName": "fileName2", 
+#                     "version": "2.2.2"
+#                 }
+#             ]
+#         }, 
+#         {
+#             "name": "service", 
+#             "packages": [
+#                 {
+#                     "files": [
+#                         "file1.tar", 
+#                         "file2.tar"
+#                     ], 
+#                     "manifest": "someManifest2", 
+#                     "name": "serviceName1", 
+#                     "source": "abcd.tgz"
+#                 },
+#                 {
+#                     "files": [
+#                         "file5.tar", 
+#                         "file6.tar"
+#                     ], 
+#                     "manifest": "someManifest3", 
+#                     "name": "serviceName3", 
+#                     "source": "ijkl.tgz"
+#                 }
+#             ], 
+#             "type": "install"
+#         }
+#     ]
