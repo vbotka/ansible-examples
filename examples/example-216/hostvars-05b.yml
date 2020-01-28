@@ -1,0 +1,84 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    sw_versions:
+      - host: host1
+        version: 4.2.2.6
+      - host: host2
+        version: 4.2.2.6
+      - host: host3
+        version: 4.2.2.6
+  tasks:
+    - set_fact:
+        my_hosts: "{{ sw_versions|json_query('[].host') }}"
+    - debug:
+        msg: "All your hosts are running the same version."
+      when: sw_versions|json_query('[].version')|unique|length == 1
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    sw_versions:
+      - host: host1
+        version: 4.2.2.6
+      - host: host2
+        version: 4.2.2.6
+      - host: host3
+        version: 5.5.0
+  tasks:
+    - set_fact:
+        my_hosts: "{{ sw_versions|json_query('[].host') }}"
+    - debug:
+        msg: "Version mismatch among hosts: {{ my_hosts }}"
+      when: sw_versions|json_query('[].version')|unique|length > 1
+
+# Q: "Let's say host1: 4.2.2.6, host2: 4.2.2.6, host3: 5.5.0. I want to
+#    display a message: Version mismatch between hosts: host1,host2, and
+#    host3. If all hosts are running the same version then say: All your
+#    hosts are running the same version."
+# 
+# A: For example
+# 
+#  hosts: localhost
+#   gather_facts: false
+#   vars:
+#     sw_versions:
+#       - host: host1
+#         version: 4.2.2.6
+#       - host: host2
+#         version: 4.2.2.6
+#       - host: host3
+#         version: 4.2.2.6
+#   tasks:
+#     - set_fact:
+#         my_hosts: "{{ sw_versions|json_query('[].host') }}"
+#     - debug:
+#         msg: "All your hosts are running the same version."
+#       when: sw_versions|json_query('[].version')|unique|length == 1
+# 
+# give
+# 
+#     "msg": "All your hosts are running the same version."
+# 
+# And
+# 
+# - hosts: localhost
+#   gather_facts: false
+#   vars:
+#     sw_versions:
+#       - host: host1
+#         version: 4.2.2.6
+#       - host: host2
+#         version: 4.2.2.6
+#       - host: host3
+#         version: 5.5.0
+#   tasks:
+#     - set_fact:
+#         my_hosts: "{{ sw_versions|json_query('[].host') }}"
+#     - debug:
+#         msg: "Version mismatch among hosts: {{ my_hosts }}"
+#       when: sw_versions|json_query('[].version')|unique|length > 1
+# 
+# give
+# 
+#     "msg": "Version mismatch among hosts: [u'host1', u'host2', u'host3']"

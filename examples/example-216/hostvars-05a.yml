@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    "sw_versions": [
+        {
+            "host": "ro151",
+            "version": "5.0.0.0600-1"
+        },
+        {
+            "host": "PrimaryIC-Stack5",
+            "version": "4.2.2.600111061-1"
+        },
+        {
+            "host": "SecondaryIC-Stack5",
+            "version": "4.2.2.600111061-1"
+        }
+    ]
+
+  tasks:
+    - debug:
+        var: sw_versions
+      run_once: true
+    - set_fact:
+        install_version: 5.0.0.0600-1
+    - debug:
+        msg: "{{ item.host }} version is {{ item.version }}.
+              Upgrade to {{ install_version }}."
+      loop: "{{ sw_versions }}"
+      when: item.version is version( install_version, '<')
+
+# Q: "How do I compare those versions and display an error message if
+#     there's a version mismatch?"
+# A: Use Version Comparison tests to analyze the data. For example
+# 
+#     - set_fact:
+#         install_version: 5.0.0.0600-1
+#     - debug:
+#         msg: "{{ item.host }} version is {{ item.version }}.
+#               Upgrade to {{ install_version }}."
+#       loop: "{{ sw_versions }}"
+#       when: item.version is version( install_version, '<')
+# give
+# 
+#     "msg": "PrimaryIC-Stack5 version is 4.2.2.600111061-1. Upgrade to 5.0.0.0600-1."
+#     "msg": "SecondaryIC-Stack5 version is 4.2.2.600111061-1. Upgrade to 5.0.0.0600-1."

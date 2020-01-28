@@ -1,0 +1,39 @@
+- hosts: IC
+  gather_facts: true
+  tasks:
+    - set_fact:
+        sw_version: "{{ inventory_hostname }}"
+    - set_fact:
+        sw_versions: "{{ groups.IC|
+                         map('extract', hostvars)|
+                         list|
+                         json_query('[].{host: ansible_hostname,
+                                         version: sw_version}') }}"
+      run_once: true
+    - debug:
+        var: sw_versions
+      run_once: true
+
+# Compare ansible registered variables for multiple hosts
+# https://stackoverflow.com/questions/59949438/compare-ansible-registered-variables-for-multiple-hosts/
+
+# Q: "Display a message on the screen like host1 - version ..."
+# A: The tasks below do the job. For each host put the version into the
+# variable sw_version. In the next task extract hostvars of the hosts
+# from the group IC and create the list of the host-version
+# dictionaries.
+# 
+# - set_fact:
+#     sw_version: "{{ cv_raw.stdout_lines|last }}"
+# - set_fact:
+#     sw_versions: "{{ groups.IC|
+#                      map('extract', hostvars)|
+#                      list|
+#                      json_query('[].{host: ansible_hostname,
+#                                      version: sw_version}') }}"
+#   run_once: true
+# - debug:
+#     var: sw_versions
+#   run_once: true
+# 
+# Use Version Comparison tests to analyze the data.
