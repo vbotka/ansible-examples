@@ -1,0 +1,16 @@
+---
+10.9.9.111:
+  /tmp/test.jar:
+    hash: e6df90d38fa86f0e289f73d79cd2cfd2a29954eb
+  /tmp/test.jar:
+    hash: e6df90d38fa86f0e289f73d79cd2cfd2a29954eb
+
+  /tmp/best.jar:
+    hash: e6df90d38fa86f0e289f73d79cd2cfd2a29954eb
+
+10.8.8.44:
+  /tmp/conf/extra/httpd-ssl.conf:
+    hash: 1746f03d57491b27158b0d3a48fca8b5fa85c0c2
+
+  /tmp/conf/httpd.conf:
+    hash: 1746f03d57491b27158b0d3a48fca8b5fa85c0c2

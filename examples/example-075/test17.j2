@@ -1,0 +1,4 @@
+{% for item in my_dict_keys %}
+{{ item }}:
+  {{ my_dict[item]|to_nice_yaml|indent(2) }}
+{% endfor %}

@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - include_vars:
+        file: filedet.yml
+        name: my_dict
+
+    - debug:
+        var: my_dict
+    - debug:
+        msg: "{{ my_dict['10.9.9.111'] }}"
+  
+    - set_fact:
+        my_dict_keys:
+          - "10.8.8.44"
+    - template:
+        src: test17.j2
+        dest: test17.txt
+
+# Regex works fine on online emulator but fails with Ansible and grep
+# https://stackoverflow.com/questions/59943565/regex-works-fine-on-online-emulator-but-fails-with-ansible-and-grep/
+
+# Q: "I wish to extract an IP and the file details."
+# A: Use include_vars. For example
+# 
+#     - include_vars:
+#         file: filedet.yml
+#         name: my_dict
+#     - debug:
+#         msg: "{{ my_dict['10.9.9.111'] }}"
+# 
+# give
+# 
+#     "msg": {
+#         "/tmp/best.jar": {
+#             "hash": "e6df90d38fa86f0e289f73d79cd2cfd2a29954eb"
+#         }, 
+#         "/tmp/test.jar": {
+#             "hash": "e6df90d38fa86f0e289f73d79cd2cfd2a29954eb"
+#         }
+#     }
+# 
+# Q: "Remove an entry from the file."
+# A: Use template. For example
+# 
+# $ cat filedet.yml.j2
+# {% for item in my_dict_keys %}
+# {{ item }}:
+#   {{ my_dict[item]|to_nice_yaml|indent(2) }}
+# {% endfor %}
+# 
+# The task below
+# 
+#     - set_fact:
+#         my_dict_keys:
+#           - "10.8.8.44"
+#     - template:
+#         src: filedet.yml.j2
+#         dest: filedet.yml
+# 
+# gives
+# 
+# $ cat filedet.yml
+# 10.8.8.44:
+#   /tmp/conf/extra/httpd-ssl.conf:
+#       hash: 1746f03d57491b27158b0d3a48fca8b5fa85c0c2
+#   /tmp/conf/httpd.conf:
+#       hash: 1746f03d57491b27158b0d3a48fca8b5fa85c0c2
+# 
+# Notes:
+# * It's a bad idea to use lineinfile for this purpose
+# * Data in the question is not valid YAML. The key is repeating
+# 
+# 10.9.9.111:
+#   /tmp/test.jar:
+#     hash: e6df90d38fa86f0e289f73d79cd2cfd2a29954eb
+#   /tmp/test.jar:
+#     hash: e6df90d38fa86f0e289f73d79cd2cfd2a29954eb
