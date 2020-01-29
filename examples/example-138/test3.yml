@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    sql:
+      alter_table: true
+      store:
+        driver: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/db
+
+  tasks:
+
+    - debug:
+        var: sql
+
+    - debug:
+        msg: "{{ sql|dict_flatten }}"
+
+    - set_fact:
+        my_dict: "{{ {}|combine({'sql': sql}) }}"
+    - debug:
+        msg: "{{ my_dict|dict_flatten }}"
+
+# Ansible: Convert a complexe dictionary to java properties
+# https://stackoverflow.com/questions/59973116/ansible-convert-a-complexe-dictionary-to-java-properties/
+      
+# It's possible to use a custom filter. For example
+# 
+# $ cat filter_plugins/dict_utils.py
+# def dict_flatten(d, separator='.'):
+#     out = {}
+#     def flatten(x, name=''):
+#         if type(x) is dict:
+#             for a in x:
+#                 flatten(x[a], name + a + separator)
+#         elif type(x) is list:
+#             i = 0
+#             for a in x:
+#                 flatten(a, name + str(i) + separator)
+#                 i += 1
+#         else:
+#             out[name[:-1]] = x
+#     flatten(d)
+#     return out
+# 
+# class FilterModule(object):
+#     def filters(self):
+#         return {
+#             'dict_flatten': dict_flatten
+#         }
+# 
+# The task
+# 
+#     - debug:
+#         msg: "{{ sql|dict_flatten }}"
+# 
+# gives
+# 
+#     "msg": {
+#         "alter_table": true, 
+#         "store.driver": "org.postgresql.Driver", 
+#         "store.url": "jdbc:postgresql://localhost:5432/db"
+#     }
+# 
+# Prepend the name of the variable to get the required output. For example
+# 
+#     - set_fact:
+#         my_dict: "{{ {}|combine({'sql': sql}) }}"
+#     - debug:
+#         msg: "{{ my_dict|dict_flatten }}"
+# 
+# give
+# 
+#     "msg": {
+#         "sql.alter_table": true, 
+#         "sql.store.driver": "org.postgresql.Driver", 
+#         "sql.store.url": "jdbc:postgresql://localhost:5432/db"
+#     }
+#
