@@ -1,0 +1,26 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        next_host: 10.1.0.51
+    - debug:
+        msg: "{{ hostvars['localhost']['next_host'] }}"
+
+- hosts: "{{ hostvars['localhost']['next_host'] }}"
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+
+# TASK [debug] ****************************************************************************
+# ok: [localhost] => {
+#     "msg": "10.1.0.51"
+# }
+# 
+# PLAY [10.1.0.51] **************************************************************************
+# 
+# TASK [debug] ******************************************************************************
+# ok: [10.1.0.51] => {
+#     "inventory_hostname": "10.1.0.51"
+# }
