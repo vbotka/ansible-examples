@@ -1,0 +1,41 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          {% for fn in lookup('fileglob', 'ssh-pub-keys/' ~ item ~ '/*.pub', wantlist=True) %}
+          {{ lookup('file', fn) }}
+          {% endfor %}
+      loop:
+        - user1
+        - user2
+
+# Ansible: How to iterate over the results of fileglobs which are called for every element of a list?
+# https://serverfault.com/questions/1001109/ansible-how-to-iterate-over-the-results-of-fileglobs-which-are-called-for-every
+
+# It's possible to concatenate the keys. Quoting from authorized_key:
+# Multiple keys can be specified in a single key string value by
+# separating them by newlines.
+#       
+# ok: [localhost] => (item=user1) => {
+#     "msg": [
+#         "hostB_id_ed25519.pub", 
+#         "hostB_id_ecdsa.pub", 
+#         "hostB_id_rsa.pub", 
+#         "hostA_id_ed25519.pub", 
+#         "hostA_id_ecdsa.pub", 
+#         ""
+#     ]
+# }
+# ok: [localhost] => (item=user2) => {
+#     "msg": [
+#         "hostC_id_rsa.pub", 
+#         "hostD_id_ed25519.pub", 
+#         "hostC_id_ecdsa.pub", 
+#         "hostD_id_ecdsa.pub", 
+#         ""
+#     ]
+# }
