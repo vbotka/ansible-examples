@@ -1,0 +1,3 @@
+- fail:
+    msg: Role failed.
+  when: role_fail|default(false)

@@ -1,0 +1,115 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        dummy_fact: "Hello world"
+        cacheable: yes
+      delegate_to: fake_host
+      delegate_facts: true
+      run_once: true
+    - debug:
+        var: hostvars.fake_host.ansible_facts
+      run_once: true
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        dummy_fact: "Hello world"
+        cacheable: yes
+      delegate_to: test_01
+      delegate_facts: true
+      run_once: true
+    - debug:
+        var: hostvars.test_01.ansible_facts
+      run_once: true
+
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - debug:
+        var: hostvars.test_01.ansible_facts
+    - meta: clear_facts
+    - debug:
+        var: hostvars.test_01.ansible_facts
+
+# Subject: Re: [ansible-project] Ansible Tower and Facts
+# Date: Sat, 1 Feb 2020 07:29:43 +0100
+# 
+# > - name: Set facts
+# >   set_fact:
+# >        dummy_fact: "Hello world"
+# >        cacheable: yes
+# >   delegate_to: fake_host
+# >   delegate_facts: true
+# > 
+# > This sets the fact in the hostname fake_host just fine.
+# > [...]
+# > I have tried to target the playbook using host: fake_host but the playbook 
+# > run tells me the host is invalid or something to that effect.  
+# 
+# This *can't* set the fact in the hostname fake_host just fine if the
+# host in not valid. The play
+# 
+#   - hosts: all
+#     tasks:
+#       - set_fact:
+#           dummy_fact: "Hello world"
+#           cacheable: yes
+#         delegate_to: fake_host
+#         delegate_facts: true
+#         run_once: true
+#       - debug:
+#           var: hostvars.fake_host.ansible_facts
+#         run_once: true
+# 
+# 
+# should report
+# 
+#     "hostvars.fake_host.ansible_facts": "VARIABLE IS NOT DEFINED!"
+# 
+# > Can someone tell me if this is even possible to do? Possible to target
+# > directly?  
+# 
+# If the host is valid. All works as expected. For example, the playbook
+#   
+#   - hosts: all
+#     tasks:
+#       - set_fact:
+#           dummy_fact: "Hello world"
+#           cacheable: yes
+#         delegate_to: test_01
+#         delegate_facts: true
+#         run_once: true
+#       - debug:
+#           var: hostvars.test_01.ansible_facts
+#         run_once: true
+# 
+#   - hosts: test_01
+#     tasks:
+#       - debug:
+#           var: hostvars.test_01.ansible_facts
+#       - meta: clear_facts
+#       - debug:
+#           var: hostvars.test_01.ansible_facts
+# 
+# gives
+# 
+#   PLAY [all]
+#   ok: [test_01] => {
+#     "hostvars.test_01.ansible_facts": {
+#         "dummy_fact": "Hello world"
+#     }
+#   }
+# 
+#   PLAY [test_01]
+#   ok: [test_01] => {
+#     "hostvars.test_01.ansible_facts": {
+#         "dummy_fact": "Hello world"
+#     }
+#   }
+#   ok: [test_01] => {
+#     "hostvars.test_01.ansible_facts": {}
+#   }
+# 
+# To make it reproducible test it without tower.

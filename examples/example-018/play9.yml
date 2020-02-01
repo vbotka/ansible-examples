@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    
+    - include_role:
+        name: role8
+      register: result
+
+    - debug:
+        var: result
+    - debug:
+        msg: OK
+      when: result is not changed

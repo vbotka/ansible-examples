@@ -1,0 +1,60 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    
+    - block:
+        - include_role:
+            name: role10
+      rescue:
+        - set_fact:
+            role10_success: false
+        - meta: clear_host_errors
+    - debug:
+        msg: Proceed with other plays/roles/tasks
+      when: role10_success|default(true)
+    
+    - set_fact:
+        role_fail: true
+    - block:
+        - include_role:
+            name: role10
+      rescue:
+        - set_fact:
+            role10_success: false
+        - meta: clear_host_errors
+    - debug:
+        msg: Proceed with other plays/roles/tasks
+      when: role10_success|default(true)
+
+# In ansible, is there a way to register the result of a role?
+# https://stackoverflow.com/questions/60013470/in-ansible-is-there-a-way-to-register-the-result-of-a-role/
+
+# Take a look at the registered variable users. You'll see that there is
+# no attribute success. Hence it's not possible to test it. For example
+# 
+# - debug:
+#     var: users
+# 
+# should give (if nothing changed)
+# 
+#     "users": {
+#         "changed": false, 
+#         "include_args": {
+#             "name": "user_role"
+#         }
+#     }
+# 
+# Q: "Is there a way to register the result of a role?"
+# A: Yes. It is. Use Blocks error handling. For example
+# 
+#     - block:
+#         - include_role:
+#             name: user_role
+#       rescue:
+#         - set_fact:
+#             role_success: false
+#         - meta: clear_host_errors
+# 
+#     - include_role:
+#         name: another_role
+#       when: role_success|default(true)
