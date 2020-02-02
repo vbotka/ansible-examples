@@ -1,0 +1,38 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        whichHost: test_03
+        cacheable: true
+      run_once: true
+    - debug:
+        var: whichHost
+      run_once: true
+    - debug:
+        var: hostvars.test_02.whichHost
+      run_once: true
+    - debug:
+        var: hostvars.test_02.ansible_facts.whichHost
+      run_once: true
+    - debug:
+        var: dynamic_host
+      run_once: true
+
+- hosts: "{{ dynamic_host }}"
+# - hosts: "{{ hostvars.test_02.whichHost }}"
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+    - debug:
+        var: hostvars.test_02.whichHost
+    - debug:
+        var: hostvars.test_02.ansible_facts.whichHost
+
+#   "whichHost": "test_03"
+#   "hostvars.test_02.whichHost": "test_03"
+#   "hostvars.test_02.ansible_facts.whichHost": "test_03"
+#   "dynamic_host": "test_03"
+      
+# ERROR! The field 'hosts' has an invalid value, which includes an
+# undefined variable. The error was: 'dynamic_host' is undefined

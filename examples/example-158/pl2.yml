@@ -1,0 +1,11 @@
+- name: PL2
+  hosts: "{{ hostvars.localhost.whichHost }}"
+# hosts: "{{ whichHost }}"
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+    - debug:
+        var: hostvars.localhost.whichHost
+    - debug:
+        var: hostvars.localhost.ansible_facts.whichHost

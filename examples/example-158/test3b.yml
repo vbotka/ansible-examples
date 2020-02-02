@@ -1,0 +1,11 @@
+- import_playbook: pl1.yml
+- import_playbook: pl2.yml
+
+# PLAY [PL1]
+#     "hostvars.localhost.whichHost": "test_01"
+#     "hostvars.localhost.ansible_facts.whichHost": "test_01"
+# 
+# PLAY [PL2]
+#     "inventory_hostname": "test_01"
+#     "hostvars.localhost.whichHost": "test_01"
+#     "hostvars.localhost.ansible_facts.whichHost": "test_01"

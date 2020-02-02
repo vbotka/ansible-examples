@@ -1,0 +1,11 @@
+- name: PL1
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        whichHost: test_01
+        cacheable: true
+    - debug:
+        var: hostvars.localhost.whichHost
+    - debug:
+        var: hostvars.localhost.ansible_facts.whichHost
