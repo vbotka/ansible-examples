@@ -1,0 +1,7 @@
+---
+# tasks file for startprogram
+
+- debug:
+    msg: /etc/init.d/HostAprogram.sh start
+- set_fact:
+    HostAprogram_started: true

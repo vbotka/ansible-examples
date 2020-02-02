@@ -1,0 +1,7 @@
+---
+# tasks file for runcommand
+
+- debug:
+    msg: command which using host A
+- set_fact:
+    HostBcommand_passed: true

@@ -1,0 +1,102 @@
+- hosts: HostA
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: startprogram
+
+- hosts: HostB
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: runcommand
+      when: hostvars.HostA.HostAprogram_started|default(false)
+    - debug:
+        var: hostvars.HostA.HostAprogram_started
+      when: not hostvars.HostA.HostAprogram_started|default(false)
+
+- hosts: HostC
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: startsecprogram
+      when: hostvars.HostB.HostBcommand_passed|default(false)
+    - debug:
+        var: hostvars.HostB.HostBcommand_passed
+      when: not hostvars.HostB.HostBcommand_passed|default(false)
+
+- hosts: HostD,HostE
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: command on {{ inventory_hostname }} which requires HostC program to run
+      when: hostvars.HostC.HostCprogram_started|default(false)
+    - debug:
+        var: hostvars.HostC.HostCprogram_started
+      when: not hostvars.HostC.HostCprogram_started|default(false)
+
+# Ansible execute task on different hosts in order
+# https://devops.stackexchange.com/questions/10679/ansible-execute-task-on-different-hosts-in-order/
+
+# Q: "Is it possible to use ansible to manage the order of programs?"
+# A: Yes. It's possible. For example, the playbook below does the job
+# 
+# - hosts: HostA
+#   tasks:
+#     - include_role:
+#         name: startprogram
+# 
+# - hosts: HostB
+#   tasks:
+#     - include_role:
+#         name: runcommand
+#       when: hostvars.HostA.HostAprogram_started|default(false)
+# 
+# - hosts: HostC
+#   tasks:
+#     - include_role:
+#         name: startsecprogram
+#       when: hostvars.HostB.HostBcommand_passed|default(false)
+# 
+# - hosts: HostD,HostE
+#   tasks:
+#     - debug:
+#         msg: command on {{ inventory_hostname }} which requires HostC program to run
+#       when: hostvars.HostC.HostCprogram_started|default(false)
+# 
+# Example of the roles for the purpose of testing
+# 
+# $ cat roles/startprogram/tasks/main.yml
+# - debug:
+#     msg: /etc/init.d/HostAprogram.sh start
+# - set_fact:
+#     HostAprogram_started: true
+# 
+# $ cat roles/runcommand/tasks/main.yml
+# - debug:
+#     msg: command which using host A
+# - set_fact:
+#     HostBcommand_passed: true
+# 
+# $ cat roles/startsecprogram/tasks/main.yml
+# - debug:
+#     msg: /etc/init.d/HostCprogram.sh start
+# - set_fact:
+#     HostCprogram_started: true
+# 
+# Example of the output
+# 
+# ok: [HostA] => {
+#     "msg": "/etc/init.d/HostAprogram.sh start"
+# }
+# ok: [HostB] => {
+#     "msg": "command which using host A"
+# }
+# ok: [HostC] => {
+#     "msg": "/etc/init.d/HostCprogram.sh start"
+# }
+# ok: [HostD] => {
+#     "msg": "command on HostD which requires HostC program to run"
+# }
+# ok: [HostE] => {
+#     "msg": "command on HostE which requires HostC program to run"
+# }
