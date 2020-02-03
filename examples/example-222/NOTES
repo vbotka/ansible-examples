@@ -1,0 +1,13 @@
+
+# How do I set an environment variable for Ansible itself not using shell?
+# https://stackoverflow.com/questions/60035275/how-do-i-set-an-environment-variable-for-ansible-itself-not-using-shell
+# 
+# Q: "Is there a way to set this environment variable somewhere in
+#     Ansible configuration?"
+# A: Yes. It is. For example
+# 
+# $ cat ansible.cfg 
+# [defaults]
+# keep_remote_files = true
+# See DEFAULT_KEEP_REMOTE_FILES.
+

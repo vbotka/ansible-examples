@@ -223,6 +223,7 @@ Various examples of Ansbile code.
 - Example 219. reverse filter
 - Example 220. Extended loop variables
 - Example 221. host_pinned strategy
+- Example 222. ANSIBLE_KEEP_REMOTE_FILES
 
 
 ## License
