@@ -1,0 +1,31 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - stat:
+        path: /etc/passwd
+      register: result
+#    - debug:
+#        var: result
+
+    - block:
+        - debug:
+            msg: "Directory not exists. End of play."
+        - meta: end_play
+      when: not result.stat.exists
+
+    - debug:
+        msg: "Directory exists. Continue play."
+
+# how to make it be shown only when the imposed condition of my when is met
+# https://stackoverflow.com/questions/60040606/how-to-make-it-be-shown-only-when-the-imposed-condition-of-my-when-is-met
+
+# It's possible to put it into a block. For example
+# 
+#     - block:
+#         - debug:
+#             msg: "Directory not exists. End of play."
+#         - meta: end_play
+#       when: not result.stat.exists
+# 
+#     - debug:
+#         msg: "Directory exists. Continue play."

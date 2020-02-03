@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    List:
+      msg: ['CUST1','CUST2','NEW1','NEW2']
+    Patterns: ['CUST','NEW']
+
+  tasks:
+    - debug:
+        msg: "{{ List.msg | select('match', filter) | list }}"
+      vars:
+        filter: '^{{ item }}[0-9]+'
+      loop: "{{ Patterns }}"
+
+# Ansible: how to filter using varible
+# https://stackoverflow.com/questions/60040364/ansible-how-to-filter-using-varible/
+
+# It's possible to isolate the declaration of the regex filter and
+# simplify the quotation. For example
+# 
+#   vars:
+#     List:
+#       msg: ['CUST1','CUST2','NEW1','NEW2']
+#     Patterns: ['CUST','NEW']
+# 
+#   tasks:
+#     - debug:
+#         msg: "{{ List.msg | select('match', filter) | list }}"
+#       vars:
+#         filter: '^{{ item }}[0-9]+'
+#       loop: "{{ Patterns }}"
+# 
+# gives
+# 
+#     "msg": [
+#         "CUST1", 
+#         "CUST2"
+#     ]
+# 
+#     "msg": [
+#         "NEW1", 
+#         "NEW2"
+#     ]
