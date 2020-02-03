@@ -1,0 +1,5 @@
+  - debug:
+      msg:
+        - "my_become: {{ item is search('ebs')|ternary('yes', 'no') }}"
+        - "my_become_user: {{ item }}"
+        - "command: {{ 'shutdown.sh ' ~ item }}"

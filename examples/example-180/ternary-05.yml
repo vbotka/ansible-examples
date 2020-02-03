@@ -1,0 +1,53 @@
+- hosts: testdrive
+  gather_facts: false
+  tasks:
+    - set_fact:
+        db_list: "{{ lookup('file', 'vars/' ~ inventory_hostname ~ '.dblist')|from_yaml }}"
+    - debug:
+        var: db_list
+    - name: Shutdown running databases
+#     include_tasks: shutdowndb.yml
+      include_tasks: ternary-05-tasks.yml
+      loop: "{{ db_list }}"
+
+# Setting become_user conditionally
+# https://stackoverflow.com/questions/60044574/setting-become-user-conditionally/
+
+# The playbook below
+# 
+# - hosts: testdrive
+#   tasks:
+#     - set_fact:
+#         db_list: "{{ lookup('file', 'vars/' ~ inventory_hostname ~ '.dblist')|from_yaml }}"
+#     - name: Shutdown running databases
+#       include_tasks: shutdowndb.yml
+#       loop: "{{ db_list }}"
+# 
+# with the included tasks
+# 
+# $ cat shutdowndb.yml
+#   - debug:
+#       msg:
+#         - "shell: {{ 'shutdown.sh ' ~ item }}"
+#         - "become: {{ item is search('ebs')|ternary('yes', 'no') }}"
+#         - "become_user: {{ item }}"
+# 
+# give
+# 
+#     "msg": [
+#         "shell: shutdown.sh ebs1", 
+#         "become: yes", 
+#         "become_user: ebs1"
+#     ]
+# 
+#     "msg": [
+#         "shell: shutdown.sh ebs2", 
+#         "become: yes", 
+#         "become_user: ebs2"
+#     ]
+# 
+#     "msg": [
+#         "shell: shutdown.sh ndb1", 
+#         "become: no", 
+#         "become_user: ndb1"
+#     ]
