@@ -1,0 +1,38 @@
+
+- hosts: planb
+  gather_facts: no
+  vars:
+    my_services:
+      - 'splunk'
+      - 'apache2'
+      - 'ssh'
+
+  tasks:
+
+    - service_facts:
+
+    - debug:
+        msg: "Service {{ item }} is not available."
+      loop: "{{ my_services }}"
+      when: item not in ansible_facts.services.keys()|list
+
+    - debug:
+        msg: "Service {{ item }} is available."
+      loop: "{{ my_services }}"
+      when: item in ansible_facts.services.keys()|list
+
+    - debug:
+        msg: "{{ item }} is {{ ansible_facts.services[item].state }}"
+      loop: "{{ my_services }}"
+      when: item in ansible_facts.services.keys()|list
+
+# How to use when condition in ansible
+# https://stackoverflow.com/questions/60065292/how-to-use-when-condition-in-ansible/
+
+# give
+# 
+#     "msg": "Service splunk is not available."
+#     "msg": "Service apache2 is available."
+#     "msg": "Service ssh is available."
+#     "msg": "apache2 is stopped"
+#     "msg": "ssh is running"
