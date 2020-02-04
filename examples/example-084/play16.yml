@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - lineinfile:
+        path: /scratch/tmp/login.defs
+        regex: '^PASS_MAX_DAYS(\s+)(\S*)$'
+        line: 'PASS_MAX_DAYS\g<1>90'
+        backrefs: true
+
+# Ansible lineinfile (white spaces and state changes)
+# https://unix.stackexchange.com/questions/565058/ansible-lineinfile-white-spaces-and-state-changes/
+
+# Q: "The /etc/login.defs file has tabbed values within the file. If you
+#    run the exact same test against a unix pl atform you'll see that
+#    the run status of your ansible playbook will always come back as
+#    changed."
+# 
+# A: Make your choice. Either you want to replace the spacing, or want
+#    to keep the spacing as is. Both spaces and tabs are valid
+#    separators in login.defs. It's possible to use backrefs, change the
+#    regex and keep the spaces in the line as is. For example the task
+#    below
+# 
+#     - lineinfile:
+#         path: /scratch/tmp/login.defs
+#         regex: '^PASS_MAX_DAYS(\s+)(\S*)$'
+#         line: 'PASS_MAX_DAYS\g<1>90'
+#         backrefs: true
+# 
+#    will not "always come back as changed".

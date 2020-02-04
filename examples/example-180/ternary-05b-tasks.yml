@@ -1,0 +1,7 @@
+- debug: msg='Shutting down {{ item }}'
+- name: Execute shutdown
+  command: "id {{ item }}"
+  register: shutdown_output
+  become: "{{ item is search('ebs') | ternary('yes','no') }}"
+  become_user: "{{ item }}"
+- debug: msg="{{ shutdown_output.stdout }}"

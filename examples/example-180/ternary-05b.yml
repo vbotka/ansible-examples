@@ -1,0 +1,12 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - set_fact:
+        db_list:
+          - admin
+          - acadmin
+    - debug:
+        var: db_list
+    - name: Shutdown running databases
+      include_tasks: ternary-05b-tasks.yml
+      loop: "{{ db_list }}"
