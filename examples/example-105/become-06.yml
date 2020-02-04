@@ -1,0 +1,28 @@
+- hosts: test_01
+  gather_facts: false
+  become: no
+  remote_user: admin
+  vars:
+    db_list: ['ebs1', 'ebs2', 'ndb1']
+
+  tasks:
+
+    - command: whoami
+      become_user: "{{ item }}"
+      become: true
+      register: result
+      loop: "{{ db_list }}"
+    - debug:
+        msg: "{{ result.results|json_query('[].stdout') }}"
+
+    - debug:
+        msg: "{{ item is search('ebs')|ternary(true, false) }}"
+      loop: "{{ db_list }}"
+
+    - command: whoami
+      become_user: "{{ item }}"
+      become: "{{ item is search('ebs')|ternary(true, false) }}"
+      register: result
+      loop: "{{ db_list }}"
+    - debug:
+        msg: "{{ result.results|json_query('[].stdout') }}"
