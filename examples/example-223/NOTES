@@ -1,0 +1,41 @@
+
+
+1. Ansible temp dir change
+==========================
+https://devops.stackexchange.com/questions/10703/ansible-temp-dir-change/
+
+Q: "Is it possible to change ansible temp dir for one playbook only? I
+   have VMs with r/o root."
+A: Yes. It's possible. Configure the variable ansible_remote_tmp.
+
+In some cases, a better solution to this problem is
+ANSIBLE_PIPELINING. Quoting from Risks and limitations of become:
+
+  Use pipelining. When pipelining is enabled, Ansible does not save
+  the module to a temporary file on the client. Instead, it pipes the
+  module to the remote python interpreter’s stdin. Pipelining does not
+  work for python modules involving file transfer (for example: copy,
+  fetch, template), or for non-python modules.
+
+NOTES
+
+Quoting from Release notes:
+
+* The ANSIBLE_REMOTE_TMP environment variable has been added to
+  supplement (and override) ANSIBLE_REMOTE_TEMP. This matches t he
+  spelling of the config value. ANSIBLE_REMOTE_TEMP will be deprecated
+  in the future.
+
+* remote_tmp is not among configuration options in Ansible
+  Configuration Settings
+
+* There are open bugs mostly with Windows
+
+https://docs.ansible.com/ansible/latest/plugins/shell/sh.html
+https://docs.ansible.com/ansible/latest/user_guide/become.html#risks-and-limitations-of-become
+
+https://docs.ansible.com/ansible/2.4/intro_configuration.html#remote-tmp
+https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-configuration-settings
+
+https://github.com/ansible/ansible/blob/stable-2.5/changelogs/CHANGELOG-v2.5.rst#minor-changes-4
+--

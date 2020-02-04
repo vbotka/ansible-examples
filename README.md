@@ -224,6 +224,7 @@ Various examples of Ansbile code.
 - Example 220. Extended loop variables
 - Example 221. host_pinned strategy
 - Example 222. ANSIBLE_KEEP_REMOTE_FILES
+- Example 223. ANSIBLE_REMOTE_TMP, ANSIBLE_REMOTE_TEMP, remote_tmp, ansible_remote_tmp
 
 
 ## License
