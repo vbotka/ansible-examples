@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    sites:
+      - siteGroupId: 123
+        siteName: name123
+        siteDevices:
+          - ipAddress: 1.1.1.1
+          - ipAddress: 2.2.2.2
+      - siteGroupId: 456
+        siteName: name456
+        siteDevices:
+          - ipAddress: 3.3.3.3
+          - ipAddress: 4.4.4.4
+    devices:
+      - ipAddress: 1.1.1.1
+        deviceName: name123-a.tld
+      - ipAddress: 2.2.2.2
+        deviceName: name123-b.tld
+      - ipAddress: 3.3.3.3
+        deviceName: name456-a.tld
+      - ipAddress: 4.4.4.4
+        deviceName: name456-b.tld
+
+  tasks:
+    - set_fact:
+        devices_dict: "{{ devices|
+                          items2dict(key_name='ipAddress',
+                                     value_name='deviceName') }}"
+    - set_fact:
+        sites2: "{{ sites2|default([]) + [
+                    item|
+                    combine({'siteDevices':
+                             dict(my_ipAddress|
+                                  zip(my_ipAddress|
+                                      map('extract', devices_dict)))|
+                             dict2items(key_name='ipAddress',
+                                        value_name='deviceName')})] }}"
+      vars:
+        my_ipAddress: "{{ item.siteDevices|json_query('[].ipAddress') }}"
+      loop: "{{ sites }}"
+    - debug:
+        var: sites2
+
+# Ansible merge listed dictionaries
+# https://stackoverflow.com/questions/60080410/ansible-merge-listed-dictionaries/
+
+# give
+#
+#    "sites2": [
+#        {
+#            "siteDevices": [
+#                {
+#                    "deviceName": "name123-a.tld", 
+#                    "ipAddress": "1.1.1.1"
+#                }, 
+#                {
+#                    "deviceName": "name123-b.tld", 
+#                    "ipAddress": "2.2.2.2"
+#                }
+#            ], 
+#            "siteGroupId": 123, 
+#            "siteName": "name123"
+#        }, 
+#        {
+#            "siteDevices": [
+#                {
+#                    "deviceName": "name456-a.tld", 
+#                    "ipAddress": "3.3.3.3"
+#                }, 
+#                {
+#                    "deviceName": "name456-b.tld", 
+#                    "ipAddress": "4.4.4.4"
+#                }
+#            ], 
+#            "siteGroupId": 456, 
+#            "siteName": "name456"
+#        }
+#    ]
