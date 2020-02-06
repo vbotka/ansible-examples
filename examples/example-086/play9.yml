@@ -1,0 +1,88 @@
+- name: PLAY A
+  hosts: \*.com
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+- name: PLAY B
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ groups.all|select('match', my_pattern)|list }}"
+      vars:
+        my_pattern: '^hello\d+$'
+
+    - debug:
+        msg: "{{ groups.all|select('match', my_pattern)|list }}"
+      vars:
+        my_pattern: '^hello\d+(.*)$'
+
+    - debug:
+        var: item
+      with_inventory_hostnames:
+        - ~hello\d+
+
+    - debug:
+        var: item
+      with_inventory_hostnames:
+        - group2
+        - \*.example\.com
+
+- name: PLAY C
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        groups: my_dynamic_group
+      loop: "{{ groups.all|select('match', my_pattern)|list }}"
+      vars:
+        my_pattern: '^hello\d+$'
+
+- name: PLAY D
+  hosts: my_dynamic_group
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# Is there a way to use a regular expression to match hosts in ansible?
+# https://stackoverflow.com/questions/60084905/is-there-a-way-to-use-a-regular-expression-to-match-hosts-in-ansible/
+
+# Q: "Could it be possible my regex is wrong?"
+# 
+# A: It's a bug. See inventory_hostnames lookup doesn't support
+#    wildcards in patterns #17268. It will be probably fixed in 2.10
+#    . But your pattern wouldn't work, I think, because the doc says:
+#    "You can use wildcard patterns with FQDNs or IP addresses, as
+#    long as the hosts are named in your inventory by FQDN or IP
+#    address". The hosts in your inventory are neither FQDN nor IP.
+
+
+# Q: "Is there a way to use a regular expression to match hosts in
+#    ansible?"
+# 
+# A: Yes. It is. A very convenient way is to create dynamic groups with
+#    the module add_host. For example the playbook below
+# 
+# - hosts: localhost
+#   tasks:
+#     - add_host:
+#         name: "{{ item }}"
+#         groups: my_dynamic_group
+#       loop: "{{ groups.all|select('match', my_pattern)|list }}"
+#       vars:
+#         my_pattern: '^hello\d+$'
+# 
+# - hosts: my_dynamic_group
+#   tasks:
+#     - debug:
+#         var: inventory_hostname
+# gives
+# 
+#     "inventory_hostname": "hello2"
+#     "inventory_hostname": "hello1"
+#     "inventory_hostname": "hello3"
