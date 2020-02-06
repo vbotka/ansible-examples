@@ -1,0 +1,33 @@
+my_data:
+  description: "for load balancer access"
+  group_is: "sg-1234"
+  group_name: "MY GroupName"
+  ip_permissions:
+    - from: 80
+      ip_protocol: "tcp"
+      ip_ranges: []
+      to_port: 80
+    - from: null
+      ip_protocol: "-1"
+      ip_ranges:
+        - cidr_ip: "11.22.33.0/24"
+          description: "MY site"
+      to_port: null
+    - from: 22
+      ip_protocol: "tcp"
+      ip_ranges: []
+      to_port: 22
+    - from: 3306
+      ip_protocol: "tcp"
+      ip_ranges: []
+      to_port: 3306
+    - from: 3000
+      ip_protocol: "tcp"
+      ip_ranges:
+        - cidr_ip: "11.22.33.0/24"
+          description: "MY site"
+      to_port: 3000
+    - from: 443
+      ip_protocol: "tcp"
+      ip_ranges: []
+      to_port: 443

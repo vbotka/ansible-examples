@@ -1,0 +1,65 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - include_vars:
+        vars-40.yml
+
+    - set_fact:
+        my_ip_permissions: "{{ my_data.ip_permissions|json_query(my_query) }}"
+      vars:
+        my_query: "[?ip_ranges[?cidr_ip == '11.22.33.0/24']]"
+    - debug:
+        var: my_ip_permissions
+
+    - set_fact:
+        my_data: "{{ my_data|combine({'ip_permissions': my_ip_permissions}) }}"
+    - debug:
+        var: my_data
+
+# Exclude json object in list that does not contain a vale
+# https://stackoverflow.com/questions/60086943/exclude-json-object-in-list-that-does-not-contain-a-vale/
+
+# Q: "How do you keep objects block that contains "11.22.33.0/24"?"
+# 
+# A: Given the JSON content in the variable my_data, use json_query to
+#    create the list of objects block my_ip_permissions and combine the
+#    result. For example, the tasks below do the job
+# 
+#    - set_fact:
+#         my_ip_permissions: "{{ my_data.ip_permissions|json_query(my_query) }}"
+#       vars:
+#         my_query: "[?ip_ranges[?cidr_ip == '11.22.33.0/24']]"
+#     - set_fact:
+#         my_data: "{{ my_data|combine({'ip_permissions': my_ip_permissions}) }}"
+
+#     "my_data": {
+#         "description": "for load balancer access", 
+#         "group_is": "sg-1234", 
+#         "group_name": "MY GroupName", 
+#         "ip_permissions": [
+#             {
+#                 "from": null, 
+#                 "ip_protocol": "-1", 
+#                 "ip_ranges": [
+#                     {
+#                         "cidr_ip": "11.22.33.0/24", 
+#                         "description": "MY site"
+#                     }
+#                 ], 
+#                 "to_port": null
+#             }, 
+#             {
+#                 "from": 3000, 
+#                 "ip_protocol": "tcp", 
+#                 "ip_ranges": [
+#                     {
+#                         "cidr_ip": "11.22.33.0/24", 
+#                         "description": "MY site"
+#                     }
+#                 ], 
+#                 "to_port": 3000
+#             }
+#         ]
+#     }

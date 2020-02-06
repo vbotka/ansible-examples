@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: 1. The variable files is an empty list or None.
+      when: not files|default(None)
+
+    - debug:
+        msg: 2. The variable files is an empty list or None.
+      vars:
+        files: []
+      when: not files|default(None)
+      
+    - debug:
+        msg: 3. KO
+      when: files|default(None)
+
+    - debug:
+        msg: 4. KO
+      when: files
+      vars:
+        files: []
+
+    - debug:
+        msg: 5. files is not empty
+      when: files
+      vars:
+        files: [1,2,3]
+
+    - debug:
+        msg: 6. File is None
+      when: files|default(None) == None
+
+    - debug:
+        msg: 7. KO
+      when: files != None
+      # FAILED! => {"msg": "The conditional check 'files != None' failed.
