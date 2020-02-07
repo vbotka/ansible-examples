@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+#   List: ['sk','bk','ab','4','5','6','ku','in']
+#   List: ['sk','bk','ab','4','5','6','ku','in','12','34','56','78']
+    List: ['sk','bk','ab','4','5','6','ku','in','12','34','56','78','90']
+    List_lenght: "{{ List|length }}"
+    Step: 4
+
+  tasks:
+
+    - debug:
+        msg: "{{ List[split0|int:split1|int]|to_yaml }}"
+      vars:
+        split0: "{{ ansible_loop.previtem|default(0) }}"
+        split1: "{{ ansible_loop.last|ternary(List_lenght, item) }}"
+      loop: "{{ range(Step, List_lenght|int + Step, Step)|list }}"
+      loop_control:
+        extended: yes
+
+# How to convert list into list of list in ansible
+# https://stackoverflow.com/questions/60096256/how-to-convert-list-into-list-of-list-in-ansible/
+
+# Use Extended loop variables. For example gives
+# 
+#     "msg": [
+#         "sk", 
+#         "bk", 
+#         "ab", 
+#         "4"
+#     ]
+# 
+#     "msg": [
+#         "5", 
+#         "6", 
+#         "ku", 
+#         "in"
+#     ]
+# 
+#     "msg": [
+#         "12", 
+#         "34", 
+#         "56", 
+#         "78"
+#     ]

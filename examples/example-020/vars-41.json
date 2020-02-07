@@ -1,0 +1,68 @@
+policy_list: [
+{
+    "policyName1": {
+    "resourceType": "Name1Type",
+    "id": "uuid-0000-000-0-1",
+    "extraAttr1": 
+    [
+        {
+            "network11": 
+            {
+                "allowAction": "yes",
+                "ipAddresses":
+                [
+                    "192.168.29.193",
+                    "192.168.29.196"
+                ],
+                "disabled": false,
+                "ip_protocol": "IPV4_IPV6"
+            }
+        }
+    ]
+    }
+},
+{
+    "policyName2": {
+    "resourceType": "name2Type",
+    "id": "uuid-0000-000-0-2",
+    "extraAttr12": 
+    [
+        {
+            "network12": 
+            {
+                "allowAction": "yes",
+                "ipAddresses":
+                [
+                    "192.168.29.193",
+                    "192.168.29.197"
+                ],
+                "disabled": false,
+                "ip_protocol": "IPV4_IPV6"
+            }
+        }
+    ]
+    }
+},
+{
+    "policyName3": {
+    "resourceType": "name3Type",
+    "id": "uuid-0000-000-0-3",
+    "extraAttr2": 
+    [
+        {
+            "network13": 
+            {
+                "allowAction": "yes",
+                "ipAddresses":
+                [
+                    "192.168.29.191",
+                    "192.168.29.195"
+                ],
+                "disabled": false,
+                "ip_protocol": "IPV4_IPV6"
+            }
+        }
+    ]
+    }
+}
+]

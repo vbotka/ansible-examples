@@ -1,0 +1,91 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - include_vars:
+        vars-41.json
+
+    - set_fact:
+        ext1: "{{ policy_list|
+                  map('dict2items')|list|flatten|
+                  json_query(query)|
+                  items2dict }}"
+      vars:
+        id: "uuid-0000-000-0-3"
+        query: "[?value.id == '{{ id }}']"
+    - debug:
+        var: ext1
+
+    - set_fact:
+        ext1: "{{ {'policyName3':
+                  ext1.policyName3|
+                  combine({'extraAttr2': ext1.policyName3.extraAttr2 +
+                                         [{'network12': {'ipAddresses': []}}]
+                                         })} }}"
+    - debug:
+        var: ext1
+
+# How to extract object from array by json_query?
+# https://stackoverflow.com/questions/60101877/how-to-extract-object-from-array-by-json-query/
+
+# [
+# {
+#     "policyName1": {
+#     "resourceType": "Name1Type",
+#     "id": "uuid-0000-000-0-1",
+#     "extraAttr1": 
+#     [
+#         {
+#             "network11": 
+#             {
+#                 "allowAction": "yes",
+#                 "ipAddresses":
+#                 [
+#                     "192.168.29.193",
+#                     "192.168.29.196"
+#                 ],
+#                 "disabled": false,
+#                 "ip_protocol": "IPV4_IPV6"
+#             }
+#         }
+#     ]
+#     }
+# },
+# {
+# ...
+# 
+# * It's not clear how the "extra IP" should be added. Provide the
+#   expected result, please.
+# 
+# * The data in the question are not consistent. The dictionary
+#   policyName3 in the list comprises attribute extraAttr2 while the
+#   same dictionary in the example of the result comprises attribute
+#   extraAttr3. Thre are typos in the data.
+# 
+# * FWIW, there is no reason for extraAttr3 to be a list when the
+#   items are nested dictionaries. It's simply a bad structure
+#   introducing redundant complexity. The same is valid for the top
+#   list.
+# 
+# give
+# 
+#     "ext1": {
+#         "policyName3": {
+#             "extraAttr2": [
+#                 {
+#                     "network13": {
+#                         "allowAction": "yes", 
+#                         "disabled": false, 
+#                         "ipAddresses": [
+#                             "192.168.29.191", 
+#                             "192.168.29.195"
+#                         ], 
+#                         "ip_protocol": "IPV4_IPV6"
+#                     }
+#                 }
+#             ], 
+#             "id": "uuid-0000-000-0-3", 
+#             "resourceType": "name3Type"
+#         }
+#     }

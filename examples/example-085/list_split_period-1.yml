@@ -1,0 +1,70 @@
+- hosts: localhost
+  vars:
+    List: ['sk','bk','ab','4','5','6','ku','in','12','34','56','78']
+    Step: 4
+  tasks:
+    - set_fact:
+        my_list: "{{ List|list_split_period(Step) }}"
+    - debug:
+        var: my_list
+    - debug:
+        msg: "{{ my_list }}"
+    - debug:
+        var: item
+      loop: "{{ my_list.0 }}"
+
+# How to convert list into list of list in ansible
+# https://stackoverflow.com/questions/60096256/how-to-convert-list-into-list-of-list-in-ansible/
+
+# It's possible to create a custom plugin. For example
+# 
+# $ cat filter_plugins/list_methods.py
+# def list_split_period(l, p):
+#     split_list = []
+#     for i in range(p, len(l)+p, p):
+#         if i == p:
+#             split_list.append(l[0:p])
+#         elif i > len(l):
+#             split_list.append(l[j:])
+#         else:
+#             split_list.append(l[j:i])
+#         j = i
+#     return split_list
+# 
+# class FilterModule(object):
+# 
+#     def filters(self):
+#         return {
+#             'list_split_period': list_split_period
+#         }
+# 
+# Then the play
+# 
+# - hosts: localhost
+#   vars:
+#     List: ['sk','bk','ab','4','5','6','ku','in','12','34','56','78']
+#     Step: 4
+#   tasks:
+#     - set_fact:
+#         my_list: "{{ List|list_split_period(Step) }}"
+#     - debug:
+#         var: my_list
+# 
+# gives
+# 
+#   my_list:
+#   - - sk
+#     - bk
+#     - ab
+#     - '4'
+#   - - '5'
+#     - '6'
+#     - ku
+#     - in
+#   - - '12'
+#     - '34'
+#     - '56'
+#     - '78'
+# 
+# For your convenience the plugin is available among other List methods
+# at GitHub.
