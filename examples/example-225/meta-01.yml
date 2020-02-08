@@ -1,0 +1,113 @@
+- hosts: localhost
+  gather_facts: true
+  roles:
+    - role_1
+
+# What is the best way to manage unsupported distros in an Ansible role?
+# https://stackoverflow.com/questions/60114346/what-is-the-best-way-to-manage-unsupported-distros-in-an-ansible-role/
+
+# Q: "What is the best way to manage unsupported distros in an Ansible
+#    role?"
+# 
+# A: It's a good idea to end the host or play when the platform and
+#    version is not supported. In most cases, this means such a platform
+#    and version hasn't been tested yet. It's up to the user to add a
+#    new platform and version to the metadata, test it and optionally
+#    contribute to the development.
+# 
+# In a role, it's possible to read the variable galaxy_info from the
+# role's file meta/main.yml and test the supported platforms and
+# versions.
+# 
+# $ cat roles/role_1/meta/main.yml
+# galaxy_info:
+#   author: your name
+#   description: your role description
+#   company: your company (optional)
+#   license: license (GPL-2.0-or-later, MIT, etc)
+#   min_ansible_version: 2.9
+#   platforms:
+#     - name: Ubuntu
+#       versions:
+#         - bionic
+#         - cosmic
+#         - disco
+#         - eoan
+#   galaxy_tags: []
+# dependencies: []
+# 
+# For example the tasks in the role below
+# 
+# $ cat roles/role_1/tasks/main.yml
+# ---
+# 
+# - name: Print OS and distro Ansible variables collected by setup
+#   debug:
+#     msg:
+#       - "ansible_os_family: {{ ansible_os_family }}"
+#       - "ansible_distribution: {{ ansible_distribution }}"
+#       - "ansible_distribution_major_version: {{ ansible_distribution_major_version }}"
+#       - "ansible_distribution_version: {{ ansible_distribution_version }}"
+#       - "ansible_distribution_release: {{ ansible_distribution_release }}"
+# 
+# - name: Include roles' meta data
+#   include_vars:
+#     file: "{{ role_path }}/meta/main.yml"
+# 
+# - name: Test the distribution is supported. End the host if not.
+#   set_fact:
+#     supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
+# - debug:
+#     var: supported_distributions
+# - block:
+#     - debug:
+#         msg: "{{ ansible_distribution }} not supported. End of host."
+#     - meta: end_host
+#   when: ansible_distribution not in supported_distributions
+# 
+# - name: Test the release is supported. End the host if not.
+#   set_fact:
+#     supported_releases: "{{ (galaxy_info.platforms|
+#                             selectattr('name', 'match', ansible_distribution)|
+#                             list|first).versions }}"
+# - debug:
+#     var: supported_releases
+# - block:
+#     - debug:
+#         msg: "{{ ansible_distribution_release}} not supported. End of host."
+#     - meta: end_host
+#   when: ansible_distribution_release not in supported_releases
+# 
+# - name: The distribution and release is supported. Continue play.
+#   debug:
+#     msg: "{{ ansible_distribution }} {{ ansible_distribution_release }} is supported. Continue play."
+# 
+# with the playbook
+# 
+# - hosts: localhost
+#   gather_facts: true
+#   roles:
+#     - role_1
+# 
+# give
+# 
+#     "msg": [
+#         "ansible_os_family: Debian", 
+#         "ansible_distribution: Ubuntu", 
+#         "ansible_distribution_major_version: 19", 
+#         "ansible_distribution_version: 19.04", 
+#         "ansible_distribution_release: disco"
+#     ]
+# 
+#     "supported_distributions": [
+#         "Ubuntu"
+#     ]
+# 
+#     "supported_releases": [
+#         "bionic", 
+#         "cosmic", 
+#         "disco", 
+#         "eoan"
+#     ]
+# 
+#     "msg": "Ubuntu disco is supported. Continue play."

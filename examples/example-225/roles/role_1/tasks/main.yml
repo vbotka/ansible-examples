@@ -1,0 +1,42 @@
+---
+
+- name: Print OS and distro Ansible variables collected by setup
+  debug:
+    msg:
+      - "ansible_os_family: {{ ansible_os_family }}"
+      - "ansible_distribution: {{ ansible_distribution }}"
+      - "ansible_distribution_major_version: {{ ansible_distribution_major_version }}"
+      - "ansible_distribution_version: {{ ansible_distribution_version }}"
+      - "ansible_distribution_release: {{ ansible_distribution_release }}"
+
+- name: Include roles' meta data
+  include_vars:
+    file: "{{ role_path }}/meta/main.yml"
+
+- name: Test the distribution is supported. End the host if not.
+  set_fact:
+    supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
+- debug:
+    var: supported_distributions
+- block:
+    - debug:
+        msg: "{{ ansible_distribution }} not supported. End of host."
+    - meta: end_host
+  when: ansible_distribution not in supported_distributions
+
+- name: Test the release is supported. End the host if not.
+  set_fact:
+    supported_releases: "{{ (galaxy_info.platforms|
+                            selectattr('name', 'match', ansible_distribution)|
+                            list|first).versions }}"
+- debug:
+    var: supported_releases
+- block:
+    - debug:
+        msg: "{{ ansible_distribution_release}} not supported. End of host."
+    - meta: end_host
+  when: ansible_distribution_release not in supported_releases
+
+- name: The distribution and release is supported. Continue play.
+  debug:
+    msg: "{{ ansible_distribution }} {{ ansible_distribution_release }} is supported. Continue play."
