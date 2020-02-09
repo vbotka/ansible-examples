@@ -1,0 +1,17 @@
+---
+# tasks file for test3
+
+- set_fact:
+    al_sanity_platform_role_name: "{{ role_name }}"
+- include_vars:
+    file: meta/main.yml
+- include_role:
+    name: vbotka.ansible_lib
+    tasks_from: al_sanity_platform
+  vars:
+    al_sanity_platform_fail: False
+    al_sanity_platform_version_fail: False
+    al_sanity_platform_end_host: True
+    al_sanity_platform_version_end_host: False
+    al_sanity_platform_gather_subset: False
+    al_debug: True

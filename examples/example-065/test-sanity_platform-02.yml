@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  gather_facts: true
+  roles:
+    - test3
+
+- hosts: test_01
+  gather_facts: true
+  roles:
+    - test3
+
+- hosts: test_11
+  gather_facts: true
+  roles:
+    - test3
+
+...

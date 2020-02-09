@@ -1,0 +1,68 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        cacheable: true
+        galaxy_info:
+          platforms:
+            - name: FreeBSD
+              versions:
+                - 11.2
+                - 11.3
+                - 12.0
+            - name: Ubuntu
+              versions:
+                - bionic
+                - disco
+            - name: EL
+              versions:
+                - 7
+      run_once: true
+
+#- hosts: localhost
+#  gather_facts: true
+#  vars:
+#    al_debug: true
+#    al_sanity_platform_fail: true
+#    al_sanity_platform_version_fail: false
+#    al_sanity_platform_end_host: false
+#    al_sanity_platform_version_end_host: false
+#    al_sanity_platform_warning: true
+#  tasks:
+#    - debug:
+#        var: ansible_facts
+#    - include_role:
+#        name: vbotka.ansible_lib
+#        tasks_from: al_sanity_platform.yml
+
+- hosts: test_01
+  gather_facts: true
+  vars:
+    al_debug: true
+    al_sanity_platform_fail: true
+    al_sanity_platform_version_fail: false
+    al_sanity_platform_end_host: false
+    al_sanity_platform_version_end_host: false
+    al_sanity_platform_warning: true
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_sanity_platform.yml
+
+- hosts: test_11
+  gather_facts: true
+  vars:
+    al_debug: true
+    al_sanity_platform_fail: true
+    al_sanity_platform_version_fail: false
+    al_sanity_platform_end_host: false
+    al_sanity_platform_version_end_host: false
+    al_sanity_platform_warning: true
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_sanity_platform.yml
+
+...

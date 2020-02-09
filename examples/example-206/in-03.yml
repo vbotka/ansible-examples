@@ -1,0 +1,23 @@
+- hosts: test_01
+  gather_facts: false
+
+  vars:
+    versions:
+      - 10.0
+      - 11.1
+      - 12.0
+    version: 12.0
+
+  tasks:
+    - debug:
+        msg:
+          - "version [{{ version }}]"
+          - "versions {{ versions }}"
+
+    - debug:
+        msg: KO
+      when: version not in versions
+
+    - debug:
+        msg: OK
+      when: version in versions
