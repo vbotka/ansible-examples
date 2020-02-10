@@ -1,0 +1,72 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+    - set_fact:
+        correct_sections: "{{ inventory_hostname }}"
+
+- hosts: test_02
+  gather_facts: false
+  tasks:
+    - set_fact:
+        correct_sections: "{{ inventory_hostname }}"
+
+- hosts: test_03
+  gather_facts: false
+  tasks:
+    - debug:
+        var: hostvars.test_01.correct_sections
+    - debug:
+        var: hostvars.test_02.correct_sections
+
+- hosts: group1
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars)|
+                 list|length }}"
+      run_once: true
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars)|
+                 selectattr('correct_sections', 'defined')|
+                 list|length }}"
+      run_once: true
+
+# Ansible: how to define “when” statement for the case, when some
+# variable is not defined in any of ansible_play_hosts_all hosts?
+# https://stackoverflow.com/questions/60152889/ansible-how-to-define-when-statement-for-the-case-when-some-variable-is-not/
+
+# Q: "How much hosts within ansible_play_hosts_all list have they
+#    hostvars[router]correct_sections variable defined?"
+# 
+# A: Try this
+# 
+# - set_fact:
+#     no_junos_changes: "{{ ansible_play_hosts_all|
+#                           map('extract', hostvars)|
+#                           selectattr('correct_sections', 'defined')|
+#                           list|length }}"
+# 
+# 
+# ok: [test_03] => {
+#     "hostvars.test_01.correct_sections": "test_01"
+# }
+# 
+# TASK [debug] ***
+# ok: [test_03] => {
+#     "hostvars.test_02.correct_sections": "test_02"
+# }
+# 
+# PLAY [group1] ***
+# 
+# TASK [debug] ***
+# ok: [test_01] => {
+#     "msg": "3"
+# }
+# 
+# TASK [debug] ***
+# ok: [test_01] => {
+#     "msg": "2"
+# }
