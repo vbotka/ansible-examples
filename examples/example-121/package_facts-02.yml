@@ -1,0 +1,11 @@
+- hosts: plana:planb
+  gather_facts: no
+
+  tasks:
+
+    - package_facts:
+
+    - debug:
+        msg: "{{ hostvars.plana.ansible_facts.packages|
+                 difference(hostvars.planb.ansible_facts.packages) }}"
+      run_once: true
