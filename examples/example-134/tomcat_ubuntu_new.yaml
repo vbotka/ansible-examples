@@ -1,0 +1,5 @@
+---
+- hosts: my_dynamic_group
+  tasks:
+    - debug:
+        var: inventory_hostname

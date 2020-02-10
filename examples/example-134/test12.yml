@@ -1,0 +1,60 @@
+- hosts: all
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        groups: my_dynamic_group
+      loop: "{{ groups.all }}"
+      when: hostvars[item].ansible_distribution == 'FreeBSD'
+      run_once: true
+
+- import_playbook: tomcat_ubuntu_new.yaml
+
+# To run playbook based on ansible_distribution
+# https://stackoverflow.com/questions/60140478/to-run-playbook-based-on-ansible-distribution/
+
+# Q: "I want to run the playbook only on the hosts based on the
+#    ansible_distribution."
+# 
+# A: It's not possible to include a playbook. This would run the
+#    playbooks recursively.
+# 
+# Only import of a playbook is available. Moreover import_playbook is
+# not a task. It's simply a tool to modularize large playbooks with
+# multiple plays.
+# 
+# Ansible conditionals do not apply to import_playbook the same way as
+# they do not apply to playbooks.
+# 
+# Instead, it is possible to create a group that will be used in the
+# playbook.
+# 
+# $cat tomcat_ubuntu_new.yaml
+# 
+# ---
+# - hosts: my_dynamic_group
+#   tasks:
+#   ...
+# 
+# For example, let's create the group and import the playbook
+# 
+# ---
+# - hosts: all
+#   tasks:
+#     - add_host:
+#         name: "{{ item }}"
+#         groups: my_dynamic_group
+#       loop: "{{ groups.all }}"
+#       when: hostvars[item].ansible_distribution == 'Ubuntu'
+#       run_once: true
+# 
+# - import_playbook: tomcat_ubuntu_new.yaml
+
+# ok: [test_01] => {
+#     "inventory_hostname": "test_01"
+# }
+# ok: [test_02] => {
+#     "inventory_hostname": "test_02"
+# }
+# ok: [test_03] => {
+#     "inventory_hostname": "test_03"
+# }
