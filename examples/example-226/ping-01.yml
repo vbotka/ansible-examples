@@ -1,0 +1,29 @@
+- hosts: group1
+  gather_facts: false
+  tasks:
+    - ping:
+      register: result
+    - debug:
+        var: result
+
+# ok: [test_02] => {
+#     "result": {
+#         "changed": false, 
+#         "failed": false, 
+#         "ping": "pong"
+#     }
+# }
+# ok: [test_01] => {
+#     "result": {
+#         "changed": false, 
+#         "failed": false, 
+#         "ping": "pong"
+#     }
+# }
+# ok: [test_03] => {
+#     "result": {
+#         "changed": false, 
+#         "failed": false, 
+#         "ping": "pong"
+#     }
+# }

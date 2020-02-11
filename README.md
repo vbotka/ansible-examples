@@ -227,6 +227,7 @@ Various examples of Ansbile code.
 - Example 223. ANSIBLE_REMOTE_TMP, ANSIBLE_REMOTE_TEMP, remote_tmp, ansible_remote_tmp
 - Example 224. YAML None, Python null
 - Example 225. Role meta platforms
+- Example 226. module ping, net_ping, ios_ping
 
 ## License
 
