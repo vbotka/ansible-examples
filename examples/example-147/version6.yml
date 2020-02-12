@@ -1,0 +1,34 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_filename: ms2install_1.16.1.8.tgz
+  tasks:
+    - set_fact:
+        ms2Num: "{{ my_filename.split('_').1.split('.')[:4]|join('.') }}"
+        ms2Num_short: "{{ my_filename.split('_').1.split('.')[:2]|join('.') }}"
+      tags: t1
+    - debug:
+        msg:
+          - "{{ ms2Num }}"
+          - "{{ ms2Num_short }}"
+      tags: t1
+
+    - set_fact:
+        ms2Num: "{{ (my_filename|splitext).0.split('_').1 }}"
+      tags: t2
+    - set_fact:
+        ms2Num_short: "{{ ms2Num.split('.')[:2]|join('.') }}"
+      tags: t2
+    - debug:
+        msg:
+          - "{{ ms2Num }}"
+          - "{{ ms2Num_short }}"
+      tags: t2
+
+# I want to know if there is an Ansible (regex_replace) way cutting off a version number
+# https://stackoverflow.com/questions/60186403/i-want-to-know-if-there-is-an-ansible-regex-replace-way-cutting-off-a-version/
+
+#     "msg": [
+#         "1.16.1.8", 
+#         "1.16"
+#     ]
