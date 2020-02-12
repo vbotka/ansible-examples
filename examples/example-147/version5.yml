@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        var: ansible_version
+
+# localhost | SUCCESS => {
+#     "ansible_version": {
+#         "full": "2.9.4", 
+#         "major": 2, 
+#         "minor": 9, 
+#         "revision": 4, 
+#         "string": "2.9.4"
+#     }
+# }
