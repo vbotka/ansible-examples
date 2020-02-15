@@ -1,0 +1,22 @@
+- hosts: test_01
+  tasks:
+    - ping:
+
+# want to hide “ansible_facts”: { “discovered_interpreter_python”: “/usr/bin/python3” } from ping module output?
+# https://stackoverflow.com/questions/60241774/want-to-hide-ansible-facts-discovered-interpreter-python-usr-bin-pytho/
+
+# It's possible to configure DEFAULT_STDOUT_CALLBACK and " Set the main
+# callback used to display Ansible output.". For example
+# 
+# $ cat playbook.yml
+# - hosts: test_01
+#   tasks:
+#     - ping:
+# 
+# $ export ANSIBLE_STDOUT_CALLBACK=actionable; ansible-playbook playbook.yml
+# PLAY [test_01] ***
+# 
+# PLAY RECAP ***
+# test_01: ok=2  changed=0  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0
+# 
+# See other available callback plugins.
