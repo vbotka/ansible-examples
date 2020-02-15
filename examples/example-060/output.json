@@ -1,0 +1,36 @@
+{
+    "ansible_facts": {
+        "packages": {
+            "GConf2": [
+                {
+                    "arch": "x86_64",
+                    "epoch": null,
+                    "name": "GConf2",
+                    "release": "8.el7",
+                    "source": "rpm",
+                    "version": "3.2.6"
+                }
+            ],
+            "GeoIP": [
+                {
+                    "arch": "x86_64",
+                    "epoch": null,
+                    "name": "GeoIP",
+                    "release": "14.el7",
+                    "source": "rpm",
+                    "version": "1.5.0"
+                }
+            ],
+            "ImageMagick": [
+                {
+                    "arch": "x86_64",
+                    "epoch": null,
+                    "name": "ImageMagick",
+                    "release": "18.el7",
+                    "source": "rpm",
+                    "version": "6.7.8.9"
+                }
+            ]
+        }
+    }
+}

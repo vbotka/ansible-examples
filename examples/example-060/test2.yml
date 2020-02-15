@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - include_vars: output.json
+    - debug:
+        var: ansible_facts.packages
+
+    - include_vars: output.yml
+    - debug:
+        var: ansible_facts.packages

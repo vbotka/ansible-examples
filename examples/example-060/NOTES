@@ -1,0 +1,13 @@
+
+# Ansible output extract package version using jq
+# https://stackoverflow.com/questions/60228560/ansible-output-extract-package-version-using-jq/
+
+> cat output2.json | jq -r --arg "package" "GeoIP" '[$package,(.[] | .[$package][].version)]| @csv'
+"GeoIP","1.5.0"
+
+> ./test2.sh output.json GeoIP
+"1.5.0"
+> cat test2.sh 
+#!/bin/sh
+cat $1 | jq ".ansible_facts.packages.$2 | .[].version"
+--
