@@ -13,7 +13,7 @@
     - debug:
         var: staging_ports
       vars:
-        staging_ports: "{{ ports|prefix_key(prefix='staging_') }}"
+        staging_ports: "{{ ports|dict_prefix_keys('staging_') }}"
 
 # Ansible change all dict key values only by filters
 # https://stackoverflow.com/questions/56390886/ansible-change-all-dict-key-values-only-by-filters/

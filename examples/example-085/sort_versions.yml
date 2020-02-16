@@ -18,7 +18,7 @@
     - debug:
         var: versions
     - debug:
-        msg: "{{ versions | sort_versions }}"
+        msg: "{{ versions | version_sort }}"
 
 # How to sort complex version numbers in Ansible
 # https://stackoverflow.com/questions/56063612/how-to-sort-complex-version-numbers-in-ansible/

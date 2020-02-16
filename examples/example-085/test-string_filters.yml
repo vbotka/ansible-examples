@@ -1,0 +1,43 @@
+---
+
+- name: string_filters
+  hosts: localhost
+  gather_facts: false
+  vars:
+    input: ["a", "b", "c"]
+    test1: The quick brown fox jumps over the lazy dog
+    test2: The quick,brown fox,jumps over,the lazy dog
+  tasks:
+    - debug:
+        msg: "{{ lookup('file', 'test.txt')|string_count('phrase') }}"
+    - debug:
+        msg: "{{ lookup('file', 'test.txt')|string_find('phrase') }}"
+    - debug:
+        msg: "{{ 'abc'|string_postfix('-postfix') }}"
+    - debug:
+        msg: "{{ 'abc'|string_prefix('prefix-') }}"
+    - debug:
+        var: output
+      vars:
+        output: "{{ input|map('string_prefix', 'prefix-')|list }}"
+    - debug:
+        var: output
+      vars:
+        output: "{{ input|map('string_postfix', '-postfix')|list }}"
+    - debug:
+        msg: "{{ test1|string_replace(' ', '-') }}"
+    - debug:
+        msg: "{{ test1|string_replace(' ', '-', 3) }}"
+    - debug:
+        var: split_text
+      vars:
+        split_text: "{{ test1|string_split() }}"
+    - debug:
+        var: split_text_comma
+      vars:
+        split_text_comma: "{{ test2|string_split(',') }}"
+    - debug:
+        var: split_text_comma2
+      vars:
+        split_text_comma2: "{{ test2|string_split(',',2) }}"
+...

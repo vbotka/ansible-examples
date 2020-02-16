@@ -1,0 +1,34 @@
+---
+# Test filter_plugins/version_filters
+
+- name: version_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    versions1:
+      - "0.1.0"
+      - "0.1.5"
+      - "0.11.11"
+      - "0.9.11"
+      - "0.9.3"
+      - "0.10.2"
+      - "0.6.1"
+      - "0.6.0"
+      - "0.11.0"
+      - "0.6.5"
+
+  tasks:
+    - debug:
+        var: sorted
+      vars:
+        sorted: "{{ versions1 | version_sort }}"
+    - debug:
+        var: max
+      vars:
+        max: "{{ versions1 | version_max }}"
+    - debug:
+        var: min
+      vars:
+        min: "{{ versions1 | version_min }}"
+...

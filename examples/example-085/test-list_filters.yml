@@ -1,0 +1,159 @@
+---
+# Test filter_plugins/list_filters.py
+
+- name: list_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    fruits: ['orange', 'apple', 'pear', 'banana', 'kiwi', 'apple', 'banana']
+    fruits_quality:
+      - {name: 'orange', quality: 'A'}
+      - {name: 'apple', quality: 'B'}
+      - {name: 'pear', quality: 'A'}
+      - {name: 'banana', quality: 'C'}
+      - {name: 'kiwi', quality: 'C'}
+      - {name: 'apple', quality: 'B'}
+      - {name: 'banana', quality: 'A'}
+    vegetables: ['potato', 'tomato', 'carrot']
+    select_bool7: [false, true, true, false, false, true, false]
+    students: [['john', 'A', 15], ['jane', 'B', 12], ['dave', 'B', 10]]
+
+  tasks:
+    - debug:
+        var: fruits
+      tags: fruits
+    - debug:
+        var: fruits_quality
+      tags: fruits_quality
+    - debug:
+        var: students
+      tags: students
+    - debug:
+        msg: "list length: {{ fruits|length }}"
+      tags: lm_length
+    - debug:
+        msg: "append 'tangerine': {{ fruits|list_append('tangerine') }}"
+      tags: lm_append
+    - debug:
+        msg: "append 'vegetables': {{ fruits|list_append(vegetables) }}"
+      tags: lm_append
+    - debug:
+        msg: "append 'vegetables' flatten: {{ fruits|
+                                              list_append(vegetables)|
+                                              flatten }}"
+      tags: lm_append
+    - debug:
+        msg: "extend 'vegetables': {{ fruits|list_extend(vegetables) }}"
+      tags: lm_extend
+    - debug:
+        msg: "insert plum at 3: {{ fruits|list_insert(3, 'plum') }}"
+      tags: lm_extend
+    - debug:
+        msg: "remove first banana: {{ fruits|list_remove('banana') }}"
+      tags: lm_remove
+    - debug:
+        msg: "pop 2: {{ fruits|list_pop(2) }}"
+      tags: lm_pop
+    - debug:
+        msg: "pop last: {{ fruits|list_pop() }}"
+      tags: lm_pop
+    - debug:
+        msg: "clear: {{ fruits|list_clear() }}"
+      tags: lm_clear
+    - debug:
+        msg: "index of apple: {{ fruits|list_index('apple') }}"
+      tags: lm_index
+    - debug:
+        msg: "index of apple from 3: {{ fruits|
+                                        list_index('apple', 3) }}"
+      tags: lm_index
+    - debug:
+        msg: "index of apple from 2 to 4: {{ fruits|
+                                             list_index('apple', 2, 4) }}"
+      tags: lm_index
+    - debug:
+        msg: "count apple: {{ fruits|list_count('apple') }}"
+      tags: lm_count
+    - debug:
+        msg: "sort fruits: {{ fruits|list_sort() }}"
+      tags: lm_sort
+    - debug:
+        msg: "sort fruits: {{ fruits|list_sort(ls_reverse=True) }}"
+      tags: lm_sort_reverse
+    - debug:
+        msg: "sort students by grade: {{ students|list_sort_list(1) }}"
+      tags: lm_sort_list_grade
+    - debug:
+        msg: "sort students by grade: {{ students|list_sort_list(1, ls_reverse=True) }}"
+      tags: lm_sort_list_grade_reverse
+    - debug:
+        msg: "sort students by age: {{ students|list_sort_list(2) }}"
+      tags: lm_sort_list_age
+    - debug:
+        msg: "sort students by age: {{ students|list_sort_list(2, ls_reverse=True) }}"
+      tags: lm_sort_list_age_reverse
+    - debug:
+        msg: "sort fruits_quality: {{ fruits_quality|list_sort_dict('quality') }}"
+      tags: lm_sort_dict
+    - debug:
+        msg: "sort fruits_quality: {{ fruits_quality|list_sort_dict('quality', ls_reverse=True) }}"
+      tags: lm_sort_dict_reverse
+    - debug:
+        msg: "reverse fruits: {{ fruits|list_reverse() }}"
+      tags: lm_reverse
+    - debug:
+        msg: "reverse sort fruits: {{ fruits|list_sort()|list_reverse() }}"
+      tags: lm_reverse_sort
+    - debug:
+        msg: "copy fruits: {{ fruits|list_copy() }}"
+      tags: lm_copy
+    - debug:
+        msg: "search *an* in fruits: {{ fruits|list_search('.*an.*') }}"
+      tags: lm_search
+    - debug:
+        msg: "1st 3 random samples from fruits: {{ fruits|
+                                                   unique|
+                                                   list_sample(3|int) }}"
+      tags: lm_sample
+    - debug:
+        msg: "2nd 3 random samples from fruits: {{ fruits|
+                                                   unique|
+                                                   list_sample(3|int) }}"
+      tags: lm_sample
+
+    - debug:
+        msg: "zip: {{ fruits|
+                      list_zip(vegetables) }}"
+      tags: lm_zip
+
+    - debug:
+        msg: "dict_zip: {{ fruits|
+                           list_dict_zip(vegetables) }}"
+      tags: lm_dict_zip
+
+    - debug:
+        msg: "dict_zip_rev: {{ fruits|
+                               list_dict_zip_rev(vegetables) }}"
+      tags: lm_dict_zip_rev
+
+    - debug:
+        msg: "list_split_period: {{ fruits|list_split_period(2) }}"
+      tags: lm_split_period
+    - debug:
+        msg: "list_split_period: {{ fruits|list_split_period(3) }}"
+      tags: lm_split_period
+    - debug:
+        msg: "list_split_period: {{ fruits|list_split_period(4) }}"
+      tags: lm_split_period
+
+    - debug:
+        msg: "list_select_list_bool: {{ select_bool7|
+                                        list_select_list_bool(fruits) }}"
+      tags: lm_select_list_bool
+    - debug:
+        msg: "list_select_list_bool: {{ select_bool7|
+                                        list_select_list_bool(fruits, negative=True) }}"
+      tags: lm_select_list_bool_negative
+
+...

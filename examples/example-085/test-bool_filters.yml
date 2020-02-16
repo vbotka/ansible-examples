@@ -1,0 +1,104 @@
+---
+# Test filter_plugins/bool_filters
+
+- name: bool_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    b1: [true, true, true]
+    b2: [false, false, false]
+    b3: [true, false, false]
+    l1: ['a', 'b', 'c']
+
+  tasks:
+    - debug:
+        msg: "all(b1): {{ b1|bool_and }}"
+      tags: bool_and
+    - debug:
+        msg: "all(b2): {{ b2|bool_and }}"
+      tags: bool_and
+    - debug:
+        msg: "all(b3): {{ b3|bool_and }}"
+      tags: bool_and
+
+    - debug:
+        msg: "any(b1): {{ b1|bool_or }}"
+      tags: bool_or
+    - debug:
+        msg: "any(b2): {{ b2|bool_or }}"
+      tags: bool_or
+    - debug:
+        msg: "any(b3): {{ b3|bool_or }}"
+      tags: bool_or
+
+    - debug:
+        msg: "eq('3', '3'): {{ '3'|bool_eq('3') }}"
+      tags: bool_eq
+    - debug:
+        msg: "eq('3', '4'): {{ '3'|bool_eq('4') }}"
+      tags: bool_eq
+
+    - debug:
+        msg: "lt('3', '3'): {{ '3'|bool_lt('3') }}"
+      tags: bool_lt
+    - debug:
+        msg: "lt('3', '4'): {{ '3'|bool_lt('4') }}"
+      tags: bool_lt
+
+    - debug:
+        msg: "le('3', '3'): {{ '3'|bool_le('3') }}"
+      tags: bool_le
+    - debug:
+        msg: "le('3', '4'): {{ '3'|bool_le('4') }}"
+      tags: bool_le
+
+    - debug:
+        msg: "gt('3', '3'): {{ '3'|bool_gt('3') }}"
+      tags: bool_gt
+    - debug:
+        msg: "gt('4', '3'): {{ '4'|bool_gt('3') }}"
+      tags: bool_gt
+
+    - debug:
+        msg: "ge('3', '3'): {{ '3'|bool_ge('3') }}"
+      tags: bool_ge
+    - debug:
+        msg: "ge('4', '3'): {{ '4'|bool_ge('3') }}"
+      tags: bool_ge
+
+    - debug:
+        msg: "ne('3', '3'): {{ '3'|bool_ne('3') }}"
+      tags: bool_ne
+    - debug:
+        msg: "ne('4', '3'): {{ '4'|bool_ne('3') }}"
+      tags: bool_ne
+
+    - debug:
+        msg: "is(b1, b1): {{ b1|bool_is(b1) }}"
+      tags: bool_is
+    - debug:
+        msg: "is('3', '3'): {{ '3'|bool_is('3') }}"
+      tags: bool_is
+
+    - debug:
+        msg: "is_not(b1, b1): {{ b1|bool_is_not(b1) }}"
+      tags: bool_is_not
+    - debug:
+        msg: "is_not('3', '3'): {{ '3'|bool_is_not('3') }}"
+      tags: bool_is_not
+
+    - debug:
+        msg: "in('a', l1): {{ 'a'|bool_in(l1) }}"
+      tags: bool_in
+    - debug:
+        msg: "in('x', l1): {{ 'x'|bool_in(l1) }}"
+      tags: bool_in
+
+    - debug:
+        msg: "in_not('a', l1): {{ 'a'|bool_in_not(l1) }}"
+      tags: bool_in_not
+    - debug:
+        msg: "in_not('x', l1): {{ 'x'|bool_in_not(l1) }}"
+      tags: bool_in_not
+...

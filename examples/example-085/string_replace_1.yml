@@ -8,7 +8,7 @@
         - TEST
         - 'TEST'
         - "TEST"
-        - "\'TEST\'"
+        - "\\'TEST\\'"
 
 #  service_location: /opt/TEST-scheduler-service
 #  service_location: /opt/TEST-scheduler-service

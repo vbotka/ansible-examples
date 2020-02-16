@@ -1,0 +1,29 @@
+---
+# Test filter_plugins/hash_filters
+
+- name: hash_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    hash:
+      key9: value9
+    config:
+      key1: value1
+      key2: value2
+      key3: value3
+
+  tasks:
+    - debug:
+        msg: "key: {{ hash|hash_key }}"
+    - debug:
+        msg: "value: {{ hash|hash_value }}"
+    - debug:
+        msg: "tuple: {{ hash|hash_to_tuple }}"
+    - debug:
+        msg: "list keys: {{ config|hash_keys }}"
+    - debug:
+        msg: "list values: {{ config|hash_values }}"
+    - debug:
+        msg: "list tuples: {{ config|hash_to_tuples }}"
+...

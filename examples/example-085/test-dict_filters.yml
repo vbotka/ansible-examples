@@ -1,0 +1,166 @@
+---
+# Test filter_plugins/dict_filters
+
+- name: dict_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    dict1:
+      a: 1
+      b: 2
+    dict2:
+      a: 1
+      b: 2
+      c: 3
+    dict3:
+      a: [1]
+      b: [2]
+      c: [3]
+    add_this:
+      c: 9
+    ports:
+      webui: 7200
+      webadmin: 7209
+      core_api: 7201
+      stock_api: 7204
+      import_export: 7207
+    dict4: {
+      "a":{
+        "r": 1,
+        "s": 2,
+        "t": 3
+      },
+      "b":{
+        "u": 1,
+        "v": {
+          "x": 1,
+          "y": 2,
+          "z": [3, 4, 5]
+        },
+        "w": 3
+      }
+    }
+    dict5:
+      c:
+        ip: 10.1.0.19
+        mac: 88:88:88:88:88:80
+      a:
+        ip: 10.1.0.17
+        mac: 88:88:88:88:88:81
+      b:
+        ip: 10.1.0.18
+        mac: 88:88:88:88:88:82
+    list1: ["key1", "value1"]
+    list2:
+      - ["key1", "value1"]
+      - ["key2", "value2"]
+      - ["key3", "value3"]
+
+  tasks:
+
+    - debug:
+        var: added_dict
+      vars:
+        added_dict: "{{ dict1|dict_add_dict(add_this) }}"
+      tags: added_dict
+
+    - debug:
+        var: del_key
+      vars:
+        del_key: "{{ dict2|dict_del_key('b') }}"
+      tags: del_key
+
+    - debug:
+        var: merge_dict
+      vars:
+        merge_dict: "{{ dict1|dict_merge(dict2) }}"
+      tags: merge_dict
+    - debug:
+        var: merge_dict
+      vars:
+        merge_dict: "{{ dict1|dict_merge(dict3) }}"
+      tags: merge_dict
+
+    - debug:
+        var: merge_dict_lossless
+      vars:
+        merge_dict_lossless: "{{ dict1|dict_merge_lossless(dict3) }}"
+      tags: merge_dict_lossless
+
+    - debug:
+        var: appended_dict
+      vars:
+        appended_dict: "{{ dict2|dict_add_dict(add_this, True) }}"
+      tags: appended_dict
+
+    - debug:
+        var: replaced_dict
+      vars:
+        replaced_dict: "{{ dict2|dict_add_dict(add_this) }}"
+      tags: replaced_dict
+
+    - debug:
+        var: appended_dict_to_list
+      vars:
+        appended_dict_to_list: "{{ dict3|dict_add_dict(add_this, True) }}"
+      tags: appended_dict_to_list
+
+    - debug:
+        var: prefixed_keys
+      vars:
+        prefixed_keys: "{{ ports|dict_prefix_keys('staging_') }}"
+      tags: prefixed_keys
+
+    - debug:
+        var: dict4_flatten
+      vars:
+        dict4_flatten: "{{ dict4|dict_flatten }}"
+      tags: dict_flatten
+    - debug:
+        var: dict4_flatten
+      vars:
+        dict4_flatten: "{{ dict4|dict_flatten(separator='_') }}"
+      tags: dict_flatten
+
+    - debug:
+        var: dict5_sortbysubkey
+      vars:
+        dict5_sortbysubkey: "{{ dict5|dict_sortbysubkey('ip') }}"
+      tags: dict_sortbysubkey
+
+    - debug:
+        var: dict1_2list
+      vars:
+        dict1_2list: "{{ dict1|dict2list }}"
+      tags: dict1_2list
+
+    - debug:
+        var: list1_2dict
+      vars:
+        list1_2dict: "{{ list1|item2dict }}"
+      tags: list1_2dict
+
+    - debug:
+        var: list2_2dict
+      vars:
+        list2_2dict: "{{ list2|map('item2dict')|list }}"
+      tags: list2_2dict
+
+    - debug:
+        var: list2_2dict
+      vars:
+        list2_2dict: "{{ dict(list2) }}"
+      tags: list2_2dict
+
+    - debug:
+        var: dict_select_list
+      vars:
+        dict_select_list: "{{ dict5|dict_select_list(['b', 'c']) }}"
+      tags: dict_select_list
+
+    - debug:
+        var: dict2hash
+      vars:
+        dict2hash: "{{ dict4|dict2hash }}"
+      tags: dict2hash

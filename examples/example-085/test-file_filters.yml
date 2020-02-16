@@ -1,0 +1,43 @@
+---
+# Test filter_plugins/file_filters
+
+- name: file_filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    test_string: "test string"
+    test_file: "test_file1.txt"
+    list1_files:
+      - test_file1.txt
+      - test_file2.txt
+    list2_files:
+      - test_file3.txt
+      - test_file2.txt
+
+  tasks:
+    - name: "No.1 String is in file"
+      debug:
+        msg: "{{ test_string }} found in {{ test_file }}"
+      when: test_file|file_search(test_string)
+      tags: t1
+
+    - name: "No.2 String is NOT in file"
+      debug:
+        msg: "{{ test_string }} found in {{ test_file }}"
+      when: "'test_file2.txt'|file_search(test_string)"
+      tags: t2
+
+    - name: "No.3 String is in list of files"
+      debug:
+        msg: "{{ test_string }} found"
+      when: list1_files|file_list_search(test_string)
+      tags: t3
+
+    - name: "No.4 String is NOT in list of files"
+      debug:
+        msg: "{{ test_string }} found"
+      when: list2_files|file_list_search(test_string)
+      tags: t4
+
+...

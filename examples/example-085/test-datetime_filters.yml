@@ -1,0 +1,13 @@
+---
+
+- name: datetime_filters
+  hosts: localhost
+  gather_facts: false
+  vars:
+    epoch: "{{ lookup('pipe', 'date +%s') }}"
+  tasks:
+    - debug:
+        msg: "{{ epoch|datetime_epoch_strftime }}"
+    - debug:
+        msg: "{{ epoch|datetime_epoch_strftime('%Y-%m-%d') }}"
+...
