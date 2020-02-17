@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    landscape_list: ["cmdb:app1 landscape", "cmdb:app2 (ex app3) landscape", "cmdb:app4 landscape"]
+
+  tasks:
+
+    - debug:
+        var: landscape_list
+
+    - set_fact:
+        land_key: 'app2'
+    - debug:
+        msg: "{{ landscape_list|select('search', land_key)|list }}"
+    - debug:
+        msg: "{{ landscape_list|select('search', land_key)|list|length }}"
+    - debug:
+        msg: One or more items match the searched pattern.
+      when: landscape_list|select('search', land_key)|list|length > 0
+
+    - set_fact:
+        land_key: 'app2 \(ex app3\)'
+    - debug:
+        msg: "{{ landscape_list|select('search', land_key)|list }}"
+    - debug:
+        msg: "{{ landscape_list|select('search', land_key)|list|length }}"
+    - debug:
+        msg: One or more items match the searched pattern.
+      when: landscape_list|select('search', land_key)|list|length > 0
