@@ -1,0 +1,26 @@
+- hosts: planb
+  gather_facts: true
+  tasks:
+
+    - set_fact:
+        bridges: "{{ dict(ansible_facts|
+                     dict2items|
+                     json_query('[?value.type == `bridge`].[key, value.interfaces]')) }}"
+
+    - debug:
+        var: bridges
+
+#    - debug:
+#       msg:
+#          - "{{ ansible_facts[item].device }}"
+#          - "{{ ansible_facts[item].interfaces }}"
+#      loop: "{{ bridges }}"
+
+#    "bridges": {
+#        "br0": [
+#            "eth0"
+#        ], 
+#        "virbr0": [
+#            "virbr0-nic"
+#        ]
+#    }
