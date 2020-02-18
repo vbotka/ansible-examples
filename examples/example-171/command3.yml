@@ -1,0 +1,151 @@
+- hosts: test_01
+  gather_facts: false
+  tasks:
+
+    - shell: |
+        cat ./.env337
+        . ./.env337
+        echo "AB_HOME = $AB_HOME"
+        echo "PATH = $PATH"
+        exit 0
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+    - shell: |
+        echo "AB_HOME = $AB_HOME"
+        echo "PATH = $PATH"
+        exit 0
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+    - shell: cat ./.env337
+      register: result
+    - set_fact:
+        env_list: "{{ env_list|default([]) +
+                      [item.split('=').0.split(' ').1|trim] }}"
+      loop: "{{ result.stdout_lines }}"
+    - debug:
+        var: env_list
+
+    - shell: |
+        . ./.env337
+        echo ${{ item }}
+      register: result
+      loop: "{{ env_list }}"
+    - debug:
+        msg: "{{ item.item }} {{ item.stdout }}"
+      loop: "{{ result.results }}"
+
+    - shell: |
+        . ./.env337
+        set
+      register: result
+    - set_fact:
+        env_dict: "{{ env_dict|default({})|
+                      combine({my_key: my_value}) }}"
+      vars:
+        my_key: "{{ item.split('=').0 }}"
+        my_value: "{{ item.split('=').1|default('') }}"
+      loop: "{{ result.stdout_lines }}"
+    - debug:
+        msg: "var: {{ item }} value: {{ env_dict[item] }}"
+      loop: "{{ env_list }}"
+
+# Ansible - Environment variables setting
+# https://stackoverflow.com/questions/60276242/ansible-environment-variables-setting/
+
+# Q: "Set the environment and register the environment variables in
+#    order to use them in the environment ke yword to run the other
+#    commands."
+# 
+# A: The environment variables set in the shell command can not be
+#    persistent. The shell process will be terminated after the execution
+#    of the command(s). For example
+# 
+#     - shell: |
+#         cat ./.env337
+#         . ./.env337
+#         echo "AB_HOME = $AB_HOME"
+#         echo "PATH = $PATH"
+#         exit 0
+#       register: result
+# 
+#     - debug:
+#         var: result.stdout_lines
+# 
+#     - shell: |
+#         echo "AB_HOME = $AB_HOME"
+#         echo "PATH = $PATH"
+#         exit 0
+#       register: result
+# 
+#     - debug:
+#         var: result.stdout_lines
+# 
+# give
+# 
+#     "result.stdout_lines": [
+#         "export AB_HOME=/tl/dev/abinitio/abinitio-V3  #/gcc3p32   # for 32-bit", 
+#         "export PATH=${AB_HOME}/bin:${PATH}", 
+#         "", 
+#         "AB_HOME = /tl/dev/abinitio/abinitio-V3", 
+#         "PATH = /tl/dev/abinitio/abinitio-V3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+#     ]
+# 
+#     "result.stdout_lines": [
+#         "AB_HOME = ", 
+#         "PATH = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+#     ]
+# 
+# As expected the variables are missing in the second shell task.
+# 
+# Q: "what if I don't know what are all the variables present inside the
+#    env file. Is there any other way to print all variables instead of
+#    using echo."
+# 
+# 1) Create a list of unknown variables. For example
+# 
+#     - shell: cat ./.env337
+#       register: result
+#     - set_fact:
+#         env_list: "{{ env_list|default([]) +
+#                       [item.split('=').0.split(' ').1|trim] }}"
+#       loop: "{{ result.stdout_lines }}"
+#     - debug:
+#         var: env_list
+# 
+# gives
+# 
+#     "env_list": [
+#         "AB_HOME", 
+#         "PATH"
+#     ]
+# 
+# 2) Create a dictionary with the environment. For example
+# 
+#     - shell: |
+#         . ./.env337
+#         set
+#       register: result
+#     - set_fact:
+#         env_dict: "{{ env_dict|default({})|
+#                       combine({my_key: my_value}) }}"
+#       vars:
+#         my_key: "{{ item.split('=').0 }}"
+#         my_value: "{{ item.split('=').1|default('') }}"
+#       loop: "{{ result.stdout_lines }}"
+# 
+# 3) Use any environment variable from the dictionary. For example
+# 
+#     - debug:
+#         msg: "var: {{ item }} value: {{ env_dict[item] }}"
+#       loop: "{{ env_list }}"
+# 
+# gives
+# 
+#     "msg": "var: AB_HOME value: /tl/dev/abinitio/abinitio-V3"
+#     "msg": "var: PATH value: /tl/dev/abinitio/abinitio-V3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+
+# EOF

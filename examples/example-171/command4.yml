@@ -1,0 +1,134 @@
+- hosts: test_01
+  gather_facts: false
+
+  tasks:
+
+    - shell: cat ./.env337
+      register: result
+    - set_fact:
+        env_list: "{{ env_list|default([]) +
+                      [item.split('=').0.split(' ').1|trim] }}"
+      loop: "{{ result.stdout_lines }}"
+    - debug:
+        var: env_list
+
+    - shell: |
+        . ./.env337
+        set
+      register: result
+    - set_fact:
+        env_dict: "{{ env_dict|default({})|
+                      combine({my_key: my_value}) }}"
+      vars:
+        my_key: "{{ item.split('=').0 }}"
+        my_value: "{{ item.split('=').1|default('') }}"
+      loop: "{{ result.stdout_lines }}"
+    - debug:
+        msg: "var: {{ item }} value: {{ env_dict[item] }}"
+      loop: "{{ env_list }}"
+
+    - set_fact:
+        env_dict_add: "{{ env_dict_add|default({})|
+                          combine({item: env_dict[item]}) }}"
+      loop: "{{ env_list }}"
+    - debug:
+        var: env_dict_add
+
+    - shell: "echo ${{ item }}"
+      loop: "{{ env_list }}"
+      register: result
+      environment: "{{ env_dict_add }}"
+    - debug:
+        msg: "{{ dict(result.results|json_query('[].[item, stdout]')) }}"
+
+
+# Ansible - Environment variables setting
+# https://stackoverflow.com/questions/60276242/ansible-environment-variables-setting/
+
+# Q: "what if I don't know what are all the variables present inside the
+#    env file. Is there any other way to print all variables instead of
+#    using echo."
+# 
+# A: Short answer: Create a dictionary env_dict_add with the environment
+#    variables. Use it in the shell module to create the environment
+#    environment: "{{ env_dict_add }}".
+# 
+# 1) Create a list of unknown variables. For example
+# 
+#     - shell: cat ./.env337
+#       register: result
+#     - set_fact:
+#         env_list: "{{ env_list|default([]) +
+#                       [item.split('=').0.split(' ').1|trim] }}"
+#       loop: "{{ result.stdout_lines }}"
+#     - debug:
+#         var: env_list
+# 
+#    gives
+# 
+#     "env_list": [
+#         "AB_HOME", 
+#         "PATH"
+#     ]
+# 
+# 2) Create a dictionary with the environment. For example
+# 
+#     - shell: |
+#         . ./.env337
+#         set
+#       register: result
+#     - set_fact:
+#         env_dict: "{{ env_dict|default({})|
+#                       combine({my_key: my_value}) }}"
+#       vars:
+#         my_key: "{{ item.split('=').0 }}"
+#         my_value: "{{ item.split('=').1|default('') }}"
+#       loop: "{{ result.stdout_lines }}"
+# 
+# 3) Use any environment variable from the dictionary. For example,
+#    print whatever variables have been exported by sourcing the file
+#    .env337
+# 
+#     - debug:
+#         msg: "var: {{ item }} value: {{ env_dict[item] }}"
+#       loop: "{{ env_list }}"
+# 
+#    gives
+# 
+#     "msg": "var: AB_HOME value: /tl/dev/abinitio/abinitio-V3"
+# 
+#     "msg": "var: PATH value: /tl/dev/abinitio/abinitio-V3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+# 
+# 4) Create a dictionary with the additional environment variables only. For example
+# 
+#     - set_fact:
+#         env_dict_add: "{{ env_dict_add|default({})|
+#                           combine({item: env_dict[item]}) }}"
+#       loop: "{{ env_list }}"
+#     - debug:
+#         var: env_dict_add
+#    gives
+# 
+#     "env_dict_add": {
+#         "AB_HOME": "/tl/dev/abinitio/abinitio-V3", 
+#         "PATH": "/tl/dev/abinitio/abinitio-V3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+#     }
+# 
+# 5) Use the dictionary env_dict_add to create environment variables in
+#    the shell command. For example
+# 
+#     - shell: echo ${{ item }}
+#       loop: "{{ env_list }}"
+#       register: result
+#       environment: "{{ env_dict_add }}"
+#     - debug:
+#         msg: "{{ dict(result.results|json_query('[].[item, stdout]')) }}"
+# 
+#    give
+# 
+#     "msg": {
+#         "AB_HOME": "/tl/dev/abinitio/abinitio-V3", 
+#         "PATH": "/tl/dev/abinitio/abinitio-V3/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin"
+#     }
+
+# EOF
