@@ -1,0 +1,6 @@
+{% for k,v in bridges_dict.items() %}
+{{ k }}:
+{% for i in v %}
+  - {{ i }}
+{% endfor %}
+{% endfor %}
