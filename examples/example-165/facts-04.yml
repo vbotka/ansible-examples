@@ -1,0 +1,71 @@
+- hosts: planb
+  gather_facts: true
+
+  vars:
+
+    my_debug: false
+
+  tasks:
+
+    - name: Get bridges names
+      command: "ip -details -json link show type bridge"
+      register: list_bridges
+    - set_fact:
+        bridges: "{{ list_bridges.stdout|
+                     from_yaml|
+                     map(attribute='ifname')|
+                     list }}"
+    - debug:
+        var: bridges
+      when: my_debug
+
+    - name: Get bridges interfaces
+      command: "ip -details -json link show master {{ item }}"
+      loop: "{{ bridges }}" 
+      register: list_interfaces
+    - set_fact:
+        bridges_interfaces: "{{ list_interfaces.results|
+                                json_query('[].stdout')|
+                                map('from_yaml')|
+                                list }}"
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: "{{ item|to_nice_yaml }}"
+      loop: "{{ bridges_interfaces }}"
+      loop_control:
+        label: "{{ item|json_query('[].ifname') }}"
+      when: my_debug
+
+    - name: Set dictionary of bridges
+      set_fact:
+        bridges_dict: "{{ bridges_dict|
+                          default({})|
+                          combine({item.0: item.1|json_query('[].ifname')}) }}"
+      loop: "{{ bridges|zip(bridges_interfaces)|list }}"
+      loop_control:
+        label: "{{ item.1|json_query('[].ifname') }}"
+    - debug:
+        var: bridges_dict
+
+# set_facts with dict as argument of a loop
+# https://stackoverflow.com/questions/60268695/set-facts-with-dict-as-argument-of-a-loop
+
+# A: The lists of bridged interfaces grouped by the master are available
+#    in ansible_facts. The task below sets the dictionary of the bridges
+#    and bridged interfaces
+# 
+# - set_fact:
+#     bridges: "{{ dict(ansible_facts|
+#                  dict2items|
+#                  json_query('[?value.type == `bridge`].[key, value.interfaces]')) }}"
+# 
+# Q: "Manage to get the same result manipulating JSON data."
+# 
+# A: The output of the ip -json ... command is JSON formated string
+#    which must be converted to JSON dictionary in Ansible by the
+#    from_yaml filter (JSON is a subset of YAML). For example, the tasks
+#    below give the same result.
+
+# EOF
