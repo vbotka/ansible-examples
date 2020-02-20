@@ -1,0 +1,33 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+
+    bridges_dict:
+      br0:
+        - eth0
+        - eth1
+      br1: []
+      br2:
+
+  tasks:
+
+    - name: Write the bridges to file
+      template:
+        src: bridges.txt.j2
+        dest: bridges.txt
+
+# Template to write the bridges to a file
+# 
+# {% for k,v in bridges_dict.items() %}
+# {{ k }}:
+# {% for i in v %}
+#   - {{ i }}
+# {% endfor %}
+# {% endfor %}
+# 
+#     - name: Write the bridges to file
+#       template:
+#         src: bridges.txt.j2
+#         dest: bridges.txt

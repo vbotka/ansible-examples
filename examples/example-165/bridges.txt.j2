@@ -1,6 +1,8 @@
 {% for k,v in bridges_dict.items() %}
 {{ k }}:
+{% if v is iterable %}
 {% for i in v %}
   - {{ i }}
 {% endfor %}
+{% endif %}
 {% endfor %}
