@@ -1,0 +1,36 @@
+    "disks": [
+        {
+            "bootable": true,
+            "bus_type": "SATA",
+            "clustered": false,
+            "firmware_version": "1.0",
+            "friendly_name": "VBOX HARDDISK",
+            "guid": null,
+            "location": "Integrated : Adapter 0 : Port 0",
+            "manufacturer": null,
+            "model": "VBOX HARDDISK",
+            "number": 0,
+            "operational_status": "Online",
+            "partition_count": 2,
+            "partition_style": "MBR",
+            "partitions": [
+                {
+                    "access_paths": [
+                        "C:\\",
+                        "\\\\?\\Volume{e98535da-0000-0000-0000-501f00000000}\\"
+                    ],
+                    "active": false,
+                    "drive_letter": "C",
+                    "guid": null,
+                    "hidden": false,
+                    "mbr_type": 7,
+                    "number": 2,
+                    "offset": 525336576,
+                    "shadow_copy": false,
+                    "size": 53160706048,
+                    "transition_state": 1,
+                    "type": "IFS"
+                }
+            ]
+        }
+    ]

@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - include_vars:
+        vars-42.yml
+    - debug:
+        var: disks
+    - debug:
+        msg: "{{ disks|json_query('[].partitions[?drive_letter == `C`].size') }}"

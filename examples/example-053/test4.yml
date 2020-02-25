@@ -1,0 +1,59 @@
+- hosts: localhost
+  gather_facts: false
+#  vars_files:
+#    - vault1.yml
+  tasks:
+    - include_vars: vault1.yml
+    - debug:
+        msg: "email: {{ my_email }} tag: {{ my_tag }}"
+
+    - debug:
+        msg: "email: {{ my_vault.my_email }} tag: {{ my_vault.my_tag }}"
+      vars:
+        my_vault: "{{ lookup('file', 'vault1.yml')|from_yaml }}"
+
+# Including vault-encrypted variables in a task
+# https://devops.stackexchange.com/questions/10894/including-vault-encrypted-variables-in-a-task
+
+# Robuster and more practical solution is an encrypted file. For example
+# 
+# shell> cat vault1.yml
+# my_email: admin@example.com
+# my_tag: tag123
+# 
+# shell> ansible-vault encrypt vault1.yml
+# Encryption successful
+# 
+# shell> cat vault1.yml
+# $ANSIBLE_VAULT;1.1;AES256
+# 33376431383930313965356364356136306338383238303032363165633962636366663939373237
+# 3433383262306631643431346236653534316331643466660a326562663633346662656233353733
+# 63373561636432653535666437656537326635363935366261666237353136313939323535336665
+# 3333666466656664610a633430313138393238653065623231393165383162656262646139353730
+# 63653231363465643237666465613631646539366262656537323932346530386364353132326234
+# 3230623232393630396361333462343862323231323733376665
+# 
+# Then the encryped file can be used in various places. For example
+# 
+# shell> cat playbook.yml
+# - hosts: localhost
+#   tasks:
+#     - include_vars: vault1.yml
+#     - debug:
+#         msg: "email: {{ my_email }} tag: {{ my_tag }}"
+# 
+# gives
+# 
+#     "msg": "email: admin@example.com tag: tag123"
+# 
+# Including vault-encrypted variables in a task
+# 
+# It's possible to limit the scope of the variables to a task. This
+# limits the exposure of the sensitive variables and makes the solution
+# safer. For example
+# 
+#     - debug:
+#         msg: "email: {{ my_vault.my_email }} tag: {{ my_vault.my_tag }}"
+#       vars:
+#         my_vault: "{{ lookup('file', 'vault1.yml')|from_yaml }}"
+# gives the same result.
