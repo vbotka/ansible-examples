@@ -1,0 +1,62 @@
+- hosts: localhost
+  gather_facts: fasle
+  vars:
+    result:
+      - City: "LosAngeles"
+      - Sate: "California"
+      - region: "west-coast"
+  tasks:
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          {% for item in result %}
+          {% for k,v in item.items() %}
+          {{ k }}: {{ v }}
+          {% endfor %}
+          {% endfor %}
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: "{{ result|to_yaml }}"
+
+# Rearrange ansible output
+# https://stackoverflow.com/questions/60388371/rearrange-ansible-output/
+
+# It's possible to use Jinja2 formatting and split the lines. For example
+# 
+#     - debug:
+#         msg: "{{ msg.split('\n') }}"
+#       vars:
+#         msg: |
+#           {% for item in result %}
+#           {% for k,v in item.items() %}
+#           {{ k }}: {{ v }}
+#           {% endfor %}
+#           {% endfor %}
+# 
+# gives
+# 
+#     "msg": [
+#         "City: LosAngeles", 
+#         "Sate: California", 
+#         "region: west-coast", 
+#         ""
+#     ]
+# 
+# Similar output can be achieved with the filter to_yaml. A simpler task
+#     - debug:
+#         msg: "{{ msg.split('\n') }}"
+#       vars:
+#         msg: "{{ result|to_yaml }}"
+# 
+# gives
+# 
+#     "msg": [
+#         "- {City: LosAngeles}", 
+#         "- {Sate: California}", 
+#         "- {region: west-coast}", 
+#         ""
+#     ]
