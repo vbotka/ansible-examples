@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: replace-14-data.txt
+#        after: 'bbb'
+#        before: 'ddd'
+#        after: '^bb(.*)$'
+#        before: '^dd(.*)$'
+        after: '^bb(.|\n)*$'
+        before: '^dd(.|\n)*$'
+#        after: '^Scheduled(.*)$'
+#        before: '^Workstation(.*)$'
+        regexp: '^(.*)$'
+        replace: ''
+
+# Remove every line before a string in file using Ansible
+# https://stackoverflow.com/questions/60390890/remove-every-line-before-a-string-in-file-using-ansible/
+
+# Q: "Pattern for before/after params did not match the given file"
+# 
+# A: Neither before nor after pattern match any line in the
+#    file. Correct patterns should be
+# 
+#     after: '^Scheduled(.*)$'
+#     before: '^Workstation(.*)$'
+# 
+# But these patterns don't work either probably because of the open
+# issues Replace module before/after still broken #47917.
+# 
+# It's possible to test the various patterns in a simplified example
+# 
+# shell> cat test.txt
+# aaa
+# bbb
+# ccc
+# ddd
+# eee
+# 
+# The task
+# 
+#    - replace:
+#         path: test.txt
+#         after: 'bbb'
+#         before: 'ddd'
+#         regexp: '^(.*)$'
+#         replace: ''
+# 
+# works as expected
+# 
+# shell> cat test.txt
+# aaa
+# bbb
+# 
+# ddd
+# eee
+# 
+# But neither
+# 
+#    - replace:
+#         path: test.txt
+#         after: '^bb'
+#         before: '^dd'
+#         regexp: '^(.*)$'
+#         replace: ''
+# 
+# nor
+# 
+#    - replace:
+#         path: test.txt
+#         after: '^bb(.*)$'
+#         before: '^dd(.*)$'
+#         regexp: '^(.*)$'
+#         replace: ''
+#
+# change anything in the file
+# 
+# PLAY RECAP *************************************************************************
+# localhost: ok=1  changed=0  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0

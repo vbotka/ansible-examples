@@ -1,0 +1,10 @@
+- name: print somefile content
+  command: cat /tmp/somefile
+  register: output_var
+- set_fact:
+    completed: true
+  when: output_var.stdout_lines[-1] != '10'
+- debug:
+    var: output_var.stdout_lines[-1]
+- debug:
+    var: completed

@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    completed: true
+  tasks:
+    - name: Test 1
+      import_tasks: printoutput.yml
+      until: completed|bool
+      retries: 30
+      delay: 3
+      tags: t1
+    - debug:
+        var: completed
+      tags: t1
+
+    - name: Test 2
+      command: cat /tmp/somefile
+      register: output_var
+      until: output_var.stdout_lines[-1] != '10'
+      retries: 30
+      delay: 3
+      tags: t2
+    - debug:
+        var: output_var
+      tags: t2

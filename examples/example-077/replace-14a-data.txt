@@ -1,0 +1,12 @@
+Scheduled jobs
+Locale LANG set to the following: "en"
+CONMAN:AWSBHU611W Conman could not initialize the HTTP or HTTPS connection.
+Workstation Job Stream SchedTime Job State Pr Start Elapse ReturnCode Dependencies
+
+HCPRODNWA #NW_HC_CA_BKP1 0106 02/13 **************************************** HOLD 10(02/13) (03:22)
+NW_HC_CA_PREBKUP1B HOLD 10(02/13)(00:01)
+NW_HC_CA_SANREPLICATION HOLD 10(02/13)(00:05)ΩNW_HC_CA_PREBKUP1B
+NW_HC_CA_PPBACKUP HOLD 10(02/13)(03:17)
+NW_HC_CA_SANREPLICATION
+NW_HC_CA_GOLDCOPY HOLD 10(02/13)(00:01)
+NW_HC_CA_SANREPLICATION

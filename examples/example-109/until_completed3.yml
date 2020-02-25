@@ -1,0 +1,65 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - set_fact:
+        completed: false
+    - import_tasks: printoutput3.yml
+      register: result
+      until: completed|bool
+    - debug:
+        var: result
+
+    - set_fact:
+        completed: true
+    - import_tasks: printoutput3.yml
+      register: result
+      until: completed|bool
+    - debug:
+        var: result
+
+# import_task not looping over until loop
+# https://stackoverflow.com/questions/60390214/
+
+# Q: "import_task not looping over until loop"
+# 
+# A: Yes import_task completely ignores until. For example
+# 
+# shell> cat printoutput.yml
+# - debug:
+#     var: completed
+# - hosts: localhost
+#   tasks:
+# 
+#     - set_fact:
+#         completed: false
+#     - import_tasks: printoutput.yml
+#       until: completed|bool
+# 
+#     - set_fact:
+#         completed: true
+#     - import_tasks: printoutput.yml
+#       until: completed|bool
+# give
+# 
+# PLAY [localhost] ***
+# 
+# TASK [set_fact] ***
+# ok: [localhost]
+# 
+# TASK [debug] ***
+# ok: [localhost] => {
+#     "completed": false
+# }
+# 
+# TASK [set_fact] ***
+# ok: [localhost]
+# 
+# TASK [debug] ***
+# ok: [localhost] => {
+#     "completed": true
+# }
+# 
+# PLAY RECAP ***
+# localhost: ok=4  changed=0  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0
