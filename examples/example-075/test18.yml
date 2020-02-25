@@ -1,0 +1,49 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    vara: true
+    varb: false
+    varc: true
+
+  tasks:
+    - template:
+        src: test18.j2
+        dest: test18.txt
+
+# Ansible append multiple templates to a single file
+# https://stackoverflow.com/questions/60399274/ansible-append-multiple-templates-to-a-single-file/
+
+# Q: "Eg: if vara is true, varb is false, varc is true. Then output file
+#    should contain template1 and template3."
+# 
+# A: It's possible to use lookup and template plugin. For example
+# 
+# shell> cat test.j2
+# {% if vara %}{{ lookup('template', 'template1.j2') }}{% endif %}
+# {% if varb %}{{ lookup('template', 'template2.j2') }}{% endif %}
+# {% if varc %}{{ lookup('template', 'template3.j2') }}{% endif %}
+# 
+# shell> cat template1.j2
+# vara: {{ vara }}
+# 
+# shell> cat template2.j2
+# varb: {{ varb }}
+# 
+# shell> cat template3.j2
+# varc: {{ varc }}
+# 
+# - hosts: localhost
+#   vars:
+#     vara: true
+#     varb: false
+#     varc: true
+#   tasks:
+#     - template:
+#         src: test.j2
+#         dest: test.txt
+# 
+# give
+# 
+# shell> cat test.txt
+# vara: True
+# varc: True
