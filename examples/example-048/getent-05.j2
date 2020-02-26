@@ -1,0 +1,3 @@
+{% for user in my_users %}
+{{ user }} {{ getent_passwd[user].1 }}
+{% endfor %}

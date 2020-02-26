@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_users: ['root', 'admin']
+
+  tasks:
+    - getent:
+        database: passwd
+
+    - debug:
+        msg:
+          - "{{ item }} uid: {{ getent_passwd[item].1 }}"
+          - "{{ item }} gid: {{ getent_passwd[item].2 }}"
+          - "{{ item }} home: {{ getent_passwd[item].4 }}"
+          - "{{ item }} shell: {{ getent_passwd[item].5 }}"
+      loop: "{{ my_users }}"
+
+    - template:
+        src: getent-05.j2
+        dest: my_users.txt
+
+
+# How can I find the user ID using ansible and use that in a jinja2 template?
+# https://stackoverflow.com/questions/60414055/how-can-i-find-the-user-id-using-ansible-and-use-that-in-a-jinja2-template/
+
+# Q: "Get the UID of each of the created users."
+# 
+# A: Module getent serves exactly this purpose. For example
+# 
+# - hosts: localhost
+#   vars:
+#     my_users: ['root', 'admin']
+#   tasks:
+#     - getent:
+#         database: passwd
+#     - debug:
+#         msg:
+#           - "{{ item }} uid: {{ getent_passwd[item].1 }}"
+#           - "{{ item }} gid: {{ getent_passwd[item].2 }}"
+#           - "{{ item }} home: {{ getent_passwd[item].4 }}"
+#           - "{{ item }} shell: {{ getent_passwd[item].5 }}"
+#       loop: "{{ my_users }}"
+# 
+# gives
+# 
+# ok: [localhost] => (item=root) => {
+#     "msg": [
+#         "root uid: 0", 
+#         "root gid: 0", 
+#         "root home: /root", 
+#         "root shell: /bin/bash"
+#     ]
+# }
+# ok: [localhost] => (item=admin) => {
+#     "msg": [
+#         "admin uid: 1002", 
+#         "admin gid: 1002", 
+#         "admin home: /home/admin", 
+#         "admin shell: /bin/bash"
+#     ]
+# }
+# 
+# Module getent automaticaly created the dictionary getent_passwd which
+# can be used in a template. For example the template
+# 
+# shell> cat template.j2
+# {% for user in my_users %}
+# {{ user }} {{ getent_passwd[user].1 }}
+# {% endfor %}
+#     - template:
+#         src: template.j2
+#         dest: my_users.txt
+# 
+# gives
+# 
+# shell> cat my_users.txt 
+# root 0
+# admin 1002
