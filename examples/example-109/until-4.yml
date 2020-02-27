@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+
+#  vars:
+#    log_cmd: "printf '{{ prov_ret|default({'0': 'none'}) }}' >> /scratch/tmp/test.log"
+
+  tasks:
+
+#    - debug:
+#        var: log_cmd
+#    - debug:
+#        msg: "{{ lookup('pipe', log_cmd) }}"
+
+    - name: Provision
+      vars:
+        log_cmd: "printf '{{ prov_ret|default({'0': 'none'}) }}' >> /scratch/tmp/test.log"
+        try_cmd: "{{ lookup('pipe', log_cmd) }}"
+      command: /scratch/tmp/provision_cmd
+      register: prov_ret
+      until: prov_ret is succeeded
+      retries: 3
+      delay: 2
+
+# No way to get the registered variable from the failed attempts. Only
+# the last 'prov_ret' is available

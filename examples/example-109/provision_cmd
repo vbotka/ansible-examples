@@ -1,0 +1,4 @@
+#!/bin/sh
+PROVISION_CMD=`cat /scratch/tmp/provision_cmd.txt`
+echo $PROVISION_CMD
+exit $PROVISION_CMD
