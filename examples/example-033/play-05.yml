@@ -1,0 +1,74 @@
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - role_1a
+    - role_1b
+
+#- hosts: localhost
+#  gather_facts: no
+#  roles:
+#   - role_1a
+#   - role_1b
+
+# Ansible variable has inconsistent values
+# https://stackoverflow.com/questions/60420127/ansible-variable-has-inconsistent-values/
+
+# Q: "The fact that apparently everyone else seems to be able to use
+#    variables without issues, I am more inclined to believe that there
+#    is some fundamental concept I missed along the way."
+# 
+# A: Not the case, unfortunately. Very probably it's an Ansible
+#    issue. There are a dozen include and import issues. Some of them
+#    are reminding the problem described here
+# 
+# * Loss of variable value when include role depth exceed 3 #47023
+# * Role included from two roles in playbook, but is run with last variable twice. #37787
+# * Importing/Including a role does not overwrite the default values #39684
+# 
+# I was able to reproduce the reported result. The play
+# 
+# - hosts: localhost
+#   roles:
+#     - role_1a
+#     - role_1b
+# gives
+# 
+#     "msg": "role_1a v1 = role_1a default"
+#     "msg": "role_2 v1 = role_1a default"
+#     "msg": "role_3 v1 = role_1a default"
+#     "msg": "role_4 v1 = role_1b default"
+#     "msg": "role_5 v1 = role_1b default"
+#     "msg": "role_1b v1 = role_1b default"
+#     "msg": "role_2 v1 = role_1b default"
+#     "msg": "role_3 v1 = role_1a default"
+#     "msg": "role_4 v1 = role_1b default"
+#     "msg": "role_5 v1 = role_1b default"
+# 
+# Let's make sure the order of the messages is correct. Changed tasks
+# (similar role_1a,2,3,4)
+# 
+# # roles/role_1b/tasks/main.yml
+# - debug: msg="role_1b v1 = {{ v1 }}"
+# - import_role:
+#     name: role_2
+#   vars:
+#     root: "role_1b"
+# 
+# # roles/role_5/tasks/main.yml
+# - debug: msg="root = {{ root }} | role_5 v1 = {{ v1 }}"
+# 
+# give
+# 
+#     "msg": "role_1a v1 = role_1a default"
+#     "msg": "root = role_1a | role_2 v1 = role_1a default"
+#     "msg": "root = role_1a | role_3 v1 = role_1a default"
+#     "msg": "root = role_1a | role_4 v1 = role_1b default"
+#     "msg": "root = role_1a | role_5 v1 = role_1b default"
+#     "msg": "role_1b v1 = role_1b default"
+#     "msg": "root = role_1b | role_2 v1 = role_1b default"
+#     "msg": "root = role_1b | role_3 v1 = role_1b default" <=== was: role_1a default
+#     "msg": "root = role_1b | role_4 v1 = role_1b default"
+#     "msg": "root = role_1b | role_5 v1 = role_1b default"
+# 
+# It shows the order of the messages is correct. But, the result
+# changed. Now the result of role_1b is as expected.

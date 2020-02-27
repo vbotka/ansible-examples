@@ -1,0 +1,9 @@
+---
+# tasks file for role_1a
+#- set_fact:
+#    v1: "{{ v1 }}"
+- debug: msg="role_1a v1 = {{ v1 }}"
+- import_role:
+    name: role_2
+  vars:
+    root: "role_1a"

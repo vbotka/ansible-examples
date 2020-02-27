@@ -1,0 +1,3 @@
+---
+# tasks file for role_5
+- debug: msg="root = {{ root }} | role_5 v1 = {{ v1 }}"

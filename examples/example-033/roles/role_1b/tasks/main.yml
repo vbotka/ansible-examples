@@ -1,0 +1,7 @@
+---
+# tasks file for role_1b
+- debug: msg="role_1b v1 = {{ v1 }}"
+- import_role:
+    name: role_2
+  vars:
+    root: "role_1b"

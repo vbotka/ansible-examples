@@ -1,0 +1,6 @@
+---
+# tasks file for role_4
+- debug: msg="root = {{ root }} | role_4 v1 = {{ v1 }}"
+- import_role:
+    name: role_5
+#   allow_duplicates: false
