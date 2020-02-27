@@ -1,4 +1,5 @@
 #!/bin/sh
 PROVISION_CMD=`cat /scratch/tmp/provision_cmd.txt`
 echo $PROVISION_CMD
+echo result: $PROVISION_CMD >> /scratch/tmp/provision_cmd.log
 exit $PROVISION_CMD

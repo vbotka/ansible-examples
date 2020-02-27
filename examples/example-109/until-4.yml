@@ -11,15 +11,45 @@
 #    - debug:
 #        msg: "{{ lookup('pipe', log_cmd) }}"
 
-    - name: Provision
-      vars:
-        log_cmd: "printf '{{ prov_ret|default({'0': 'none'}) }}' >> /scratch/tmp/test.log"
-        try_cmd: "{{ lookup('pipe', log_cmd) }}"
-      command: /scratch/tmp/provision_cmd
-      register: prov_ret
-      until: prov_ret is succeeded
-      retries: 3
-      delay: 2
+#    - name: Provision
+#      vars:
+#        log_cmd: "printf '{{ prov_ret|default({'0': 'none'}) }}' >> /scratch/tmp/test.log"
+#        try_cmd: "{{ lookup('pipe', log_cmd) }}"
+#      command: /scratch/tmp/provision_cmd
+#      register: prov_ret
+#      until: prov_ret is succeeded
+#      retries: 3
+#      delay: 2
 
 # No way to get the registered variable from the failed attempts. Only
 # the last 'prov_ret' is available
+
+    - block:
+        - name: Provision
+          command: /scratch/tmp/provision_cmd
+          register: prov_ret
+          until: prov_ret is succeeded
+          retries: 3
+          delay: 2
+      rescue:
+        - name: Display registered variable
+          debug:
+            var: prov_ret
+        - name: Read the log
+          slurp:
+            src: /scratch/tmp/provision_cmd.log
+          register: provision_cmd_log
+        - name: Display log
+          debug:
+            msg: "{{ msg.split('\n') }}"
+          vars:
+            msg: "{{ provision_cmd_log.content|b64decode }}"
+
+# It's not possible as of 2.9. The until loop doesn't preserve results
+# as loop does. Once a task terminates all variables inside a task will
+# be gone except the register one.
+# 
+# To see what's going on in the loop write a log inside the command at
+# the remote host. For example, the command provision_cmd writes a log
+# to /scratch/provision_cmd.log. Run it in the block and display the log
+# in the rescue section.
