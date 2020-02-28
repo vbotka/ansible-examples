@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+#   dict1:
+#     key1: 'value1'
+#   dict2:
+#     key2: 'value2'
+#   dict3:
+#     key3: 'value3'
+
+  tasks:
+
+    - set_fact:
+        dictX: '{{ dict1 | d({}) |
+                   combine(dict2 | d({})) |
+                   combine(dict3 | d({})) }}'
+    - debug:
+        var: dictX
+
+# What does this jinja2 Filter do in Ansible? d({})
+# https://serverfault.com/questions/1004989/what-does-this-jinja2-filter-do-in-ansible-d/
+
+# Q: "What does this special function called d() do?"
+# 
+# A: d() is shortcut for default(). For example the tasks below
+# 
+# where dict1, dict2, and dict3 are not defined give
+# 
+#     "dictX": {}
+# 
+# The fiter combine combines the dictionaries. Let's test it. For example
+# 
+#     "dictX": {
+#         "key1": "value1", 
+#         "key3": "value3"
+#     }
