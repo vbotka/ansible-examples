@@ -1,0 +1,85 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    companies:
+      - name: 'Amazon'
+        filters:
+          - 'filter-A1'
+          - 'filter-A2'
+          - 'filter-A3'
+      - name: 'Facebook'
+        filters:
+          - 'filter-F1'
+          - 'filter-F2'
+          - 'filter-F3'
+      - name: 'Google'
+        filters:
+          - 'filter-G1'
+          - 'filter-G2'
+          - 'filter-G3'
+      
+  tasks:
+
+    - debug:
+        msg:
+          - "match: {{ item.0.name }} -
+                    {{ item.1 }}"
+          - "else: {{ ansible_loop.nextitem.0.name|default('last item') }} -
+                   {{ ansible_loop.nextitem.1|default('last subitem') }}"
+      loop: "{{ companies|subelements('filters', skip_missing=True) }}"
+      loop_control:
+        label: "{{ item.0.name }}"
+        extended: true
+
+# Ansible Loop Get Next Value
+# https://stackoverflow.com/questions/60451305/ansible-loop-get-next-value/
+
+# Q: "match and else. The match field should be the current item of the
+#    loop. The second field should be the next item."
+# 
+# A: Extended loop variables serve this purpose. For example
+# 
+#     "msg": [
+#         "match: Amazon - filter-A1", 
+#         "else: Amazon - filter-A2"
+#     ]
+# --
+#     "msg": [
+#         "match: Amazon - filter-A2", 
+#         "else: Amazon - filter-A3"
+#     ]
+# --
+#     "msg": [
+#         "match: Amazon - filter-A3", 
+#         "else: Facebook - filter-F1"
+#     ]
+# --
+#     "msg": [
+#         "match: Facebook - filter-F1", 
+#         "else: Facebook - filter-F2"
+#     ]
+# --
+#     "msg": [
+#         "match: Facebook - filter-F2", 
+#         "else: Facebook - filter-F3"
+#     ]
+# --
+#     "msg": [
+#         "match: Facebook - filter-F3", 
+#         "else: Google - filter-G1"
+#     ]
+# --
+#     "msg": [
+#         "match: Google - filter-G1", 
+#         "else: Google - filter-G2"
+#     ]
+# --
+#     "msg": [
+#         "match: Google - filter-G2", 
+#         "else: Google - filter-G3"
+#     ]
+# --
+#     "msg": [
+#         "match: Google - filter-G3", 
+#         "else: last item - last subitem"
+#     ]
