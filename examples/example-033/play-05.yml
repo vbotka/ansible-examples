@@ -1,5 +1,7 @@
 - hosts: localhost
   gather_facts: no
+  vars:
+    register_namespace: true
   roles:
     - role_1a
     - role_1b

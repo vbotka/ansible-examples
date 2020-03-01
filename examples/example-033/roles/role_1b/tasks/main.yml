@@ -1,5 +1,8 @@
 ---
 # tasks file for role_1b
+- set_fact:
+    v1: "{{ v1 }}"
+  when: register_namespace|bool
 - debug: msg="role_1b v1 = {{ v1 }}"
 - import_role:
     name: role_2
