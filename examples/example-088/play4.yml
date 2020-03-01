@@ -1,0 +1,58 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_list:
+      - name: "abc"
+        id: "123456"
+        other_key: "unimportant value"
+      - name: "abc"
+        id: "123456"
+        other_key: "another unimportant value"
+      - name: "bcd"
+        id: "789012"
+        other_key: "unimportant value"
+
+  tasks:
+
+    - set_fact:
+        my_list2: "{{ my_list2|default([]) +
+                      [item|combine({'hash': (item.name ~ item.id)|hash})] }}"
+      loop: "{{ my_list }}"
+
+    - debug:
+        var: my_list2
+
+    - set_fact:
+        my_list3: "{{ my_list3|default([]) +
+                      [{'name': item.1.0.name, 'id': item.1.0.id}] }}"
+      loop: "{{ my_list2|groupby('hash') }}"
+
+    - debug:
+        var: my_list3
+
+    - debug:
+        msg: "{{ my_list | json_query('[].{name: name, id: id}') | unique }}"
+
+#    "my_list3": [
+#        {
+#            "id": "123456", 
+#            "name": "abc"
+#        }, 
+#        {
+#            "id": "789012", 
+#            "name": "bcd"
+#        }
+#    ]
+#
+#      "msg": [
+#        {
+#            "id": "123456", 
+#            "name": "abc"
+#        }, 
+#        {
+#            "id": "789012", 
+#            "name": "bcd"
+#        }
+#    ]
