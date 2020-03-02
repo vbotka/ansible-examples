@@ -1,0 +1,6 @@
+{% for name in ns.names %}
+Hello {{ name }}
+{% endfor %}
+
+# fatal: [localhost]: FAILED! => {"changed": false, "msg":
+# "AnsibleUndefinedVariable: 'ns' is undefined"}

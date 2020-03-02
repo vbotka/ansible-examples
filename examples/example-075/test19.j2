@@ -1,0 +1,6 @@
+{% set ns = namespace(names=['John', 'Amy']) %}
+{{ lookup('template', 'test19-include.j2') }}
+
+# Error: Variable ns.names does not propagate to 'test19-include.j2'
+# fatal: [localhost]: FAILED! => {"changed": false, "msg":
+#  "AnsibleUndefinedVariable: 'ns' is undefined"}
