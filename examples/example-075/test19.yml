@@ -5,3 +5,5 @@
     - template:
         src: test19.j2
         dest: test19.txt
+      vars:
+        names: ['John', 'Amy']

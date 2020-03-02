@@ -1,3 +1,5 @@
-{% for name in names %}
-Hello {{ name }}
-{% endfor %}
+Hello John
+Hello Amy
+
+
+
