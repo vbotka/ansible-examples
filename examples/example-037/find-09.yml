@@ -1,0 +1,48 @@
+- hosts: localhost
+
+  tasks:
+
+  - find:
+      paths: dir1
+      recurse: true
+    register: result
+
+  - set_fact:
+      my_files: "{{ result.files|
+               sort(attribute='mtime')|
+               map(attribute='path')|
+               list }}"
+#              json_query('[].path') }}"
+
+  - debug:
+      var: item
+    loop: "{{ my_files[0:-3] }}"
+
+# Delete all old files, but keep newest 4 files using ansible-playbook
+# https://stackoverflow.com/questions/60503204/delete-all-old-files-but-keep-newest-4-files-using-ansible-playbook/
+
+# The attribute mtime in the dictionaries listed in the registered
+# result.files can be used to sort the files. For example
+# 
+#   - find:
+#       paths: dir1
+#       recurse: true
+#     register: result
+# 
+#   - set_fact:
+#       my_files: "{{ result.files|
+#                     sort(attribute='mtime')|
+#                     json_query('[].path') }}"
+# 
+# Optionally list the files, but the last (newest) 4 files
+# 
+#   - debug:
+#       var: item
+#     loop: "{{ my_files[0:-3] }}"
+# 
+# Delete the files if this is what you want
+# 
+#   - file:
+#       state: absent
+#       path: "{{ item }}"
+#     loop: "{{ my_files[0:-3] }}"
