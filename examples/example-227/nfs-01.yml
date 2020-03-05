@@ -1,0 +1,89 @@
+- name: Test shared file issue
+  hosts: dmgr:solr
+  gather_facts: false
+  become: yes
+  become_user: acadmin
+  become_method: sudo
+
+  vars:
+    shared_dir: "/export/test"
+
+  tasks:
+
+    - name: stat the file from both
+      stat:
+        path: "{{ shared_dir }}/testfile"
+      register: st1
+
+    - name: show the stat results
+      debug:
+        var: st1.stat.exists
+
+    - name: Remove the file from solr
+      file:
+        path: "{{ shared_dir }}/testfile"
+        state: absent
+      when: "'solr' in group_names"
+
+    - name: stat the file from both
+      stat:
+        path: "{{ shared_dir }}/testfile"
+      register: st2
+
+    - name: show the stat results
+      debug:
+        var: st2.stat.exists
+
+    - name: create the file on dmgr
+      shell: 'echo "Hello World" > {{ shared_dir }}/testfile'
+      when: "'dmgr' in group_names"
+
+    - name: stat the file from both
+      stat:
+        path: "{{ shared_dir }}/testfile"
+      register: st3
+
+    - name: show the stat results
+      debug:
+        var: st3.stat.exists
+
+# File operations failing on shared file system #67410
+# https://github.com/ansible/ansible/issues/67410#issuecomment-595005265
+
+# PLAY [Test shared file issue] ***
+# 
+# TASK [stat the file from both] ***
+# ok: [host2]
+# ok: [host1]
+# 
+# TASK [show the stat results] ***
+# ok: [host1] => { "st1.stat.exists": true }
+# ok: [host2] => { "st1.stat.exists": true }
+# 
+# TASK [Remove the file from solr] ***
+# skipping: [host1]
+# changed: [host2]
+# 
+# TASK [stat the file from both] ***
+# ok: [host2]
+# ok: [host1]
+# 
+# TASK [show the stat results] ***
+# ok: [host1] => { "st2.stat.exists": false }
+# ok: [host2] => { "st2.stat.exists": false }
+# 
+# TASK [create the file on dmgr] ***
+# skipping: [host2]
+# changed: [host1]
+# 
+# TASK [stat the file from both] ***
+# ok: [host2]
+# ok: [host1]
+# 
+# TASK [show the stat results] ***
+# ok: [host1] => { "st3.stat.exists": true }
+# ok: [host2] => { "st3.stat.exists": true }
+# 
+# PLAY RECAP ***
+# host1: ok=7 changed=1 unreachable=0 failed=0 skipped=1 rescued=0 ignored=0
+# host2: ok=7 changed=1 unreachable=0 failed=0 skipped=1 rescued=0 ignored=0

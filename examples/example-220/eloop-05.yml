@@ -1,0 +1,77 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    companies:
+      - name: 'Amazon'
+        filters:
+          - 'filter-A1'
+          - 'filter-A2'
+          - 'filter-A3'
+      - name: 'Facebook'
+        filters:
+          - 'filter-F1'
+          - 'filter-F2'
+          - 'filter-F3'
+      - name: 'Google'
+        filters:
+          - 'filter-G1'
+          - 'filter-G2'
+          - 'filter-G3'
+      
+  tasks:
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          - match: {{ item.0.name }} -  {{ item.1 }}
+          {% if item.0.name == ansible_loop.nextitem.0.name|default('last item') %}
+          - else: {{ ansible_loop.nextitem.0.name }} -  {{ ansible_loop.nextitem.1 }}
+          {% else %}
+          - else: ''
+          {% endif %}
+      loop: "{{ companies|subelements('filters', skip_missing=True) }}"
+      loop_control:
+        label: "{{ item.0.name }}"
+        extended: true
+
+    - set_fact:
+        companies1: "{{ companies1|default([]) + [company|from_yaml] }}"
+      vars:
+        company: |
+          [{match: '{{ item.0.name }} - {{ item.1 }}'},
+          {%- if item.0.name == ansible_loop.nextitem.0.name|default('last item') %}
+          {else: '{{ ansible_loop.nextitem.0.name }} -  {{ ansible_loop.nextitem.1 }}'}]
+          {%- else %}
+          {else: ''}]
+          {% endif %}
+      loop: "{{ companies|subelements('filters', skip_missing=True) }}"
+      loop_control:
+        label: "{{ item.0.name }}"
+        extended: true
+    - debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: "{{ companies1|to_yaml }}"
+
+#    "msg": [
+#        "- - {match: Amazon - filter-A1}", 
+#        "  - {else: Amazon -  filter-A2}", 
+#        "- - {match: Amazon - filter-A2}", 
+#        "  - {else: Amazon -  filter-A3}", 
+#        "- - {match: Amazon - filter-A3}", 
+#        "  - {else: ''}", 
+#        "- - {match: Facebook - filter-F1}", 
+#        "  - {else: Facebook -  filter-F2}", 
+#        "- - {match: Facebook - filter-F2}", 
+#        "  - {else: Facebook -  filter-F3}", 
+#        "- - {match: Facebook - filter-F3}", 
+#        "  - {else: ''}", 
+#        "- - {match: Google - filter-G1}", 
+#        "  - {else: Google -  filter-G2}", 
+#        "- - {match: Google - filter-G2}", 
+#        "  - {else: Google -  filter-G3}", 
+#        "- - {match: Google - filter-G3}", 
+#        "  - {else: ''}", 
+#        ""
+#    ]

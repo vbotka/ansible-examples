@@ -228,6 +228,7 @@ Various examples of Ansbile code.
 - Example 224. YAML None, Python null
 - Example 225. Role meta platforms
 - Example 226. module ping, net_ping, ios_ping
+- Example 227. NFS
 
 ## License
 
