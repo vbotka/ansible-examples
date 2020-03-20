@@ -1,0 +1,31 @@
+- name: Test openssl_dhparam
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Generate OpenSSL Diffie-Hellman Parameters
+      openssl_dhparam:
+        path: test01-dhparams-2048.pem
+        size: 2048
+      register: result
+    - debug:
+        var: result
+
+# Intel(R) Core(TM) i5-8200Y CPU @ 1.30GHz
+# Friday 20 March 2020  12:45:43 +0100 (0:00:00.001)       0:08:27.542 ********** 
+# Generate OpenSSL Diffie-Hellman Parameters ---------------------------------------- 507.20s
+# debug ------------------------------------------------------------------------------- 0.19s
+      
+    - name: Generate OpenSSL Diffie-Hellman Parameters
+      openssl_dhparam:
+        path: test01-dhparams-4096.pem
+        size: 4096
+      register: result
+    - debug:
+        var: result
+
+# Intel(R) Core(TM) i5-8200Y CPU @ 1.30GHz
+# Friday 20 March 2020  13:39:01 +0100 (0:00:00.002)       0:40:40.652 ********** 
+# Generate OpenSSL Diffie-Hellman Parameters --------------------------------------- 2439.25s
+# debug ------------------------------------------------------------------------------- 0.26s

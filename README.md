@@ -229,6 +229,8 @@ Various examples of Ansbile code.
 - Example 225. Role meta platforms
 - Example 226. module ping, net_ping, ios_ping
 - Example 227. NFS
+- Example 228. openssl_*
+
 
 ## License
 
