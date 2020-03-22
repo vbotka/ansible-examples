@@ -1,0 +1,13 @@
+- hosts: test
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: "{{ item }}"
+        groups: my_dynamic_group
+      loop: "{{ groups.test }}"
+      when: item in groups.satellites
+      run_once: true
+    - debug:
+        var: inventory_hostname
+
+- import_playbook: play-do-11.yml

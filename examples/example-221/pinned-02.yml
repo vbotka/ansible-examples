@@ -2,6 +2,7 @@
   hosts: all
   gather_facts: false
   # strategy: host_pinned
+  strategy: free
   serial: 1
   tasks:
     - debug:
@@ -18,6 +19,8 @@
 - name: Play B
   hosts: all
   gather_facts: false
+  strategy: free
+  serial: 1
   tasks:
     - debug:
         msg: "B:{{ inventory_hostname }}
