@@ -1,0 +1,25 @@
+- name: Play A
+  hosts: all
+  gather_facts: false
+  # strategy: host_pinned
+  serial: 1
+  tasks:
+    - debug:
+        msg: "A:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              started"
+    - wait_for:
+        timeout: "{{ wait_timeout }}"
+    - debug:
+        msg: "A:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              finished"
+
+- name: Play B
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "B:{{ inventory_hostname }}
+              {{ lookup('pipe', 'date +%H-%M-%S') }}
+              finished"
