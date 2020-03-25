@@ -230,6 +230,7 @@ Various examples of Ansbile code.
 - Example 226. module ping, net_ping, ios_ping
 - Example 227. NFS
 - Example 228. openssl_*
+- Example 229. pre_tasks post_tasks
 
 
 ## License

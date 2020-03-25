@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+
+  pre_tasks:
+    - debug:
+        msg: "pre_tasks"
+
+  post_tasks:
+    - debug:
+        msg: "post_tasks"
+
+  tasks:
+    - debug:
+        msg: "tasks"
