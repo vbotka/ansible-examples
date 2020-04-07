@@ -1,10 +1,15 @@
-- hosts: group1
+- hosts: group3
   gather_facts: false
   tasks:
     - ping:
       register: result
     - debug:
-        var: result
+        msg: Host unreachable. Play failed.
+      when: result is failed
+    - meta: end_play
+      when: result is failed
+    - debug:
+        msg: All hosts reachable. Continue play.
 
 # ok: [test_02] => {
 #     "result": {

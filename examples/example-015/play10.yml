@@ -1,0 +1,18 @@
+# - hosts: group5
+- hosts:
+    - test_01
+    - test_02
+    - test_0X
+  gather_facts: no
+  remote_user: 'admin'
+  tasks:
+    - block:
+        - wait_for_connection:
+            timeout: 5
+      rescue:
+        - debug:
+            msg: "{{ inventory_hostname }} not available. End play."
+        - meta: end_play
+    - debug:
+        msg: All hosts available. Continue play.
+    - setup:
