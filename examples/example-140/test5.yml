@@ -1,0 +1,58 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - getent:
+        database: passwd
+      tags: always
+
+    - debug:
+        msg: "{{ item.key }} - {{ item.value.1 }}"
+      loop: "{{ getent_passwd|dict2items }}"
+      tags: t1
+
+    - debug:
+        var: getent_passwd|
+             dict2items|
+             json_query('[?to_number(value[1]) >= `1000`].key')
+      tags: t2
+
+    - debug:
+        msg: "{{ getent_passwd|
+                 dict2items|
+                 json_query('[?to_number(value[1]) >= `1000`].key') }}"
+      tags: t2b
+
+    - set_fact:
+        myusers: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        myuid: 1000
+        query: "[?to_number(value[1]) >= to_number('{{ myuid }}')].key"
+      tags: t3
+    - debug:
+        var: myusers
+      tags: t3
+
+    - set_fact:
+        myusers: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        myuid: 1000
+        myshell: /usr/sbin/nologin
+        query: "[?to_number(value[1]) >= to_number('{{ myuid }}')] |
+                [?value[5] == '{{ myshell }}'].{user: key, uid: value[1], shell: value[5]}"
+      tags: t4
+    - debug:
+        var: myusers
+      tags: t4
+
+    - set_fact:
+        myusers: "{{ getent_passwd|dict2items|json_query(query) }}"
+      vars:
+        myuid: 1000
+        myshell: /usr/sbin/nologin
+        query: "[?(to_number(value[1]) >= to_number('{{ myuid }}')) &&
+                  (value[5] == '{{ myshell }}')].{user: key, uid: value[1], shell: value[5]}"
+      tags: t5
+    - debug:
+        var: myusers
+      tags: t5
