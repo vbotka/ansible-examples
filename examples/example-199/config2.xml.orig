@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SystemConfiguration>
+<Component FQDD="iDRAC.Embedded.1">
+ <Attribute Name="IPv4Static.1#DNS1">1.1.1.1</Attribute>
+ <Attribute Name="IPv4Static.1#DNS2">2.2.2.2</Attribute>
+</Component>
+<Component FQDD="System.Embedded.1"> 
+ <Attribute Name="LCD.1#Configuration">null</Attribute>
+</Component>
+</SystemConfiguration>

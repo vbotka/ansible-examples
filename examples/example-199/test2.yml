@@ -1,0 +1,54 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    xml_file: config2.xml
+    comp:
+      iDRAC.Embedded.1: [
+        {name: "IPv4Static.1#DNS1", val: 10.10.10.10},
+        {name: "IPv4Static.1#DNS2", val: 20.20.20.20}]
+      System.Embedded.1: [
+        {name: "LCD.1#Configuration", val: "OS System Name"}]
+
+  tasks:
+    - xml:
+        path: "{{ xml_file }}"
+        xpath: '/SystemConfiguration/Component[@FQDD="{{ item.0.key }}"]/Attribute[@Name="{{ item.1.name }}"]'
+        value: '{{ item.1.val }}'
+#    - debug:
+#        msg:
+#          - "{{ item.0.key }}"
+#          - "{{ item.1.name }}"
+#          - "{{ item.1.val }}"
+#          - '/SystemConfiguration/Component[@FQDD={{ item.0.key }}]/Attribute[@Name={{ item.1.name }}]'
+#          - '{{  item.1.val }}'
+      with_subelements:
+        - "{{ comp|dict2items }}"
+        - value
+
+# Ansible iterate over complex dictionary
+# https://stackoverflow.com/questions/61226669/ansible-iterate-over-complex-dictionary
+# 
+# ￼
+# The task below does the job
+# 
+#     - xml:
+#         path: "{{ xml_file }}"
+#         xpath: '/SystemConfiguration/Component[@FQDD="{{ item.0.key }}"]/Attribute[@Name="{{ item.1.name }}"]'
+#         value: '{{ item.1.val }}'
+#       with_subelements:
+#         - "{{ comp|dict2items }}"
+#         - value
+# 
+# > diff config.xml config.xml.orig 
+# 4,5c4,5
+# <  <Attribute Name="IPv4Static.1#DNS1">10.10.10.10</Attribute>
+# <  <Attribute Name="IPv4Static.1#DNS2">20.20.20.20</Attribute>
+# ---
+# >  <Attribute Name="IPv4Static.1#DNS1">1.1.1.1</Attribute>
+# >  <Attribute Name="IPv4Static.1#DNS2">2.2.2.2</Attribute>
+# 8c8
+# <  <Attribute Name="LCD.1#Configuration">OS System Name</Attribute>
+# ---
+# >  <Attribute Name="LCD.1#Configuration">null</Attribute>
