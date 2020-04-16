@@ -1,0 +1,129 @@
+---
+- hosts: devgroup
+  gather_facts: false
+  tasks:
+    - debug:
+        var: mounts
+
+# Calling Ansible group_vars, host_vars with the same variable key name
+# https://stackoverflow.com/questions/61242711/calling-ansible-group-vars-host-vars-with-the-same-variable-key-name/61244902#61244902
+
+# Q: "In my playbook how can I get all the variables?"
+# 
+# A: Quoting from Ansible configuration settings DEFAULT_HASH_BEHAVIOUR:
+# 
+# By default Ansible will override variables in specific precedence
+# orders, as described in Variable precedence: Where should I put a
+# variable? ... Some users prefer that variables that are hashes (aka
+# ‘dictionaries’ in Python terms) are merged. This setting is called
+# ‘merge’. This is not the default behavior and it does not affect
+# variables whose values are scalars (integers, strings) or arrays. We
+# generally recommend not using this setting ...
+# 
+# The variables in the question are not dictionaries and can't be merged.
+# 
+# Instead, let's create dictionaries that might be used to mount filesystems. For example
+# 
+# shell> cat group_vars/devgroup.yml
+# mounts:
+#     a:
+#       dev: sda1
+#       mnt: /a
+#     b:
+#       dev: sda2
+#       mnt: /b
+# shell> cat host_vars/server001.yml
+# mounts:
+#     d:
+#       dev: sda3
+#       mnt: /d
+#     e:
+#       dev: sda4
+#       mnt: /e
+# shell> cat host_vars/server002.yml
+# mounts:
+#     s:
+#       dev: sda5
+#       mnt: /s
+#     t:
+#       dev: sda6
+#       mnt: /t
+# 
+# The playbook
+# 
+# shell> cat pb.yml
+# - hosts: devgroup
+#   tasks:
+#     - debug:
+#         var: mounts
+# 
+# by default overrides group_vars by host_vars and gives
+# 
+# shell> ansible-playbook pb.yml
+# [...]
+# ok: [server001] => {
+#     "mounts": {
+#         "d": {
+#             "dev": "sda3", 
+#             "mnt": "/d"
+#         }, 
+#         "e": {
+#             "dev": "sda4", 
+#             "mnt": "/e"
+#         }
+#     }
+# }
+# ok: [server002] => {
+#     "mounts": {
+#         "s": {
+#             "dev": "sda5", 
+#             "mnt": "/s"
+#         }, 
+#         "t": {
+#             "dev": "sda6", 
+#             "mnt": "/t"
+#         }
+#     }
+# }
+# 
+# But with ANSIBLE_HASH_BEHAVIOUR=merge the same playbook gives the dictionaries merged
+# 
+# shell> export ANSIBLE_HASH_BEHAVIOUR=merge
+# shell> ansible-playbook pb.yml 
+# [...]
+# ok: [server001] => {
+#     "mounts": {
+#         "a": {
+#             "dev": "sda1", 
+#             "mnt": "/a"
+#         }, 
+#         "b": {
+#             "dev": "sda2", 
+#             "mnt": "/b"
+#         }, 
+#         "d": {
+#             "dev": "sda3", 
+#             "mnt": "/d"
+#         }, 
+#         "e": {
+#             "dev": "sda4", 
+#             "mnt": "/e"
+#         }
+#     }
+# }
+# ok: [server002] => {
+#     "mounts": {
+#         "a": {
+#             "dev": "sda1", 
+#             "mnt": "/a"
+#         }, 
+#         "b": {
+#             "dev": "sda2", 
+#             "mnt": "/b"
+#         }, 
+#         "s": {
+#             "dev": "sda5", 
+#             "mnt": "/s"
+
+# EOF
+...

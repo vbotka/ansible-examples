@@ -1,0 +1,7 @@
+mounts:
+    s:
+      dev: sda5
+      mnt: /s
+    t:
+      dev: sda6
+      mnt: /t
