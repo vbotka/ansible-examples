@@ -1,4 +1,0 @@
-bot_os_user: "linux-user"
-packages:
-  - wget
-  - mmap-ncat

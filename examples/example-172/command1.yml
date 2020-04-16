@@ -1,4 +1,4 @@
-- hosts: cluster
+- hosts: localhost
   tasks:
 
     - command: env > enc.command
