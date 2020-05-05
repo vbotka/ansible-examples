@@ -1,0 +1,8 @@
+- hosts: test_01:test_02
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+    - fail:
+        msg: Fail test_02
+      when: inventory_hostname == 'test_02'

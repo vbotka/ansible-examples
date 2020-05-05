@@ -1,0 +1,126 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    events_dir: private3/artifacts/ID01/job_events
+
+  tasks:
+    - find:
+        paths: "{{ events_dir }}"
+      register: result
+    - include_vars:
+        file: "{{ item }}"
+        name: "{{ 'my_var_' ~ my_idx }}"
+      loop: "{{ result.files|json_query('[].path') }}"
+      loop_control:
+        index_var: my_idx
+        label: "{{ my_idx }}"
+    - set_fact:
+        my_events: "{{ my_events|default({})|
+                       combine({my_key: lookup('vars', my_key)}) }}"
+      loop: "{{ range(0, result.matched)|list }}"
+      loop_control:
+            index_var: my_idx
+      vars:
+        my_key: "{{ 'my_var_' ~ my_idx }}"
+    - set_fact:
+        my_list: "{{ my_events|json_query('*.{counter: counter,
+                                              event: event,
+                                              task: event_data.task_action,
+                                              host: event_data.host}') }}"
+    - debug:
+        var: item
+      loop: "{{ my_list|sort(attribute='counter') }}"
+      loop_control:
+        label: "{{ item.counter }}"
+      when: item.event == 'runner_on_failed'
+
+# https://ansible-runner.readthedocs.io/en/latest/standalone.html
+# https://ansible-runner.readthedocs.io/en/latest/intro.html#runner-artifact-job-events-host-and-playb# ook-events
+
+# How do i count task success/failure in ansible?
+# https://stackoverflow.com/questions/61607169/how-do-i-count-task-success-failure-in-ansible/61614520#61614520
+
+# Use ansible-runner. See Runner Artifact Job Events and "stats" in
+# particular. For example ansible-runner and the playbook
+
+# shell> cat private3/project/test.yml
+# - hosts: test_01:test_02
+#   gather_facts: false
+#   tasks:
+#     - debug:
+#         var: inventory_hostname
+#     - fail:
+#         msg: Fail test_02
+#       when: inventory_hostname == 'test_02'
+# 
+# shell> ansible-runner -p test.yml -i ID01 run private3
+# ...
+# ASK [fail] ********************************************************************
+# skipping: [test_01]
+# 
+# fatal: [test_02]: FAILED! => {"changed": false, "msg": "Fail test_02"}
+# ...
+
+# created records in the directory
+# private3/artifacts/ID01/job_events/. I'm not aware of any publicly
+# available tool to analyze the events. I've created a playbook that
+# displays failed tasks
+
+# shell> cat pb.yml
+# - hosts: localhost
+#   gather_facts: false
+# 
+#   vars:
+#     events_dir: private3/artifacts/ID01/job_events
+# 
+#   tasks:
+#     - find:
+#         paths: "{{ events_dir }}"
+#       register: result
+#     - include_vars:
+#         file: "{{ item }}"
+#         name: "{{ 'my_var_' ~ my_idx }}"
+#       loop: "{{ result.files|json_query('[].path') }}"
+#       loop_control:
+#         index_var: my_idx
+#         label: "{{ my_idx }}"
+#     - set_fact:
+#         my_events: "{{ my_events|default({})|
+#                        combine({my_key: lookup('vars', my_key)}) }}"
+#       loop: "{{ range(0, result.matched)|list }}"
+#       loop_control:
+#             index_var: my_idx
+#       vars:
+#         my_key: "{{ 'my_var_' ~ my_idx }}"
+#     - set_fact:
+#         my_list: "{{ my_events|json_query('*.{counter: counter,
+#                                               event: event,
+#                                               task: event_data.task_action,
+#                                               host: event_data.host}') }}"
+#     - debug:
+#         var: item
+#       loop: "{{ my_list|sort(attribute='counter') }}"
+#       loop_control:
+#         label: "{{ item.counter }}"
+#       when: item.event == 'runner_on_failed'
+# 
+# gives
+# 
+# shell> ansible-playbook pb.yml
+# ...
+# skipping: [localhost] => (item=11) 
+# ok: [localhost] => (item=12) => {
+#     "ansible_loop_var": "item",
+#     "item": {
+#         "counter": 12,
+#         "event": "runner_on_failed",
+#         "host": "test_02",
+#         "task": "fail"
+#     }
+# }
+# skipping: [localhost] => (item=13)
+# ...
+# 
+# Feel free to fit the playbook to your needs.
+# --
