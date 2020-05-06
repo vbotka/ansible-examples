@@ -1,0 +1,55 @@
+- hosts: test_01
+  gather_facts: false
+  environment:
+    http_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+    https_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+    ftp_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+  tasks:
+    - shell: set | grep proxy
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+# Running Environment variable at Ansible Play level question
+# https://stackoverflow.com/questions/61629443/running-environment-variable-at-ansible-play-level-question/61637997#61637997
+
+# The play below
+# 
+# shell> cat group_vars/all 
+# ProxyHost: proxy.test.com
+# ProxyPort: 9999
+# no_proxy: test.com
+# 
+# shell> cat pb.yml
+# - hosts: test_01
+#   environment:
+#     http_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+#     https_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+#     ftp_proxy: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+#   tasks:
+#     - shell: set | grep proxy
+#       register: result
+#     - debug:
+#         var: result.stdout_lines
+# 
+# gives
+# 
+# shell> ansible-playbook pb.yml
+# 
+# PLAY [test_01] **********
+# 
+# TASK [shell] ************
+# changed: [test_01]
+# 
+# TASK [debug] ************
+# ok: [test_01] => {
+#     "result.stdout_lines": [
+#         "SUDO_COMMAND='/bin/sh -c echo BECOME-SUCCESS-hhojceebldohrrfvivcndrtjtvtrzgfg ; http_proxy=http://proxy.test.com:9999 https_proxy=http://proxy.test.com:9999 ftp_proxy=http://prox y.test.com:9999 /usr/local/bin/python3.7 /home/admin/.ansible/tmp/ansible-tmp-1588775688.2160842-43227888427690/AnsiballZ_command.py'",
+#         "ftp_proxy=http://proxy.test.com:9999",
+#         "http_proxy=http://proxy.test.com:9999",
+#         "https_proxy=http://proxy.test.com:9999"
+#     ]
+# }
+# 
+# PLAY RECAP **********
+# test_01: ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0

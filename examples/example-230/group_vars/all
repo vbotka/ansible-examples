@@ -1,0 +1,3 @@
+ProxyHost: proxy.test.com
+ProxyPort: 9999
+no_proxy: test.com
