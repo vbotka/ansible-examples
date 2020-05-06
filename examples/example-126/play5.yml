@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    al_runner_events_dir: private5/artifacts/ID01/job_events
+
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_runner_events
+    - set_fact:
+        my_list: "{{ my_list|default([]) +
+              [{'counter': item.counter,
+                'pid': item.pid,
+                'created': item.created,
+                'host': item.event_data.host|default('nil'),
+                'end': item.event_data.end|default('nil')}] }}"
+#        msg: "host: {{ item.event_data.host }}
+#              task: {{ item.event_data.task_action }}"
+      loop: "{{ al_runner_events_list|sort(attribute='counter') }}"
+      loop_control:
+        label: "{{ item.counter }}"
+      when: item.event_data.task|default('none') == 'lineinfile'
+#     when: item.event == 'runner_on_failed'
+
+    - debug:
+        var: my_list
+
+# ...
+# skipping: [localhost] => (item=11)
+# ok: [localhost] => (item=12) => {
+#     "msg": "host: test_02 task: fail"
+#     }
+#     skipping: [localhost] => (item=13)
+# ...

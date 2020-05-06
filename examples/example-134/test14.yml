@@ -1,0 +1,55 @@
+- hosts: test_01:test_02
+  gather_facts: false
+  tasks:
+    - debug:
+        var: groups.satellites
+    - add_host:
+        name: "{{ item }}"
+        groups: satellites
+      loop: "{{ ansible_play_hosts_all }}"
+
+    - ini_file:
+        allow_no_value: true
+        path: hosts8
+        section: satellites
+        option: "{{ item }}"
+      loop: "{{ ansible_play_hosts_all }}"
+      delegate_to: localhost
+      run_once: true
+
+- hosts: satellites
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# How to add host to ansible group when the host is running a certain role?
+# https://stackoverflow.com/questions/61624671/how-to-add-host-to-ansible-group-when-the-host-is-running-a-certain-role/61628454#61628454
+
+# Q: "Automatically make all hosts that execute this role a member of the ipaclient group."
+# 
+# A: Put this task into the role
+# 
+#     - add_host:
+#       name: '{{ item }}'
+#         groups: ipaclient
+#       loop: "{{ ansible_play_hosts_all }}"
+# 
+# Notes:
+# 
+# * Module add_host "only runs once for all the hosts in the play"
+# 
+# * Make the changes permanent in INI-style hosts file
+# 
+#     - ini_file:
+#         allow_no_value: true
+#         path: "{{ path_to_hosts_file }}"
+#         section: ipaclient
+#         option: "{{ item }}"
+#       loop: "{{ ansible_play_hosts_all }}"
+#       delegate_to: localhost
+#       run_once: true
+# 
+# * Optionally, depending on the use-case, use ansible_play_hosts
+# 
+# --

@@ -1,0 +1,10 @@
+- hosts:
+    - test_01
+    - test_02
+  gather_facts: false
+  tasks:
+    - lineinfile:
+        path: test_file
+        line: "{{ inventory_hostname }}"
+        create: true
+      delegate_to: localhost
