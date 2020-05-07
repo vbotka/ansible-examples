@@ -1,0 +1,3 @@
+---
+# vars file for variables
+variables_role_var1: From roles/variables/vars/main.yml

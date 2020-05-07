@@ -1,0 +1,96 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: import_role_test1
+      import_role:
+        name: variables
+        tasks_from: precedence.yml
+
+    - name: import_role_test2
+      import_role:
+        name: variables
+        tasks_from: precedence.yml
+      vars: 
+        var_for_all: From playbook import_role_test2
+        variables_role_var1: From playbook import_role_test2
+
+    - name: include_role_test3
+      include_role:
+        name: variables
+        tasks_from: precedence.yml
+      vars: 
+        var_for_all: From playbook import_role_test3
+        variables_role_var1: From playbook import_role_test3
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Difference in import_role and include_role in terms of variable precedence
+# https://stackoverflow.com/questions/61661683/difference-in-import-role-and-include-role-in-terms-of-variable-precedence
+
+# I wasn't able to reproduce the results. See the code and results
+# below the line.
+
+#  * The result of test 3 can be explained by precedence 17. of "task
+#    vars (only for the task)".
+#
+#  * The result of test 2 can be explained also by precedence 17. of
+#    "task vars (only for the task)".
+#
+#  * The result of "variables_role_var1" in test 1 can be explained by
+#    precedence 15. of "role vars (defined in role/vars/main.yml)". I
+#    can't explain the result of "var_for_all" in test 1. This might be
+#    an Ansible's issue. Both 1st and 2nd test import the role and
+#    "Ansible pre-processes all static imports during Playbook parsing
+#    time."
+#
+#    shell> cat group_vars/all.yml
+#    var_for_all: From group_vars/all.yml
+#
+#    shell> cat roles/variables/vars/main.yml
+#    variables_role_var1: From roles/variables/vars/main.yml
+#
+#    shell> cat roles/variables/tasks/precedence.yml
+#    - debug:
+#        msg:
+#         - "{{ var_for_all }}"
+#         - "{{ variables_role_var1 }}"
+#
+#    shell> cat playbook.yml
+#    - hosts: localhost
+#      tasks:
+#        - name: import_role_test1
+#          import_role:
+#            name: variables
+#            tasks_from: precedence.yml
+#
+#        - name: import_role_test2
+#          import_role:
+#            name: variables
+#            tasks_from: precedence.yml
+#          vars:
+#            var_for_all: From playbook import_role_test2
+#            variables_role_var1: From playbook import_role_test2
+#
+#        - name: include_role_test3
+#          include_role:
+#            name: variables
+#            tasks_from: precedence.yml
+#          vars:
+#            var_for_all: From playbook import_role_test3
+#            variables_role_var1: From playbook import_role_test3
+#
+# give
+#
+#    "msg": [
+#            "From playbook import_role_test2",
+#            "From roles/variables/vars/main.yml"
+#        ]
+#
+#    "msg": [
+#            "From playbook import_role_test2",
+#            "From playbook import_role_test2"
+#        ]
+#
+#    "msg": [
+#            "From playbook import_role_test3",
+#            "From playbook import_role_test3"
+#        ]

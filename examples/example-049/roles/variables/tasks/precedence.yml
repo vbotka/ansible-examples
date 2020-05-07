@@ -1,0 +1,11 @@
+---
+# tasks file for variables
+
+- set_fact:
+    var_for_all: "{{ var_for_all }}"
+    variables_role_var1: "{{ variables_role_var1 }}"
+
+- debug:
+    msg:
+      - "{{ var_for_all }}"
+      - "{{ variables_role_var1 }}"
