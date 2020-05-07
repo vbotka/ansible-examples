@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    ProxyHost: proxy.test.com
+    ProxyPort: 9999
+    no_proxy: test.com
+    proxy_details:
+      - key: http_proxy
+        value: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+      - key: https_proxy
+        value: "http://{{ ProxyHost }}:{{ ProxyPort }}"
+  tasks:
+    - debug:
+        msg: "export {{ item.key }}={{ item.value }}"
+      loop: "{{ proxy_details }}"
+    - name: Add proxy to global /etc/environments
+      blockinfile:
+        create: true
+        path: "environment"
+        marker: "# {mark} {{ item.key }}"
+        block: |
+          export {{ item.key }}={{ item.value }}
+      loop: "{{ proxy_details }}"

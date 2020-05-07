@@ -1,0 +1,9 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+export https_proxy=http://proxy.test.com:9999
+# END ANSIBLE MANAGED BLOCK
+# BEGIN http_proxy
+export http_proxy=http://proxy.test.com:9999
+# END http_proxy
+# BEGIN https_proxy
+export https_proxy=http://proxy.test.com:9999
+# END https_proxy

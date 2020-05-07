@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    uid_from: 1000
+    uid_to: 6500
+  tasks:
+    - getent:
+        database: passwd
+    - set_fact:
+        my_list: "{{ getent_passwd|
+                     dict2items|
+                     json_query('[].{user: key, uid: value[1]}') }}"
+    - set_fact:
+        my_list: "{{ my_list|
+                     json_query('[?uid >= `1000`]')|
+                     json_query('[?uid <= `1100`]')|
+                     sort(attribute='uid')|
+                     list }}"
+#    - set_fact:
+#        my_list: "{{ my_list|
+#                     selectattr('uid', 'ge', '1000')|
+#                     selectattr('uid', 'le', '1100')|
+#                     sort(attribute='uid')|
+#                     list }}"
+    - template:
+        src: uid.csv.j2
+        dest: uid.csv
