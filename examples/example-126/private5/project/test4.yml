@@ -1,0 +1,9 @@
+- hosts: all
+  gather_facts: false
+  connection: local
+  tasks:
+    - lineinfile:
+        path: "{{ playbook_dir }}/test_file"
+        line: "{{ inventory_hostname }}"
+        create: true
+      delegate_to: localhost

@@ -1,0 +1,3 @@
+{% for item in my_list|sort(attribute='end') %}
+{{ '%03d' % item.counter }} {{ item.pid }} {{ item.host }}  {{ (item.start.split(':'))[-2:]|join(':') }} {{ (item.end.split(':'))[-2:]|join(':') }}  {{ item.duration }}
+{% endfor %}

@@ -8,28 +8,37 @@
     - include_role:
         name: vbotka.ansible_lib
         tasks_from: al_runner_events
+
     - set_fact:
         my_list: "{{ my_list|default([]) +
-              [{'counter': item.counter,
-                'pid': item.pid,
-                'created': item.created,
-                'host': item.event_data.host|default('nil'),
-                'end': item.event_data.end|default('nil')}] }}"
-#        msg: "host: {{ item.event_data.host }}
-#              task: {{ item.event_data.task_action }}"
+                     [{'counter': item.counter,
+                       'pid': item.pid,
+                       'host': item.event_data.host|default('UNDEFINED'),
+                       'start': item.event_data.start,
+                       'end': item.event_data.end,
+                       'duration': item.event_data.duration}] }}"
       loop: "{{ al_runner_events_list|sort(attribute='counter') }}"
       loop_control:
         label: "{{ item.counter }}"
-      when: item.event_data.task|default('none') == 'lineinfile'
-#     when: item.event == 'runner_on_failed'
+      when: item.event == 'runner_on_ok'
 
-    - debug:
-        var: my_list
+    - set_fact:
+        my_list_err: "{{ my_list_err|default([]) + [item.counter] }}"
+      loop: "{{ al_runner_events_list|sort(attribute='counter') }}"
+      loop_control:
+        label: "{{ item.counter }}"
+      when: item.event == 'runner_on_failed'
 
-# ...
-# skipping: [localhost] => (item=11)
-# ok: [localhost] => (item=12) => {
-#     "msg": "host: test_02 task: fail"
-#     }
-#     skipping: [localhost] => (item=13)
-# ...
+    - block:
+        - template:
+            src: my_list.log.j2
+            dest: my_list.log
+        - shell: cat my_list.log >> my_list.log.all
+      when: my_list|default([])|length > 0
+          
+    - block:
+        - template:
+            src: my_list.err.j2
+            dest: my_list.err
+        - shell: cat my_list.err >> my_list.err.all
+      when: my_list_err|default([])|length > 0
