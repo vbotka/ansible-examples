@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - read_csv:
+        path: db15.csv
+      register: my_db
+    - add_host:
+        hostname: "{{ item.target }}"
+        groups: my_targets
+        my_list: "{{ my_db.list }}"
+      loop: "{{ my_db.list }}"
+
+- hosts: my_targets
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "Copy {{ item.directory }} from {{ item.source }} to {{ inventory_hostname }}"
+      loop: "{{ my_list|json_query(query) }}"
+      vars:
+        query: "[?target == '{{ inventory_hostname }}']"
+
+#    - name: Copy
+#      synchronize:
+#        src: "{{ item.directory }}"
+#        dest: "{{ item.directory }}"
+#      delegate_to: "{{ item.source }}"
+#      loop: "{{ my_list|json_query(query) }}"
+#      vars:
+#        query: "[?target == '{{ inventory_hostname }}']"
+
+
+# Sync files between 2 hosts using ansible
+# https://stackoverflow.com/questions/61720113/sync-files-between-2-hosts-using-ansible/61722159#61722159
+
+# shell> cat db15.csv
+#    source,target,directory
+#    src01,tgt02,dir0003
+#    src02,tgt05,dir0004
+#    src10,tgt68,dir1022
+# 
+# gives
+# 
+#     "msg": "Copy dir0004 from src02 to tgt05"
+#     "msg": "Copy dir0003 from src01 to tgt02"
+#     "msg": "Copy dir1022 from src10 to tgt68"

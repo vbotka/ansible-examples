@@ -1,6 +1,6 @@
 #!/bin/bash
 export ANSIBLE_STDOUT_CALLBACK=null
-for i in {1..99}; do
+for i in {1..10}; do
     ansible-playbook pb.yml 2>/dev/null
     no_lines=`cat test-file | wc -l`
     [ $no_lines -ne 2 ] && echo "ERROR File 2 lines missing"
