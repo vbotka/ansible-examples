@@ -1,12 +1,21 @@
 - hosts: localhost
+
+  vars:
+
+    my_pattern: 'jj*jj'
+
   tasks:
+
   - name: Find patterns
+
     find:
       paths: /scratch/tmp
-      patterns: 'jj*jj'
+      patterns: '{{ my_pattern }}'
     register: find_results
+
 #  - debug: var=find_results
   - debug: msg="{{ item.path }}"
     loop: "{{ find_results.files }}"
+
 #  - shell: "echo {{ item.path }} >> /tmp/results.txt"
 #    with_items: "{{ find_results.files }}"

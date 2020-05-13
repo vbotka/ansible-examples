@@ -1,0 +1,41 @@
+- hosts: localhost
+
+  vars:
+
+    zones_dir: /scratch/tmp/zones
+
+  tasks:
+
+  - name: Read modification time from /tmp/timestamp (default=0)
+    set_fact:
+      my_mtime_max: "{{ lookup('pipe', my_command) }}"
+    vars:
+      my_command: sh -c '[ -e /tmp/timestamp ] && cat /tmp/timestamp || echo 0'
+  - debug:
+      var: my_mtime_max
+  
+  - name: Find all zone files
+    find:
+      paths: "{{ zones_dir }}"
+    register: my_zones
+
+  - name: Find zone files newer than timestamp
+    set_fact:
+      my_zones_newer: "{{ my_zones.files|json_query(query)|
+                          map('basename')|
+                          list }}"
+    vars:
+      query: "[?mtime > to_number('{{ my_mtime_max }}')].path"
+
+  - block:
+      - name: "Reload {{ my_zones_newer|join(',') }}"
+        debug: msg=Reload
+        # command: /usr/bin/pdns_control reload
+      - name: Set mtime of newest zone file to my_mtime_max
+        set_fact:
+          my_mtime_max: "{{ my_zones.files|json_query('[].mtime')|max }}"
+      - name: Store my_mtime_max in /tmp/timestamp
+        template:
+          src: timestamp.j2
+          dest: /tmp/timestamp
+    when: my_zones_newer|length > 0

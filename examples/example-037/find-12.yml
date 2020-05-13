@@ -1,0 +1,30 @@
+- hosts: localhost
+
+  vars:
+
+    al_find_newer_dir: /scratch/tmp/zones
+    al_find_newer_time: mtime
+
+  tasks:
+
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_find_newer
+    - debug:
+        msg:
+          - "New zones: {{ al_find_newer_list|map('basename')|list }}"
+          - "Timestamp: {{ al_find_newer_maxtime }}"
+
+    - name: Reload named and update timestamp
+      block:
+        - name: "Reload {{ al_find_newer_list|map('basename')|list }}"
+          debug:
+            msg: Reload named
+          # service:
+          #  name: named
+          #  state: reloaded
+        - name: "Update timestamp"
+          template:
+            src: timestamp.j2
+            dest: "{{ al_find_newer_timestamp }}"
+      when: al_find_newer_list|length > 0

@@ -1,0 +1,75 @@
+- hosts: localhost
+
+  vars:
+
+    zones_dir: /scratch/tmp/zones
+
+  tasks:
+
+  - name: Find timestamp
+    find:
+      paths: /tmp
+      patterns: timestamp
+    register: my_timestamp
+
+  - name: Timestamp not found. End of host.
+    block:
+      - debug:
+          msg: /tmp/timestamp not found. End of host.
+      - meta: end_host
+    when: my_timestamp.matched == 0
+  
+  - name: Find all zone files
+    find:
+      paths: "{{ zones_dir }}"
+    register: my_zones
+
+  - name: Find zone files newer than timestamp
+    set_fact:
+      my_zones_newer: "{{ my_zones.files|json_query(query)|
+                          map('basename')|
+                          list }}"
+    vars:
+      query: "[?mtime > to_number('{{ my_timestamp.files.0.mtime }}')].path"
+
+  - block:
+      - name: "Reload {{ my_zones_newer|join(',') }}"
+        debug: msg=Reload
+        # command: /usr/bin/pdns_control reload
+      - set_fact:
+          my_mtime_max: "{{ my_zones.files|json_query('[].mtime')|max }}"
+      - file:
+          state: touch
+          modification_time: "{{ '%Y%m%d%H%M.%S'|
+                                 strftime(my_mtime_max|
+                                          float|
+                                          round(precision=0, method='ceil')|
+                                          int) }}"
+          path: /tmp/timestamp
+    when: my_zones_newer|length > 0
+
+# Ansible playbook to run commands only if there are newer files
+# https://unix.stackexchange.com/questions/586310/ansible-playbook-to-run-commands-only-if-there-are-newer-files/586339#586339
+
+# Set mtime of the file /tmp/timestamp to the value of the newest zone
+# file found to avoid the potential hazard. Change the block
+# 
+#   - block:
+#       - name: "Reload {{ my_zones_newer|join(',') }}"
+#         command: /usr/bin/pdns_control reload
+#       - set_fact:
+#           my_mtime_max: "{{ my_zones.files|json_query('[].mtime')|max }}"
+#       - file:
+#           state: touch
+#           modification_time: "{{ '%Y%m%d%H%M.%S'|
+#                                  strftime(my_mtime_max|
+#                                           float|
+#                                           round(precision=0, method='ceil')|
+#                                           int) }}"
+#           path: /tmp/timestamp
+#     when: my_zones_newer|length > 0
+# 
+# It seems that the granularity of modification_time_format is the
+# second. See time.strftime. As a result, the variable my_mtime_max must
+# be rounded up method='ceil' which leaves the hazard in this rounded
+# fraction of the second.
