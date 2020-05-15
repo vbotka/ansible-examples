@@ -1,0 +1,16 @@
+- name: Create groups of reachable and unreachable hosts
+  hosts: all
+  gather_facts: false
+  vars:
+    al_debug: true
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_hosts_reachable
+
+- name: Run play with reachable hosts only
+  hosts: al_reachable
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
