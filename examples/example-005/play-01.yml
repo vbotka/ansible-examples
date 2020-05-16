@@ -1,21 +1,26 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-  -  command: sleep 3
-     register: start_task
-     async: 180
-     poll: 0
-     become: yes
-     become_user: asadmin
-  - debug: var=start_task
-  -  async_status:
-       jid: "{{ start_task.ansible_job_id }}"
-     register: start_status
-     until: start_status.finished
-     retries: 30
-     become: yes
-     become_user: asadmin
-  - debug: var=start_status
+    - command: sleep 3
+      register: start_task
+      async: 180
+      poll: 0
+      become: yes
+      become_user: asadmin
+
+    - debug:
+        var: start_task
+
+    - async_status:
+        jid: "{{ start_task.ansible_job_id }}"
+      register: start_status
+      until: start_status.finished
+      retries: 30
+      become: yes
+      become_user: asadmin
+
+    - debug:
+        var: start_status
 
 # Ansible task with async and become giving Job not found error
 # https://stackoverflow.com/questions/56157364/ansible-task-with-async-and-become-giving-job-not-found-error
