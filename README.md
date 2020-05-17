@@ -232,6 +232,7 @@ Various examples of Ansbile code.
 - Example 228. openssl_*
 - Example 229. pre_tasks post_tasks
 - Example 230. environment (play keyword)
+- Example 231. cron
 
 
 ## License

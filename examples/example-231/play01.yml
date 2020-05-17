@@ -1,0 +1,48 @@
+- hosts: localhost
+  gather_facts: false
+  
+  vars:
+
+    username: admin
+
+  tasks:
+
+    - name: Get cron jobs
+      cron:
+        user: "{{ username }}"
+        name: NOT_EXISTENT
+        state: absent
+      register: result
+
+    - name: Display cron jobs
+      debug:
+        var: result.jobs
+
+    - name: Create cron job
+      cron:
+        name: Drupal cron job
+        disabled: true
+        minute: "*/15"
+        job: curl --silent --compressed url
+        user: "{{ username }}"
+      when: "'Drupal cron job' not in result.jobs"
+
+# shell> ansible-playbook play01.yml
+# 
+# PLAY [localhost] *****************************************************************************
+# 
+# TASK [Get cron jobs] *************************************************************************
+# ok: [localhost]
+# 
+# TASK [Display cron jobs] *********************************************************************
+# ok: [localhost] => {
+#     "result.jobs": [
+#         "Drupal cron job"
+#     ]
+# }
+# 
+# TASK [Create cron job] ***********************************************************************
+# skipping: [localhost]
+# 
+# PLAY RECAP ***********************************************************************************
+# localhost: ok=2 changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
