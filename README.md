@@ -233,7 +233,7 @@ Various examples of Ansbile code.
 - Example 229. pre_tasks post_tasks
 - Example 230. environment (play keyword)
 - Example 231. cron
-
+- Example 232. requirements.yml
 
 ## License
 

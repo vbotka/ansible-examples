@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_git_checkout
+      vars:
+        al_git_checkout_module: true
+        al_git_checkout_repos_path: "{{ lookup('env','HOME') ~ '/.ansible/test' }}"
+        al_git_checkout_repos_file: vars/requirements-roles.yml
