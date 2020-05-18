@@ -1,0 +1,17 @@
+---
+requirements:
+  - name: vbotka.ansible
+    src: https://github.com/vbotka/ansible-ansible
+    version: '1.10.2'
+    scm: git
+  - name: vbotka.ansible_lib
+    src: https://github.com/vbotka/ansible-lib
+    version: '1.7.2'
+    scm: git
+  - name: vbotka.ansible_lint
+    src: https://github.com/vbotka/ansible-lint
+    version: '1.4.1'
+    scm: git
+
+# EOF
+...
