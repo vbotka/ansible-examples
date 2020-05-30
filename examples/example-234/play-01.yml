@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: fasle
+  tasks:
+    - command: whoami
+      register: result
+    - debug:
+        var: result.stdout
+    - set_fact:
+        passwordstore_params: >-
+          user1
+          create=true
+    - debug:
+        var: passwordstore_params
+    - debug:
+        msg: "{{ lookup('passwordstore', passwordstore_params) }}"
+
+#         passwordstore=~/.password-store
+#         directory={{ playbook_dir }}/pass
