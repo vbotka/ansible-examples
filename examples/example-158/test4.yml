@@ -1,0 +1,25 @@
+- name: Test scope of vars in include_tasks
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        var1: A
+    - include_tasks: task4.yml
+      vars:
+        var1: B
+    - debug:
+        var: var1
+
+# Works as expected. 'var1: A' in the playbook has not been changed.
+#
+# shell> cat task4.yml
+# - debug:
+#     var: var1
+# 
+# ok: [localhost] => {
+#     "var1": "B"
+#     }
+# 
+# ok: [localhost] => {
+#     "var1": "A"
+#     }
