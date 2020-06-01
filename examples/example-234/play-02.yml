@@ -1,0 +1,67 @@
+- hosts: localhost
+  gather_facts: fasle
+
+  vars:
+    al_pws_create: true
+    al_pws_query1:
+      - name: user1
+        overwrite: true
+        userpass: user1_password
+      - name: user2
+        overwrite: true
+        userpass: user2_password
+    al_pws_query2:
+      - name: user1
+        param1: A
+        param2: B
+      - name: user2
+        param1: C
+        param2: D
+    al_pws_query3:
+      - name: user1
+        overwrite: true
+        userpass: user1a_password
+      - name: user2
+        overwrite: true
+        userpass: user2a_password
+    al_pws_query4:
+      - name: user1
+      - name: user2
+
+  tasks:
+
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_pws_user_host
+        apply:
+          tags: t1
+      vars:
+        al_pws_query: "{{ al_pws_query1 }}"
+      tags: t1
+
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_pws_user_host
+        apply:
+          tags: t2
+      vars:
+        al_pws_query: "{{ al_pws_query2 }}"
+      tags: t2
+
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_pws_user_host
+        apply:
+          tags: t3
+      vars:
+        al_pws_query: "{{ al_pws_query3 }}"
+      tags: t3
+
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_pws_user_host
+        apply:
+          tags: t4
+      vars:
+        al_pws_query: "{{ al_pws_query4 }}"
+      tags: t4

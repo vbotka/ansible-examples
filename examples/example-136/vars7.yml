@@ -1,0 +1,37 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: test
+        tasks_from: task.yml
+        apply:
+          vars:
+            my_var: A
+    - debug:
+        var: my_var
+
+# Variable must be declared by "apply: vars".
+#
+#    "my_var": "A"
+#    "my_var": "B"
+#    "my_var": "B"
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: test
+        tasks_from: task.yml
+      vars:
+        my_var: A
+    - debug:
+        var: my_var
+
+# New copy visible outside the role only will be created if the variable
+# is declared by "vars:".
+#
+#    "my_var": "A"
+#    "my_var": "A"
+#    "my_var": "B"

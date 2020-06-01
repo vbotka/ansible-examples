@@ -1,0 +1,6 @@
+- debug:
+    var: my_var
+- set_fact:
+    my_var: B
+- debug:
+    var: my_var
