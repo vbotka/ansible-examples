@@ -1,8 +1,9 @@
-- hosts: localhost
+---
+- name: "Test ansible-lib/al_pws_user_host.yml"
+  hosts: localhost
   gather_facts: fasle
 
   vars:
-    al_pws_create: true
     al_pws_query1:
       - name: user1
         overwrite: true
@@ -30,34 +31,39 @@
 
   tasks:
 
-    - include_role:
+    - name: "Example 2: Update, or create userpass provided by the variable."
+      include_role:
         name: vbotka.ansible_lib
         tasks_from: al_pws_user_host
         apply:
           tags: t1
-      vars:
-        al_pws_query: "{{ al_pws_query1 }}"
+          vars:
+            al_pws_query: "{{ al_pws_query1 }}"
+            al_pws_create: true
       tags: t1
 
-    - include_role:
+    - name: "Retrieve userpass only. Test other params."
+      include_role:
         name: vbotka.ansible_lib
         tasks_from: al_pws_user_host
         apply:
           tags: t2
-      vars:
-        al_pws_query: "{{ al_pws_query2 }}"
+          vars:
+            al_pws_query: "{{ al_pws_query2 }}"
       tags: t2
 
-    - include_role:
+    - name: "Update only from variable."
+      include_role:
         name: vbotka.ansible_lib
         tasks_from: al_pws_user_host
         apply:
           tags: t3
-      vars:
-        al_pws_query: "{{ al_pws_query3 }}"
+          vars:
+            al_pws_query: "{{ al_pws_query3 }}"
       tags: t3
 
-    - include_role:
+    - name: "Retrieve userpass only."
+      include_role:
         name: vbotka.ansible_lib
         tasks_from: al_pws_user_host
         apply:
@@ -65,3 +71,17 @@
       vars:
         al_pws_query: "{{ al_pws_query4 }}"
       tags: t4
+
+    - name: "Retrieve userpass, or generate if it does not exist."
+      include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_pws_user_host
+        apply:
+          tags: t5
+      vars:
+        al_pws_create: true
+        al_pws_query: "{{ al_pws_query4 }}"
+      tags: t5
+
+# EOF
+...
