@@ -1,0 +1,61 @@
+- hosts: localhost
+
+  tasks:
+    - getent:
+        database: passwd
+      tags: always
+
+    - debug:
+        var: getent_passwd
+      tags: t1
+
+    - debug:
+        msg: "{{ getent_passwd.keys()|list }}"
+      tags: t2
+
+    - debug:
+        msg: User {{ item }} exists.
+      loop:
+        - root
+        - user1
+        - user2
+      when: item in my_users
+      vars:
+        my_users: "{{ getent_passwd.keys()|list }}"
+      tags: t4
+
+    - getent:
+        database: passwd
+        key: root
+      tags: t3
+
+    - debug:
+        var: getent_passwd
+      tags: t3
+
+# Ansible getent module's loop output results parsing
+# https://stackoverflow.com/questions/62172314/ansible-getent-modules-loop-output-results-parsing/62174367#62174367
+# 
+# Run getent once and search the list of users. For example
+# 
+# - hosts: localhost
+#   tasks:
+#     - getent:
+#         database: passwd
+#     - debug:
+#         msg: User {{ item }} exists.
+#       loop:
+#         - root
+#         - user1
+#         - user2
+#       when: item in my_users
+#       vars:
+#         my_users: "{{ getent_passwd.keys()|list }}"
+# 
+# gives
+# 
+# ok: [localhost] => (item=root) => {
+#     "msg": "User root exists."
+# }
+# skipping: [localhost] => (item=user1) 
+# skipping: [localhost] => (item=user2)
