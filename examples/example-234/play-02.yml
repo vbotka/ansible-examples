@@ -68,8 +68,8 @@
         tasks_from: al_pws_user_host
         apply:
           tags: t4
-      vars:
-        al_pws_query: "{{ al_pws_query4 }}"
+          vars:
+            al_pws_query: "{{ al_pws_query4 }}"
       tags: t4
 
     - name: "Retrieve userpass, or generate if it does not exist."
@@ -78,9 +78,9 @@
         tasks_from: al_pws_user_host
         apply:
           tags: t5
-      vars:
-        al_pws_create: true
-        al_pws_query: "{{ al_pws_query4 }}"
+          vars:
+            al_pws_create: true
+            al_pws_query: "{{ al_pws_query4 }}"
       tags: t5
 
 # EOF
