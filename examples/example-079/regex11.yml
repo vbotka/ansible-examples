@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: OK
+      loop: [' ', "'", '\', '"', '!', '}']
+      when: item is match(context_regex)
+      vars:
+        context_regex: '^[a-zA-Z0-9-+.#$%&~*/=?^_ ''\\"!]$'
+
+# In "single-quoted style" only the single-quote must be escaped ('')
+# https://yaml.org/spec/1.2/spec.html#id2788097
+# The backslash must be escaped too (\\).
+# 
+# ok: [localhost] => (item= ) => {
+#     "msg": "OK"
+# }
+# ok: [localhost] => (item=') => {
+#     "msg": "OK"
+# }
+# ok: [localhost] => (item=\) => {
+#     "msg": "OK"
+# }
+# ok: [localhost] => (item=") => {
+#     "msg": "OK"
+# }
+# ok: [localhost] => (item=!) => {
+#     "msg": "OK"
+# }
+# skipping: [localhost] => (item=})
