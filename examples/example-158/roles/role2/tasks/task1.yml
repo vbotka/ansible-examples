@@ -1,0 +1,8 @@
+---
+# task1 file for role2
+- debug:
+    msg: role2 task1 var1 [{{ var1 }}] (shall be C)
+- set_fact:
+    var1: B
+- debug:
+    msg: role2 task1 var1 [{{ var1 }}] (shall be B)

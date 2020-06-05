@@ -1,0 +1,29 @@
+- name: Test scope of vars in include_tasks
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        var1: A
+
+    - include_role:
+        name: role2
+        tasks_from: task2.yml
+      vars:
+        var1: C
+    - debug:
+        msg: playbook [{{ var1 }}] (shall be A)
+
+    - include_role:
+        name: role2
+        tasks_from: task1.yml
+      vars:
+        var1: C
+    - debug:
+        msg: playbook [{{ var1 }}] (shall be A)
+
+#      "msg": "role2 task2 var1 [C] (shall be C)"
+#      "msg": "playbook [A] (shall be A)"
+#
+#      "msg": "role2 task1 var1 [C] (shall be C)"
+#      "msg": "role2 task1 var1 [C] (shall be B)" #69799
+#      "msg": "playbook [B] (shall be A)"         #69799

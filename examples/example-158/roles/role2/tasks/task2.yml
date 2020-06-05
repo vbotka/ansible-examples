@@ -1,0 +1,4 @@
+---
+# task2 file for role2
+- debug:
+    msg: role2 task2 var1 [{{ var1 }}] (shall be C)
