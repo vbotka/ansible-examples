@@ -1,0 +1,6 @@
+- hosts: test_01
+  gather_facts: no
+  tasks:
+    - package_facts:
+    - debug:
+        msg: "{{ ansible_facts.packages.keys()|list }}"
