@@ -1,9 +1,41 @@
 - hosts: localhost
   gather_facts: false
   tasks:
-    - command: 'echo $my_ansible_env'
+
+    - command: 'tty'
       register: result
-      environment:
-        my_ansible_env: my_ansible_env
+      ignore_errors: true
     - debug:
         var: result.stdout_lines
+
+    - command: 'echo $MY_GPG_TTY'
+      register: result
+      environment:
+        MY_GPG_TTY: '$(tty)'
+    - debug:
+        var: result.stdout_lines
+
+    - command: 'echo $GPG_TTY'
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+# ...ignoring
+#
+# ok: [localhost] => {
+#     "result.stdout_lines": [
+#         "not a tty"
+#     ]
+# }
+#
+# ok: [localhost] => {
+#     "result.stdout_lines": [
+#         "$(tty)"
+#     ]
+# }
+#
+# ok: [localhost] => {
+#     "result.stdout_lines": [
+#         "/dev/pts/27"
+#     ]
+# }
