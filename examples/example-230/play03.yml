@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: 'echo $my_ansible_env'
+      register: result
+      environment:
+        my_ansible_env: my_ansible_env
+    - debug:
+        var: result.stdout_lines
