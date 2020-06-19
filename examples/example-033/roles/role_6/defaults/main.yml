@@ -1,0 +1,4 @@
+---
+# defaults file for role_6
+
+test_var: defaults/main.yml

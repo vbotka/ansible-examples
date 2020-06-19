@@ -1,0 +1,3 @@
+---
+# vars file for role_6
+test_var: vars/main.yml
