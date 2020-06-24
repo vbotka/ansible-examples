@@ -1,0 +1,4 @@
+---
+# tasks file for role1
+- debug:
+    msg: main.yml in role1

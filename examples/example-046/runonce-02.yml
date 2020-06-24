@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: role1
+        tasks_from: main.yml
+      run_once: true
+    - debug:
+        var: ansible_play_hosts_all
+      run_once: true
