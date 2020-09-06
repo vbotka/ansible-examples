@@ -1,0 +1,35 @@
+# Test notify ommit
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    commands:
+      - cmd: date
+        hndlr: handler1
+      - cmd: date
+  tasks:
+    - command: "{{ item.cmd }}"
+      notify: "{{ item.hndlr|default(omit) }}"
+      loop: "{{ commands }}"
+  handlers:
+    - name: handler1
+      debug:
+        msg: handler1 notified
+
+# Result: "notify" accepts "default(omit)"
+# 
+# shell >ansible-playbook handler-test4.yml
+# 
+# PLAY [localhost] *****************************************************************************
+# 
+# TASK [command] *******************************************************************************
+#   changed: [localhost] => (item={'cmd': 'date', 'hndlr': 'handler1'})
+#   changed: [localhost] => (item={'cmd': 'date'})
+# 
+# RUNNING HANDLER [handler1] *******************************************************************
+# ok: [localhost] => {
+#     "msg": "handler1 notified"
+#     }
+# 
+# PLAY RECAP ***********************************************************************************
+# localhost: ok=2 changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
