@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    dict1:
+      key1: val1
+      key2:
+        key21: val21
+        key22: val22
+      kye3:
+        key31:
+          key311: val311
+          key312: val312
+      key4:
+  tasks:
+    - template:
+        src: test20.j2
+        dest: test20.txt
+      vars:
+        my_data: "{{ dict1 }}"

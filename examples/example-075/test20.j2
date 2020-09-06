@@ -1,0 +1,17 @@
+{% for k, v in my_data.items() recursive %}
+{{ k }} {{ v }}
+{% endfor %}
+
+{% for k, v in my_data.items() recursive %}
+{% if v is mapping %}
+{{ k|indent(width=loop.depth0*2,first=True) }} {
+{{ loop(v.items()) }}
+{% elif v is not none %}
+{{ k|indent(width=loop.depth0*2,first=True) }} {{ v }};
+{% else %}
+{{ k|indent(width=loop.depth0*2,first=True) }};
+{% endif %}
+{% if loop.last and loop.depth0>0 %}
+{{ '};'|indent(width=loop.depth0*2,first=True) }}
+{%- endif %}
+{%- endfor %}
