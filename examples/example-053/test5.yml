@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        var: my_vault
+
+# shell> ansible-playbook test5.yml -e @vault2.yml
+# 
+# PLAY [localhost] *****************************************************************************
+# 
+# TASK [debug] *********************************************************************************
+# ok: [localhost] => {
+#     "my_vault": {
+#         "email": "admin@example.com",
+#         "tag": "tag123"
+#     }
+# }
+# 
+# PLAY RECAP ***********************************************************************************
+# localhost: ok=1 changed=0 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
