@@ -1,0 +1,22 @@
+- hosts:
+    - test_01
+    - test_02
+    - test_03
+  ignore_errors: true
+  tasks:
+    - shell: '[ "$(jot -r 1 0 100)" -gt "50" ] && true || false'
+      register: result
+    - set_fact:
+        my_rc: "{{ my_rc|default({})|
+                   combine({inventory_hostname:
+                           {'script1': result.rc}}, recursive=True) }}"
+    - shell: '[ "$(jot -r 1 0 100)" -gt "50" ] && true || false'
+      register: result
+    - set_fact:
+        my_rc: "{{ my_rc|default({})|
+                   combine({inventory_hostname:
+                           {'script2': result.rc}}, recursive=True) }}"
+    - set_stats:
+        data:
+          my_rc: "{{ my_rc }}"
+        per_host: false

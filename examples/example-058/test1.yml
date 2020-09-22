@@ -9,3 +9,28 @@
             hostname: "{{ ansible_hostname }}"
         aggregate: no
         per_host: yes
+
+# shell> ANSIBLE_SHOW_CUSTOM_STATS=true ansible-playbook test1.yml
+#
+# PLAY [test_jails] ****************************************************************************
+#
+# TASK [Gathering Facts] ***********************************************************************
+# ok: [test_02]
+# ok: [test_01]
+# ok: [test_03]
+#
+# TASK [set_stats] *****************************************************************************
+# ok: [test_02]
+# ok: [test_01]
+# ok: [test_03]
+#
+# PLAY RECAP ***********************************************************************************
+# test_01 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+# test_02 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+# test_03 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+#
+#
+# CUSTOM STATS: ********************************************************************************
+# test_01: { "infoblox": {  "hostname": "test_01" }}
+# test_02: { "infoblox": {  "hostname": "test_02" }}
+# test_03: { "infoblox": {  "hostname": "test_03" }}
