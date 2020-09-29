@@ -1,0 +1,13 @@
+- hosts: srv001,srv002
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: "group_vars/{{ item }}.yml"
+        name: "{{ item }}"
+      loop: "{{ group_names }}"
+    - set_fact:
+        test_var: "{{ test_var|default({})|
+                      combine(hostvars[inventory_hostname][item].test_var) }}"
+      loop: "{{ group_names }}"
+    - debug:
+        var: test_var

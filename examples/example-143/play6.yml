@@ -1,0 +1,131 @@
+- hosts: srv001,srv002
+  gather_facts: false
+  tasks:
+    - debug:
+        var: test_var
+
+- hosts: srv001,srv002
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: "group_vars/{{ item }}.yml"
+        name: "{{ item }}"
+      loop: "{{ group_names }}"
+    - set_fact:
+        test_var: "{{ test_var|default({})|combine(item) }}"
+      loop: "{{ group_names|
+                map('extract', hostvars[inventory_hostname], 'test_var')|
+                list }}"
+    - debug:
+        var: test_var
+
+# How can I replace DEFAULT_HASH_BEHAVIOR for `group_vars` in Ansible?
+# https://stackoverflow.com/questions/64108500/how-can-i-replace-default-hash-behavior-for-group-vars-in-ansible
+# 
+# A: The deprecation warning says: "use the combine filter". The
+# details depend on the use-case. For example, let's have the
+# inventory
+# 
+# shell> cat hosts
+# [grp001]
+# srv001
+# 
+# [grp002]
+# srv002
+# 
+# [grp003]
+# srv001
+# srv002
+#
+# the group_vars
+# 
+# shell> cat group_vars/grp001.yml 
+# test_var:
+#     x: grp001
+#     y: grp001
+# 
+# shell> cat group_vars/grp002.yml 
+# test_var:
+#     x: grp002
+#     z: grp002
+# 
+# shell> cat group_vars/grp003.yml 
+# test_var:
+#     x: grp003
+#
+# and the playbook
+# 
+# shell> cat pb.yml
+# - hosts: srv001,srv002
+#   tasks:
+#     - debug:
+#         var: test_var
+#
+# The default behavior is to replace the variables
+# 
+# shell> ansible-playbook pb.yml
+# 
+# ok: [srv001] => {
+#     "test_var": {
+#         "x": "grp003"
+#     }
+# }
+# ok: [srv002] => {
+#     "test_var": {
+#         "x": "grp003"
+#     }
+# }
+# 
+# Optionally, the dictionaries can be merged
+# 
+# shell> ANSIBLE_HASH_BEHAVIOUR=merge ansible-playbook pb.yml
+# 
+# ok: [srv001] => {
+#     "test_var": {
+#         "x": "grp003",
+#         "y": "grp001"
+#     }
+# }
+# ok: [srv002] => {
+#     "test_var": {
+#         "x": "grp003",
+#         "z": "grp002"
+#     }
+# }
+#
+# Without DEFAULT_HASH_BEHAVIOR available (deprecated in 2.13) "use
+# the combine filter". For example, use group_names to include the
+# variables and explicitly combine the dictionaries
+# 
+# shell> cat pb.yml
+# - hosts: srv001,srv002
+#   tasks:
+#     - include_vars:
+#         file: "group_vars/{{ item }}.yml"
+#         name: "{{ item }}"
+#       loop: "{{ group_names }}"
+#     - set_fact:
+#         test_var: "{{ test_var|default({})|combine(item) }}"
+#       loop: "{{ group_names|
+#                 map('extract', hostvars[inventory_hostname], 'test_var')|
+#                 list }}"
+#     - debug:
+#         var: test_var
+# gives
+# 
+# shell> ansible-playbook pb.yml
+# 
+# ok: [srv002] => {
+#     "test_var": {
+#         "x": "grp003",
+#         "z": "grp002"
+#     }
+# }
+# ok: [srv001] => {
+#     "test_var": {
+#         "x": "grp003",
+#         "y": "grp001"
+#     }
+# }
+#
+# EOF
