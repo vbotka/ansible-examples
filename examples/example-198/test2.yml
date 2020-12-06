@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    java_pkg:
+      Debian: default-jre
+      Ubuntu: default-jre
+      Fedora: java-1.8.0-openjdk
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution }}:
+              Install {{ java_pkg[ansible_distribution] }}"
+    - package:
+        name: "{{ java_pkg[ansible_distribution] }}"
+        state: present
+      when: install|default(false)|bool
