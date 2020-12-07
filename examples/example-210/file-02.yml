@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    version: 1.1-SNAPSHOT
+  tasks:
+    - debug:
+        var: item
+      loop: "{{ lookup('file', 'files/branches.txt').split() }}"
+      tags: t1
+    
+    - debug:
+        msg: "{{ lookup('file',
+                        'files/branches.txt').split()|
+                 product([version])|
+                 map('join')|
+                 join(' ') }}"
+      tags: t2
+
+#   cat files/branches.txt
+#   mhr- mtr- tsr-
+#   xhr- xtr- xsr-
+#   yhr- ytr- ysr-
+    
+    - debug:
+        msg: "{{ item.split()|
+                 product([version])|
+                 map('join')|
+                 join(' ') }}"
+      loop: "{{ lookup('file',
+                       'files/branches.txt').splitlines() }}"
+      tags: t3
+
+#   gives
+#
+#   msg: mhr-1.1-SNAPSHOT mtr-1.1-SNAPSHOT tsr-1.1-SNAPSHOT
+#   msg: xhr-1.1-SNAPSHOT xtr-1.1-SNAPSHOT xsr-1.1-SNAPSHOT
+#   msg: yhr-1.1-SNAPSHOT ytr-1.1-SNAPSHOT ysr-1.1-SNAPSHOT

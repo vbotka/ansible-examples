@@ -1,0 +1,3 @@
+* file-02.yml
+  Ansible readfile and concatenate a variable to each line
+  https://groups.google.com/g/ansible-project/c/ycaKm7gxAlU/m/AQgdUdyZAQAJ
