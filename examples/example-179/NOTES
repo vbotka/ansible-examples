@@ -2,3 +2,6 @@
   Failed to extract value from json output
   https://stackoverflow.com/questions/65198661/failed-to-extract-value-from-json-output
 
+* vars-05.yml
+  Ansible Dictionary Nested For Loop
+  https://stackoverflow.com/questions/65149025/ansible-dictionary-nested-for-loop/

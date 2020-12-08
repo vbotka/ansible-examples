@@ -1,0 +1,9 @@
+- hosts: alpha.lan,bravo.lan,charlie.lan
+  gather_facts: false
+  vars_files:
+    - vars-5b-data.yml
+  tasks:
+    - include_tasks: loop-net.yml
+      loop: "{{ servers.keys()|difference([inventory_hostname]) }}"
+      loop_control:
+        loop_var: outer_item

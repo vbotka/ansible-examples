@@ -1,0 +1,19 @@
+servers: 
+  alpha.lan:
+    eth0:
+      subnet: 192.168.0.0
+      subnet_mask: 255.255.255.0
+      subnet_cidr: 24
+    eth1:
+      subnet: 192.168.1.0
+      subnet_mask: 255.255.255.0
+      subnet_cidr: 24
+  bravo.lan:
+    eth0:
+      subnet: 172.16.0.0
+      subnet_mask: 255.255.252.0
+      subnet_cidr: 22
+    eth1:
+      subnet: 172.16.4.0
+      subnet_mask: 255.255.252.0
+      subnet_cidr: 22

@@ -1,0 +1,20 @@
+- hosts: alpha.lan,bravo.lan,charlie.lan
+  gather_facts: false
+  vars_files:
+    - vars-5b-data.yml
+  tasks:
+    - debug:
+        msg: "inventory: {{ inventory_hostname }}
+              server: {{ item.0.key }}
+              net: {{ item.1.net }}"
+      with_subelements:
+        - "{{ my_servers|from_yaml|dict2items }}"
+        - value
+      vars:
+        my_servers: |
+          {% for key,item in servers.items() if key != inventory_hostname %}
+            {{ key }}:
+          {% for key2,item2 in item.items() %}
+              - {ifc: {{ key2 }}, net: {{ item2.subnet }}/{{ item2.subnet_cidr }}}
+          {% endfor %}
+          {% endfor %}

@@ -1,0 +1,7 @@
+- debug:
+    msg: "inventory: {{ inventory_hostname }}
+          server: {{ outer_item }}
+          net: {{ item.value.subnet }}/{{ item.value.subnet_cidr }}"
+  loop: "{{ servers[outer_item]|dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
