@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: buffer_stats
+      tags: buffer
+    - import_role:
+        name: hmu_stats
+      tags: hmu
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: buffer_stats
+        tasks_from: notifications.yml
+      tags: buffer
+    - import_role:
+        name: hmu_stats
+        tasks_from: notifications.yml
+      tags: hmu
+
+# Work as expected
+# 
+# -----------------------------------------
+# shell> ansible-playbook pb.yml -t buffer
+# 
+# PLAY [localhost] ****
+# 
+# TASK [buffer_stats : debug] ****
+# ok: [localhost] =>
+#   msg: buffer_stats main.yml
+# 
+# PLAY [localhost] ****
+# 
+# TASK [buffer_stats : debug] ****
+# ok: [localhost] =>
+#   msg: buffer_stats notifications.yml
+#
+# -----------------------------------------
+# shell> ansible-playbook pb.yml -t hmu
+# 
+# PLAY [localhost] ****
+# 
+# TASK [hmu_stats : debug] ****
+# ok: [localhost] =>
+#   msg: hmu_stats main.yml
+# 
+# PLAY [localhost] ****
+# 
+# TASK [hmu_stats : debug] ****
+# ok: [localhost] =>
+#   msg: hmu_stats notifications.yml
