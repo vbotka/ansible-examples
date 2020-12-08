@@ -1,0 +1,32 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-4-data.json
+    - vars-4b-data.json
+  tasks:
+    - debug: var=policy.0
+      tags: t1
+    - debug: var=policy2.0
+      tags: t1b
+    - debug:
+        msg: |-
+          {% for item in policy.0.schedules.info %}
+          {{ item.count }} {{ item.prefix }}
+          {% endfor %}
+      tags: t2
+    - debug:
+        msg: |-
+          {% for item in policy2.0.schedules.info %}
+          {{ item.count }} {{ item.prefix }}
+          {% endfor %}
+      tags: t2b
+    - debug:
+        msg: >-
+          {% for schedule in policy.0.snapshot_policy_schedules.snapshot_schedule_info %}
+          {{ schedule }}
+          {% endfor %}
+      tags: t3
+    - copy:
+        content: "{{ policy|to_nice_json }}"
+        dest: policy.json
+      tags: t4

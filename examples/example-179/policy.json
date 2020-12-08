@@ -1,0 +1,20 @@
+[
+    {
+        "schedules": {
+            "info": [
+                {
+                    "count": "6",
+                    "prefix": "hourly"
+                },
+                {
+                    "count": "2",
+                    "prefix": "daily"
+                },
+                {
+                    "count": "2",
+                    "prefix": "weekly"
+                }
+            ]
+        }
+    }
+]
