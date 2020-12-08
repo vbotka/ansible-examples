@@ -236,6 +236,7 @@ Various examples of Ansbile code.
 - Example 232. requirements.yml
 - Example 233. ansible-pull
 - Example 234. passwordstore
+- Example 235. slurp
 
 ## License
 

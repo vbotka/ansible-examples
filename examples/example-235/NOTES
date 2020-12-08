@@ -1,0 +1,5 @@
+* play-01.yml
+  Ansible loop each line of file and download file from nexus
+  https://stackoverflow.com/questions/65192483/ansible-loop-each-line-of-file-and-download-file-from-nexus
+
+* 

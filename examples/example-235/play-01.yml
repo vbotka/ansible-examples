@@ -1,0 +1,22 @@
+- hosts: test_01
+  gather_facts: fasle
+  vars:
+    version: 1.1-SNAPSHOT
+  tasks:
+    - set_fact:
+        files: "{{ lookup('file','releasevars.yml').split()|
+                   product([version])|
+                   map('join')|
+                   list }}"
+    - debug:
+        msg: "Fetch {{ item }}"
+      loop: "{{ files }}"
+
+#  msg: Fetch mhr-1.1-SNAPSHOT
+#  msg: Fetch mtr-1.1-SNAPSHOT
+#  msg: Fetch tsr-1.1-SNAPSHOT
+    
+#    - slurp:
+#        src: "{{ item }}"
+#      register: input_file_content
+#      loop: "{{ files }}"
