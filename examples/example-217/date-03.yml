@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    calls: [call-1st-Time,call-2nd-Time,call-3nd-Time]
+  tasks:
+    - include_role:
+        name: dummy_role_02
+      loop: "{{ calls }}"
+    - debug:
+        msg: "{{ dict(calls|zip(my_dates)) }}"

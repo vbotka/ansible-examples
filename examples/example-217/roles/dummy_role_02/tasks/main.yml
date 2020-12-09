@@ -1,0 +1,5 @@
+- setup:
+    gather_subset: date_time
+- set_fact:
+    my_dates: "{{ my_dates|default([]) +
+                  [ansible_date_time.iso8601_micro] }}"
