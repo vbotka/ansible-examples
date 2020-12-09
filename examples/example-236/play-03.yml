@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    dir: name
+    image:
+      '4.2': 'appname:4.2.0'
+      '4.0.5': 'dockerhub2:10000/appname:4.0.5'
+      default: 'dockerhub2:10000/appname3:3.0.14'
+  tasks:
+    - template:
+        src: template-03.j2
+        dest: test.txt
