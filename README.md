@@ -237,6 +237,7 @@ Various examples of Ansbile code.
 - Example 233. ansible-pull
 - Example 234. passwordstore
 - Example 235. slurp
+- Example 236. Jinja template formatting
 
 ## License
 

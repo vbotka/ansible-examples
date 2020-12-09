@@ -1,0 +1,3 @@
+    image: {% if version == "4.2" %}appname:4.2.0{% elif version == "4.0.5" %}dockerhub2:10000/appname:4.0.5{% else %}dockerhub2:10000/appname3:3.0.14
+{%  endif %}
+    container_name: {{ dir }}

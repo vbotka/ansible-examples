@@ -1,0 +1,2 @@
+    image: appname:4.2.0
+    container_name: name

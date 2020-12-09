@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    version: '1.0'
+    dir: name
+  tasks:
+    - template:
+        src: template-01.j2
+        dest: test.txt
