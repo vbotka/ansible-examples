@@ -1,0 +1,3 @@
+- shell: "sleep 1 && date +%T"
+  register: value_in_role
+  loop: "{{ calls }}"

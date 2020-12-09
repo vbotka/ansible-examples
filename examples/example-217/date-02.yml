@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: dummy_role
+      vars:
+        calls: [call-1st-Time,call-2nd-Time,call-3nd-Time]
+    - debug:
+        msg: "{{ dict(value_in_role.results|
+                      json_query('[].[item,stdout]')) }}"
