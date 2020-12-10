@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - minimal
+
+- hosts: localhost
+  gather_facts: false
+  roles:
+    - empty
