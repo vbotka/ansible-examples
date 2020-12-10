@@ -1,0 +1,60 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    expected_dbs:
+      'database1':
+        db_tables:
+          - "non-existant-table"
+          - "table1_db1"
+          - "table2_db2"
+          - "table3_db3"
+      'database2':
+        db_tables:
+          - "non-existant-table"
+          - "table1_db2"
+          - "table2_db2"
+          - "table3_db2"
+      'database3':
+        db_tables:
+          - "non-existant-table"
+          - "table1_db3"
+          - "table2_db3"
+          - "table3_db3"
+
+    actual_dbs:
+      'database1':
+        db_tables:
+          - "table1_db1"
+          - "table2_db2"
+          - "table3_db3"
+      'database2':
+        db_tables:
+          - "table1_db2"
+          - "table2_db2"
+          - "table3_db2"
+          - "additional_table"
+      'database3':
+        db_tables:
+          - "table1_db3"
+          - "table2_db3"
+
+  tasks:
+    - set_fact:
+        diff_dbs: "{{ diff_dbs|default({})|
+                      combine({item: diff}) }}"
+      loop: "{{ expected_dbs|intersect(actual_dbs) }}"
+      vars:
+        diff: "{{ expected_dbs[item]['db_tables']|
+                  difference(actual_dbs[item]['db_tables']) }}"
+    - debug:
+        var: diff_dbs
+
+#  diff_dbs:
+#    database1:
+#    - non-existant-table
+#    database2:
+#    - non-existant-table
+#    database3:
+#    - non-existant-table
+#    - table3_db3
