@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_files:
+      - sshd_config.0
+      - sshd_config.1
+      - sshd_config.2
+      - sshd_config.3
+      - sshd_config.4
+      - sshd_config.5
+  tasks:
+    - replace:
+        path: 'files-17/{{ item }}'
+        after: 'PasswordAuthentication'
+        regexp: '^(.*)PasswordAuthentication(.*)$'
+        replace: ''
+      loop: "{{ my_files }}"
+      tags: t1
+        
+    - lineinfile:
+        path: 'files-17/{{ item }}'
+        regexp: '^(.*)PasswordAuthentication(.*)$'
+        line: 'PasswordAuthentication no'
+      loop: "{{ my_files }}"
+      tags: t2
