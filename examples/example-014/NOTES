@@ -1,8 +1,11 @@
-Ansible Playbook- Parallel Execution
-https://stackoverflow.com/questions/51296495/ansible-playbook-parallel-execution/
+* Ansible Playbook- Parallel Execution
+  https://stackoverflow.com/questions/51296495/ansible-playbook-parallel-execution/
 
-Bug
-delegate_to with remote_user on ansible 2.0
-https://github.com/ansible/ansible/issues/13323
+* Bug
+  delegate_to with remote_user on ansible 2.0
+  https://github.com/ansible/ansible/issues/13323
 
+* delegate-11.yml, delegate-12.yml
+  How to select all hosts except the inventory_hostname from a group?
+  https://serverfault.com/questions/930260/how-to-select-all-hosts-except-the-inventory-hostname-from-a-group/
 --

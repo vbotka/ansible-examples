@@ -1,0 +1,7 @@
+- hosts: webservers
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ inventory_hostname }} {{ item }}"
+      loop: "{{ groups.webservers|difference([inventory_hostname]) }}"
+      delegate_to: "{{ item }}"
