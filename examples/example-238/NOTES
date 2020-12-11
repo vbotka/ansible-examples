@@ -1,0 +1,3 @@
+* play-01.yml
+  Ansible remove quote from ansbile fact value
+  https://stackoverflow.com/questions/65257986/ansible-remove-quote-from-ansbile-fact-value/

@@ -1,0 +1,61 @@
+- hosts: localhost
+  gather_facts: true
+  become: true
+  tasks:
+
+    - debug:
+        var: ansible_default_ipv4
+      tags: tX
+
+    - debug:
+        var: ansible_default_ipv4.interface
+      tags: tX
+
+    - sysctl:
+        name: "net.ipv4.conf.eth0.forwarding"
+        value: "1"
+      register: result
+      tags: t1
+    - debug:
+        var: result
+      tags: t1
+
+    - sysctl:
+        name: "{{ 'net.ipv4.conf.' ~ ansible_default_ipv4.interface ~ '.forwarding' }}"
+        value: "1"
+      register: result
+      tags: t2
+    - debug:
+        var: result
+      tags: t2
+
+    - sysctl:
+        name: "net.ipv4.conf.{{ ansible_default_ipv4.interface }}.forwarding"
+        value: "1"
+      register: result
+      tags: t3
+    - debug:
+        var: result
+      tags: t3
+
+    - sysctl:
+        name: "{{ item }}"
+        value: "1"
+      register: result
+      with_items:
+        - "net.ipv4.conf.{{ ansible_default_ipv4.interface }}.forwarding"
+      tags: t4
+    - debug:
+        var: result
+      tags: t4
+
+    - sysctl:
+        name: "{{ item }}"
+        value: "1"
+      register: result
+      with_items:
+        - "{{ 'net.ipv4.conf.' ~ ansible_default_ipv4.interface ~ '.forwarding' }}"
+      tags: t5
+    - debug:
+        var: result
+      tags: t5

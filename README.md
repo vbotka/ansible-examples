@@ -238,6 +238,9 @@ Various examples of Ansbile code.
 - Example 234. passwordstore
 - Example 235. slurp
 - Example 236. Jinja template formatting
+- Example 237.
+- Example 238. sysctl
+
 
 ## License
 
