@@ -1,0 +1,5 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ '%Y-%m-%d_%H_%M_%S'|strftime }}"
