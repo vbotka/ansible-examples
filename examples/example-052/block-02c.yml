@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - block:
+        - include_tasks: test_fail.yml
+          run_once: true
+      always:
+        - include_tasks: tasks-always.yml

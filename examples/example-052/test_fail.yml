@@ -1,0 +1,1 @@
+- command: "{{ cmd|default('true') }}"
