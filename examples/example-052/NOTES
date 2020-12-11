@@ -1,3 +1,8 @@
-How to bypass failed ansible tasks, but still report them as failed?
-https://stackoverflow.com/questions/54688567/how-to-bypass-failed-ansible-tasks-but-still-report-them-as-failed
+* How to bypass failed ansible tasks, but still report them as failed?
+  https://stackoverflow.com/questions/54688567/how-to-bypass-failed-ansible-tasks-but-still-report-them-as-failed
+
+* block-01 - block-03
+  Ansible Blocks: “always” and “block” not working in main.yml
+  https://stackoverflow.com/questions/65244239/ansible-blocks-always-and-block-not-working-in-main-yml
+
 --
