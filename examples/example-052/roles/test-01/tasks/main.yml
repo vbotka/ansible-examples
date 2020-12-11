@@ -1,0 +1,4 @@
+- block:
+    - command: "{{ cmd|default('true') }}"
+  always:
+     - include: tasks-always.yml

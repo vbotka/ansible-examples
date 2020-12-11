@@ -53,7 +53,7 @@ Various examples of Ansbile code.
 - Example  49. Variable precedence complex
 - Example  50. Share variables between playbooks
 - Example  51. uri module. Ansible Galaxy API list platforms
-- Example  52. block rescue
+- Example  52. block rescue always
 - Example  53. Vault
 - Example  54. Nested loops
 - Example  55. Arithmetics Math

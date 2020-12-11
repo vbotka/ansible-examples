@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - block:
+        - command: "{{ cmd|default('true') }}"
+      always:
+        - include: tasks-always.yml
