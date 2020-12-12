@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - assert:
+        that: var1|default(true)|bool
+        success_msg: OK
+        fail_msg: KO
