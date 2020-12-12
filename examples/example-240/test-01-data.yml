@@ -1,0 +1,17 @@
+ILOinfo:
+  results:
+    - 'hw_eth6': {'macaddress': '94:18:82:76:00:C9', 'macaddress_dash': '94-18-82-76-00-C9'}
+      'hw_product_uuid': '30393137-3436-584D-5137-303330393152'
+      'hw_eth7': {'macaddress': '9C:DC:71:6F:28:8C', 'macaddress_dash': '9C-DC-71-6F-28-8C'}
+      'hw_eth4': {'macaddress': 'E0:07:1B:EF:85:20', 'macaddress_dash': 'E0-07-1B-EF-85-20'}
+      'hw_eth5': {'macaddress': 'E0:07:1B:EF:85:24', 'macaddress_dash': 'E0-07-1B-EF-85-24'}
+    - 'hw_eth6': {'macaddress': '94:18:82:76:00:C9', 'macaddress_dash': '94-18-82-76-00-C9'}
+      'hw_product_uuid': '30393137-3436-584D-5137-303330393152'
+      'hw_eth7': {'macaddress': '9C:DC:71:6F:28:8C', 'macaddress_dash': '9C-DC-71-6F-28-8C'}
+      'hw_eth4': {'macaddress': 'E0:07:1B:EF:85:20', 'macaddress_dash': 'E0-07-1B-EF-85-20'}
+      'hw_eth5': {'macaddress': 'E0:07:1B:EF:85:24', 'macaddress_dash': 'E0-07-1B-EF-85-24'}
+    - 'hw_eth6': {'macaddress': '94:18:82:76:00:C9', 'macaddress_dash': '94-18-82-76-00-C9'}
+      'hw_product_uuid': '30393137-3436-584D-5137-303330393152'
+      'hw_eth7': {'macaddress': '9C:DC:71:6F:28:8C', 'macaddress_dash': '9C-DC-71-6F-28-8C'}
+      'hw_eth4': {'macaddress': 'E0:07:1B:EF:85:20', 'macaddress_dash': 'E0-07-1B-EF-85-20'}
+      'hw_eth5': {'macaddress': 'E0:07:1B:EF:85:24', 'macaddress_dash': 'E0-07-1B-EF-85-24'}

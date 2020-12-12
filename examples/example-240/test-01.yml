@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - test-01-data.yml
+  vars:
+    ILOip:
+      - 192.168.1.100
+      - 192.168.1.101
+      - 192.168.1.102
+  tasks:
+    - set_fact:
+        my_data: "{{ dict(ILOip|zip(ILOinfo.results)) }}"
+      tags: always
+
+    - debug:
+        var: my_data['192.168.1.100'].hw_eth4.macaddress_dash
+      tags: t1
+
+    - debug: msg="{{ item }}"
+      with_items: "{{ ILOinfo.results }}"
+      tags: t2
+
+    - debug: msg="{{ ILOinfo.results }}"
+      tags: t3

@@ -241,6 +241,7 @@ Various examples of Ansbile code.
 - Example 237. Integration tests vbotka.ansible.community.general
 - Example 238. sysctl
 - Example 239. assert
+- Example 240. hpilo_info
 
 
 ## License
