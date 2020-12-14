@@ -1,0 +1,12 @@
+- hosts: test_11,test_12
+  gather_facts: false
+  tasks:
+    - block:
+        - name: Block task No.1
+          include_tasks: files/succeed.yml
+          run_once: true
+        - name: Block task No.2
+          include_tasks: files/succeed.yml
+      always:
+        - name: Section Always
+          include_tasks: files/always.yml

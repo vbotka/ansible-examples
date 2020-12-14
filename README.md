@@ -242,6 +242,7 @@ Various examples of Ansbile code.
 - Example 238. sysctl
 - Example 239. assert
 - Example 240. hpilo_info
+- Example 241. loop include_tasks and run_once
 
 
 ## License

@@ -1,0 +1,21 @@
+- hosts: test_11,test_12
+  gather_facts: false
+  tasks:
+
+    - debug:
+        var: inventory_hostname
+      tags: t1
+
+    - block:
+        - include: files/fail.yml
+          run_once: true
+      always:
+        - include: files/always.yml
+      tags: t2
+
+    - block:
+        - include_tasks: files/succeed.yml
+          run_once: true
+      always:
+        - include_tasks: files/always.yml
+      tags: t3

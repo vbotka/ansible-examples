@@ -1,0 +1,4 @@
+ * test-01.yml, test-02.yml
+   If include in block section with run_once, the always section isn't always run #72941
+   https://github.com/ansible/ansible/issues/72941
+
