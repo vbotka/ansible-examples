@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - getent:
+        database: passwd
+    - debug:
+        var: item
+      loop: "{{ getent_passwd|intersect(my_users) }}"
+      vars:
+        my_users:
+          - root
+          - admin
+          - dummy
