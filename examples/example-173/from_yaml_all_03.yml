@@ -1,0 +1,41 @@
+- hosts: localhost
+  tasks:
+    - name: Store id test-user
+      set_fact:
+        ID: [8]
+
+#    - name: Enable SOL for test-user
+#      community.general.idrac_redfish_config:
+#        category: Manager
+#        command: SetManagerAttributes
+#        resource_id: iDRAC.Embedded.1
+#        manager_attributes: {
+#          Users.{{ ID[0] }}.SolEnable: Enabled,
+#          Users.{{ ID[0] }}.IpmiLanPrivilege: Administrator}
+#        baseuri: "testhost"
+#        username: "admin"
+#        password: "admin"
+
+    - debug:
+        msg: "{{ manager_attributes|from_yaml }}"
+      vars:
+        manager_attributes: |
+          Users.{{ ID[0] }}.SolEnable: Enabled
+          Users.{{ ID[0] }}.IpmiLanPrivilege: Administrator
+
+    - debug:
+        msg: "{{ manager_attributes|from_yaml|type_debug }}"
+      vars:
+        manager_attributes: |
+          Users.{{ ID[0] }}.SolEnable: Enabled
+          Users.{{ ID[0] }}.IpmiLanPrivilege: Administrator
+
+# TASK [debug] ****
+# ok: [localhost] =>
+#   msg:
+#     Users.8.IpmiLanPrivilege: Administrator
+#     Users.8.SolEnable: Enabled
+# 
+# TASK [debug] ****
+# ok: [localhost] =>
+#   msg: dict
