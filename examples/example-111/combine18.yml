@@ -1,0 +1,34 @@
+- name: Play 1
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: userupdate
+
+- name: Play 2
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: userupdate
+      users:
+        - username: user1
+          is_sudo: false
+
+- name: Play 3
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - import_role:
+        name: userupdate
+      vars:
+        users:
+          - username: user1
+            is_sudo: false
+
+- name: Play 4
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: userupdate2
+      users_update:
+        user1:
+          is_sudo: false

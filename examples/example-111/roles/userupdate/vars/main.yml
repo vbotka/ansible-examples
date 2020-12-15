@@ -1,0 +1,5 @@
+users:
+  - username: user1
+    is_sudo: true
+  - username: user2
+    is_sudo: false

@@ -1,0 +1,6 @@
+users_common:
+  user1:
+    is_sudo: true
+  user2:
+    is_sudo: false
+users: "{{ users_common|combine(users_update|default({})) }}"
