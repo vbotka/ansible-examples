@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - find:
+        path: "/scratch/tmp/*/*/test1/"
+      register: result
+    - debug:
+        var: result
+
+#  result:
+#    changed: false
+#    examined: 0
+#    failed: false
+#    files: []
+#    matched: 0
+#  msg: |-
+#    /scratch/tmp/*/*/test1/ was skipped as it does not seem to be a
+#    valid directory or it cannot be accessed
