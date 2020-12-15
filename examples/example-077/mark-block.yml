@@ -1,0 +1,21 @@
+- command: "grep -q '# BEGIN ANSIBLE MANAGED BLOCK {{ marker }}' {{ path }}"
+  register: checkmarker
+  ignore_errors: true
+  changed_when: false
+
+- block:
+    - replace:
+        path: '{{ path }}'
+        regexp: '{{ regex1 }}'
+        replace: |-
+          {{ '#' }} BEGIN ANSIBLE MANAGED BLOCK {{ marker }}
+          {{ replace1 }}
+    
+    - replace:
+        path: '{{ path }}'
+        after: '# BEGIN ANSIBLE MANAGED BLOCK {{ marker }}'
+        regexp: '{{ regex2 }}'
+        replace: |-
+          {{ replace2 }}
+          {{ '#' }} END ANSIBLE MANAGED BLOCK {{ marker }}
+  when: checkmarker.rc != 0

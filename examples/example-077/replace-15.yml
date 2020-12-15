@@ -1,0 +1,60 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - replace:
+        path: files/modules.conf
+        regexp: 'server.modules\s+=\s+\('
+        replace: |-
+          {{ '#' }} BEGIN ANSIBLE MANAGED BLOCK server.modules
+          server.modules = (
+      tags: t1
+    - replace:
+        path: files/modules.conf
+        after: '# BEGIN ANSIBLE MANAGED BLOCK server.modules'
+        regexp: '\)'
+        replace: |-
+          )
+          {{ '#' }} END ANSIBLE MANAGED BLOCK server.modules
+      tags: t1
+
+    - import_tasks: mark-block.yml
+      vars:
+        path: files/modules.conf
+        marker: 'server.modules'
+        regex1: 'server.modules\s+=\s+\('
+        replace1: 'server.modules = ('
+        regex2: '\)'
+        replace2: ')'
+      tags: t2
+
+
+# BEFORE
+
+#  server.modules = (
+#    "mod_access",
+#  #  "mod_alias",
+#  #  "mod_auth",
+#  #  "mod_authn_file",
+#  #  "mod_evasive",
+#  #  "mod_setenv",
+#  #  "mod_usertrack",
+#  #  "mod_redirect",
+#  #  "mod_rewrite",
+#  )
+
+
+# AFTER
+
+# # BEGIN ANSIBLE MANAGED BLOCK server.modules
+# server.modules = (
+#   "mod_access",
+# #  "mod_alias",
+# #  "mod_auth",
+# #  "mod_authn_file",
+# #  "mod_evasive",
+# #  "mod_setenv",
+# #  "mod_usertrack",
+# #  "mod_redirect",
+# #  "mod_rewrite",
+# )
+# # END ANSIBLE MANAGED BLOCK server.modules
