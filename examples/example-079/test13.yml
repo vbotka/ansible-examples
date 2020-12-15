@@ -1,0 +1,19 @@
+- hosts: test_11,test_12,test_13
+  gather_facts: false
+  vars:
+    templates_lib:
+      - {contains: "{{ my_hostname is search('NR') }}", template: nr.j2}
+      - {contains: "{{ my_hostname is search('NS') }}", template: ns.j2}
+      - {contains: "{{ my_hostname is search('NT') }}", template: nt.j2}
+  tasks:
+    - command: cat /tmp/hostname
+      register: result
+    - template:
+        src: "{{ my_template }}"
+        dest: /tmp/test.conf
+      vars:
+        my_hostname: "{{ result.stdout }}"
+        my_template: "{{ templates_lib|
+                         selectattr('contains')|
+                         map(attribute='template')|
+                         first|default('default.j2') }}"
