@@ -1,0 +1,28 @@
+- hosts: one
+  gather_facts: false
+  roles:
+    - role-one
+  tasks:
+    - debug:
+        var: variable_one
+    - set_fact:
+        variable_one: "{{ variable_one }}"
+
+- hosts: two
+  gather_facts: false
+  roles:
+    - role-two
+
+- hosts: one
+  gather_facts: false
+  tasks:
+    - debug:
+        var: variable_one
+
+- hosts: two
+  gather_facts: false
+  tasks:
+    - set_fact:
+        variable_one: "{{ hostvars.one.variable_one }}"
+    - include_role:
+        name: role-two

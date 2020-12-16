@@ -1,12 +1,16 @@
-Variable not existing outside the role it is defined
-https://stackoverflow.com/questions/51557675/variable-not-existing-outside-the-role-it-is-defined
+* Variable not existing outside the role it is defined
+  https://stackoverflow.com/questions/51557675/variable-not-existing-outside-the-role-it-is-defined
 
-play3.yml
-Ansible: check supplied tags are valid before running a playbook
-https://serverfault.com/questions/928861/ansible-check-supplied-tags-are-valid-before-running-a-playbook/
+* play3.yml
+  Ansible: check supplied tags are valid before running a playbook
+  https://serverfault.com/questions/928861/ansible-check-supplied-tags-are-valid-before-running-a-playbook/
 
-play4.yml
-set_fact in a role called as a loop
-https://stackoverflow.com/questions/52425620/set-fact-in-a-role-called-as-a-loop
+* play4.yml
+  set_fact in a role called as a loop
+  https://stackoverflow.com/questions/52425620/set-fact-in-a-role-called-as-a-loop
+
+* play11.yml, play12.yml
+  Access variable from one role in another role in an Ansible playbook with multiple hosts
+  https://stackoverflow.com/questions/65322926/access-variable-from-one-role-in-another-role-in-an-ansible-playbook-with-multip/
 
 --

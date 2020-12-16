@@ -1,0 +1,20 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - import_role:
+        name: role-one
+        tasks_from: noop.yml
+      run_once: true
+    - set_fact:
+        variable_one: "{{ variable_one }}"
+      run_once: true
+
+- hosts: two
+  gather_facts: false
+  roles:
+    - role-two
+
+- hosts: one
+  gather_facts: false
+  roles:
+    - role-two
