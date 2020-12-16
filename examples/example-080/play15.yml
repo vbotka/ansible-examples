@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        var: my_groups|from_yaml
+      tags: t1
+    - debug:
+        var: groups
+      tags: t2
+    - debug:
+        var: item
+      loop: "{{ my_groups|from_yaml|map('extract', groups)|flatten }}"
+      tags: t3
+    - add_host:
+        name: "{{ item }}"
+        groups: my_group
+      loop: "{{ my_groups|from_yaml|map('extract', groups)|flatten }}"
+      tags: t3
+
+- hosts: my_group
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname
+      tags: always
+
+# ansible-playbook pb.yml -i hosts_prod -i hosts_qa -i hosts_devel -e "my_groups=[develA,qaB]"
+# 
+# gives (abridged)
+# 
+# PLAY [my_group] **********************************************
+# 
+# TASK [debug] **************************************************
+# ok: [devel2] =>
+#   inventory_hostname: devel2
+# ok: [devel1] =>
+#   inventory_hostname: devel1
+# ok: [qa3] =>
+#   inventory_hostname: qa3

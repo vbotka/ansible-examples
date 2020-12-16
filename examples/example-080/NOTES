@@ -1,1 +1,6 @@
+* play15.yml
+  Specifying multiple groups as hosts from different inventories in an Ansible playbook
+  https://stackoverflow.com/questions/65330793/specifying-multiple-groups-as-hosts-from-different-inventories-in-an-ansible-pla/
 
+
+  
