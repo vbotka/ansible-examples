@@ -1,0 +1,69 @@
+---
+
+- name: "Test select in"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    line1: "The 1 quick 3 brown 5 fox jumps over the lazy dog"
+    search11: [fox, dog]
+    search12: [fox, dog, cat]
+    search13: [cat, mouse]
+
+    line2: "login servers: 10.1.1.2, 10.1.1.3"
+    pre_output:
+      stdout: "login servers: 10.1.1.2, 10.1.1.3"
+      stdout_lines:
+        - "login servers: 10.1.1.2, 10.1.1.3"
+    logging_servers: ["10.1.1.2", "10.1.1.3"]
+
+  tasks:
+
+    - debug:
+        msg: "Any of the items of {{ search11 }} is in the line."
+      when: search11|select('in', line1)|list|length > 0
+      tags: t1
+
+    - assert:
+        that: logging_servers|select('in', line2)|list|length > 0
+        fail_msg: "Logging server configuration is missing"
+        success_msg: "Logging server configuration exists"
+      tags: t2
+
+    - assert:
+        that: logging_servers|select('in', pre_output.stdout_lines.0)|list|length > 0
+        fail_msg: "Logging server configuration is missing"
+        success_msg: "Logging server configuration exists"
+      tags: t3
+
+    - debug:
+        msg:
+          - "{{ no_of_servers }}"
+          - "{{ no_of_servers|type_debug }}"
+          - "{{ logging_servers|
+                select('in', pre_output.stdout_lines.0)|
+                list }}"
+          - "{{ logging_servers|
+                select('in', pre_output.stdout_lines.0)|
+                list|length }}"
+          - "{{ logging_servers|
+                select('in', pre_output.stdout_lines.0)|
+                list|length|type_debug }}"
+          - "{{ logging_servers|
+                select('in', pre_output.stdout_lines.0)|
+                list|length == no_of_servers|int }}"
+      vars:
+        no_of_servers: "{{ logging_servers|length }}"
+      tags: t4
+
+    - assert:
+        that: logging_servers|
+              select('in', pre_output.stdout_lines.0)|list|
+              length == no_of_servers|int
+        fail_msg: "Logging server configuration is missing"
+        success_msg: "Logging server configuration exists"
+      vars:
+        no_of_servers: "{{ logging_servers|length }}"
+      tags: t5
+
+# EOF
+...

@@ -1,1 +1,3 @@
-
+* select-in.yml
+  Assert Function with Items
+  https://stackoverflow.com/questions/65318977/is-there-a-way-i-can-compare-ansible-assert-function-with-items-in-yaml-file-ins/
