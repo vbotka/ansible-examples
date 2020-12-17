@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    jinja_var: [a, b]
+    offset: 20
+  tasks:
+    - template:
+        src: jinja.j2
+        dest: "files/file_{{ item }}"
+      loop: "{{ jinja_var }}"
+      loop_control:
+        index_var: index

@@ -1,2 +1,7 @@
-How could I add hostname of all the containers based on the count to nginx upstream
-https://stackoverflow.com/questions/51048284/how-could-i-add-hostname-of-all-the-containers-based-on-the-count-to-nginx-upstr
+* How could I add hostname of all the containers based on the count to nginx upstream
+  https://stackoverflow.com/questions/51048284/how-could-i-add-hostname-of-all-the-containers-based-on-the-count-to-nginx-upstr
+
+* index4.yml
+  Ansible loop over variable integer and incremente value for jinja template
+  https://stackoverflow.com/questions/65339752/ansible-loop-over-variable-integer-and-incremente-value-for-jinja-template
+
