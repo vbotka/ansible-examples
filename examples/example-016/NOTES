@@ -1,7 +1,10 @@
 
-Test of grup_by module.
+* Test of grup_by module.
+  Run ansible task only once per each unique fact value
+  https://stackoverflow.com/questions/54798683/run-ansible-task-only-once-per-each-unique-fact-value/
 
-Run ansible task only once per each unique fact value
-https://stackoverflow.com/questions/54798683/run-ansible-task-only-once-per-each-unique-fact-value/
+* map-replace.yml
+  How to compare lists in Ansible?
+  https://stackoverflow.com/questions/65341614/how-to-compare-lists-in-ansible
 
 --

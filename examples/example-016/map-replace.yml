@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    actual_event_list:
+      - "{{ task1|default('running') }}"
+      - "{{ task2|default('running') }}"
+      - "{{ task3|default('running') }}"
+  tasks:
+    - debug:
+        msg: "{{ actual_event_list|
+                 map('replace', 'completed', 'true')|map('bool')|
+                 list }}"
+      vars:
+        task1: completed
+        task3: completed
+
+#   msg:
+#    - true
+#    - false
+#    - true
