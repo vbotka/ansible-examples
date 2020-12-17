@@ -1,0 +1,45 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: role-one
+        tasks_from: noop.yml
+        public: true
+      run_once: true
+    - debug:
+        var: variable_one
+#    - set_fact:
+#        variable_one: "{{ variable_one }}"
+#      run_once: true
+
+- hosts: two
+  gather_facts: false
+  roles:
+    - role-two
+
+- hosts: one
+  gather_facts: false
+  roles:
+    - role-two
+
+# PLAY [all] ***********************************************************************************
+# 
+# TASK [include_role : role-one] ***************************************************************
+# 
+# TASK [debug] *********************************************************************************
+# ok: [one] =>
+#   variable_one: Role One Variable
+# ok: [two] =>
+#   variable_one: Role One Variable
+# 
+# PLAY [two] ***********************************************************************************
+# 
+# TASK [role-two : debug] **********************************************************************
+# ok: [two] =>
+#   variable_one: VARIABLE IS NOT DEFINED!
+# 
+# PLAY [one] ***********************************************************************************
+# 
+# TASK [role-two : debug] **********************************************************************
+# ok: [one] =>
+#   variable_one: VARIABLE IS NOT DEFINED!
