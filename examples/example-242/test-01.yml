@@ -1,0 +1,36 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - openssl_certificate:
+        path: /etc/ssl/crt/test_example_org.crt
+        provider: assertonly
+      register: result
+      tags: t1
+    - debug:
+        var: result
+      tags: t1
+
+    - community.crypto.x509_certificate_info:
+        path: /etc/ssl/crt/test_example_org.crt
+      register: result
+      tags: t2
+    - debug:
+        var: result
+      tags: t2
+
+# - hosts: all
+#   vars:
+#     my_roles_path: "$HOME/.ansible/roles"
+#     my_roles:
+#       Let's Encrypt Authority X3: [role1, role2, role3]
+#       default: [role91, role92, role93]
+#   tasks:
+#     - command:
+#         cmd: "ansible-galaxy install {{ item }}"
+#         creates: "{{ my_roles_path }}/{{ item }}"
+#       loop: "{{ my_roles[issuer_CN|default('default')] }}"
+#       delegate_to: localhost
+#     - include_role:
+#         name: "{{ item }}"
+#       loop: "{{ my_roles[issuer_CN|default('default')] }}"

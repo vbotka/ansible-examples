@@ -243,7 +243,7 @@ Various examples of Ansbile code.
 - Example 239. assert
 - Example 240. hpilo_info
 - Example 241. loop include_tasks and run_once
-
+- Example 242. community.crypto.x509_certificate
 
 ## License
 
