@@ -1,0 +1,3 @@
+* play-02.yml
+  Ansible: register variable with loop
+  https://devops.stackexchange.com/questions/13004/ansible-register-variable-with-loop/
