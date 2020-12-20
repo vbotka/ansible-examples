@@ -1,0 +1,49 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    setup:
+      emirr01: { label: "label1" }
+      emirr02: { label: "label2" }
+      emirr03: { label: "label3" }
+    lookup: [ "emirr01", "emirr02"]
+  tasks:
+    - set_fact:
+        use_labels: "{{ lookup|map('extract', setup, 'label')|list }}"
+    - debug:
+        var: use_labels
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    setup:
+      - emirr01: { label: "label1" }
+      - emirr02: { label: "label2" }
+      - emirr03: { label: "label3" }
+    lookup: [ "emirr01", "emirr02"]
+  tasks:
+    - set_fact:
+        setup2: "{{ setup2|default({})|combine(item) }}"
+      loop: "{{ setup }}"
+    - debug:
+        var: setup2
+    - set_fact:
+        use_labels: "{{ lookup|map('extract', setup2, 'label')|list }}"
+    - debug:
+        var: use_labels
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    setup:
+      - emirr01: { label: "label1" }
+      - emirr02: { label: "label2" }
+      - emirr03: { label: "label3" }
+    lookup: [ "emirr01", "emirr02"]
+  tasks:
+    - set_fact:
+        use_labels: "{{ setup|map('dict2items')|map('first')|
+                        selectattr('key', 'in', lookup )|
+                        map(attribute='value.label')|
+                        list }}"
+    - debug:
+        var: use_labels

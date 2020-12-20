@@ -7,4 +7,8 @@
   How to compare lists in Ansible?
   https://stackoverflow.com/questions/65341614/how-to-compare-lists-in-ansible
 
+* map-extract3.yml
+  Iterating list of dictionaries with dictionary
+  https://stackoverflow.com/questions/65379325/iterating-list-of-dictionaries-with-dictionary/
+
 --
