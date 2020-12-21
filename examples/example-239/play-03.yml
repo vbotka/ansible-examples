@@ -1,0 +1,43 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    audit_tools:
+      - auditctl
+      - aureport
+      - ausearch
+      - autrace
+      - auditd
+      - audispd
+      - augenrules
+  tasks:
+
+    - block:
+        - stat:
+            path: "sbin/{{ item }}"
+          loop: "{{ audit_tools }}"
+          register: result
+        - assert:
+            that: no_audit_tools == no_owner_root
+            fail_msg: "One or more tools are not own by root."
+          vars:
+            no_audit_tools: "{{ audit_tools|length }}"
+            no_owner_root: "{{ result.results|
+                               selectattr('stat.pw_name', 'eq', 'root')|
+                               list|length }}"
+      rescue:
+        - debug:
+            msg: "Rescue: audit tools not owned by root."
+
+
+# If not all utils are owned by root assert will fail and the block will
+# proceed to the rescue section
+# 
+# TASK [assert] ****
+# fatal: [localhost]: FAILED! => changed=false
+#   assertion: no_audit_tools == no_owner_root
+#     evaluated_to: false
+#       msg: One or more tools are not own by root.
+# 
+#     TASK [debug] ****
+#     ok: [localhost] =>
+#       msg: 'Rescue: audit tools not owned by root.'
