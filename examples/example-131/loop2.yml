@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    c_ver: "{{ lookup('file', 'VERSION') }}"
+  tasks:
+    - set_fact:
+        c_ver: "{{ c_ver }}"
+    - include_tasks: loop2-tasks.yml
+      with_sequence: count=5
+
+# Without *set_fact* the variable c_ver changes each time the file
+# VERSION changes.
