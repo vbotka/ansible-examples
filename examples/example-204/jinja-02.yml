@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    list:
+      variables:
+        name:
+          - Carl
+          - John
+        info:
+          - {surname: 'Foo', name: 'name.0'}
+          - {surname: 'Bar', name: 'name.1'}
+  tasks:
+    - debug:
+        msg: |
+          {% for de, du in list.items() %}
+          {% for k,v in du.items() %}
+          {% if k == 'info' %}
+          {% for i in v %}
+          {% set my_list = i.name.split('.').0 %}
+          {% set my_index = i.name.split('.').1 %}
+          {{ i.surname }} {{ list[de][my_list][my_index|int] }}
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+          {% endfor %}
+
+#         {{ i.surname }} {{ list[de][i.name.split('.').0][i.name.split('.').1|int] }}
+
+#  msg: |
+#    Foo Carl
+#    Bar John
