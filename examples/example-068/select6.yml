@@ -11,3 +11,9 @@
 
 #  msg: s_D_k-13435_
 #  msg: s_D_-13435
+
+    - debug:
+        msg: "{{ item|urlencode }}"
+      loop:
+        - 's_D_k-13435_'
+        - 's_D_%-13435!'
