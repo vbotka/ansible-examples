@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    regex: '[\w_-]'
+  tasks:
+    - debug:
+        msg: "{{ item|select('match', regex)|list|join }}"
+      loop:
+        - 's_D_k-13435_'
+        - 's_D_%-13435!'
+
+#  msg: s_D_k-13435_
+#  msg: s_D_-13435

@@ -1,3 +1,8 @@
 * select-in.yml
   Assert Function with Items
   https://stackoverflow.com/questions/65318977/is-there-a-way-i-can-compare-ansible-assert-function-with-items-in-yaml-file-ins/
+
+* select6.yml
+  Sensible replacing special characters within string with jinja2 (ASCII encoding)
+  https://stackoverflow.com/questions/65415527/sensible-replacing-special-characters-within-string-with-jinja2-ascii-encoding/
+
