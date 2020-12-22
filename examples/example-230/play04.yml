@@ -1,0 +1,46 @@
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - command: opkg
+      register: result
+      environment:
+        PATH: "${PATH}:/opt/bin"
+    - debug:
+        var: result
+
+# root@test_11# cat /opt/bin/opkg
+# #!/bin/sh
+# echo $0 running
+# echo $PATH
+# 
+# root@test_11# /opt/bin/opkg
+# /opt/bin/opkg running
+# /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/root/bin
+
+# Without environment
+#
+# fatal: [test_11]: FAILED! => changed=false 
+#   cmd: opkg
+#   msg: '[Errno 2] No such file or directory: b''opkg'': b''opkg'''
+#   rc: 2
+
+# With environment
+#
+# ok: [test_11] => 
+#   result:
+#     changed: true
+#     cmd:
+#     - opkg
+#     delta: '0:00:00.038751'
+#     end: '2020-12-22 12:29:40.404332'
+#     failed: false
+#     rc: 0
+#     start: '2020-12-22 12:29:40.365581'
+#     stderr: ''
+#     stderr_lines: []
+#     stdout: |-
+#       /opt/bin/opkg running
+#       ${PATH}:/opt/bin
+#     stdout_lines:
+#     - /opt/bin/opkg running
+#     - ${PATH}:/opt/bin
