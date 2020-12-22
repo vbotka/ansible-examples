@@ -1,0 +1,13 @@
+- hosts: localhost
+  vars:
+    ip:
+      - 10.100.100.2
+      - 10.100.100.25
+      - 10.101.100.203
+    prefix: 48
+  tasks:
+    - debug:
+        msg: "{{ item }}:{{ prefix }}{{ console_port }}"
+      loop: "{{ ip }}"
+      vars:
+        console_port: "{{ '%03d'|format(item.split('.')|last|int) }}"

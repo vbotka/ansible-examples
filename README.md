@@ -245,6 +245,7 @@ Various examples of Ansbile code.
 - Example 241. loop include_tasks and run_once
 - Example 242. community.crypto.x509_certificate
 - Example 243. with_items vs. loop
+- Example 244. format
 
 ## License
 
