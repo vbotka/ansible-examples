@@ -1,0 +1,48 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: |
+          {% if isfs|default(false)|bool %}
+          OK
+          {% else %}
+          KO
+          {% endif %}
+
+
+# shell> ansible-playbook test-01.yml
+# 
+# PLAY [localhost] *******************************************************************************
+# 
+# TASK [debug] ***********************************************************************************
+# ok: [localhost] =>
+#   msg: | -
+#     KO
+# 
+# PLAY RECAP *************************************************************************************
+# localhost: ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+ 
+# shell> ansible-playbook test-01.yml -e "isfs=True"
+# 
+# PLAY [localhost] *******************************************************************************
+# 
+# TASK [debug] ***********************************************************************************
+# ok: [localhost] =>
+#   msg: | -
+#     OK
+# 
+# PLAY RECAP *************************************************************************************
+# localhost: ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: |
+          {% if isfs|d(false)|bool %}
+          OK
+          {% else %}
+          KO
+          {% endif %}
+
+# dtto

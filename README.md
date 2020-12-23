@@ -246,6 +246,7 @@ Various examples of Ansbile code.
 - Example 242. community.crypto.x509_certificate
 - Example 243. with_items vs. loop
 - Example 244. format
+- Example 245. default(), d()
 
 ## License
 
