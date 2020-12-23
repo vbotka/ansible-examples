@@ -1,0 +1,3 @@
+* version7.yml
+  How to strip extra characters from ansible_kernel
+  https://stackoverflow.com/questions/65427402/how-to-strip-extra-characters-from-ansible-kernel/

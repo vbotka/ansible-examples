@@ -1,0 +1,22 @@
+- hosts: localhost
+  vars:
+    kernel_version: 3.10.0-1127.18.2.el7.x86_64
+  tasks:
+    - set_fact:
+        arr: "{{ kernel_version.split('.') }}"
+    - debug:
+        var: arr
+    - set_fact:
+        ver: "{{ kernel_version.split('.')[:2]|join('.') }}"
+    - debug:
+        var: ver
+    - set_fact:
+        ver: "{{ kernel_version.split('-')|first }}"
+    - debug:
+        var: ver
+    - debug:
+        msg: Version higher than 3.0.0
+      when: ver is version('3.0.0', '>')
+    - debug:
+        msg: Version lower than 3.0.0
+      when: ver is version('3.0.0', '<')
