@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - template:
+        src: php.ini-production
+        dest: php.ini
