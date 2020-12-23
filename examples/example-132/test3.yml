@@ -1,0 +1,18 @@
+- hosts: all
+  gather_facts: false
+  
+  tasks:
+    - debug:
+        msg: "Delete previous files.
+              Execute module file on {{ inventory_hostname }}"
+      when: inventory_hostname in groups.qa
+    - debug:
+        msg: "Create build dir.
+              Execute module file on {{ inventory_hostname }}"
+      when: inventory_hostname in groups.qa or
+            inventory_hostname in groups.prod
+    - debug:
+        msg: "Chown build dir.
+              Execute module file on {{ inventory_hostname }}"
+      when: inventory_hostname in groups.qa or
+            inventory_hostname in groups.prod
