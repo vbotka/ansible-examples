@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    stack:
+      blackbox:
+        enabled: false
+        version: master
+        config_path: /srv/blackbox/blackbox.yml
+
+      prometheus:
+        enabled: false
+        hostname: prometheus.uttnetgroup.fr
+        
+      node_exporter:
+        enabled: false
+        hostname: node_exporter.uttnetgroup.fr
+  tasks:
+    - assert:
+        that: stack|json_query('*.enabled') is any
+        fail_msg: None of the properties is True
+    - debug:
+        msg: Continue

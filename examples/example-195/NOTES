@@ -1,0 +1,4 @@
+* test6.yml
+  How to run a playbook conditionally if any of a property is True
+  https://stackoverflow.com/questions/65429038/how-to-run-a-playbook-conditionally-if-any-of-a-property-is-true/
+  
