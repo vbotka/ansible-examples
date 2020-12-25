@@ -1,4 +1,8 @@
+* product6.yml
+  Ansible make list from two list (attribute to first list from two)
+  https://stackoverflow.com/questions/65449757/ansible-make-list-from-two-list-attribute-to-first-list-from-two/
 
+--------------------------------------------------------------------------------
 $ ansible test_01 -m setup -vvv | grep "Using module file"
 Using module file /usr/lib/python2.7/dist-packages/ansible/modules/system/setup.py
 

@@ -1,0 +1,40 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    list1:
+      - item: "alpha"
+        key1: "value1"
+        key2: "value2"
+      - item: "beta"
+        key1: "value1"
+        key2: "value2"
+    list2:
+      - add_key_to_each_1: "to_each_value_1"
+      - add_key_to_each_2: "to_each_value_2"
+  tasks:
+    - set_fact:
+        list3: "{{ list3|default([]) + [item.0|combine(item.1)] }}"
+      with_cartesian:
+        - "{{ list2 }}"
+        - "{{ list1 }}"
+    - debug:
+        var: list3
+
+# ok: [localhost] => 
+#   list3:
+#   - add_key_to_each_1: to_each_value_1
+#     item: alpha
+#     key1: value1
+#     key2: value2
+#   - add_key_to_each_1: to_each_value_1
+#     item: beta
+#     key1: value1
+#     key2: value2
+#   - add_key_to_each_2: to_each_value_2
+#     item: alpha
+#     key1: value1
+#     key2: value2
+#   - add_key_to_each_2: to_each_value_2
+#     item: beta
+#     key1: value1
+#     key2: value2

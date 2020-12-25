@@ -157,7 +157,7 @@ Various examples of Ansbile code.
 - Example 153. csv
 - Example 154. meta
 - Example 155. ansible_python_interpreter
-- Example 156. product
+- Example 156. product, cartesian
 - Example 157. splitlines
 - Example 158. scope of variables
 - Example 159. intersect
