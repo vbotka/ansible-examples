@@ -6,11 +6,28 @@
       vars:
         begin: "terraform['"
         end: "'].credentials"
+      tags: t1
     - debug:
         var: cluster_name
+      tags: t1
+    - debug:
+        var: item
+      loop: "{{ cluster_name|list }}"
+      tags: t1
 
 # shell> ansible-playbook test-01.yml -e env=testing
 # 
 # TASK [debug] ***********************************************
 # ok: [localhost] =>
 #   cluster_name: terraform['testing'].credentials
+
+    - set_fact:
+        cluster_name: terraform['{{ env }}'].credentials
+      tags: t2
+    - debug:
+        var: cluster_name
+      tags: t2
+    - debug:
+        var: item
+      loop: "{{ cluster_name|list }}"
+      tags: t2
