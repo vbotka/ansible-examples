@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        cluster_name: "{{ begin }}{{ env }}{{ end }}"
+      vars:
+        begin: "terraform['"
+        end: "'].credentials"
+    - debug:
+        var: cluster_name
+
+# shell> ansible-playbook test-01.yml -e env=testing
+# 
+# TASK [debug] ***********************************************
+# ok: [localhost] =>
+#   cluster_name: terraform['testing'].credentials

@@ -247,6 +247,7 @@ Various examples of Ansbile code.
 - Example 243. with_items vs. loop
 - Example 244. format
 - Example 245. default(), d()
+- Example 246. Concatenate strings
 
 ## License
 
