@@ -1,0 +1,34 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - data-16.yml
+
+  tasks:
+
+    - debug:
+        msg: "{{ item.0.URL }} {{ item.1 }}"
+      loop: "{{ q('subelements',
+                  nginx_users.values()|list,
+                  'basic_auth',
+                  {'skip_missing': True}) }}"
+      loop_control:
+        label: "{{ item.0.URL }} {{ item.1 }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ item.0.URL }} {{ item.1 }}"
+      with_subelements:
+        - "{{ nginx_users.values()|list }}"
+        - basic_auth
+      loop_control:
+        label: "{{ item.0.URL }} {{ item.1 }}"
+      tags: t2
+
+# shell> ansible-playbook subelement-loop-16.yml | grep msg:
+#   msg: page-nginx.domain.internal username1
+#   msg: page-nginx.domain.internal username2
+#   msg: page2-nginx.domain.internal username3
+#   msg: page2-nginx.domain.internal username4
+#   msg: page1-nginx.domain.internal username5
+#   msg: page1-nginx.domain.internal username6

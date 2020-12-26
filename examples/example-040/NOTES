@@ -1,5 +1,7 @@
+* subelement-nested-01.yml
+  Ansible loop > subelements for two nested loops
+  https://stackoverflow.com/questions/52886144/ansible-loop-subelements-for-two-nested-loops
 
-subelement-nested-01.yml
-Ansible loop > subelements for two nested loops
-https://stackoverflow.com/questions/52886144/ansible-loop-subelements-for-two-nested-loops
+* subelement-loop-16.yml
+  Nested dictionary. Loop subelements dict.values()|list
 --

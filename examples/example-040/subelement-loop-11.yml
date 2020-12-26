@@ -21,6 +21,7 @@
       when: item.value
 #    - debug:
 #        var: nginx_users_selected
+
     - debug:
         msg: "{{ item.0.key }} {{ item.1 }}"
       loop: "{{ nginx_users_selected|
@@ -41,3 +42,24 @@
 
 # Traverse nested dictionary with keeping the keys in ansible
 # https://devops.stackexchange.com/questions/8609/traverse-nested-dictionary-with-keeping-the-keys-in-ansible/
+
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ nginx_users.values()|list }}"
+      tags: t3
+
+    - debug:
+        msg: "{{ item.0.URL }} {{ item.1 }}"
+      loop: "{{ q('subelements',
+                  nginx_users.values()|list,
+                  'basic_auth',
+                  {'skip_missing': True}) }}"
+      loop_control:
+        label: "{{ item.0.URL }} {{ item.1 }}"
+      tags: t4
+
+# shell> ansible-playbook subelement-loop-11.yml -t t4 | grep msg:
+#   msg: page-nginx.domain.internal username1
+#   msg: page-nginx.domain.internal username2
+#   msg: page2-nginx.domain.internal username1
+#   msg: page2-nginx.domain.internal username2

@@ -1,0 +1,35 @@
+nginx_users:
+    'instance1':
+       roles:
+          - product
+          - nginx_instance
+       cert_source: internal-ca
+       URL: page-nginx.domain.internal
+       port: 8090
+       downtime: true
+       basic_auth:
+          - username1
+          - username2
+       ip_restriction:
+          - '0.0.0.0/0'
+    'instance2':
+       roles:
+          - product
+          - nginx_instance
+       cert_source: internal-ca
+       URL: page2-nginx.domain.internal
+       port: 8091
+       downtime: true
+       basic_auth:
+          - username3
+          - username4
+       ip_restriction:
+          - '0.0.0.0/0'
+    'instance3':
+       URL: page1-nginx.domain.internal
+       roles:
+          - product
+          - nginx_instance
+       basic_auth:
+          - username5
+          - username6
