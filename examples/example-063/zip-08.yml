@@ -1,0 +1,53 @@
+- hosts: test_11,test_12,test_13,test_14
+  vars:
+    dict: {a: 1, b: 2, c: 3, d: 4}
+    list: "{{ dict|dict2items }}"
+  tasks:
+
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ ansible_play_hosts_all }}"
+      run_once: true
+      tags: t1
+
+    - debug:
+        msg: |
+          hostname: {{ item.0 }}
+          total_mem: {{ hostvars[item.0]['ansible_memtotal_mb'] }}
+          bios_version: {{ hostvars[item.0]['ansible_bios_version'] }}
+          "{{ item.1.key }}: {{ item.1.value }}"
+      with_together:
+        - "{{ ansible_play_hosts_all }}"
+        - "{{ dict|dict2items }}"
+      run_once: true
+      tags: t2
+
+    - blockinfile:
+        create: yes
+        path: /tmp/hardware_report
+        block: |
+          {% for host in ansible_play_hosts_all %}
+          {% set index = ansible_play_hosts_all.index(host) %}
+          hostname: {{ host }}
+          total_mem: {{ hostvars[host]['ansible_memtotal_mb'] }}
+          bios_version: {{ hostvars[host]['ansible_bios_version'] }}
+          "{{ list[index].key }}: {{ list[index].value }}"
+          {% endfor %}
+      with_together:
+        - "{{ ansible_play_hosts_all }}"
+        - "{{ dict|dict2items }}"
+      run_once: true
+      delegate_to: localhost
+      tags: t3
+
+    - blockinfile:
+        create: yes
+        path: /root/hardware_report
+        block: |
+          hostname: {{ inventory_hostname }}
+          total_mem: {{ ansible_memtotal_mb }}
+          bios_version: {{ ansible_bios_version }}
+          {% set index = ansible_play_hosts_all.index(inventory_hostname) %}
+          "{{ list[index].key }}: {{ list[index].value }}"
+      become: true
+      tags: t4

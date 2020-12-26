@@ -1,7 +1,29 @@
+* zip-08.yml
+  Ansible issue (return a unique key/value)
+  https://stackoverflow.com/questions/65456622/ansible-issue-return-a-unique-key-value
 
-Normalize a flat data structure with ansible
-https://stackoverflow.com/questions/55594760/normalize-a-flat-data-structure-with-ansible/
+  shell> root@test_11:/home/admin # cat /root/hardware_report
+  # BEGIN ANSIBLE MANAGED BLOCK
+  hostname: test_11
+  total_mem: 3915
+  bios_version: NA
+  "a: 1"
+  # END ANSIBLE MANAGED BLOCK
 
+  shell> root@test_12:/home/admin # cat /root/hardware_report
+  # BEGIN ANSIBLE MANAGED BLOCK
+  hostname: test_12
+  total_mem: 3915
+  bios_version: NA
+  "b: 2"
+  # END ANSIBLE MANAGED BLOCK
+
+  ...
+  
+  
+# ------------------------------------------------------------------------------
+* Normalize a flat data structure with ansible
+  https://stackoverflow.com/questions/55594760/normalize-a-flat-data-structure-with-ansible/
 
 The play below
 
@@ -52,3 +74,5 @@ gives:
         "volume_type": "standard"
     }
 ]
+
+# ------------------------------------------------------------------------------
