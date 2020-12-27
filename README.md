@@ -249,6 +249,7 @@ Various examples of Ansbile code.
 - Example 245. default(), d()
 - Example 246. Concatenate strings
 - Example 247. list filter
+- Example 248. Python
 
 ## License
 
