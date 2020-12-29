@@ -1,0 +1,153 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+#     Example 1:
+
+    - name: No changes to a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits: [apple, banana, orange]
+
+#       gives:
+#
+#       msg:
+#         - apple
+#         - banana
+#         - orang
+
+#     Example 2:
+
+    - name: Convert string to first item in a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits: 'apple'
+
+#       gives:
+#
+#       msg:
+#         - apple
+
+#     Example 3:
+
+    - name: Convert None to first item in a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits: None
+
+#       gives:
+#
+#       msg:
+#         - None
+
+#     Example 4:
+
+    - name: Convert dictionary where all values are dictionaries to a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits:
+          apple:
+            color: green
+            size: big
+          banana:
+            color: yellow
+            size: small
+
+#       gives:
+#
+#       msg:
+#         - color: green
+#           key: apple
+#           size: big
+#         - color: yellow
+#           key: banana
+#           size: small
+
+#     Example 5:
+
+    - name: Same as the above but change key name
+      debug:
+        msg: "{{ fruits|community.general.any2items(key='name') }}"
+      vars:
+        fruits:
+          apple:
+            color: green
+            size: big
+          banana:
+            color: yellow
+            size: small
+
+#       gives:
+#
+#       msg:
+#         - color: green
+#           name: apple
+#           size: big
+#         - color: yellow
+#           name: banana
+#           size: small
+
+#     Example 6:
+
+    - name: Convert dictionary where NOT all values are dictionaries
+            to a first item in a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits:
+          apple:
+            color: green
+            size: big
+          banana:
+            color: yellow
+            size: small
+          orange: ripe
+
+#       gives:
+#
+#       msg:
+#         - apple:
+#             color: green
+#             size: big
+#           banana:
+#             color: yellow
+#             size: small
+#           orange: ripe
+
+#     Example 7:
+
+    - name: Convert dictionary where NOT all values are dictionaries
+            to a first item in a list
+      debug:
+        msg: "{{ fruits|community.general.any2items }}"
+      vars:
+        fruits:
+          apple: green
+          banana: yellow
+          orange: ripe
+
+#       gives:
+#
+#       msg:
+#         - apple: green
+#           banana: yellow
+#           orange: ripe
+
+#     Example 8:
+
+    - name: Iterate any data by community.general.any2items
+      debug:
+        var: item
+      loop: "{{ [{'a': 1},{'b': 2}]|community.general.any2items }}"
+
+    - name: Iterate any data by community.general.any2items
+      debug:
+        var: item
+      loop: "{{ {'c': 3}|community.general.any2items }}"
+
+# EOF

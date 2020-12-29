@@ -1,3 +1,9 @@
-Integration tests vbotka.ansible.community.general/tests/integration/targets/
-https://github.com/vbotka/community.general
+* filter_list.yml
+  Integration tests vbotka.ansible.community.general/tests/integration/targets/
+  https://github.com/vbotka/community.general
+
+* any2items.yml
+  Examples of filter any2items. Branch devel
+  https://github.com/vbotka/community.general
+  https://github.com/vbotka/community.general/blob/main/plugins/filter/list.py
 
