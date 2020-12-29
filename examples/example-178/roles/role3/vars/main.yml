@@ -1,0 +1,2 @@
+var3: "{{ var3_default|combine(lookup('file', 'varsfile.yml')|
+                               from_yaml) }}"

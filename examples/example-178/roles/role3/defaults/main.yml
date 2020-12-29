@@ -1,5 +1,5 @@
 var1: somevalue
 var2: anothervalue
-var3:
+var3_default:
   var3.1: "{{ somevalue_that_changes|default('UNDEFINED') }}"
   var3.2: "{{ anothervalue_that_changes|default('UNDEFINED') }}"
