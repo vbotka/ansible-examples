@@ -12,8 +12,23 @@
     - debug:
         msg: "{{ nodes|items2dict(key_name='nodename', value_name='othervalue') }}"
       run_once: true
-      tags: t1
+      tags: t1a
 
+    - debug:
+        msg: "{{ nodes|items2dict(key_name='nodename', value_name='booleanvalue') }}"
+      run_once: true
+      tags: t1b
+
+# shell> ansible-playbook -i hosts3 play3.yml -t t1b
+# 
+# PLAY [foonode,barnode] **********************************************************
+# 
+# TASK [debug] ********************************************************************
+# An exception occurred during task execution. To see the full traceback, use -vvv.
+# The error was: KeyError: 'booleanvalue'
+# fatal: [foonode]: FAILED! =>
+#   msg: Unexpected failure during module execution.
+      
     - debug:
         msg: "{{ nodes|community.general.items2dict2(key_name='nodename',
                                                      value_name='othervalue') }}"
@@ -33,7 +48,7 @@
 
 # shell> ansible-playbook -i hosts3 play3.yml -t t4
 # 
-#   PLAY [foonode,barnode] ********************************************************
+# PLAY [foonode,barnode] **********************************************************
 # 
 # TASK [set_fact] *****************************************************************
 # ok: [foonode]
@@ -41,4 +56,4 @@
 # TASK [debug] ********************************************************************
 # ok: [foonode] =>
 #   msg: Do something useful here
-#   skipping: [barnode]
+# skipping: [barnode]
