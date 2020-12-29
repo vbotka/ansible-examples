@@ -1,0 +1,3 @@
+- include_vars: varsfile.yml
+- debug:
+    var: var3

@@ -1,0 +1,4 @@
+* vars-03.yml
+  Ansible: Include variables file under role/xyzrole/main.yml
+  https://stackoverflow.com/questions/65483825/ansible-include-variables-file-under-role-xyzrole-main-yml/
+
