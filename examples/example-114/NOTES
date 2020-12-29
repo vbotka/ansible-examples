@@ -1,1 +1,5 @@
-
+* play3.yml
+  Ansible selectattr and map with optional fields
+  https://stackoverflow.com/questions/65493438/ansible-selectattr-and-map-with-optional-fields/
+  Test community.general.items2dict2 Branch devel
+  https://github.com/vbotka/community.general

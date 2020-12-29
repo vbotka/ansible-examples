@@ -1,0 +1,44 @@
+- hosts: foonode,barnode
+  gather_facts: false
+  vars:
+    nodes:
+      - nodename: foonode
+        othervalue: foo
+        booleanvalue: true
+      - nodename: barnode
+        othervalue: bar
+  tasks:
+
+    - debug:
+        msg: "{{ nodes|items2dict(key_name='nodename', value_name='othervalue') }}"
+      run_once: true
+      tags: t1
+
+    - debug:
+        msg: "{{ nodes|community.general.items2dict2(key_name='nodename',
+                                                     value_name='othervalue') }}"
+      run_once: true
+      tags: t2
+
+    - set_fact:
+        nodes2: "{{ nodes|community.general.items2dict2(key_name='nodename',
+                                                        value_name='booleanvalue',
+                                                        default_value=False) }}"
+      run_once: true
+      tags: t4
+    - debug:
+        msg: Do something useful here
+      when: nodes2[inventory_hostname]
+      tags: t4
+
+# shell> ansible-playbook -i hosts3 play3.yml -t t4
+# 
+#   PLAY [foonode,barnode] ********************************************************
+# 
+# TASK [set_fact] *****************************************************************
+# ok: [foonode]
+# 
+# TASK [debug] ********************************************************************
+# ok: [foonode] =>
+#   msg: Do something useful here
+#   skipping: [barnode]
