@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+
+    - debug:
+        msg: "{{ ansible_mounts|
+                 selectattr('device','eq', '/dev/nvme0n1p7')|
+                 list }}"

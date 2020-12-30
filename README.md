@@ -250,6 +250,7 @@ Various examples of Ansbile code.
 - Example 246. Concatenate strings
 - Example 247. list filter
 - Example 248. Python
+- Example 249. mount
 
 ## License
 
