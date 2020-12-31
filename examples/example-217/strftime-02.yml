@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        msg: "{{ '%H:%M:%S' | strftime }}"
+    - wait_for:
+        timeout: 3
+    - debug:
+        msg: "{{ '%H:%M:%S' | strftime }}"
+
+# TASK [debug] ****************************
+# ok: [localhost] =>
+#   msg: '15:04:53'
+# 
+# TASK [wait_for] *************************
+# ok: [localhost]
+# 
+# TASK [debug] ****************************
+# ok: [localhost] =>
+#   msg: '15:04:57'
