@@ -1,0 +1,4 @@
+{
+/oracle/db/19.0.0:
+{'rollback': {30621255: 'success', 29213893: 'success', 29867728: None, 29802382: None, 28318139: None}, 'apply': {28318139: None, 29213893: None, 28788272: None, 31431771: None, 32044280: None}}
+}

@@ -1,0 +1,42 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    oracle_home: /oracle/db/19.0.0
+    rblist: [30621255, 29213893]
+  tasks:
+    - include_vars:
+        file: tracker.txt
+        name: tracker
+    - copy:
+        dest: tracker.txt
+        content: |
+          {
+          '{{ oracle_home }}':
+          {{ tracker[oracle_home]|combine({'rollback': rollback}) }}
+          }
+
+      vars:
+        rsuccess: "{{ dict(rblist|product(['success'])) }}"
+        rollback: "{{ tracker[oracle_home]['rollback']|combine(rsuccess) }}"
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: tracker.txt
+        name: tracker
+    - debug:
+        var: tracker
+
+# The file is stored in JSON
+# 
+# shell> cat tracker.txt
+# {"/oracle/db/19.0.0": {"rollback": {"30621255": "success", "29213893":
+# "success", "29867728": null, "29802382": null, "28318139": null,
+# "30621255": "success", "29213893": "success"}, "apply": {"28318139":
+# null, "29213893": null, "28788272": null, "31431771": null,
+# "32044280": null}}}
+
+# EOF
