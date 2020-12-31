@@ -1,0 +1,63 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    prev_date: 2020-12-01
+    cur_date: 2020-12-31
+  tasks:
+
+    - debug:
+        msg:
+          - "{{ ansible_date_time.date }}"
+          - "{{ ansible_date_time.date|type_debug }}"
+
+#     msg:
+#       - '2020-12-31'
+#       - AnsibleUnsafeText
+
+    - debug:
+        msg:
+          - "{{ ansible_date_time.date|to_datetime('%Y-%m-%d') }}"
+          - "{{ ansible_date_time.date|to_datetime('%Y-%m-%d')|type_debug }}"
+
+#     msg:
+#       - '2020-12-31 00:00:00'
+#       - datetime
+        
+
+    - debug:
+        msg:
+          - "{{ prev_date }}"
+          - "{{ prev_date|type_debug }}"
+
+#     msg:
+#       - '2020-12-01'
+#       - date
+
+    - debug:
+        msg:
+          - "{{ prev_date ~ ' 00:00:00' }}"
+          - "{{ (prev_date ~ ' 00:00:00')|type_debug }}"
+          - "{{ (prev_date ~ ' 00:00:00')|to_datetime }}"
+          - "{{ (prev_date ~ ' 00:00:00')|to_datetime|type_debug }}"
+
+#     msg:
+#       - '2020-12-01 00:00:00'
+#       - str
+#       - '2020-12-01 00:00:00'
+#       - datetime
+
+    - debug:
+        msg: "Number of days =
+              {{ (ansible_date_time.date|to_datetime('%Y-%m-%d') -
+                 (prev_date ~ ' 00:00:00')|to_datetime) }}"
+
+#     msg: Number of days = 30 days, 0:00:00
+
+    - debug:
+        msg: "Number of days =
+              {{ ((ansible_date_time.date|to_datetime('%Y-%m-%d') -
+                  (prev_date ~ ' 00:00:00')|to_datetime)).days }}"
+
+#     msg: Number of days = 30
+
+# EOF
