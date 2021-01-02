@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: yes
+  vars_prompt:
+    - name: passwd
+      prompt: "passwd"
+      private: true
+  tasks:
+    - debug:
+        var: passwd
+    - debug:
+        var: ansible_os_family
+
+- hosts: test_11
+  gather_facts: yes
+  vars_prompt:
+    - name: passwd
+      prompt: "passwd"
+      private: true
+  tasks:
+    - debug:
+        var: passwd
+    - debug:
+        var: ansible_os_family
