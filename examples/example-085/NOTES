@@ -1,4 +1,10 @@
-5. Data Structures
-https://docs.python.org/3/tutorial/datastructures.html
+* bool_utils.yml, bool_utils2.yml
+  Ansible: How to extract values from a dictionary of lists
+  https://stackoverflow.com/questions/56395331/how-to-extract-values-from-list-of-dictionary/
 
-5.1. More on Lists
+* 5. Data Structures
+  https://docs.python.org/3/tutorial/datastructures.html
+
+  5.1. More on Lists
+
+# EOF
