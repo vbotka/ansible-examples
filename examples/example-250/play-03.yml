@@ -1,0 +1,6 @@
+- name: Play 3
+  hosts: test_11,test_12,test_13
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: Play 3 passed

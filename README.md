@@ -251,6 +251,7 @@ Various examples of Ansbile code.
 - Example 247. list filter
 - Example 248. Python
 - Example 249. mount
+- Example 250. callback log_plays
 
 ## License
 

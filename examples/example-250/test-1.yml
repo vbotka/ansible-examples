@@ -1,0 +1,20 @@
+- import_playbook: play-01.yml
+- import_playbook: play-02.yml
+- import_playbook: play-03.yml
+
+# shell> ANSIBLE_STDOUT_CALLBACK=log_plays ansible-playbook test-1.yml
+
+# shell> cat /var/log/ansible/hosts/test_11
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 1 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 2 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 3 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# 
+# shell> cat /var/log/ansible/hosts/test_12
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 1 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 2 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 3 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# 
+# shell> cat /var/log/ansible/hosts/test_13
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 1 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 2 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
+# Jan 04 2021 09:15:32 - OK - {"msg": "Play 3 passed", "_ansible_verbose_always": true, "_ansible_no_log": false, "changed": false}
