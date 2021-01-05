@@ -29,8 +29,9 @@
         rsuccess: "{{ dict(rblist|product(['success'])) }}"
         rollback: "{{ tracker[oracle_home]['rollback']|combine(rsuccess) }}"
 
-    - debug:
-        msg: |
+    - copy:
+        dest: tracker.txt
+        content: |
           {
           '{{ oracle_home }}':
           {{ tracker[oracle_home]|combine({'rollback': rollback}) }}
@@ -49,6 +50,19 @@
     - debug:
         var: tracker
 
+    - debug:
+        msg: "{{ item }} {{ item|type_debug }}"
+      loop: "{{ tracker[oracle_home]['rollback'].keys()|list }}"
+      vars:
+        oracle_home: /oracle/db/19.0.0
+
+    - debug:
+        var: tracker[oracle_home]['rollback'][item|string]
+      loop: "{{ rblist }}"
+      vars:
+        oracle_home: /oracle/db/19.0.0
+        rblist: [30621255, 29213893]
+      
 # The file is stored in JSON
 # 
 # shell> cat tracker.txt
