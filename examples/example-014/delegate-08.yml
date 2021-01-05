@@ -1,4 +1,5 @@
 - hosts: localhost
+  gather_facts: no
   become: no
   vars:
     ansible_become_password: 'password'
@@ -7,14 +8,22 @@
     #     ansible_become_password: 'password'
     - command: 'whoami'
       register: result
-      delegate_to: test_01
+      delegate_to: test_11
       become: yes
       become_user: root
-      become_method: su
+      # become_method: su
       # vars:
       #   ansible_become_password: 'password'
     - debug:
         var: result.stdout
 
+# TASK [command] *******************************************************************************************
+# changed: [localhost -> test_11]
+# 
+# TASK [debug] *********************************************************************************************
+# ok: [localhost] =>
+#   result.stdout: root
+
+      
 # How to fix becoming root using (delegate_to)?
 # https://stackoverflow.com/questions/57255282/how-to-fix-becoming-root-using-delegate-to/

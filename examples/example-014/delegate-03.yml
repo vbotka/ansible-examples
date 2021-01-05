@@ -1,8 +1,11 @@
-- hosts: test_01
+- hosts: test_11
   gather_facts: no
   tasks:
-#    - debug: var=inventory_hostname
-#    - debug: var=inventory_hostname
-#      delegate_to: localhost
-    - debug: msg="{{ hostvars[inventory_hostname].ansible_host }}"
+    - debug:
+        var: inventory_hostname
+    - debug:
+        var: inventory_hostname
+      delegate_to: localhost
+    - debug:
+        var: hostvars[inventory_hostname].ansible_host
       delegate_to: localhost

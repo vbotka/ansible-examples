@@ -1,16 +1,15 @@
 - hosts: localhost
+  gather_facts: false
   tasks:
     - command: hostname
       register: result
       delegate_to: "{{ item }}"
-      loop: [test_01, test_02, test_03]
+      loop: [test_11, test_12, test_13]
     - debug:
         msg: "{{ result.results|map(attribute='stdout')|list }}"
 
-# ok: [localhost] => {
-#     "msg": [
-#         "test_01.g2.netng.org",
-#         "test_02.g2.netng.org",
-#         "test_03"
-#     ]
-# }
+# ok: [localhost] =>
+#   msg:
+#     - test_11
+#     - test_12
+#     - test_13

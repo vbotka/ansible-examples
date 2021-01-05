@@ -1,15 +1,37 @@
 ---
 
-- hosts: test_01
+- hosts: test_11
   gather_facts: false
   pre_tasks:
-    - debug: var=play_hosts
+
+    - debug:
+        var: play_hosts
       delegate_to: localhost
       register: result
-    - debug: var=result
+
+    - debug:
+        var: result
       delegate_to: localhost
-    - debug: var=inventory_hostname
+
+    - debug:
+        var: inventory_hostname
       delegate_to: localhost
+
+# ok: [test_11 -> localhost] =>
+#   play_hosts:
+#     - test_11
+# 
+# TASK [debug] *********************************************************************************************
+# ok: [test_11 -> localhost] =>
+#   result:
+#     changed: false
+#     failed: false
+#     play_hosts:
+#       - test_11
+# 
+# TASK [debug] *********************************************************************************************
+# ok: [test_11 -> localhost] =>
+#   inventory_hostname: test_11
 
 # EOF
 ...
