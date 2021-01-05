@@ -4,9 +4,9 @@
   vars:
     dns_name: planb
     zones:
-      - g2.netng.org
-      - g3.netng.org
-      - g4.netng.org
+      - g2.example.org
+      - g3.example.org
+      - g4.example.org
 
   tasks:
     
@@ -31,13 +31,13 @@
 # https://stackoverflow.com/questions/57900462/how-to-get-domain-zone-of-the-dns-a-record-using-ansible-dig/
 
 #     "found": {
-#         "g2.netng.org": {
+#         "g2.example.org": {
 #             "rec_a": "10.1.0.11"
 #         }, 
-#         "g3.netng.org": {
+#         "g3.example.org": {
 #             "rec_a": "NXDOMAIN"
 #         }, 
-#         "g4.netng.org": {
+#         "g4.example.org": {
 #             "rec_a": "NXDOMAIN"
 #         }
 #     }

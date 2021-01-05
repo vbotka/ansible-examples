@@ -7,5 +7,5 @@
         var: result.stdout
 
 # ok: [test_01] => {
-#     "result.stdout": "test_01.g2.netng.org"
+#     "result.stdout": "test_01"
 # }

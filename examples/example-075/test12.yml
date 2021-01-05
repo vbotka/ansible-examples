@@ -16,12 +16,12 @@
 # {% endfor %}
 # 
 # $ cat test12.j2
-# {% for node in groups['g2_netng_org'] %}
+# {% for node in groups['g2_example_org'] %}
 # {% set node_ip = lookup('dig', node) %}
 #   IP: {{ node_ip }}
 # {% endfor %}
 # 
-# {% for node in groups['g2_netng_org'] %}
+# {% for node in groups['g2_example_org'] %}
 #   IP: {{ lookup('dig', node)  }}
 # {% endfor %}
 # 
