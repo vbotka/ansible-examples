@@ -1,0 +1,41 @@
+- hosts: test_11
+  gather_facts: false
+  become: false
+  tasks:
+
+    - command: /tmp/test.sh
+      delegate_to: localhost
+      register: result
+    - debug:
+        var: result.stdout
+
+    - command: /tmp/test.sh
+      delegate_to: 127.0.0.1
+      register: result
+    - debug:
+        var: result.stdout
+
+# shell> cat hosts
+# 127.0.0.1 ansible_connection=ssh ansible_user=admin
+# test_11 ansible_connection=ssh ansible_user=admin
+
+# shell> ll /tmp/test.sh
+# -rwxrwx--- 1 vlado adm 18 Jan  5 02:27 /tmp/test.sh*
+
+# shell> cat /tmp/test.sh
+# #!/bin/sh
+# echo OK
+
+# TASK [command] *************************************
+# changed: [test_11 -> localhost]
+# 
+# TASK [debug] ***************************************
+# ok: [test_11] =>
+#   result.stdout: OK
+# 
+# TASK [command] *************************************
+# changed: [test_11 -> 127.0.0.1]
+# 
+# TASK [debug] ***************************************
+# ok: [test_11] =>
+#   result.stdout: OK
