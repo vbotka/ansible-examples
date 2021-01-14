@@ -1,0 +1,17 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        hosts_dict: "{{ dict(names|zip(ips)) }}"
+      vars:
+        names: "{{ groups.web_servers }}"
+        ips: "{{ groups.web_servers|map('extract',hostvars,'ansible_host')|list }}"
+      run_once: true
+    - debug:
+        var: hosts_dict
+      run_once: true
+
+#  hosts_dict:
+#    web1.local: 10.10.10.11
+#    web2.local: 10.10.10.12
+#    web3.local: 10.10.10.13
