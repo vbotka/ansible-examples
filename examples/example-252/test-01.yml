@@ -1,0 +1,21 @@
+- hosts: localhost
+  tasks:
+    - debug:
+        var: ansible_interfaces
+
+    - debug:
+        msg: "{{ ansible_interfaces|
+                 map('extract', ansible_facts, 'ipv4')|list }}"
+
+    - set_fact:
+        cidr_list: "{{ cidr_list|default([]) +
+                       [(item.network ~ '/' ~ item.netmask)|ipaddr('network/prefix')] }}"
+      loop: "{{ ansible_interfaces|
+                map('extract', ansible_facts, 'ipv4')|
+                select('defined')|list }}"
+    - debug:
+        var: cidr_list
+
+#  cidr_list:
+#    - 127.0.0.0/8
+#    - 10.1.0.0/24

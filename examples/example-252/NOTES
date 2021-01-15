@@ -1,0 +1,4 @@
+* test-01.yml
+  Create a list of ip addresses and their matching netmasks from hostvars (not static inventory)
+  https://stackoverflow.com/questions/65729773/create-a-list-of-ip-addresses-and-their-matching-netmasks-from-hostvars-not-sta/
+

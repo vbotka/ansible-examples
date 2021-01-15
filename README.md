@@ -253,6 +253,7 @@ Various examples of Ansbile code.
 - Example 249. mount
 - Example 250. callback log_plays
 - Example 251. parse output
+- Example 252. ansible_interfaces
 
 ## License
 
