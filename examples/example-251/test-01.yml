@@ -1,0 +1,12 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - test-01-data.yml
+  tasks:
+    - debug:
+        var: output
+    - debug:
+        msg: "{{ output.0.split('\r\n')[-4] }}"
+
+#   msg: |-
+#    10 packets transmitted, 10 packets received, 0% packet loss

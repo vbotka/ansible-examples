@@ -252,6 +252,7 @@ Various examples of Ansbile code.
 - Example 248. Python
 - Example 249. mount
 - Example 250. callback log_plays
+- Example 251. parse output
 
 ## License
 
