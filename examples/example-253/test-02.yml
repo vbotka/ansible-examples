@@ -1,0 +1,57 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    available:
+      hypervisor-01: 2321
+      hypervisor-02: 46
+      hypervisor-03: 75
+    required:
+      hypervisor-01: 200
+      hypervisor-03: 46 
+#     hypervisor-04: 75
+      hypervisor-02: 75
+  tasks:
+
+    - set_fact:
+        ka: "{{ available.keys()|list }}"
+        kr: "{{ required.keys()|list }}"
+
+    - assert:
+        that: kr|difference(ka)|length == 0
+        fail_msg: Required hypervisor not available.
+
+    - assert:
+        that: sum_max == sum_avail
+        fail_msg: Required space not available.
+      vars:
+        va: "{{ kr|map('extract', available)|list }}"
+        vr: "{{ kr|map('extract', required)|list }}"
+        sum_max: "{{ vr|zip(va)|map('max')|sum }}"
+        sum_avail: "{{ va|sum }}"
+
+# 1)
+# TASK [assert] *********************************
+# fatal: [localhost]: FAILED! => changed=false
+#   assertion: kr|difference(ka)|length == 0
+#   evaluated_to: false
+#   msg: Required hypervisor not available.
+
+# 2)
+# TASK [assert] *********************************
+# ok: [localhost] => changed=false
+#   msg: All assertions passed
+# 
+# TASK [assert] *********************************
+# ok: [localhost] => changed=false
+#   msg: All assertions passed
+
+# 3)
+# TASK [assert] *********************************
+# ok: [localhost] => changed=false
+#   msg: All assertions passed
+# 
+# TASK [assert] *********************************
+# fatal: [localhost]: FAILED! => changed=false
+#   assertion: sum_max == sum_avail
+#   evaluated_to: false
+#   msg: Required space not available.

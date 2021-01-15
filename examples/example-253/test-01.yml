@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    available:
+      hypervisor-01: 2321
+      hypervisor-02: 46
+      hypervisor-03: 75
+    required:
+      hypervisor-01: 200
+      hypervisor-02: 5
+      hypervisor-03: 46
+  tasks:
+
+    - debug:
+        msg:
+          - "{{ keys2|difference(keys1)|length == 0 }}"
+          - "{{ sum_max }} {{ sum_avail }}"
+          - "{{ sum_max == sum_avail }}"
+      vars:
+        keys1: "{{ available.keys()|list|sort }}"
+        keys2: "{{ required.keys()|list|sort }}"
+        vals1: "{{ keys1|map('extract', available)|list }}"
+        vals2: "{{ keys2|map('extract', required)|list }}"
+        sum_max: "{{ vals2|zip(vals1)|map('max')|sum }}"
+        sum_avail: "{{ vals1|sum }}"
+
+    - assert:
+        that:
+          - keys2|difference(keys1)|length == 0
+          - sum_max == sum_avail
+        fail_msg: Required space not available.
+      vars:
+        keys1: "{{ available.keys()|list|sort }}"
+        keys2: "{{ required.keys()|list|sort }}"
+        vals1: "{{ keys1|map('extract', available)|list }}"
+        vals2: "{{ keys2|map('extract', required)|list }}"
+        sum_max: "{{ vals2|zip(vals1)|map('max')|sum }}"
+        sum_avail: "{{ vals1|sum }}"

@@ -254,6 +254,7 @@ Various examples of Ansbile code.
 - Example 250. callback log_plays
 - Example 251. parse output
 - Example 252. ansible_interfaces
+- Example 253. compare dictionaries
 
 ## License
 
