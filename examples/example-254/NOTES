@@ -1,0 +1,3 @@
+* test-01.yml
+  Generate list of IP addresses from start and end values with Ansible
+  https://stackoverflow.com/questions/65742138/generate-list-of-ip-addresses-from-start-and-end-values-with-ansible/

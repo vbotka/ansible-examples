@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - set_fact:
+        ip_list: "{{ '10.0.0.253'|netaddr_iter_iprange('10.0.1.2') }}"
+    - debug:
+        var: ip_list|to_json
+
+# ip_list|to_json: '["10.0.0.253", "10.0.0.254", "10.0.0.255", "10.0.1.0", "10.0.1.1", "10.0.1.2"]'
+
+    - set_fact:
+        ip_list: "{{ '10.0.0.123'|netaddr_iter_iprange('10.0.1.23') }}"
+    - debug:
+        var: ip_list|to_json

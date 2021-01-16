@@ -255,6 +255,7 @@ Various examples of Ansbile code.
 - Example 251. parse output
 - Example 252. ansible_interfaces
 - Example 253. compare dictionaries
+- Example 254. ipaddr, netaddr
 
 ## License
 
