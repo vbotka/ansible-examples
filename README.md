@@ -256,6 +256,7 @@ Various examples of Ansbile code.
 - Example 252. ansible_interfaces
 - Example 253. compare dictionaries
 - Example 254. ipaddr, netaddr
+- Example 255. Special vars ansible_play_hosts_all, ansible_play_hosts, ansible_play_batch
 
 ## License
 

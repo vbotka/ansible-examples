@@ -1,0 +1,34 @@
+- hosts: test_01,test_02,test_03
+  gather_facts: false
+  serial: 1
+  order: reverse_inventory
+  tasks:
+
+    - set_fact:
+        hleft: "{{ hostvars[ansible_play_hosts_all.0]['hleft']|
+                   default(ansible_play_hosts_all)|
+                   difference(ansible_play_batch) }}"
+      delegate_to: "{{ ansible_play_hosts_all.0 }}"
+      delegate_facts: true
+
+    - debug:
+        var: hostvars[ansible_play_hosts_all.0]['hleft']
+
+    - debug:
+        msg: Last batch
+      when: not hostvars[ansible_play_hosts_all.0]['hleft']
+
+# ...
+# PLAY [test_01,test_02,test_03] ****************************
+# 
+# TASK [set_fact] *******************************************
+# ok: [test_01 -> test_01]
+# 
+# TASK [debug] **********************************************
+# ok: [test_01] =>
+#   hostvars[ansible_play_hosts_all.0]['hleft']: []
+# 
+# TASK [debug] **********************************************
+# ok: [test_01] =>
+#   msg: Last batch
+# ...
