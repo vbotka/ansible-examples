@@ -1,0 +1,11 @@
+- hosts: localhost
+  tasks:
+    - set_fact:
+        pbl: "{{ lookup('file', 'pb-list.txt').splitlines()|list }}"
+    - copy:
+        dest: playbook.yml
+        content: |
+          {% for line in pbl %}
+          - hosts: {{ line.split('-').0|trim }}
+            roles: roles/{{ line.split('-').1|trim }}
+          {% endfor %}
