@@ -1,0 +1,27 @@
+- hosts: test_01,test_02,test_03,test_04
+  gather_facts: false
+  serial: 1
+  order: reverse_inventory
+  tasks:
+
+    - set_fact:
+        play_is_done: true
+
+    - meta: end_host
+      when: "inventory_hostname == 'test_02'"
+
+    - set_fact:
+        my_list: "{{ ansible_play_hosts|
+                     map('extract', hostvars, 'play_is_done')|
+                     reject('defined')|
+                     list }}"
+    - debug:
+        var: my_list
+
+    - debug:
+        msg: Last host
+      when: my_list|length == 0
+
+#  my_list: '[Undefined, Undefined, Undefined]'
+#  my_list: '[Undefined, Undefined]'
+#  my_list: []
