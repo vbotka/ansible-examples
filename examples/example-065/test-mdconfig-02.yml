@@ -1,0 +1,30 @@
+---
+
+- hosts: images.example.com
+  gather_facts: true
+  connection: ssh
+  remote_user: asadmin
+  become: true
+  become_user: root
+  become_method: sudo
+
+  vars:
+    al_mdconfig_file: "/export/images/FreeBSD/live/FreeBSD-13.0-CURRENT-arm-armv6-RPI-B-20201231-282381aa53a-255460.img"
+    al_mdconfig_state: absent
+
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_mdconfig.yml
+    - debug:
+        var: al_mdconfig_devs
+
+# ok: [images.example.com] => 
+#   al_mdconfig_devs:
+#     /export/images/FreeBSD/live/FreeBSD-12.2-STABLE-arm-armv7-CUBOX-HUMMINGBOARD-20210121-r369071.img:
+#       node: vnode
+#       size: 3072M
+#       unit: '0'
+        
+# EOF
+...
