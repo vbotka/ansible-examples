@@ -1,3 +1,8 @@
-See https://github.com/dmsimard/ansible-sandbox
+* test-uri.yml
+  https://github.com/dmsimard/ansible-sandbox
+
+* test-uri-2.yml
+  How to POST Json file with arguments using Ansible
+  https://stackoverflow.com/questions/65865542/how-to-post-json-file-with-arguments-using-ansible/
 
 --

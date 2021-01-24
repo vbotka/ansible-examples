@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    test: somerandomtest
+    body:
+      test2: "{{ test }}"
+  tasks:
+    - debug:
+        msg: "{{ body|to_json }}"
+
+#  msg: '{"test2": "somerandomtest"}'
+
+- hosts: localhost
+  vars:
+    test: somerandomtest
+    body:
+      test2: "{{ test }}"
+  
+  tasks:
+    - name: Test
+      register: result
+      uri:
+        url: "https://httpbin.org/post"
+        validate_certs: no
+        follow_redirects: none
+        headers:
+          Content-Type: application/json
+        method: POST
+        body_format: json
+        # body: " {{ lookup('template','test.json') }} "
+        body: " {{ body|to_json }} "
+        return_content: true
+        timeout: 600
+
+    - debug:
+        var: result.json.data
+
+#  result.json.data: ' {"test2": "somerandomtest"} '
