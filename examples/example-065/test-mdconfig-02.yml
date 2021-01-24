@@ -1,9 +1,7 @@
 ---
 
 - hosts: images.example.com
-  gather_facts: true
-  connection: ssh
-  remote_user: asadmin
+  gather_facts: false
   become: true
   become_user: root
   become_method: sudo
