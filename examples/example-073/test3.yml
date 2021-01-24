@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    dict1:
+      a: 1
+      b: 2
+      c: 3
+  tasks:
+    - set_fact:
+        dict2: "{% set copy=dict1.copy() %}{% set removed=copy.pop('a') %}{{ copy }}"
+      tags: t1
+    - debug:
+        var: dict2
+      tags: t1
+
+    - set_fact:
+        dict2: "{% set removed=dict1.pop('a') %}{{ dict1 }}"
+      tags: t2
+    - debug:
+        var: dict2
+      tags: t2
+
+    - set_fact:
+        dict1: "{% set removed=dict1.pop('a') %}{{ dict1 }}"
+      tags: t3
+    - debug:
+        var: dict1
+      tags: t3
+    - debug:
+        var: dict1|type_debug
+      tags: t3

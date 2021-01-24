@@ -1,1 +1,3 @@
-
+* test3.yml
+  How to remove a single key from an Ansible dictionary?
+  https://stackoverflow.com/questions/40496021/how-to-remove-a-single-key-from-an-ansible-dictionary
