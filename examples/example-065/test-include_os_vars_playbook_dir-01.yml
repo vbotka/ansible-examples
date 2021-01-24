@@ -6,7 +6,8 @@
     - include_role:
         name: vbotka.ansible_lib
         tasks_from: al_include_os_vars_playbook_dir.yml
-    - debug: var=test_var_1
+    - debug:
+        var: test_var_1
 
 - hosts: test_01
   gather_facts: true
@@ -14,6 +15,7 @@
     - include_role:
         name: vbotka.ansible_lib
         tasks_from: al_include_os_vars_playbook_dir.yml
-    - debug: var=test_var_1
+    - debug:
+        var: test_var_1
 
 ...
