@@ -1,0 +1,24 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    vals: [7000, 7003]
+    vals_all: [7000, 7001, 7002, 7003, 7004]
+    vals_missing: "{{ vals_all|difference(vals)|length }}"
+    
+  tasks:
+    - set_fact:
+        vals2: "{{ vals }}"
+    - set_fact:
+        vals2: "{{ vals2 + [vals_all|difference(vals2)|random] }}"
+      with_sequence: end="{{ vals_missing }}"
+    - debug:
+        var: vals2
+
+#  vals2:
+#  - 7000
+#  - 7003
+#  - 7001
+#  - 7004
+#  - 7002

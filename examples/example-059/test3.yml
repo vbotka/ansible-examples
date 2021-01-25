@@ -1,0 +1,58 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    vals: [7000, 7001, 7002, 7004]
+#    start: "{{ start|default(7000) }}"
+#    end: "{{ end|default(7005) }}"
+#    vals_all: "{{ range(start|int, end|int) }}"
+#    vals_missing: "{{ vals_all|difference(vals)|length }}"
+  tasks:
+    - set_fact:
+        start: "{{ start|default(7000) }}"
+        end: "{{ end|default(7004) }}"
+    - set_fact:
+        vals_all: "{{ query('sequence', 'start=' ~ start ~ ' end=' ~ end)|
+                      map('int')|list }}"
+    - set_fact:
+        vals_missing: "{{ vals_all|difference(vals)|length }}"
+
+    - debug:
+        msg:
+          - "{{ start }}"
+          - "{{ end }}"
+          - "{{ vals_all }}"
+          - "{{ vals }}"
+          - "{{ vals_missing }}"
+      vars:
+        vals_missing: "{{ vals_all|difference(vals)|length }}"
+
+#  msg:
+#  - '7000'
+#  - '7004'
+#  - - 7000
+#    - 7001
+#    - 7002
+#    - 7003
+#    - 7004
+#  - - 7000
+#    - 7001
+#    - 7002
+#    - 7004
+#  - '1'
+        
+    - set_fact:
+        vals2: "{{ vals2|default(vals) }}"
+    - set_fact:
+        vals2: "{{ vals2 + [vals_all|difference(vals2)|random] }}"
+      with_sequence: end="{{ vals_missing }}"
+    - debug:
+        var: vals2
+
+#  vals2:
+#  - 7000
+#  - 7001
+#  - 7002
+#  - 7004
+#  - 7003
