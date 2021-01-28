@@ -248,7 +248,7 @@ Various examples of Ansbile code.
 - Example 244. format
 - Example 245. default(), d()
 - Example 246. Concatenate strings
-- Example 247. list filter
+- Example 247. Managing lists
 - Example 248. Python
 - Example 249. mount
 - Example 250. callback log_plays
