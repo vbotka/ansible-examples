@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    myvar: {
+      "PolicyVersion": {
+        "CreateDate": "2017-08-07T02:48:05Z",
+        "Document": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:iam::123456789123:role/Root_Update_svcacct",
+                "arn:aws:iam::123456789123:role/Root_Delete_svcacct",
+                "arn:aws:iam::123456789123:role/Root_Create_svcacct",
+                "arn:aws:iam::123456789123:role/Root_Full_svcacct",
+                "arn:aws:iam::987654321987:role/Member1_Create_svcacct",
+                "arn:aws:iam::987654321987:role/Member1_Update_svcacct",
+                "arn:aws:iam::987654321987:role/Member1_Delete_svcacct",
+                "arn:aws:iam::987654321987:role/Member1_Full_svcacct"
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "IsDefaultVersion": true,
+        "VersionId": "v2"
+      }
+  }
+
+  tasks:
+    - json_modify:
+        data: "{{ myvar }}"
+        pointer: "/PolicyVersion/Document/Statement/0/Resource"
+        action: extend
+        extend:
+          - "arn:aws:iam::001122334455:role/Member1_Create_svcacct"
+          - "arn:aws:iam::001122334455:role/Member1_Update_svcacct"
+          - "arn:aws:iam::001122334455:role/Member1_Delete_svcacct"
+          - "arn:aws:iam::001122334455:role/Member1_Full_svcacct"
+      register: result
+
+    - debug:
+        var: result.result
