@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    myvar:
+        list1:
+          - k1: v1
+            k2: v2
+          - k1: v3
+            k2: v4
+
+  tasks:
+ 
+    - json_modify:
+        data: "{{ myvar|to_json }}"
+        pointer: "/list1/1"
+        action: update
+        update: "k2=ABC"
+      register: result
+ 
+    - debug:
+        var: result.result
+      tags: always
+
+#  result.result:
+#    list1:
+#    - k1: v1
+#      k2: v2
+#    - k1: v3
+#      k2: ABC
