@@ -1,0 +1,34 @@
+- hosts: localhost
+  tasks:
+    - command: cat from_yaml_all_04-data.yml
+      register: rb_info
+    - debug:
+        msg: "{{ item|from_yaml }}"
+      loop: "{{ rb_info.stdout_lines }}"
+    - set_fact:
+        minfo: "{{ minfo|default({})|combine(item|from_yaml) }}"
+      loop: "{{ rb_info.stdout_lines }}"
+    - debug:
+        var: minfo
+    - debug:
+        var: minfo['upgrade-firmware']
+    - debug:
+        var: minfo.upgrade-firmware
+
+# ok: [localhost] => 
+#   minfo:
+#     current-firmware: 6.42.3
+#     factory-firmware: 3.0
+#     firmware-type: ar7240
+#     model: 751G-2HnD
+#     routerboard: true
+#     serial-number: 3A6502B2A2E7
+#     upgrade-firmware: 6.43.4
+# 
+# TASK [debug] ***********************************************
+# ok: [localhost] => 
+#   minfo['upgrade-firmware']: 6.43.4
+# 
+# TASK [debug] ***********************************************
+# ok: [localhost] => 
+#   minfo.upgrade-firmware: VARIABLE IS NOT DEFINED!

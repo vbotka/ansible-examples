@@ -1,3 +1,7 @@
 * from_yaml_all_03.yml
   Ansible variable in dictionary key
   https://stackoverflow.com/questions/65303764/ansible-variable-in-dictionary-key
+
+* from_yaml_all_04.yml
+  How to extract the output from stdout.lines in ansible
+  https://stackoverflow.com/questions/57213941/how-to-extract-the-output-from-stdout-lines-in-ansible/

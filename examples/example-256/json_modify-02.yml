@@ -1,0 +1,66 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    myvar:
+      section1:
+        sub1: "2017-08-07T02:48:05Z"
+        sub2:
+          list1:
+            - k1: v1
+              k2: v2
+              k3:
+                - item1
+                - item2
+                - item3
+          date1: 2012-10-17
+        sub3: true
+        sub4: v2
+
+    myvar2: {
+        "section1": {
+            "sub1": "2017-08-07T02:48:05Z",
+            "sub2": {
+                "date1": "2012-10-17",
+                "list1": [
+                    {
+                        "k1": "v1",
+                        "k2": "v2",
+                        "k3": [
+                            "item1",
+                            "item2",
+                            "item3"
+                        ]
+                    }
+                ]
+            },
+            "sub3": true,
+            "sub4": "v2"
+        }
+    }
+
+        
+  tasks:
+
+    - json_modify:
+        data: "{{ myvar|to_json }}"
+        pointer: "/section1/sub2/list1/0/k3"
+        action: extend
+        extend:
+          - item4
+          - item5
+      register: result
+      tags: t1
+ 
+    - json_modify:
+        data: "{{ myvar2 }}"
+        pointer: "/section1/sub2/list1/0/k3"
+        action: extend
+        extend:
+          - item4
+          - item5
+      register: result
+      tags: t2
+ 
+    - debug:
+        var: result.result
+      tags: always

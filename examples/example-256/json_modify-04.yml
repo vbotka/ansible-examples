@@ -1,0 +1,48 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    myvar:
+      sub1: 2017-08-07
+      sub2:
+        list1:
+          - k1: v1
+            k2: v2
+            k3:
+              - item1
+              - item2
+              - item3
+      sub3: true
+
+  tasks:
+
+    - json_modify:
+        data: "{{ myvar|to_json }}"
+        pointer: "/sub2/list1/0/k3"
+        action: extend
+        extend:
+          - ABC
+          - DEF
+      register: result
+      tags: t1
+ 
+    - json_modify:
+        data: "{{ myvar|to_json }}"
+        pointer: "/sub2/list1/0/k3"
+        action: append
+        append: ABC
+      register: result
+      tags: t2
+ 
+    - json_modify:
+        data: "{{ myvar|to_json }}"
+        pointer: "/sub2/list1/0"
+        action: update
+        update: "k2=ABC"
+      register: result
+      tags: t3
+ 
+    - debug:
+        var: result.result
+      tags: always

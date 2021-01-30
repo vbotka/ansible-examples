@@ -1,0 +1,37 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    myvar: {
+      "section1": {
+        "sub1": "2017-08-07",
+        "sub2": {
+          "date1": "2012-10-17",
+          "list1": [
+            {
+              "k1": "v1",
+              "k2": "v2",
+              "k3": [
+                  "item1",
+                  "item2",
+                  "item3"
+              ]
+            }
+          ]
+        },
+        "sub3": true,
+        "sub4": "v2"
+      }
+  }
+
+  tasks:
+    - json_modify:
+        data: "{{ myvar }}"
+        pointer: "/section1/sub2/list1/0/k3"
+        action: extend
+        extend:
+          - item4
+          - item5
+      register: result
+
+    - debug:
+        var: result.result
