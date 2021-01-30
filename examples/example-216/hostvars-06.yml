@@ -1,0 +1,42 @@
+- hosts: my_group
+  gather_facts: true
+  tasks:
+
+    - debug:
+        var: groups.all
+      run_once: true
+
+    - debug:
+        msg:
+          - "{{ hostvars[item]['ansible_all_ipv4_addresses'][0] }}"
+          - "{{ hostvars[item]['inventory_hostname_short'] }}"
+      loop: "{{ ansible_play_hosts_all }}"
+      run_once: true
+
+
+# shell> cat hosts
+#    [my_group]
+#    test_11
+#    test_12
+#    test_13
+
+# TASK [debug] *************************************************
+# ok: [test_11] => 
+#   groups.all:
+#   - test_11
+#   - test_12
+#   - test_13
+# 
+# TASK [debug] *************************************************
+# ok: [test_11] => (item=test_11) => 
+#   msg:
+#   - 10.1.0.61
+#   - test_11
+# ok: [test_11] => (item=test_12) => 
+#   msg:
+#   - 10.1.0.62
+#   - test_12
+# ok: [test_11] => (item=test_13) => 
+#   msg:
+#   - 10.1.0.63
+#   - test_13
