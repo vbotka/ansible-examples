@@ -1,0 +1,36 @@
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - include_tasks: find_and_execute.yml
+      loop:
+        - 'SK*.sh'
+        - 'PX*.sh'
+        - 'N*.sh'
+      loop_control:
+        loop_var: eitem
+      tags: t1
+
+#  msg: 18:19:14 Execute /tmp/SK-1.sh
+#  msg: 18:19:17 Execute /tmp/SK-2.sh
+#  msg: 18:19:21 Execute /tmp/PX.sh
+#  msg: 18:19:24 Execute /tmp/N1.sh
+#  msg: 18:19:27 Execute /tmp/N2.sh
+      
+    - find:
+        paths: /tmp
+        patterns:
+          - 'SK*.sh'
+          - 'PX*.sh'
+          - 'N*.sh'
+      register: result
+      tags: t2
+    - debug:
+        msg: "{{ result.files|map(attribute='path')|list }}"
+      tags: t2
+
+#  msg:
+#    - /tmp/SK-2.sh
+#    - /tmp/SK-1.sh
+#    - /tmp/N2.sh
+#    - /tmp/N1.sh
+#    - /tmp/PX.sh

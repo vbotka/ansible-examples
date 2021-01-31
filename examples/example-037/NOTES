@@ -1,4 +1,8 @@
-How do I get the find module to work in Ansible?
-https://devops.stackexchange.com/questions/5070/how-do-i-get-the-find-module-to-work-in-ansible
+* find-14.yml
+  Ansible files lookup in directory remote hosts
+  https://stackoverflow.com/questions/65981382/ansible-files-lookup-in-directory-remote-hosts/
+
+* How do I get the find module to work in Ansible?
+  https://devops.stackexchange.com/questions/5070/how-do-i-get-the-find-module-to-work-in-ansible
 
 --

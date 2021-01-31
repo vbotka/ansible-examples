@@ -1,0 +1,9 @@
+- find:
+    paths: /tmp
+    patterns: "{{ eitem }}"
+  register: result
+- debug:
+    msg: "{{ '%H:%M:%S'|strftime }} Execute {{ item }}"
+  loop: "{{ result.files|map(attribute='path')|list|sort }}"
+  loop_control:
+    pause: 3
