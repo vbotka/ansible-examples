@@ -1,0 +1,26 @@
+- hosts: h1,h2,h3
+  gather_facts: false
+
+  vars:
+
+    d2:
+      h1:
+        k1:
+         k2: v1
+      h2:
+        k1:
+          kX: v2
+      h3:
+        k1:
+          k2: v3
+
+  tasks:
+
+    - set_fact:
+        worker_dict: "{{ worker_dict|default({})|
+                         combine({item: d2[item].k1.k2|default('')}) }}"
+      loop: "{{ ansible_play_hosts_all }}"
+      run_once: true
+    - debug:
+        var: worker_dict
+      run_once: true

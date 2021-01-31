@@ -1,0 +1,47 @@
+- hosts: h1,h2,h3
+  gather_facts: false
+  vars:
+    d2:
+      h1:
+        k1:
+         k2: v1
+      h2:
+        k1:
+          kX: v2
+      h3:
+        k1:
+          k2: v3
+  tasks:
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 list }}"
+      run_once: true
+      tags: a
+
+#    msg: '[''v1'', Undefined, ''v3'']'
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 map('regex_replace', '(.*)', '\\1')|
+                 list }}"
+      run_once: true
+      tags: b
+
+#    msg:
+#    - v1
+#    - ''
+#    - v3
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 select|
+                 list }}"
+      run_once: true
+      tags: c
+
+#    msg:
+#    - v1
+#    - v3

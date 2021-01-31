@@ -1,3 +1,7 @@
+* extract-05.yml
+  Exclude AnsibleUndefined from a list
+  https://stackoverflow.com/questions/65974887/exclude-ansibleundefined-from-a-list/
+
 * extract-04.yml
   How create combined variable in Ansible from multiple hosts
   https://stackoverflow.com/questions/65723929/how-create-combined-variable-in-ansible-from-multiple-hosts/

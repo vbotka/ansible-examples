@@ -1,0 +1,149 @@
+- hosts: h1,h2,h3
+  gather_facts: false
+
+  vars:
+
+    d1:
+      h1:
+        k1:
+         k2: v1
+      h2:
+        k1:
+          k2: v2
+      h3:
+        k1:
+          k2: v3
+
+    d2:
+      h1:
+        k1:
+         k2: v1
+      h2:
+        k1:
+          kX: v2
+      h3:
+        k1:
+          k2: v3
+
+  tasks:
+
+    - set_fact:
+        worker_dict: "{{ worker_dict|default({})|
+                         combine({ item: d2[item].k1.k2|default('')}) }}"
+      loop: "{{ ansible_play_hosts_all }}"
+      run_once: true
+      tags: t0
+    - debug:
+        var: worker_dict
+      run_once: true
+      tags: t0
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d1, ['k1', 'k2'])|
+                 list }}"
+      run_once: true
+      tags: t1
+
+#  msg:
+#  - v1
+#  - v2
+#  - v3
+
+    - debug:
+        msg: "{{ dict(keys|zip(vals)) }}"
+      vars:
+        keys: "{{ ansible_play_hosts_all }}"
+        vals: "{{ ansible_play_hosts_all|
+                  map('extract', d1, ['k1', 'k2'])|
+                  list }}"
+      run_once: true
+      tags: t2
+
+#  msg:
+#    h1: v1
+#    h2: v2
+#    h3: v3
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 list }}"
+      run_once: true
+      tags: t3
+
+#    msg: '[''v1'', Undefined, ''v3'']'
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 list|type_debug }}"
+      run_once: true
+      tags: t4
+
+#    msg: list
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 map('regex_replace', my_regex, my_replace)|
+                 list }}"
+      vars:
+        my_regex: '(.*)'
+        my_replace: '\1'
+      run_once: true
+      tags: t5
+
+#    msg:
+#    - v1
+#    - ''
+#    - v3
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 map('regex_replace', '(.*)', '\\1')|
+                 list }}"
+      run_once: true
+      tags: t5b
+
+#    msg:
+#    - v1
+#    - ''
+#    - v3
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 select|
+                 list }}"
+      run_once: true
+      tags: t5c
+
+#    msg:
+#    - v1
+#    - v3
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', d2, ['k1', 'k2'])|
+                 to_yaml }}"
+      run_once: true
+      tags: t6
+
+#    msg: ('cannot represent an object', Undefined)
+
+    - debug:
+        msg: "{{ dict(keys|zip(vals)) }}"
+      vars:
+        keys: "{{ ansible_play_hosts_all }}"
+        vals: "{{ ansible_play_hosts_all|
+                  map('extract', d2, ['k1', 'k2'])|
+                  list }}"
+      run_once: true
+      tags: tX
+
+#  msg:
+#    h1: v1
+#    h2: v2
+#    h3: v3
