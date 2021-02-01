@@ -1,0 +1,23 @@
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ lookup('env','VAR1') }}"
+
+# shell> VAR1=test_var_2 ansible-playbook play06.yml
+#
+# ok: [test_11] =>
+#   msg: test_var_2
+
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ lookup('env','VAR1') }}"
+      environment:
+        VAR1: test_var_1
+
+# shell> VAR1=test_var_2 ansible-playbook play06.yml
+# 
+# ok: [test_11] =>
+#   msg: test_var_2

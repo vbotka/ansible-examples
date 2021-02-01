@@ -1,0 +1,27 @@
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - command: echo $VAR1
+      register: result
+    - debug:
+        var: result.stdout
+
+# shell> VAR1=test_var_2 ansible-playbook play06.yml
+#
+# ok: [test_11] =>
+#   result.stdout: $VAR1
+
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - command: echo $VAR1
+      register: result
+      environment:
+        VAR1: test_var_1
+    - debug:
+        var: result.stdout
+
+# shell> VAR1=test_var_2 ansible-playbook play06.yml
+# 
+# ok: [test_11] =>
+#   result.stdout: test_var_1

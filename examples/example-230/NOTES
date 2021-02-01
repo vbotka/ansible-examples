@@ -1,3 +1,7 @@
+* play05.yml, play06.yml, play07.yml
+  Ansible lookup url with proxy
+  https://stackoverflow.com/questions/65991750/ansible-lookup-url-with-proxy
+
 * play04.yml
   Ansible: How to add Linux modul command path (opkg not in path)
   https://stackoverflow.com/questions/65406584/ansible-how-to-add-linux-modul-command-path-opkg-not-in-path
