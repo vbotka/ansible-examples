@@ -2,6 +2,11 @@
   Ansible lookup url with proxy
   https://stackoverflow.com/questions/65991750/ansible-lookup-url-with-proxy
 
+  Setting the remote environment
+  https://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html#setting-the-remote-environment
+  "... set an environment variable for an action on a remote host."
+
+
 * play04.yml
   Ansible: How to add Linux modul command path (opkg not in path)
   https://stackoverflow.com/questions/65406584/ansible-how-to-add-linux-modul-command-path-opkg-not-in-path
