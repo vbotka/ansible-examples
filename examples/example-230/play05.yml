@@ -1,3 +1,5 @@
+# RESULT: environment has no effect on lookup
+
 - hosts: localhost
   gather_facts: false
   tasks:
@@ -7,9 +9,22 @@
         var: result.stdout
 
 # shell> VAR1=test_var_2 ansible-playbook play05.yml
-# 
+#
 # ok: [localhost] =>
 #   result.stdout: test_var_2
+
+    - debug:
+        msg: "{{ lookup('env','VAR1') }}"
+    - debug:
+        msg: "{{ lookup('pipe','echo $VAR1') }}"
+
+# shell> VAR1=test_var_2 ansible-playbook play05.yml
+#
+# ok: [localhost] =>
+#   msg: test_var_2
+#
+# ok: [localhost] =>
+#   msg: test_var_2
 
 - hosts: localhost
   gather_facts: false
@@ -25,3 +40,20 @@
 # 
 # ok: [localhost] =>
 #   result.stdout: test_var_1
+
+    - debug:
+        msg: "{{ lookup('env','VAR1') }}"
+      environment:
+        VAR1: test_var_1
+    - debug:
+        msg: "{{ lookup('pipe','echo $VAR1') }}"
+      environment:
+        VAR1: test_var_1
+
+# shell> VAR1=test_var_2 ansible-playbook play05.yml
+#
+# ok: [localhost] =>
+#   result.stdout: test_var_2
+#
+# ok: [localhost] =>
+#   result.stdout: test_var_2

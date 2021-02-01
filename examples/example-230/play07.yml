@@ -1,10 +1,24 @@
+# RESULT: 1) lookup runs always on localhost
+#         2) environment has no effect on lookup
+
 - hosts: test_11
   gather_facts: false
   tasks:
     - debug:
         msg: "{{ lookup('env','VAR1') }}"
 
-# shell> VAR1=test_var_2 ansible-playbook play06.yml
+# shell> VAR1=test_var_2 ansible-playbook play07.yml
+#
+# ok: [test_11] =>
+#   msg: test_var_2
+
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ lookup('pipe','echo $VAR1') }}"
+
+# shell> VAR1=test_var_2 ansible-playbook play07.yml
 #
 # ok: [test_11] =>
 #   msg: test_var_2
@@ -17,7 +31,20 @@
       environment:
         VAR1: test_var_1
 
-# shell> VAR1=test_var_2 ansible-playbook play06.yml
+# shell> VAR1=test_var_2 ansible-playbook play07.yml
+#
+# ok: [test_11] =>
+#   msg: test_var_2
+
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ lookup('pipe','echo $VAR1') }}"
+      environment:
+        VAR1: test_var_1
+
+# shell> VAR1=test_var_2 ansible-playbook play07.yml
 # 
 # ok: [test_11] =>
 #   msg: test_var_2
