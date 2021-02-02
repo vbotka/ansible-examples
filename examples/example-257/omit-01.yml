@@ -1,0 +1,85 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    test:
+      - "{{ gchk|default(false) }}"
+      - "{{ gchk|default(omit) }}"
+
+  tasks:
+
+    - stat:
+        path: /etc/passwd
+        get_checksum: "{{ item }}"
+      loop: "{{ test }}"
+      register: result
+      tags: t1
+    - debug:
+        var: item.stat.checksum
+      loop: "{{ result.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+      tags: t1
+
+#  item.stat.checksum: VARIABLE IS NOT DEFINED!
+#  item.stat.checksum: 7c73e9f589ca1f0a1372aa4cd6944feec459c4a8
+      
+    - debug:
+        var: test
+      tags: t1a
+
+# ok: [localhost] =>
+#   test:
+#   - false
+#   - __omit_place_holder__863fb10865c4be53d26e3cd0f967eaa2d83859c3
+      
+    - debug:
+        msg: "{{ {'a': item}|combine({'b': true}) }}"
+      loop: "{{ test }}"
+      tags: t2
+
+# ok: [localhost] => (item=False) =>
+#   msg:
+#     a: false
+#     b: true
+# ok: [localhost] => (item=__omit_place_holder__c197b1f20330d491f6078272e8c1ad2e37d1d305) =>
+#   msg:
+#     b: true
+                    
+    - set_fact:
+        test3: "{{ test2|map('combine', {'b': true})|list }}"
+      vars:
+        test2:
+          - "{{ {'a': gchk|default(false)} }}"
+          - "{{ {'a': gchk|default(omit)} }}"
+      tags: t2a
+    - debug:
+        var: test3
+      tags: t2a
+
+# ok: [localhost] => 
+#   test3:
+#   - a: false
+#     b: true
+#   - b: true
+      
+    - debug:
+        msg: "{{ item is defined }}"
+      loop: "{{ test }}"
+      tags: t3
+
+# ok: [localhost] => (item=False) => 
+#   msg: true
+# ok: [localhost] => (item=__omit_place_holder__8a5c7fbf778e92ef6b336f1ab1f0e0affbb35c9f) => 
+#   msg: true
+ 
+    - debug:
+        msg: "{{ item|type_debug }}"
+      loop: "{{ test }}"
+      tags: t4
+
+# ok: [localhost] => (item=False) => 
+#   msg: bool
+# ok: [localhost] => (item=__omit_place_holder__8cbcd9c645ffe9866d68413e7492a76465b5ea7c) => 
+#   msg: str

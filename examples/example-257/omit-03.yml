@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    var_1: ABC
+    test1:
+      - "{{ var_1 }}"
+      - "{{ var_X }}"
+    test2:
+      - k1: "{{ var_1 }}"
+      - k1: "{{ var_X }}"
+
+  tasks:
+    - debug:
+        msg: var_X is undefined
+      when: var_X is undefined
+      tags: t1
+
+# ok: [localhost] =>
+#   msg: var_X is undefined
+      
+    - debug:
+        msg: "{{ test1|select('defined')|list }}"
+      tags: t2
+
+# fatal: [localhost]: FAILED! =>
+#   msg: |-
+#     The task includes an option with an undefined variable. The error was: 'var_X' is undefined
+      
+    - debug:
+        var: item
+      loop: "{{ test2 }}"
+      tags: t3
+
+# fatal: [localhost]: FAILED! =>
+#   msg: '''var_X'' is undefined'
+      
+    - debug:
+        var: item
+      loop: "{{ test2 }}"
+      when: item.k1 is defined
+      tags: t4
+
+# skipping: [localhost]

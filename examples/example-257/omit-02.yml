@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        test:
+          - "{{ var1|default(false) }}"
+          - "{{ var1|default(omit) }}"
+        test2:
+          - "{{ var1|default('ABC') }}"
+          - "{{ var1|default(omit) }}"
+
+    - debug:
+        var: item
+      loop: "{{ test }}"
+
+# ok: [localhost] => (item=False) =>
+#   ansible_loop_var: item
+#   item: false
+# ok: [localhost] => (item=__omit_place_holder__4d65bb68573cd4473187d458bc655955de155c07) =>
+#   ansible_loop_var: item
+#   item: __omit_place_holder__4d65bb68573cd4473187d458bc655955de155c07
+      
+    - debug:
+        var: item
+      loop: "{{ test | reject('undefined') | list }}"
+
+# ok: [localhost] => (item=False) =>
+#   ansible_loop_var: item
+#   item: false
+# ok: [localhost] => (item=__omit_place_holder__4d65bb68573cd4473187d458bc655955de155c07) =>
+#   ansible_loop_var: item
+#   item: __omit_place_holder__4d65bb68573cd4473187d458bc655955de155c07
+
+    - debug:
+        msg: "{{ item is defined }}"
+      loop: "{{ test }}"
+
+#   msg: true
+#   msg: true
+
+    - debug:
+        msg: "{{ item|type_debug }}"
+      loop: "{{ test }}"
+
+#   msg: bool
+#   msg: str
+
+    - debug:
+        msg: "{{ 'XYZ - ' ~ item  }}"
+      loop: "{{ test2 }}"
+
+#   msg: XYZ - ABC
+#   msg: XYZ - __omit_place_holder__5442c5c74a4e49c54f2c64a96e771c3b260802a6
