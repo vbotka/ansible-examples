@@ -1,0 +1,51 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_int_L4: bob
+    profiles:
+      - "{{ my_int_L4 }}"
+      - "{{ my_int_http | default(null) }}"
+  tasks:
+    - debug:
+        var: profiles
+      tags: t1
+    - debug:
+        msg: "{{ item|type_debug }}"
+      loop: "{{ profiles }}"
+      tags: t2
+
+# TASK [debug] *******************************
+# ok: [localhost] =>
+#   profiles: VARIABLE IS NOT DEFINED!
+# 
+# TASK [debug] *******************************
+# fatal: [localhost]: FAILED! =>
+#   msg: '''null'' is undefined'
+
+- hosts: localhost
+  gather_facts: false
+  vars:
+    my_int_L4: bob
+    profiles:
+      - "{{ my_int_L4 }}"
+      - "{{ my_int_http | default(None) }}"
+  tasks:
+    - debug:
+        var: profiles
+      tags: t3
+    - debug:
+        msg: "{{ item|type_debug }}"
+      loop: "{{ profiles }}"
+      tags: t4
+
+# TASK [debug] *********************************
+# ok: [localhost] =>
+#   profiles:
+#     - bob
+#     - ''
+# 
+# TASK [debug] *********************************
+# ok: [localhost] => (item=bob) =>
+#   msg: str
+# ok: [localhost] => (item=) =>
+#   msg: str

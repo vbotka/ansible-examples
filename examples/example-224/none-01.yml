@@ -8,23 +8,23 @@
 
     - debug:
         msg: 2. The variable files is an empty list or None.
+      when: not files|default(None)
       vars:
         files: []
-      when: not files|default(None)
       
     - debug:
-        msg: 3. KO
-      when: files|default(None)
+        msg: 3. Shall be skipped
+      when: files|default(None)|bool
 
     - debug:
-        msg: 4. KO
-      when: files
+        msg: 4. Shall be skipped
+      when: files|bool
       vars:
         files: []
 
     - debug:
         msg: 5. files is not empty
-      when: files
+      when: files|bool
       vars:
         files: [1,2,3]
 
