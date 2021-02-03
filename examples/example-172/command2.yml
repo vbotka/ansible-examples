@@ -1,0 +1,27 @@
+- hosts: test_11
+  gather_facts: false
+  tasks:
+
+    - shell:
+        cmd: "source /root/.bashrc; test.bash"
+        executable: /usr/local/bin/bash
+      register: result
+      become: true
+      tags: t1
+    - debug:
+        var: result.stdout
+      tags: t1
+
+# ok: [test_11] => 
+#   result.stdout: /scratch:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin
+
+    - command: "/usr/local/bin/bash -c 'source /root/.bashrc; test.bash'"
+      register: result
+      become: true
+      tags: t2
+    - debug:
+        var: result.stdout
+      tags: t2
+
+# ok: [test_11] => 
+#   result.stdout: /scratch:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/admin/bin

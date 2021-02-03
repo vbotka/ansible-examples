@@ -1,15 +1,27 @@
 - hosts: localhost
   tasks:
 
-    - command: env > enc.command
+    - shell: env > enc.command
       args:
         chdir: /scratch/tmp/testFolder/
       tags: t1
+
+# shell> cat /scratch/tmp/testFolder/enc.command
+# LESS_TERMCAP_se=
+# LESS_TERMCAP_ZW=
+# LESSOPEN=| /usr/bin/lesspipe %s
+# LANGUAGE=en_US
 
     - command: sh -c "env > enc.sh"
       args:
         chdir: /scratch/tmp/testFolder/
       tags: t2
+
+# shell> cat /scratch/tmp/testFolder/enc.sh
+# LESS_TERMCAP_se=
+# LESS_TERMCAP_ZW=
+# LESSOPEN=| /usr/bin/lesspipe %s
+# LANGUAGE=en_US
 
     - shell: jar -cf test.war *
       args:

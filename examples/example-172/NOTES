@@ -1,0 +1,4 @@
+* command2.yml
+  ansible could not find the exposed command in the environment variable on the remote host
+  https://stackoverflow.com/questions/66022142/ansible-could-not-find-the-exposed-command-in-the-environment-variable-on-the-re
+
