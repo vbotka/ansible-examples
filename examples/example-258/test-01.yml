@@ -1,0 +1,54 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Find the status and targetUri of the nested DS Served
+      find:
+        paths: 
+          - /scratch/opt/
+        recurse: yes
+        contains: '.*key.*'
+        patterns: '*file.conf'
+      register: ds_status
+      become: yes
+    - name: Get values
+      shell:
+        cmd: "awk '/key/{print $NF}' {{ item.path }}"
+      register: r
+      with_items: "{{ ds_status.files }}"
+      become: yes
+      when: ds_status.matched > 0
+
+    - name: Save results
+      debug:
+        msg: |
+          {{ item }},
+          {{ hostvars[item].r.results.0.item.path }},
+          {{ hostvars[item].r.results.0.stdout }}
+      loop: "{{ ansible_play_hosts_all }}"
+      delegate_to: localhost
+      run_once: true
+
+# ok: [test_11 -> localhost] => (item=test_11) => 
+#   msg: |-
+#     test_11,
+#     /scratch/opt/file.conf,
+#     key1=value1
+#     key2=value2
+#     key3=value3
+# ok: [test_11 -> localhost] => (item=test_12) => 
+#   msg: |-
+#     test_12,
+#     /scratch/opt/file.conf,
+#     key1=value1
+#     key2=value2
+#     key3=value3
+# ok: [test_11 -> localhost] => (item=test_13) => 
+#   msg: |-
+#     test_13,
+#     /scratch/opt/file.conf,
+#     key1=value1
+#     key2=value2
+#     key3=value3
+# 
+# Only one file per remote host is displayed in the loop. To save all
+# files in the loop include_tasks with the next iteration.

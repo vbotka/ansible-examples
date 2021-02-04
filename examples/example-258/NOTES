@@ -1,0 +1,4 @@
+* test-01.yml
+  Ansible print remote config locally
+  https://stackoverflow.com/questions/66034462/ansible-print-remote-config-locally
+

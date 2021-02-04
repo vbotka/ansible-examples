@@ -259,6 +259,7 @@ Various examples of Ansbile code.
 - Example 255. Special vars ansible_play_hosts_all, ansible_play_hosts, ansible_play_batch
 - Example 256. Custom modules
 - Example 257. default(omit)
+- Example 258. race conditions
 
 ## License
 
