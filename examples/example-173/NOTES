@@ -5,3 +5,7 @@
 * from_yaml_all_04.yml
   How to extract the output from stdout.lines in ansible
   https://stackoverflow.com/questions/57213941/how-to-extract-the-output-from-stdout-lines-in-ansible/
+
+* from_yaml_01.yml, from_yaml_02.yml
+  Subject: [ansible-project] Escaping special characters ...
+  Date: Thu, 4 Feb 2021 01:44:49 +0100

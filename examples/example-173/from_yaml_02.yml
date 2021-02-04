@@ -1,0 +1,30 @@
+- name: Convert tupels to lists
+  hosts: localhost
+  gather_facts: false
+  vars:
+    searched_string: "('string_a', 'string_b'),('string_c', 'string_d')"
+  tasks:
+
+    - set_fact:
+        replaced_string: "{{ searched_lists|
+                             map('join', '@')|list|
+                             join(',') }}"
+      vars:
+        searched_lists: "{{ '[' ~ searched_string ~ ']' }}"
+
+#    - set_fact:
+#        replaced_string: "{{ searched_lists|
+#                             map('join', '@')|list|
+#                             join(',') }}"
+#      vars:
+#        pleft: '\('
+#        pright: '\)'
+#        bleft: '['
+#        bright: ']'
+#        searched_lists: "{{ searched_string|
+#                            regex_replace(pleft, bleft)|
+#                            regex_replace(pright, bright) }}"
+    - debug:
+        var: replaced_string
+
+# replaced_string: string_a@string_b,string_c@string_d
