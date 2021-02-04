@@ -1,4 +1,4 @@
-- hosts: test_01
+- hosts: test_11
   gather_facts: no
   tasks:
     - stat:

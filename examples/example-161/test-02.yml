@@ -1,0 +1,36 @@
+- name: Share registered vars among the plays
+  hosts: test_11, test_12
+  gather_facts: false
+  tasks:
+    - command: date
+      register: result
+
+- name: Share registered vars among the plays
+  hosts: test
+  gather_facts: false
+  tasks:
+    - debug:
+        var: groups.test
+      run_once: true
+
+#  groups.test:
+#  - test_11
+#  - test_12
+#  - test_13
+
+    - debug:
+        var: hostvars[item].result.stdout
+      loop:
+        - test_11
+        - test_12
+      run_once: true
+      delegate_to: test_13
+
+# ok: [test_11 -> test_13] => (item=test_11) => 
+#   ansible_loop_var: item
+#   hostvars[item].result.stdout: Thu Feb  4 21:26:49 UTC 2021
+#   item: test_11
+# ok: [test_11 -> test_13] => (item=test_12) => 
+#   ansible_loop_var: item
+#   hostvars[item].result.stdout: Thu Feb  4 21:26:50 UTC 2021
+#   item: test_12
