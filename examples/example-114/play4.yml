@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    animal_lookups:
+      [
+      {
+      "abbreviation_id": 1,
+      "FullName": "Tiger",
+      "abbreviation": "tig",
+      "active": true,
+      "createdDate": "2021-01-25T06:17:32",
+      "modifiedDate": "2021-01-25T06:17:32"
+      },
+      {
+      "abbreviation_id": 69,
+      "FullName": "Jaguar",
+      "abbreviation": "jag",
+      "active": true,
+      "createdDate": "2021-01-25T06:17:32",
+      "modifiedDate": "2021-01-25T06:17:32"
+      }
+      ]
+  tasks:
+    - set_fact:
+        animal_dict: "{{ animal_lookups|
+                         items2dict(key_name='FullName',
+                                    value_name='abbreviation') }}"
+    - debug:
+        var: animal_dict
