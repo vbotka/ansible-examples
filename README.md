@@ -261,6 +261,7 @@ Various examples of Ansbile code.
 - Example 257. default(omit)
 - Example 258. race conditions
 - Example 259. length
+- Example 260. DEFAULT_JINJA2_NATIVE
 
 ## License
 

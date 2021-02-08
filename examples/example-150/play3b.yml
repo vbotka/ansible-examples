@@ -1,0 +1,19 @@
+- hosts: localhost
+  tasks:
+
+    - name: set variable
+      set_fact:
+        test1:
+          a: 1
+    - debug:
+        msg: "{{ test1.a|type_debug }}"
+
+    - name: assignment
+      set_fact:
+        test2:
+          a: "{{ test1.a }}"
+    - name: print test2
+      debug:
+        var: test2
+    - debug:
+        msg: "{{ test2.a|type_debug }}"

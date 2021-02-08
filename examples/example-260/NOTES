@@ -1,0 +1,4 @@
+* play1.yml
+  Ansible set_fact type cast
+  https://stackoverflow.com/questions/66102524/ansible-set-fact-type-cast/
+

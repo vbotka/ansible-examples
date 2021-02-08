@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    test1:
+      a: 1
+      b: 2
+      c: 3
+    attrs: [b, c]
+
+  tasks:
+
+    - set_fact:
+        test2:  "{{ dict(attrs|zip(attrs|map('extract', test1)|list)) }}"
+    - debug:
+        var: test2
+    - debug:
+        msg: "{{ test2[item]|type_debug }}"
+      loop: "{{ attrs }}"
+
+#  test2:
+#    b: 2
+#    c: 3
+#
+#  msg: int
+#  msg: int

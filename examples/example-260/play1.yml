@@ -1,0 +1,82 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    l1: [1, 2, 3]
+    v1: 1
+
+  tasks:
+
+    - debug:
+        msg: "{{ l1|map('type_debug')|list }}"
+      tags: t1
+    - debug:
+        msg: "{{ temp_var }} {{ temp_var|type_debug }}"
+      loop: "{{ l1 }}"
+      vars:
+        temp_var: "{{ item }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ v1 }}"
+      tags: t2
+
+# Single (bare) variables preserve types - - - - - - - - - - - - - - - - - - - - - - - - -
+    - set_fact:
+        v2: 1
+      tags: t3
+    - debug:
+        msg: "{{ v2 }}"
+      tags: t3
+    - debug:
+        msg: "{{ v2|type_debug }}"
+      tags: t3
+
+    - set_fact:
+        v3: "{{ v2 }}"
+      tags: t4
+    - debug:
+        msg: "{{ v3 }}"
+      tags: t4
+    - debug:
+        msg: "{{ v3|type_debug }}"
+      tags: t4
+
+#   msg: 1
+#   msg: int
+#   msg: 1
+#   msg: int
+      
+# ANSIBLE_JINJA2_NATIVE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - set_fact:
+        v3:
+          x1: 1
+      tags: t5
+    - debug:
+        msg: "{{ v3.x1 }}"
+      tags: t5
+    - set_fact:
+        v4: "{{ v3.x1 }}"
+      tags: t5
+    - debug:
+        msg: "{{ v4 }}"
+      tags: t5
+    - set_fact:
+        v5:
+          x1: "{{ v3.x1 }}"
+      tags: t5
+    - debug:
+        msg: "{{ v5 }}"
+      tags: t5
+
+# shell> ANSIBLE_JINJA2_NATIVE=False ansible-playbook play4.yml -t t5
+#   msg: '1'
+#   msg: '1'
+#   msg:
+#     x1: '1'
+
+# shell> ANSIBLE_JINJA2_NATIVE=True ansible-playbook play4.yml -t t5
+#   msg: 1
+#   msg: 1
+#   msg:
+#     x1: 1
