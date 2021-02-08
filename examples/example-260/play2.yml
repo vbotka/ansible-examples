@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    l1:
+      - p: 1
+      - p: 2
+      - p: 45
+  tasks:
+    - debug:
+        msg: "{{ temp1 }} {{ temp1|type_debug }}"
+      loop: "{{ l1 }}"
+      vars:
+        temp1: "{{ item.p }}"
+
+# shell> ANSIBLE_JINJA2_NATIVE=True ansible-playbook play2.yml 
+# 
+#   msg: 1 int
+#   msg: 2 int
+#   msg: 45 int
+
+# shell> ANSIBLE_JINJA2_NATIVE=False ansible-playbook play2.yml 
+# 
+#   msg: 1 str
+#   msg: 2 str
+#   msg: 45 str

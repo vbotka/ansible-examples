@@ -2,3 +2,14 @@
   Ansible set_fact type cast
   https://stackoverflow.com/questions/66102524/ansible-set-fact-type-cast/
 
+* play2.yml
+  Pass integer variable to task without losing the integer type
+  https://stackoverflow.com/questions/52487396/pass-integer-variable-to-task-without-losing-the-integer-type
+
+  Ansible-base 2.11 Porting Guide
+  https://docs.ansible.com/ansible/devel/porting_guides/porting_guide_base_2.11.html
+  "The jinja2_native setting now does not affect the template module
+  which implicitly returns strings. For the template lookup there is a
+  new argument jinja2_native (off by default) to control that
+  functionality. The rest of the Jinja2 expressions still operate
+  based on the jinja2_native setting."
