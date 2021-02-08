@@ -1,0 +1,46 @@
+- name: Filter legth returns string. Convert to int in a condition.
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    empty_list: []
+    list1: [1,2,3]
+
+  tasks:
+
+    - set_fact:
+        number_of_items: "{{ empty_list|length }}"
+    - debug:
+        var: number_of_items
+    - debug:
+        msg: "{{ number_of_items|type_debug }}"
+
+#  number_of_items: '0'
+#  msg: str
+
+    - debug:
+        msg: List is empty
+      when: number_of_items|int == 0
+    - debug:
+        msg: List is NOT empty
+      when: not number_of_items|int == 0
+
+#  msg: List is empty
+#  skipping: [localhost]
+
+    - set_fact:
+        number_of_items: "{{ list1|length }}"
+    - debug:
+        var: number_of_items
+
+#  number_of_items: '3'
+
+    - debug:
+        msg: List is empty
+      when: number_of_items|int == 0
+    - debug:
+        msg: List is NOT empty
+      when: not number_of_items|int == 0
+
+#  skipping: [localhost]
+#  msg: List is NOT empty

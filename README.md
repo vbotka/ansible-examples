@@ -260,6 +260,7 @@ Various examples of Ansbile code.
 - Example 256. Custom modules
 - Example 257. default(omit)
 - Example 258. race conditions
+- Example 259. length
 
 ## License
 
