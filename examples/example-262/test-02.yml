@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    name1: my_name
+    image: my_image
+    tag: my_tag
+    replicas: my_replicas
+    profile: my_profile
+    customer: my_customer
+    shrd:
+      settings:
+        name: "{{ name1 }}"
+        docker_options:
+          env:
+            - profile="{{ profile }}"
+    spec:
+      settings:
+        image: "{{ image }}"
+        tag: "{{ tag }}"
+        docker_options:
+          env:
+            - customer="{{ customer }}"
+          replicas: "{{ replicas }}"
+
+  tasks:
+    - set_fact:
+        settings: "{{ shrd.settings|
+                      combine(spec.settings)|
+                      combine({'docker_options': do}) }}"
+      vars:
+        do: "{{ shrd.settings.docker_options|
+                combine_lossless(spec.settings.docker_options, flatten=true) }}"
+    - debug:
+        var: settings
+
+#  settings:
+#    docker_options:
+#      env:
+#      - customer="my_customer"
+#      - profile="my_profile"
+#      replicas: my_replicas
+#    image: my_image
+#    name: my_name
+#    tag: my_tag

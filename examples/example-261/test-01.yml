@@ -1,0 +1,7 @@
+- hosts: test_11
+  gather_facts: true
+  tasks:
+    - set_fact:
+        ansible_facts_val1: "{{ ansible_facts_val1|default(102)|int + 1 }}"
+    - debug:
+        var: ansible_facts_val1

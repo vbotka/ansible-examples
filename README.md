@@ -262,6 +262,7 @@ Various examples of Ansbile code.
 - Example 258. race conditions
 - Example 259. length
 - Example 260. DEFAULT_JINJA2_NATIVE
+- Example 261. ANSIBLE_CACHE_PLUGIN
 
 ## License
 

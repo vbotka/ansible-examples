@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    d1:
+      k1: v11
+      k2: v12
+      k3:
+        - vA
+        - vB
+    d2:
+      k1:  v21
+      k2:  v22
+      k3:
+        - vA
+        - vB
+  tasks:
+    - debug:
+        msg: "{{ d1|combine_lossless(d2) }}"
+
+    - debug:
+        msg: "{{ d1|combine_lossless(d2, flatten=true) }}"
+
+    - debug:
+        msg: "{{ d1|combine_lossless(d2, flatten=true, unique=true) }}"
+

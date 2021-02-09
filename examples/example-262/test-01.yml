@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    d1:
+      k1: v11
+      k2: v12
+    d2:
+      k1:  v21
+      k2:  v22
+  tasks:
+    - debug:
+        msg: "{{ d1|dict_merge_lossless(d2) }}"
+
+#  msg:
+#    k1:
+#    - v21
+#    - v11
+#    k2:
+#    - v22
+#    - v12
