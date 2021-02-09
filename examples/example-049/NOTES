@@ -1,4 +1,10 @@
 
+* playbook4.yml
+  Ansible use of int filter for comparison
+  https://stackoverflow.com/questions/66120535/ansible-use-of-int-filter-for-comparison/
+
+*
+
 Include and import issues
 https://github.com/ansible/ansible/projects/19
 --

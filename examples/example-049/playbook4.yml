@@ -1,0 +1,20 @@
+- name: Pipe precedence over comparison
+  hosts: localhost
+  gather_facts: false
+  vars:
+    var1: 150
+  tasks:
+
+    - debug:
+        msg: "{{ (var1|int > 0)|ternary('yes', 'no') }}"
+      tags: t1
+
+#  msg: 'yes'
+
+    - debug:
+        msg: "{{ var1|int > 0|ternary('yes', 'no') }}"
+      tags: t2
+
+# fatal: [localhost]: FAILED! => msg: 'Unexpected templating type error
+#   occurred on ({{ var1|int > 0|ternary(''yes'', ''no'') }}): ''>'' not
+#   supported between instances of ''int'' and ''str'''
