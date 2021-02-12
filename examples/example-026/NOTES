@@ -1,2 +1,6 @@
-Unable to create dictionary from variables with ansible and group_vars
-https://stackoverflow.com/questions/51892798/unable-to-create-dictionary-from-variables-with-ansible-and-group-vars/51916158#51916158
+ * Unable to create dictionary from variables with ansible and group_vars
+   https://stackoverflow.com/questions/51892798/unable-to-create-dictionary-from-variables-with-ansible-and-group-vars/51916158#51916158
+
+ * play3.yml
+   How to generate a List with a range and save it in a var of a playbook?
+   https://stackoverflow.com/questions/66176582/how-to-generate-a-list-with-a-range-and-save-it-in-a-var-of-a-playbook/

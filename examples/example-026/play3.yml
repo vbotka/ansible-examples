@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        users: "{{ ['user']|product(range(start,end))|map('join')|list }}"
+      vars:
+        start: 1
+        end: 5
+    - debug:
+        var: users
