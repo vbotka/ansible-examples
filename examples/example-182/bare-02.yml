@@ -1,0 +1,71 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "Empty string '{{ var }}' evaluates to False"
+      when: not var
+      vars:
+        var: ''
+      tags: t1
+
+    - debug:
+        msg: "Empty list {{ var }} evaluates to False"
+      when: not var
+      vars:
+        var: []
+      tags: t1
+
+
+    - debug:
+        msg: "String '{{ var }}' evaluates to True"
+      when: var
+      vars:
+        var: 'abc'
+      tags: t2a
+    - debug:
+        msg: "String '{{ var }}' evaluates to False"
+      when: not var
+      vars:
+        var: ''
+      tags: t2a
+
+    - debug:
+        msg: "String '{{ var }}' evaluates to True"
+      when: var|bool
+      vars:
+        var: 'abc'
+      tags: t2b
+
+    - debug:
+        msg: "String '{{ var }}' evaluates to True"
+      when: var|bool
+      vars:
+        var: 'true'
+      tags: t3
+
+    - debug:
+        msg: "String '{{ var }}' evaluates to False"
+      when: not var|bool
+      vars:
+        var: 'false'
+      tags: t4
+
+    - debug:
+        msg: "List {{ var }} evaluates to True"
+      when: var
+      vars:
+        var: [a, b, c]
+      tags: t5
+
+# shell> ansible-playbook bare-02.yml 
+# 
+# PLAY [localhost] ***********************************************************************************************
+# 
+# TASK [debug] ***************************************************************************************************
+# ok: [localhost] => 
+#   msg: Empty string '' evaluates to False
+# 
+# TASK [debug] ***************************************************************************************************
+# ok: [localhost] => 
+#   msg: Empty list [] evaluates to False

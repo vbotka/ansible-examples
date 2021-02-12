@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    var: 'abc'
+  tasks:
+    - debug:
+        msg: "String '{{ var }}' evaluates to True"
+      when: var
+
+#     - debug:
+#         msg: "String '{{ var }}' evaluates to True"
+#       when: var
+
+# fatal: [localhost]: FAILED! =>
+#   msg: |-
+#     The conditional check 'var' failed. The error was:
+#     error while evaluating conditional (var): 'abc' is undefined
