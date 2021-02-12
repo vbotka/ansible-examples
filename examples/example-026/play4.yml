@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - set_fact:
+        users: "{{ query('sequence', user_range) }}"
+      vars:
+        start: 1
+        end: 4
+        user_range: "start={{ start }} end={{ end }} format=user%d"
+    - debug:
+        var: users|to_yaml
+
+#  users|to_yaml: |-
+#    [user1, user2, user3, user4]
