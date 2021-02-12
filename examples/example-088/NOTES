@@ -1,6 +1,9 @@
-
 groupby(value, attribute)
 =========================
 Group a sequence of objects by a common attribute.
 http://jinja.pocoo.org/docs/2.10/templates/#groupby
+
+* test5.yml
+  How can I count the number of occurrences of a certain object in a hash that matches a condition in Ansible?
+  https://stackoverflow.com/questions/66174507/how-can-i-count-the-number-of-occurrences-of-a-certain-object-in-a-hash-that-mat/
 

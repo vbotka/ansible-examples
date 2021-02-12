@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    clusters: [
+        {
+            "address": "host1.local",
+            "cluster": {
+                "name": "RED"
+            }
+        },
+        {
+            "address": "host2.local",
+            "cluster": {
+                "name": "RED"
+            }
+        },
+        {
+            "address": "host3.local",
+            "cluster": {
+                "name": "GREEN"
+            }
+        },
+        {
+            "address": "host4.local",
+            "cluster": {
+                "name": "BLUE"
+            }
+        }]
+  tasks:
+    - set_fact:
+        hpc: "{{ hpc|default({})|combine({item.0: item.1|length}) }}"
+      loop: "{{ clusters|groupby('cluster.name') }}"
+    - debug:
+        var: hpc
+
+#  hpc:
+#    BLUE: 1
+#    GREEN: 1
+#    RED: 2
