@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: false
   vars:
-    clusters: [
+    _hosts: [
         {
             "address": "host1.local",
             "cluster": {
@@ -29,7 +29,7 @@
   tasks:
     - set_fact:
         hpc: "{{ hpc|default({})|combine({item.0: item.1|length}) }}"
-      loop: "{{ clusters|groupby('cluster.name') }}"
+      loop: "{{ _hosts|groupby('cluster.name') }}"
     - debug:
         var: hpc
 
