@@ -1,0 +1,33 @@
+- name: "range returns [start, ..., end-1] vs. sequence returns [start, ..., end]"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        var: item
+      loop: "{{ range(_start,_end)|list }}"
+      vars:
+        _start: 1
+        _end: 3
+
+# ok: [localhost] => (item=1) =>
+#   ansible_loop_var: item
+#   item: 1
+# ok: [localhost] => (item=2) =>
+#   ansible_loop_var: item
+#   item: 2
+
+    - debug:
+        var: item
+      loop: "{{ query('sequence', _range) }}"
+      vars:
+        _start: 1
+        _end: 2
+        _range: "start={{ _start }} end={{ _end }}"
+
+# ok: [localhost] => (item=1) =>
+#   ansible_loop_var: item
+#   item: 1
+# ok: [localhost] => (item=2) =>
+#   ansible_loop_var: item
+#   item: 2

@@ -19,5 +19,5 @@ class FilterModule(object):
         return {
             'custom_1' : custom_1,
             'dict_keys' : dict_keys,
-            'dict_merge' : dict_merge
+            'dict_merge' : dict_merge,
         }

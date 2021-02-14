@@ -1,0 +1,54 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    fruits:
+      - fruit: apple
+        color: red
+        texture: crunchy
+        shape: round
+      - fruit: grapefruit
+        color: yellow
+        taste: sour
+      - fruit: pear
+        color: yellow
+  tasks:
+    - debug:
+        msg:
+          - "{{ keys }}"
+          - "{{ vals }}"
+          - "{{ value }}"
+      loop: "{{ fruits }}"
+      vars:
+        keys: "{{ item.keys()|difference(['fruit']) }}"
+        vals: "{{ keys|map('extract', item)|list }}"
+        value: "{{ dict(keys|zip(vals)) }}"
+
+    - set_fact:
+        fruits3: "{{ fruits3|default({})|combine({ item['fruit']: value }) }}"
+      loop: "{{ fruits }}"
+      vars:
+        keys: "{{ item.keys()|difference(['fruit']) }}"
+        vals: "{{ keys|map('extract', item)|list }}"
+        value: "{{ dict(keys|zip(vals)) }}"
+    - debug:
+        var: fruits3
+
+    - set_fact:
+        fruits2: "{{ fruits2|default([]) + [{ item['fruit']: value }]}}"
+      loop: "{{ fruits }}"
+      vars:
+        keys: "{{ item.keys()|difference(['fruit']) }}"
+        vals: "{{ keys|map('extract', item)|list }}"
+        value: "{{ dict(keys|zip(vals)) }}"
+    - debug:
+        var: fruits2
+
+    - set_fact:
+        fruits4: "{{ fruits|items2dict(key_name='fruit', value_name='color') }}"
+    - debug:
+        var: fruits4
+
+    - set_fact:
+        fruits5: "{{ fruits|items2dict(key_name='fruit', value_name='taste') }}"
+    - debug:
+        var: fruits5
