@@ -264,6 +264,7 @@ Various examples of Ansbile code.
 - Example 260. DEFAULT_JINJA2_NATIVE
 - Example 261. ANSIBLE_CACHE_PLUGIN
 - Example 262. combine_lossless custom filter
+- Example 263. compare integers
 
 ## License
 

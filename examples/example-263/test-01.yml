@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+
+    - debug:
+        var: ansible_distribution_major_version
+    - debug:
+        msg: "{{ ansible_distribution_major_version }} is newer that 19"
+      when: ansible_distribution_major_version|int > 19
+
+# ok: [localhost] =>
+#   ansible_distribution_major_version: '20'
+# 
+# ok: [localhost] =>
+#   msg: 20 is newer that 19
+
+    - debug:
+        msg: "{{ ansible_distribution_major_version }} is newer that 19"
+      when: ansible_distribution_major_version > 19
+
+# fatal: [localhost]: FAILED! =>
+#   msg: ... '>' not supported between instances of 'AnsibleUnsafeText' and 'int'
