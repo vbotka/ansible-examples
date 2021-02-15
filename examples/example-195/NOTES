@@ -1,4 +1,7 @@
+* test7.yml
+  Is there any filter in ansible can mimic all() and any()?
+  https://stackoverflow.com/questions/66207600/is-there-any-filter-in-ansible-can-mimic-all-and-any/
+
 * test6.yml
   How to run a playbook conditionally if any of a property is True
   https://stackoverflow.com/questions/65429038/how-to-run-a-playbook-conditionally-if-any-of-a-property-is-true/
-  

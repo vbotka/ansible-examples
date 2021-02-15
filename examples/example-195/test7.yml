@@ -1,0 +1,79 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ [True, False] is all }}"
+      tags: t1
+    - debug:
+        msg: "{{ [True, False] is any }}"
+      tags: t1
+
+#  msg: false
+#  msg: true
+
+    - debug:
+        msg: "{{ [True, False]|fall }}"
+      tags: t2
+    - debug:
+        msg: "{{ [True, False]|fany }}"
+      tags: t2
+
+#  msg: false
+#  msg: true
+
+    - debug:
+        msg: "{{ l|map('fall')|list }}"
+      vars:
+        l:
+          - [True, True]
+          - [True, False]
+          - [False, True]
+          - [False, False]
+      tags: t3
+
+#  msg:
+#    - true
+#    - false
+#    - false
+#    - false
+
+    - debug:
+        msg: "{{ l|map('fany')|list }}"
+      vars:
+        l:
+          - [True, True]
+          - [True, False]
+          - [False, True]
+          - [False, False]
+      tags: t3
+
+#  msg:
+#    - true
+#    - true
+#    - true
+#    - false
+
+    - debug:
+        msg: "{{ l.all() }}"
+      vars:
+        l:
+          - [True, True]
+          - [True, False]
+          - [False, True]
+          - [False, False]
+      tags: t4
+
+# The error was: 'list object' has no attribute 'all'
+
+    - debug:
+        msg: "{{ l.any() }}"
+      vars:
+        l:
+          - [True, True]
+          - [True, False]
+          - [False, True]
+          - [False, False]
+      tags: t5
+
+# The error was: 'list object' has no attribute 'any'
