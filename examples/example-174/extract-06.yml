@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    my_dict:
+      a: 1
+      b: 2
+      c: 3
+    my_list:
+      - a
+      - c
+
+  tasks:
+    - set_fact:
+        actual: "{{ my_list|map('extract', my_dict)|list }}"
+    - debug:
+        var: actual
+
+#     actual:
+#       - 1
+#       - 3

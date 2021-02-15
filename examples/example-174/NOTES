@@ -1,3 +1,7 @@
+* extract-06.yml
+  How to apply dictionary to list of items with Jinja filter?
+  https://stackoverflow.com/questions/66202455/how-to-apply-dictionary-to-list-of-items-with-jinja-filter/
+
 * extract-05.yml
   Exclude AnsibleUndefined from a list
   https://stackoverflow.com/questions/65974887/exclude-ansibleundefined-from-a-list/
