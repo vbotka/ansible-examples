@@ -1,0 +1,4 @@
+* test2.yml
+  Use json_query in Ansible to query a list of dictionaries contained within a list of dictionaries
+  https://stackoverflow.com/questions/66218695/use-json-query-in-ansible-to-query-a-list-of-dictionaries-contained-within-a-lis/
+

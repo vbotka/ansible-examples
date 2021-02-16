@@ -1,0 +1,52 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_vars: test2-data.json
+
+    - set_fact:
+        list1: "{{ list1|default([]) + [item.name] }}"
+      loop: "{{ gtm_a_pools }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: item_length == subPath_length
+      vars:
+        subPath_length: "{{ item.members|map('intersect', ['subPath'])|flatten|length }}"
+        item_length: "{{ item.members|length }}"
+    - debug:
+        var: list1
+
+# list1:
+#   - a2-test_pool
+      
+    - set_fact:
+        list2: "{{ list2|default([]) + [item.name] }}"
+      loop: "{{ gtm_a_pools }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: item_length != subPath_length
+      vars:
+        subPath_length: "{{ item.members|map('intersect', ['subPath'])|flatten|length }}"
+        item_length: "{{ item.members|length }}"
+    - debug:
+        var: list2
+
+# If "without subPath" means "any member without subPath"
+#
+# list2:
+#   - aci_pool
+      
+    - set_fact:
+        list3: "{{ list3|default([]) + [item.name] }}"
+      loop: "{{ gtm_a_pools }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: subPath_length|int == 0
+      vars:
+        subPath_length: "{{ item.members|map('intersect', ['subPath'])|flatten|length }}"
+    - debug:
+        var: list3
+
+# If "without subPath" means "all members without subPath"
+#
+# list3:
+#   - aci_pool
