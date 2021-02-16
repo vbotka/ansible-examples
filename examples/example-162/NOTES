@@ -1,0 +1,3 @@
+* join3.yml
+  Ansible lineinfile append
+  https://stackoverflow.com/questions/66222199/ansible-lineinfile-append

@@ -1,0 +1,25 @@
+- hosts: localhost
+  vars:
+    hostnames: [hostname1.example.com, hostname2.example.com]
+  tasks:
+    - lineinfile:
+        path: hosts
+        regex: '^{{ ansible_default_ipv4.address }}\s+(.*)$'
+        line: "{{ ansible_default_ipv4.address }}
+               {{ inventory_hostname }}
+               {{ inventory_hostname_short}}
+               {{ hostnames|join(' ') }}"
+
+#  shell> cat hosts
+#  10.1.0.27 localhost localhost
+  
+#  shell> ansible-playbook playbook.yml -CD
+#  
+#  TASK [lineinfile] ***************************************************************
+#  --- before: hosts (content)
+#  +++ after: hosts (content)
+#  @@ -1 +1 @@
+#  -10.1.0.27 localhost localhost
+#  +10.1.0.27 localhost localhost hostname1.example.com hostname2.example.com
+#  
+#  changed: [localhost]
