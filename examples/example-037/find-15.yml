@@ -1,0 +1,33 @@
+- hosts: localhost
+  tasks:
+
+# shell> tree log
+#    log
+#    ├── service1.log
+#    ├── service2.log
+#    └── service3.log
+
+    - find:
+        paths: log
+        file_type: file
+        patterns: "*.log"
+      register: results
+
+    - debug:
+        var: item.path
+      loop: "{{ results.files }}"
+
+#  item.path: log/service3.log
+#  item.path: log/service2.log
+#  item.path: log/service1.log
+
+# shell> cat file_tasks.yml
+#   - debug:
+#       var: item.path
+
+    - include_tasks: file_tasks.yml
+      loop: "{{ results.files }}"
+
+#  item.path: log/service3.log
+#  item.path: log/service2.log
+#  item.path: log/service1.log
