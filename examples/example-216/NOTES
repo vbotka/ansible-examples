@@ -1,0 +1,3 @@
+* hostvars-07.yml
+  Ansible: how to store all hosts affected by a task in a variable?
+  https://stackoverflow.com/questions/66244035/ansible-how-to-store-all-hosts-affected-by-a-task-in-a-variable/

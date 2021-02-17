@@ -1,0 +1,81 @@
+- name: "Store all hosts affected by a task in a variable"
+  hosts: test_11,test_12,test_13
+  gather_facts: false
+  become: false
+
+  tasks:
+
+    - command:
+        cmd: touch foo.conf
+        creates: foo.conf
+        warn: false
+      register: result_foo_conf
+    - set_fact:
+        dict_foo_conf: "{{ dict(ansible_play_hosts_all|zip(my_results)) }}"
+      vars:
+        my_results: "{{ ansible_play_hosts_all|
+                        map('extract', hostvars, ['result_foo_conf', 'changed'])|
+                        list }}"
+      run_once: true
+    - debug:
+        var: dict_foo_conf
+      run_once: true
+
+    - set_fact:
+        changed_hosts: "{{ dict_foo_conf|dict2items|json_query('[?value].key') }}"
+      run_once: true
+    - debug:
+        var: changed_hosts
+      run_once: true
+
+# gives
+# 
+# TASK [command] *************************************************************
+# changed: [test_11]
+# changed: [test_12]
+# changed: [test_13]
+#
+#   dict_foo_conf:
+#     test_11: true
+#     test_12: true
+#     test_13: true
+
+# There are no changes when you run the playbook again
+# 
+# TASK [command] ******************************************************************
+# ok: [test_13]
+# ok: [test_11]
+# ok: [test_12]
+#
+#   dict_foo_conf:
+#     test_11: false
+#     test_12: false
+#     test_13: false
+
+# Let's remove the files from hosts test_12 and test_13
+# 
+# shell> ssh admin@test_12 rm foo.conf
+# shell> ssh admin@test_13 rm foo.conf
+#
+# The playbook gives
+# 
+# TASK [command] ******************************************************************
+# changed: [test_12]
+# ok: [test_11]
+# changed: [test_13]
+#
+#   dict_foo_conf:
+#     test_11: false
+#     test_12: true
+#     test_13: true
+
+# Then select hosts that changed, for example
+# 
+#     - set_fact:
+#         chnaged_hosts: "{{ dict_foo_conf|dict2items|json_query('[?value].key') }}"
+#
+# gives
+# 
+#   chnaged_hosts:
+#   - test_12
+#   - test_13
