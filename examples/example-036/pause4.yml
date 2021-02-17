@@ -1,0 +1,19 @@
+- hosts: localhost
+  gather_facts: false
+  tags: tag1
+  tasks:
+    - pause:
+        prompt: Enter your name
+        echo: true
+      register: result
+    - set_fact:
+        ask_user: "{{ result.user_input }}"
+    - debug:
+        msg: "{{ ask_user }} works in ABC company"
+
+- hosts: localhost
+  gather_facts: false
+  tags: tag2
+  tasks:
+    - debug:
+        msg: This is tag2

@@ -1,4 +1,7 @@
-Trying to get prompt to store a value and use it in a command
-https://stackoverflow.com/questions/52304800/trying-to-get-prompt-to-store-a-value-and-use-it-in-a-command
+* pause4.yml
+  --tags does not skip vars_prompt in ansible
+  https://stackoverflow.com/questions/66237294/tags-does-not-skip-vars-prompt-in-ansible
 
+* Trying to get prompt to store a value and use it in a command
+  https://stackoverflow.com/questions/52304800/trying-to-get-prompt-to-store-a-value-and-use-it-in-a-command
 --
