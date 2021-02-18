@@ -1,0 +1,54 @@
+- name: select explained
+  hosts: all
+  gather_facts: false
+  tasks:
+
+# shell> cat hosts
+#    host1.example.net
+#    host2.example.net new_node=False
+#    host3.example.net new_node=True
+  
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars, 'new_node')|
+                 list }}"
+      run_once: true
+
+#   msg: '[Undefined, False, True]'
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars, 'new_node')|
+                 select|list }}"
+      run_once: true
+
+#   msg:
+#     - true
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars, 'new_node')|
+                 select|list is any }}"
+      run_once: true
+
+#   msg: true
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars, 'new_node')|
+                 select is any }}"
+      run_once: true
+
+#   msg: true
+
+    - debug:
+        msg: "{{ ansible_play_hosts_all|
+                 map('extract', hostvars, 'new_node')|
+                 map('bool')|
+                 list }}"
+      run_once: true
+
+#   msg:
+#       - false
+#       - false
+#       - true
