@@ -1,3 +1,7 @@
+* play-18.yml
+  How to test if a bashrc contains a string
+  https://stackoverflow.com/questions/66257737/how-to-test-if-a-bashrc-contains-a-string/
+
 * play-17.yml
   Ansible - disable ssh password authentication
   https://stackoverflow.com/questions/65228192/ansible-disable-ssh-password-authentication/

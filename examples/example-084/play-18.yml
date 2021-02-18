@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - command: "grep '{{ pattern }}' bash_profile"
+      register: result
+      ignore_errors: true
+      changed_when: false
+      vars:
+        pattern: "export PATH"
+    - lineinfile:
+        dest: bash_profile
+        regex: "^export PATH=.*$"
+        line: "export PATH=/opt/day/libs/kobold/kobold-latest:$PATH"
+      when: result.rc|int != 0

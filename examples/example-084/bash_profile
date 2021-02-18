@@ -1,0 +1,1 @@
+export PATH=/opt/day/libs/kobold/kobold-latest:$PATH
