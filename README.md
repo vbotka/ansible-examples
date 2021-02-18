@@ -128,7 +128,7 @@ Various examples of Ansbile code.
 - Example 124. include_role, import_role and tags
 - Example 125. Dynamic inventory
 - Example 126. ansible-runner
-- Example 127. stats
+- Example 127. stat
 - Example 128. shell, script
 - Example 129. recursion
 - Example 130. file module

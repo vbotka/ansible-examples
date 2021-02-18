@@ -1,0 +1,36 @@
+- hosts: localhost
+
+  vars:
+    flist: [f1, f2, f3, f4]
+    my_customer: c1
+    path_to_put_files: dest
+
+  tasks:
+    - stat:
+        path: "{{ my_customer }}/{{ item }}"
+      loop: "{{ flist }}"
+      register: result
+
+# json_query
+    - debug:
+        msg: "Copy {{ item.stat.path }} to {{ path_to_put_files }}"
+      loop: "{{ result.results|json_query('[?stat.exists]') }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+# selectattr
+    - debug:
+        msg: "Copy {{ item.stat.path }} to {{ path_to_put_files }}"
+      loop: "{{ result.results|selectattr('stat.exists')|list }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+# shell> tree c1
+#    c1
+#    ├── f1
+#    ├── f2
+#    └── f3
+
+#  msg: Copy c1/f1 to dest
+#  msg: Copy c1/f2 to dest
+#  msg: Copy c1/f3 to dest
