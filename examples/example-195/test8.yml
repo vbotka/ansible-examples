@@ -1,0 +1,13 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        semaphore: "{{ ansible_play_hosts_all|
+                       map('extract', hostvars, 'new_node')|
+                       select is any }}"
+      run_once: true
+    - debug:
+        var: semaphore
+    - debug:
+        msg: OK
+      when: semafor|bool

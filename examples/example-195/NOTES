@@ -1,3 +1,7 @@
+* test8.yml
+  Run an Ansible task to all hosts if at least one of the hosts has a variable
+  https://stackoverflow.com/questions/66262728/run-an-ansible-task-to-all-hosts-if-at-least-one-of-the-hosts-has-a-variable/
+
 * test7.yml
   Is there any filter in ansible can mimic all() and any()?
   https://stackoverflow.com/questions/66207600/is-there-any-filter-in-ansible-can-mimic-all-and-any/
