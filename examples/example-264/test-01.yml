@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Block
+      tags: broken
+      block:
+        - debug:
+            msg: task 1
+#     tags: broken
+
+    - name: Task
+      tags: not_broken
+      debug:
+        msg: continue

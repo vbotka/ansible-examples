@@ -1,0 +1,47 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Block
+      tags: t1
+      block:
+        - name: Task
+          debug:
+            msg: Task 1
+  
+#    - name: Block
+#      block:
+#      tags: t1
+#        - name: Task
+#          debug:
+#            msg: Task 1
+#
+# ERROR! Syntax Error while loading YAML.
+#  mapping values are not allowed in this context
+
+          
+#    - name: Block
+#      block:
+#      tag: t1
+#        - name: Task
+#          debug:
+#            msg: Task 1
+#
+# ERROR! Syntax Error while loading YAML.
+#   mapping values are not allowed in this context
+          
+#    - name: Block
+#      tag: t1
+#      block:
+#        - name: Task
+#          debug:
+#            msg: Task 1
+#
+# ERROR! 'tag' is not a valid attribute for a Block
+
+#    - name: Task
+#      tag: t1
+#      debug:
+#        msg: Task 1
+#
+# ERROR! conflicting action statements: tag, debug
