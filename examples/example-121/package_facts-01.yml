@@ -1,6 +1,14 @@
-- hosts: test_01
+- hosts: localhost
   gather_facts: no
   tasks:
+
     - package_facts:
+      tags: always
+
     - debug:
         msg: "{{ ansible_facts.packages.keys()|list }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ ansible_facts.packages }}"
+      tags: t2
