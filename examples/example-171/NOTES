@@ -1,0 +1,3 @@
+* command5.yml
+  Detect and mount filesystem in Ansible
+  https://stackoverflow.com/questions/55511770/detect-and-mount-filesystem-in-ansible/
