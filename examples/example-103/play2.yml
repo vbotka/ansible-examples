@@ -1,17 +1,82 @@
 - hosts: localhost
-  vars:
-    data1:
-      - {git: true}
-      - {gradle: false}
-    data2: {}
-  tasks:
-    - set_fact:
-        data2: "{{ data2|combine(item) }}"
-      loop: "{{ data1 }}"
-    - debug:
-        msg: "{{ data2|dict2items|json_query('[].value') }}"
-    - debug:
-        msg: "{{ data2|hash_values }}"
 
+  vars:
+    d:
+      git: true
+      gradle: false
+    l:
+      - git: true
+      - gradle: false
+    out: {}
+
+  tasks:
+
+    - set_fact:
+        out: "{{ l|map('dict2items')|
+                   flatten|
+                   map(attribute='value')|
+                   list }}"
+      tags: t1
+    - debug:
+        var: out
+      tags: t1
+
+#  out:
+#    - true
+#    - false
+
+    - set_fact:
+        out: "{{ d.values()|list }}"
+      tags: t2
+    - debug:
+        var: out
+      tags: t2
+
+#  out:
+#    - true
+#    - false
+
+    - debug:
+        msg: "{{ item.keys()|first }}"
+      loop: "{{ l }}"
+      tags: t3
+
+#  msg: git
+#  msg: gradle
+
+    - set_fact:
+       out: "{{ out|combine(item) }}"
+      loop: "{{ l }}"
+    - debug:
+        var: out
+
+#  out:
+#    git: true
+#    gradle: false
+
+    - debug:
+        msg: "{{ out|dict2items|json_query('[].value') }}"
+
+#  msg:
+#    - true
+#    - false
+      
+    - debug:
+        msg: "{{ out.keys()|list }}"
+
+#  msg:
+#    - git
+#    - gradle
+      
+    - debug:
+        msg: "{{ out.values()|list }}"
+
+#  msg:
+#    - true
+#    - false
+      
 # How to retrieve dictionary values using split method?
 # https://stackoverflow.com/questions/56542283/how-to-retrieve-dictionary-values-using-split-method/
+
+# loop over a list of dictionaries in Ansible without knowing key names
+# https://stackoverflow.com/questions/66345295/loop-over-a-list-of-dictionaries-in-ansible-without-knowing-key-names/

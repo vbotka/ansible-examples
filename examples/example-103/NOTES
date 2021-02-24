@@ -1,1 +1,6 @@
+* play2.yml
+  How to retrieve dictionary values using split method?
+  https://stackoverflow.com/questions/56542283/how-to-retrieve-dictionary-values-using-split-method/
 
+  loop over a list of dictionaries in Ansible without knowing key names
+  https://stackoverflow.com/questions/66345295/loop-over-a-list-of-dictionaries-in-ansible-without-knowing-key-names/
