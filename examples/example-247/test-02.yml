@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    inf_list_tmp: [[], [], [a], [], [b], [], [c], [d]] 
+  tasks:
+    - debug:
+        var: inf_list_tmp
+    - set_fact:
+        inf_list: "{{ inf_list|default([]) + [_item] }}"
+      loop: "{{ inf_list_tmp }}"
+      vars:
+        _item: "{{ (item|length > 0)|ternary(item,  'STARTED JOB') }}"
+    - debug:
+        var: inf_list
+
+#  inf_list:
+#  - STARTED JOB
+#  - STARTED JOB
+#  - - a
+#  - STARTED JOB
+#  - - b
+#  - STARTED JOB
+#  - - c
+#  - - d
