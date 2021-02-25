@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: role14
+        tasks_from: fst-openshot.yml
+
+#  msg: tasks 03
+#  msg: tasks 05
+#  msg: tasks 07

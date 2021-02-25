@@ -1,0 +1,6 @@
+# - import_tasks: "{{ role_path }}/tasks/tasks-03.yml"
+# - import_tasks: "{{ role_path }}/tasks/tasks-05.yml"
+# - import_tasks: "{{ role_path }}/tasks/tasks-07.yml"
+- import_tasks: tasks-03.yml
+- import_tasks: tasks-05.yml
+- import_tasks: tasks-07.yml
