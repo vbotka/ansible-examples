@@ -1,3 +1,7 @@
+* command6.yml
+  Ansible show correct result with conditionnal in when from list in dict
+  https://stackoverflow.com/questions/66364213/ansible-show-correct-result-with-conditionnal-in-when-from-list-in-dict/
+
 * command5.yml
   Detect and mount filesystem in Ansible
   https://stackoverflow.com/questions/55511770/detect-and-mount-filesystem-in-ansible/
