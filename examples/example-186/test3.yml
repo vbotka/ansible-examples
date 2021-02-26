@@ -1,0 +1,81 @@
+- hosts: all
+  gather_facts: all
+  tasks:
+
+    - debug:
+        var: ansible_ssh_port
+      tags: t1
+
+# ok: [localhost] => 
+#   ansible_ssh_port: 999
+# ok: [test_11] => 
+#   ansible_ssh_port: 999
+# ok: [test_12] => 
+#   ansible_ssh_port: 999
+
+    - command: whoami
+      delegate_to: test_11
+      vars:
+        ansible_ssh_port: 22
+      run_once: true
+      tags: t2
+
+# Do not need "delegate_facts: true"
+# changed: [localhost -> test_11]
+
+    - command: whoami
+      delegate_to: test_11
+      delegate_facts: true
+      vars:
+        ansible_ssh_port: 22
+      run_once: true
+      tags: t3
+
+# Works also with "delegate_facts: true"
+# changed: [localhost -> test_11]
+
+    - block:
+        - command: "echo {{ ansible_ssh_port }}"
+          register: result
+        - debug:
+            var: result.stdout
+      vars:
+        ansible_user: admin
+      delegate_to: test_13
+      run_once: true
+      tags: t4
+
+# TASK [command] ************************
+# changed: [localhost -> test_13]
+# TASK [debug] **************************
+# ok: [localhost -> test_13] =>
+#   result.stdout: '999'
+
+    - block:
+        - command: "echo {{ ansible_ssh_port }}"
+          register: result
+        - debug:
+            var: result.stdout
+      vars:
+        ansible_user: admin
+      delegate_to: test_13
+      delegate_facts: true
+      run_once: true
+      tags: t5
+    - debug:
+        var: hostvars.keys()|list
+      run_once: true
+      tags: t5
+
+# "delegate_facts: true" does not make hostvars to keep the host
+#
+# TASK [command] ************************
+# changed: [localhost -> test_13]
+# TASK [debug] **************************
+# ok: [localhost -> test_13] =>
+#   result.stdout: '999'
+# ok: [localhost] => 
+# #   hostvars.keys()|list:
+# #   - localhost
+# #   - test_11
+# #   - test_12
