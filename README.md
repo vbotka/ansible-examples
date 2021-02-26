@@ -266,6 +266,7 @@ Various examples of Ansbile code.
 - Example 262. combine_lossless custom filter
 - Example 263. compare integers
 - Example 264. block tags
+- Example 265. Jinja tests
 
 ## License
 

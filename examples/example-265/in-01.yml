@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        msg: A is in the list
+      when: "'A' in ['A', 'B', 'C']"
+      tags: t1
+
+#  msg: A is in the list
+
+    - debug:
+        msg: "{{ _letter }} is in the list {{ _list }}"
+      when: _letter in _list
+      vars:
+        _letter: A
+        _list: [A, B, C]
+      tags: t2
+
+#  msg: A is in the list ['A', 'B', 'C']
+
+    - debug:
+        msg: "{{ _letter }} is in the list {{ _list }}"
+      when: _letter in _list
+      vars:
+        _letter: X
+        _list: [A, B, C]
+      tags: t3
+
+# skipping: [localhost]
