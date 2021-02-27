@@ -1,3 +1,6 @@
+# Q: Which variables of the two hosts, involved in `delegate_to`, will be used to connect SSH?
+# A: The variables of the host which is connected to will be used.
+
 - hosts: all
   gather_facts: all
   tasks:

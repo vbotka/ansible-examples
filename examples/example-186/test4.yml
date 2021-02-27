@@ -1,0 +1,22 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+    - command: "echo {{ ansible_python_interpreter }}"
+      register: result
+      delegate_to: test_11
+      tags: t1
+    - debug:
+        var: result.stdout
+      tags: t1
+
+    - command: "echo {{ ansible_ssh_port }}"
+      register: result
+      delegate_to: test_11
+      vars:
+        ansible_ssh_port: 9999
+      tags: t2
+    - debug:
+        var: result.stdout
+      tags: t2
