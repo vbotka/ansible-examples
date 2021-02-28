@@ -1,0 +1,4 @@
+- debug:
+    var: var_1a
+- debug:
+    var: var_2a

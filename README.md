@@ -267,6 +267,7 @@ Various examples of Ansbile code.
 - Example 263. compare integers
 - Example 264. block tags
 - Example 265. Jinja tests
+- Example 266. Role defaults
 
 ## License
 

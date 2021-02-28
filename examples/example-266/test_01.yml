@@ -1,0 +1,35 @@
+- name: All files in dir defaults/main are included
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role_A
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# shell> tree roles/role_A/defaults/main/
+# roles/role_A/defaults/main/
+# ├── vars_1.yml
+# └── vars_2.yml
+# 
+# 0 directories, 2 files
+#
+# shell> cat roles/role_A/defaults/main/vars_1.yml 
+# var_1a: var1a
+#
+# shell> cat roles/role_A/defaults/main/vars_2.yml 
+# var_2a: var2a
+#
+# shell> cat roles/role_A/tasks/main.yml 
+# - debug:
+#     var: var_1a
+# - debug:
+#     var: var_2a
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# TASK [role_A : debug] *****************************************************************
+# ok: [localhost] => 
+#   var_1a: var1a
+# 
+# TASK [role_A : debug] *****************************************************************
+# ok: [localhost] => 
+#   var_2a: var2a
