@@ -22,3 +22,35 @@
 # TASK [debug] ***************************************************
 # ok: [localhost] => 
 #   ip_list[1][2]: ipadd7
+
+    - debug:
+        var: ip_list|flatten
+    - debug:
+        var: ip_list|flatten|join(',')
+
+# It's not clear what type you're looking for. Should it be a list?
+# 
+#     - debug:
+#         var: ip_list|flatten
+# 
+# gives
+# 
+#   ip_list|flatten:
+#   - ipadd1
+#   - ipadd2
+#   - ipadd3
+#   - ipadd4
+#   - ipadd5
+#   - ipadd6
+#   - ipadd7
+#   - ipadd8
+# 
+# Or, should it be a string perhaps?
+# 
+#     - debug:
+#         var: ip_list|flatten|join(',')
+# 
+# gives
+# 
+#   ip_list|flatten|join(','):
+#   ipadd1,ipadd2,ipadd3,ipadd4,ipadd5,ipadd6,ipadd7,ipadd8
