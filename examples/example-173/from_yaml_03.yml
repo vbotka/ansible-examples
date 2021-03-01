@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: localhost
+  tasks:
+    - set_fact:
+        ip_list: "{{ lookup('file', 'ip_list.txt').split('\n')|
+                     map('from_yaml')|list }}"
+    - debug:
+        var: ip_list|to_yaml
+    - debug:
+        var: ip_list[1][2]
+
+# shell> cat ip_list.txt
+# ["ipadd1" , "ipadd2" , "ipadd3" , "ipadd4"]
+# ["ipadd5" , "ipadd6" , "ipadd7" , "ipadd8"]
+
+# TASK [debug] ***************************************************
+# ok: [localhost] => 
+#   ip_list|to_yaml: |-
+#     - [ipadd1, ipadd2, ipadd3, ipadd4]
+#     - [ipadd5, ipadd6, ipadd7, ipadd8]
+# 
+# TASK [debug] ***************************************************
+# ok: [localhost] => 
+#   ip_list[1][2]: ipadd7
