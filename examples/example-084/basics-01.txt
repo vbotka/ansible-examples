@@ -1,0 +1,14 @@
+[A]
+a1
+a2
+
+[B]
+b1
+b2
+
+[group1]
+server1
+server2
+
+[group2]
+server2

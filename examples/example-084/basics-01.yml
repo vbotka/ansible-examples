@@ -1,0 +1,48 @@
+# shell> cat basics-01.txt
+# [A]
+# a1
+# a2
+# 
+# [B]
+# b1
+# b2
+# 
+# [group1]
+# server1
+# server2
+# 
+# [group2]
+# server2
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - lineinfile:
+        dest: basics-01.txt
+        insertafter: '^\[B\]'
+        line: c1
+
+# --- before: basics-01.txt (content)
+# +++ after: basics-01.txt (content)
+# @@ -3,6 +3,7 @@
+#  a2
+# 
+# [B]
+# +c1
+#  b1
+#  b2
+
+    - ini_file:
+        dest: basics-01.txt
+        section: group2
+        option: server1
+        allow_no_value: true
+
+# --- before: basics-01.txt (content)
+# +++ after: basics-01.txt (content)
+# @@ -12,3 +12,4 @@
+#  
+#  [group2]
+#  server2
+# +server1
