@@ -1,0 +1,3 @@
+* test-01.yml
+  Combine attribute value using json_query in ansible
+  https://stackoverflow.com/questions/66466032/combine-attribute-value-using-json-query-in-ansible/

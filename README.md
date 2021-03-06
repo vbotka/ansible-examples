@@ -268,6 +268,7 @@ Various examples of Ansbile code.
 - Example 264. block tags
 - Example 265. Jinja tests
 - Example 266. Role defaults
+- Example 267. json_query issue to_yaml|from_yaml
 
 ## License
 

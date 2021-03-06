@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    locations:
+      - name: Seattle
+        state: WA
+      - name: New York
+        state: NY
+      - name: Bellevue
+        state: WA
+      - name: Olympia
+        state: WA
+
+    locations2: [{"name": "Seattle", "state": "WA"},
+                 {"name": "New York", "state": "NY"},
+                 {"name": "Bellevue", "state": "WA"},
+                 {"name": "Olympia", "state": "WA"}]
+
+  tasks:
+
+    - debug:
+        msg: "{{ locations|
+                 json_query('[].join(`-`, [name,state])') }}"
+      tags: t1
+
+# fatal: [localhost]: FAILED! => 
+#   msg: |-
+#     JMESPathError in json_query filter plugin:
+#     In function join(), invalid type for value: Seattle, expected one of: ['array-string'],
+#     received: "AnsibleUnicode"
+       
+    - debug:
+        msg: "{{ locations|to_json|from_json|
+                 json_query('[].join(`-`, [name,state])') }}"
+      tags: t2
+
+# ok: [localhost] => 
+#   msg:
+#   - Seattle-WA
+#   - New York-NY
+#   - Bellevue-WA
+#   - Olympia-WA
+
+# Fixed in 2.10 and later
+# (closed)json_query filter fails when using the functions "contains", "starts_with", others
+#27299
+# https://github.com/ansible/ansible/issues/27299#issuecomment-331068246
+# "The problem is related to the fact that Ansible uses own types for
+# strings: AnsibleUnicode and AnsibleUnsafeText.  And as long as
+# jmespath library has very strict type-checking, it fails to accept
+# this types as string literals."
