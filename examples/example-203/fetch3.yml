@@ -1,0 +1,55 @@
+- hosts: test_11
+  gather_facts: false
+  vars:
+    fetch_dir: fetch
+  tasks:
+    - find:
+        paths: "/myfolder"
+        patterns: "file-*.yml"
+      register: folder_files
+    - debug:
+        var: folder_files
+
+# shell> tree fetch/test_11/myfolder/
+# fetch/test_11/myfolder/
+# ├── file-1.yml
+# ├── file-2.yml
+# ├── file-3.yml
+# ├── file-4.yml
+# └── file-5.yml
+
+    - fetch:
+        dest: "{{ fetch_dir }}"
+        src: "{{ item.path }}"
+      loop: "{{ folder_files.files }}"
+
+    - set_fact:
+        tmp_fact: "{{ tmp_fact|default([]) +
+                      (lookup('file', fetch_dir ~ '/' ~
+                                      inventory_hostname ~ '/' ~
+                                      item.path)|
+                       from_yaml)['same-root-key']['same-list-key'] }}"
+      loop: "{{ folder_files.files }}"
+    - debug:
+        var: tmp_fact
+
+#   tmp_fact:
+#   - a
+#   - b
+#   - c
+#   - y
+#   - b
+#   - a
+#   - x
+
+    - set_fact:
+        result: "{{ tmp_fact|unique }}"
+    - debug:
+        var: result
+
+#   result:
+#   - a
+#   - b
+#   - c
+#   - y
+#   - x

@@ -1,0 +1,5 @@
+---
+same-root-key:
+  same-list-key:
+    - a
+    - x

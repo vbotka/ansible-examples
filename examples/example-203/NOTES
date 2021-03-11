@@ -1,0 +1,3 @@
+* fetch3.yml
+  How to load only the unique items of per file stored lists identified via the same key path into a single variable using ansible?
+  https://stackoverflow.com/questions/66579918/how-to-load-only-the-unique-items-of-per-file-stored-lists-identified-via-the-sa/
