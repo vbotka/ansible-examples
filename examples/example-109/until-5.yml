@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    _pattern: "Service Status: up"
+  tasks:
+    - command: "{{ playbook_dir }}/random.sh"
+      register: service_states
+      until: service_states.stdout_lines|
+             select('match', _pattern)|list|length == 3
+      retries: 10
+      delay: 1
+    - debug:
+        msg: "{{ service_states.stdout_lines }}"
+
+# shell> ansible-playbook playbook.yml
+# 
+# TASK [command] **********************************************************
+# FAILED - RETRYING: command (10 retries left).
+# FAILED - RETRYING: command (9 retries left).
+# FAILED - RETRYING: command (8 retries left).
+# changed: [localhost]
+# 
+# TASK [debug] ************************************************************
+# ok: [localhost] => 
+#   msg:
+#   - 'Service Status: up'
+#   - 'Service Status: up'
+#   - 'Service Status: up'

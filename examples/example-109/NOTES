@@ -1,1 +1,19 @@
+* until-5.yml
+  Ansible filter to find all lists with specified name
+  https://stackoverflow.com/questions/66632195/ansible-filter-to-find-all-lists-with-specified-name
+  Looping a task until it succeeds
+  https://groups.google.com/g/ansible-project/c/OY5KSIdn0XQ/m/6LUXcOE4CAAJ
 
+  - command: '[ "{{ item }}" -gt "3" ]'
+    loop: "{{ range(1, 5 + 1)|list }}"
+    register: result
+    ignore_errors: true
+    when: not condition
+    vars:
+      condition: "{{ (result|default({'rc': 1})).rc == 0 }}"
+
+    gives
+
+    changed: [localhost] => (item=4)
+    skipping: [localhost] => (item=5)
+    ...ignoring
