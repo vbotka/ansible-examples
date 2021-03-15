@@ -22,6 +22,8 @@
         dest: "{{ fetch_dir }}"
         src: "{{ item.path }}"
       loop: "{{ folder_files.files }}"
+      loop_control:
+        label: "{{ item.path }}"
 
     - set_fact:
         tmp_fact: "{{ tmp_fact|default([]) +
