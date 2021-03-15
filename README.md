@@ -269,6 +269,7 @@ Various examples of Ansbile code.
 - Example 265. Jinja tests
 - Example 266. Role defaults
 - Example 267. json_query issue to_yaml|from_yaml
+- Example 268. batch filter
 
 ## License
 

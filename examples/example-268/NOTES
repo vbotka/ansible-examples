@@ -1,0 +1,3 @@
+* batch-01.yml, batch-02.yml
+  Ansible, distribute a list to other list
+  https://stackoverflow.com/questions/66597135/ansible-distribute-a-list-to-other-list/

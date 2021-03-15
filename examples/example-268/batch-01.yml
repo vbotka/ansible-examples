@@ -1,0 +1,43 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    kids:
+    - John
+    - Shara
+    - David
+    - Alice
+    - Bob
+    fruits:
+    - Banana
+    - Mango
+    - Orange
+    - Peach
+    - Pineapple
+    - Watermelon
+    - Avocado
+    - Cherries
+    - Apple
+  tasks:
+    - set_fact:
+        _dict: "{{ dict(kids|zip(_values)) }}"
+      vars:
+        _batch: "{{ fruits|length|int / kids|length|int }}"
+        _values: "{{ fruits|batch(_batch|float|round)|list }}"
+    - debug:
+        var: _dict
+
+#  _dict:
+#    Alice:
+#    - Avocado
+#    - Cherries
+#    Bob:
+#    - Apple
+#    David:
+#    - Pineapple
+#    - Watermelon
+#    John:
+#    - Banana
+#    - Mango
+#    Shara:
+#    - Orange
+#    - Peach
