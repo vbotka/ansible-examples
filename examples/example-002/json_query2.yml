@@ -1,0 +1,49 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+# https://jmespath.readthedocs.io/en/latest/specification.html#examples
+    - name: 'search(foo, {"foo": "value"}) -> "value"'
+      debug:
+        msg: "{{ _dict|json_query(_query) }}"
+      vars:
+        _dict: {"foo": "value"}
+        _query: "foo"
+      tags: t1
+
+# https://jmespath.readthedocs.io/en/latest/specification.html#id1
+    - name: 'search(foo.bar, {"foo": {"bar": "value"}}) -> "value"'
+      debug:
+        msg: "{{ _dict|json_query(_query) }}"
+      vars:
+        _dict: {"foo": {"bar": "value"}}
+        _query: "foo.bar"
+      tags: t2
+
+# https://jmespath.readthedocs.io/en/latest/specification.html#id9
+    - name: 'search(foo[?bar==`10`], {"foo": [{"bar": 1}, {"bar": 10}]}) -> [{"bar": 10}]'
+      debug:
+        msg: "{{ _dict|json_query(_query) }}"
+      vars:
+        _dict: {"foo": [{"bar": 1}, {"bar": 10}]}
+        _query: "foo[?bar==`10`]"
+      tags: t3a
+
+    - name: 'search(foo[?bar==`10`], {"foo": [{"bar": 1}, {"bar": 10}]}) -> [{"bar": 10}]'
+      debug:
+        msg: "{{ _list|json_query(_query) }}"
+      vars:
+        _dict: {"foo": [{"bar": 1}, {"bar": 10}]}
+        _list: "{{ _dict.foo }}"
+        _query: "[?bar==`10`]"
+      tags: t3b
+
+# https://jmespath.readthedocs.io/en/latest/specification.html#id13
+    - name: 'search(foo | bar, {"foo": {"bar": "baz"}}) -> "baz"'
+      debug:
+        msg: "{{ _dict|json_query(_query) }}"
+      vars:
+        _dict: {"foo": {"bar": "baz"}}
+        _query: "foo | bar"
+      tags: t4

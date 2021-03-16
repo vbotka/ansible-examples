@@ -1,5 +1,9 @@
-JMESPath Tutorial
-http://jmespath.org/tutorial.html
+* JMESPath Tutorial
+  http://jmespath.org/tutorial.html
 
-https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#json-query-filter
-https://stackoverflow.com/questions/47218038/get-api-call-from-ansible-using-jquery-jmespath
+  https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#json-query-filter
+  https://stackoverflow.com/questions/47218038/get-api-call-from-ansible-using-jquery-jmespath
+
+* json_query2.yml
+  Get specific list of dict from json content using Ansible
+  https://stackoverflow.com/questions/66523841/get-specific-list-of-dict-from-json-content-using-ansible/
