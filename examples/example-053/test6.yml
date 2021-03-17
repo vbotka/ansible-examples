@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - template:
+        dest: "{{ playbook_dir }}/my_vault_passwd"
+        src: my_vault_passwd.j2
+        mode: "0600"
+    - include_vars: vault3.yml
+    - template:
+        dest: "{{ playbook_dir }}/my_vault_passwd"
+        src: dummy_vault_passwd.j2
+        mode: "0600"
+    - debug:
+        var: test_var
+
+# > ... inject an 'ansible vault' password during a play.  
+# 
+# FWIW, below is the scenario how to put the vault password into a file
+# only when you need it. Given the vault password is stored in
+# *passwordstore*, create two templates, e.g.
+# 
+#   shell> cat dummy_vault_passwd.j2  
+#   dummy_vault_passwd
+# 
+#   shell> cat my_vault_passwd.j2  
+#   {{ lookup('passwordstore', 'vault/admin') }}
+# 
+# and configure *vault_password_file*
+# 
+#   shell> grep vault ansible.cfg  
+#   vault_password_file = $PWD/my_vault_passwd
+# 
+# Create "dummy" file $PWD/my_vault_passwd
+# 
+#   shell> cat my_vault_passwd  
+#   dummy_vault_passwd
+# 
+# Then the playbook put the vault password into the file only in
+# the section when it is needed
