@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: How to test if a bashrc contains a string
+  hosts: localhost
   gather_facts: false
   tasks:
     - command: "grep '{{ pattern }}' bash_profile"

@@ -1,21 +1,44 @@
-- hosts: localhost
-  gather_facts: no
+- name: Simple remove and replace.
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    _my_backup: false
+
   tasks:
-    - lineinfile:
+
+    - name: Remove 1st line
+      lineinfile:
         path: myconffile
-        backup: yes
-        state: absent
         regexp: '\(ADDRESS = \(PROTOCOL = TCP\)\(HOST = 10.0.0.1\)\(PORT = 1501\)\)'
-    - replace:
+        state: absent
+        backup: "{{ _my_backup }}"
+
+    - name: Replace 2nd line
+      replace:
         path: myconffile
-        backup: yes
         regexp: '\(ADDRESS = \(PROTOCOL = TCP\)\(HOST = 10.0.0.2\)\(PORT = 1501\)\)'
         replace: '(ADDRESS = (PROTOCOL = TCP)(HOST = my-site.com)(PORT = 1501))'
-    - lineinfile:
+        backup: "{{ _my_backup }}"
+
+    - name: Remove last line
+      lineinfile:
         path: myconffile
-        backup: yes
-        state: absent
         regexp: '\(BALANCE = yes\)'
+        state: absent
+        backup: "{{ _my_backup }}"
 
 # Ansible equivalent of below sed command
 # https://devops.stackexchange.com/questions/8344/ansible-equivalent-of-below-sed-command/
+
+# before
+#
+# (ADDRESS = (PROTOCOL = TCP)(HOST = 10.0.0.1)(PORT = 1501))
+# (ADDRESS = (PROTOCOL = TCP)(HOST = 10.0.0.2)(PORT = 1501))
+# (ADDRESS = (PROTOCOL = TCP)(HOST = my-site.com)(PORT = 1501))
+# (BALANCE = yes))
+
+# after
+#
+# (ADDRESS = (PROTOCOL = TCP)(HOST = my-site.com)(PORT = 1501))
+# (ADDRESS = (PROTOCOL = TCP)(HOST = my-site.com)(PORT = 1501))

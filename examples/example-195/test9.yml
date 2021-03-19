@@ -1,0 +1,37 @@
+- name: Empty list when tested all is True but is False when tested any
+  hosts: localhost
+  gather_facts: false
+  vars:
+    condition4: my_value
+    d1:
+      item1:
+        l: []
+      item2:
+        l: [condition1, condition3]
+      item3:
+        l: [condition4]
+  tasks:
+    - debug:
+        msg: "{{ [] is all }}"
+    - debug:
+        msg: "{{ [] is any }}"
+    - set_fact:
+        items_list: "{{ items_list|default([]) + [item.key] }}"
+      loop: "{{ d1|dict2items }}"
+      when: _vals|from_yaml is all
+      vars:
+        _vals: |
+          [
+          {% for i in  item.value.l %}
+          {{ vars[i] is defined }},
+          {% endfor %}
+          ]
+    - debug:
+        var: items_list
+
+#  msg: true
+#  msg: false
+#
+#  items_list:
+#  - item1
+#  - item3

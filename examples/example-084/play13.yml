@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: Uncomment line.
+  hosts: localhost
   gather_facts: false
   tasks:
     - lineinfile:
@@ -11,3 +12,6 @@
           line: 'module(load="imudp")'
         - regex: 'input\(type="imudp" port="514"\)'
           line: 'input(type="imudp" port="514")'
+
+# -# input(type="imudp" port="514")
+# +input(type="imudp" port="514")

@@ -1,3 +1,7 @@
+* test9.yml
+  Ansible: appending to a list conditionally
+  https://serverfault.com/questions/1057555/ansible-appending-to-a-list-conditionally
+
 * test8.yml, test8b.yml
   Run an Ansible task to all hosts if at least one of the hosts has a variable
   https://stackoverflow.com/questions/66262728/run-an-ansible-task-to-all-hosts-if-at-least-one-of-the-hosts-has-a-variable/

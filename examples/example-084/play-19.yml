@@ -1,16 +1,17 @@
-- hosts: localhost
+- name: Simple regexp multi-line.
+  hosts: localhost
   gather_facts: false
   tasks:
     - lineinfile:
-        path: files/test.conf
+        path: files-19/test.conf
         regexp: '^line4$'
         line: |
           pre-line4
           line4
           post-line4
 
-# --- before: files/test.conf (content)
-# +++ after: files/test.conf (content)
+# --- before: files-19/test.conf (content)
+# +++ after: files-19/test.conf (content)
 # @@ -1,5 +1,7 @@
 #  line1
 #  line2

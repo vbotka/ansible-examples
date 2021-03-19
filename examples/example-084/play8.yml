@@ -1,6 +1,8 @@
-- hosts: localhost
-  gather_facts: no
+- name: Simple insertafter.
+  hosts: localhost
+  gather_facts: false
   tasks:
+
     - lineinfile:
         path: "{{ playbook_dir }}/test8.txt"
         insertafter: '^\s*text2\s*$'

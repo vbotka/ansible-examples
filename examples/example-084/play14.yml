@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: Uncomment lines.
+  hosts: localhost
   gather_facts: false
   tasks:
     - replace:
@@ -10,6 +11,17 @@
           replace: 'module(load="imudp")'
         - regex: 'input\(type="imudp" port="514"\)'
           replace: 'input(type="imudp" port="514")'
+
+#  # provides UDP syslog reception
+#  # module(load="imudp")
+# -# input(type="imudp" port="514")
+# +input(type="imudp" port="514")
+#
+#  # provides TCP syslog reception
+#  # module(load="imudp")
+# -# input(type="imudp" port="514")
+# +input(type="imudp" port="514")
+
 
 # How to uncomment more than one line in Ansible?
 # https://stackoverflow.com/questions/58748588/how-to-uncomment-more-than-one-line-in-ansible/

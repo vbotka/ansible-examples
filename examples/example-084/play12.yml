@@ -1,5 +1,6 @@
-- hosts: localhost
-  gather_facts: no
+- name: Simple fail when regex not in file.
+  hosts: localhost
+  gather_facts: false
   tasks:
     - fail:
         msg: Pattern not in file
@@ -8,7 +9,10 @@
       vars:
         pattern: '^/var/log/apache2/\*\.log\s+{$'
         my_conf: '{{ playbook_dir }}/test11.conf'
-        
 
 # Replace a line in a file with Ansible, while ensuring that line is present
 # https://serverfault.com/questions/985701/replace-a-line-in-a-file-with-ansible-while-ensuring-that-line-is-present/
+
+
+# TASK [fail] **********************************************************************************
+# skipping: [localhost]

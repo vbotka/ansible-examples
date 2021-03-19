@@ -1,13 +1,17 @@
-- hosts: localhost
-  gather_facts: no
+- name: The regexp look ahead and match the line only if the value is not present.
+  hosts: localhost
+  gather_facts: false
   vars:
     new_server_ip: 192.168.99.1
   tasks:
     - lineinfile:
-        path: /scratch/tmp/test.conf
+        path: files-6/test.conf
         regexp: '(?!.*{{ new_server_ip }}.*)^(ip_list.*)$'
         line: '\1 {{ new_server_ip }}'
-        backrefs: yes
+        backrefs: true
 
 # trying to add an IP address to the end of the list in Ansible
 # https://stackoverflow.com/questions/56982429/trying-to-add-an-ip-address-to-the-end-of-the-list-in-ansible/
+
+# -ip_list = xx.xx.xx.xx yy.yy.yy.zz aa.aa.aa.aa
+# +ip_list = xx.xx.xx.xx yy.yy.yy.zz aa.aa.aa.aa 192.168.99.1

@@ -1,5 +1,6 @@
-- hosts: localhost
-  gather_facts: no
+- name: The regexp look ahead and match the line only if the value is not present.
+  hosts: localhost
+  gather_facts: false
   vars:
     next_serial: '2019290604'
   tasks:
@@ -7,7 +8,7 @@
         path: "{{ playbook_dir }}/test9.conf"
         regexp: '(?!.*{{ next_serial }}.*)^(\s*)(\s\d*)(\s*;\s*Serial.*)$'
         line: '\1 {{ next_serial }}\3'
-        backrefs: yes
+        backrefs: true
 
 # How increase Serial in /etc/bind file with jinja2
 # https://stackoverflow.com/questions/57004676/how-increase-serial-in-etc-bind-file-with-jinja2/

@@ -1,19 +1,41 @@
-- hosts: localhost
-  gather_facts: no
+- name: Simple remove and replace.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    _my_backup: false
+
   tasks:
-    - lineinfile:
+
+    - name: Remove 2nd and last line
+      lineinfile:
         path: myconffile3
-        backup: yes
-        state: absent
         regexp: "{{ item }}"
+        state: absent
+        backup: "{{ _my_backup }}"
       loop:
         - 'AAA'
         - 'DDD'
-    - replace:
+
+    - name: Replace both BBB lines
+      replace:
         path: myconffile3
-        backup: yes
         regexp: 'BBB'
         replace: 'CCC'
+        backup: "{{ _my_backup }}"
 
 # Ansible equivalent of below sed command
 # https://devops.stackexchange.com/questions/8344/ansible-equivalent-of-below-sed-command/
+
+# before
+#
+# BBB
+# AAA
+# BBB
+# CCC
+# DDD
+
+# after
+#
+# CCC
+# CCC
+# CCC

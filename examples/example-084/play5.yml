@@ -1,5 +1,6 @@
-- hosts: localhost
-  gather_facts: no
+- name: Default state is present.
+  hosts: localhost
+  gather_facts: false
   vars:
     my_lines:
       - line: myfilecontent
@@ -7,45 +8,48 @@
       - line: mynewfilecontent
         state: present
   tasks:
-
     - lineinfile:
-        path: /tmp/test.conf
-        create: yes
+        path: files-5/test.conf
+        create: true
         line: "{{ item.line }}"
         state: "{{ item.state }}"
       loop: "{{ my_lines }}"
 
+# +mynewfilecontent
+
 - hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     my_lines:
       - line: myfilecontent
         state: absent
       - line: mynewfilecontent
   tasks:
-
     - lineinfile:
-        path: /tmp/test.conf
+        path: files-5/test.conf
         create: yes
         line: "{{ item.line }}"
         state: "{{ item.state|default('present') }}"
       loop: "{{ my_lines }}"
 
+# +mynewfilecontent
+
 - hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     my_lines:
       - line: myfilecontent
         state: absent
       - line: mynewfilecontent
   tasks:
-
     - lineinfile:
-        path: /tmp/test.conf
+        path: files-5/test.conf
         create: yes
         line: "{{ item.line }}"
         state: "{{ item.state|default(omit) }}"
       loop: "{{ my_lines }}"
+
+# +mynewfilecontent
 
 # Ansible add a line in file
 # https://stackoverflow.com/questions/56801517/ansible-add-a-line-in-file/

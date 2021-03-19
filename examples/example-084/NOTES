@@ -1,3 +1,37 @@
+* play1.yml TBD
+
+* play2.yml Simple remove and replace.
+
+* play3.yml Simple remove and replace.
+
+* play4.yml Simple append or insert.
+
+* play5.yml Default state is present.
+
+* play6.yml The regexp look ahead and match the line only if the value is not present.
+
+* play7.yml The same as play6.yml, but NOT IDEMPOTENT.
+
+* play8.yml Simple insertafter.
+
+* play9.yml The regexp look ahead and match the line only if the value is not present.
+
+* play10.yml Simple regex line.
+
+* play11.yml Simple regex replace.
+
+* play12.yml Simple fail when regex not in file.
+
+* play13.yml Uncomment line.
+
+* play14.yml Uncomment lines.
+
+* play15.yml Simple backrefs regexp append to line.
+
+* play15a.yml The same as play15.yml, but NOT IDEMPOTENT.
+
+* play16.yml Simple backrefs regexp edit line.
+
 * play-18.yml
   How to test if a bashrc contains a string
   https://stackoverflow.com/questions/66257737/how-to-test-if-a-bashrc-contains-a-string/
@@ -5,3 +39,5 @@
 * play-17.yml
   Ansible - disable ssh password authentication
   https://stackoverflow.com/questions/65228192/ansible-disable-ssh-password-authentication/
+
+* play-19.yml Simple regexp multi-line.

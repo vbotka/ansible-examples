@@ -1,9 +1,12 @@
-- hosts: localhost
-  gather_facts: no
+- name: The same as play6.yml, but NOT IDEMPOTENT.
+  hosts: localhost
+  gather_facts: false
+  vars:
+    new_server_ip: 192.168.99.1
   tasks:
     - lineinfile:
-        path: /scratch/tmp/test.conf
+        path: files-6/test.conf
         regexp: "^(#?ip_list(.*)$)"
         # regexp: '^(ip_list\s*=\s*)(.*)'
-        line: '\1 new_server_ip'
-        backrefs: yes
+        line: '\1 {{ new_server_ip }}'
+        backrefs: true

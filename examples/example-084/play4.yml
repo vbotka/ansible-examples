@@ -1,9 +1,10 @@
-- hosts: localhost
-  gather_facts: no
+- name: Simple append or insert.
+  hosts: localhost
+  gather_facts: false
 
   vars:
-    my_debug: yes
-    conf_path: /scratch/tmp/environment
+    my_debug: true
+    conf_path: files-4/environment
     extra_path: /usr/pgsql-10/bin
 
   tasks:
@@ -21,15 +22,28 @@
         path: '{{ conf_path }}'
         line: 'PATH="{{ extra_path }}"'
         insertafter: EOF
-        create: yes
+        create: true
 
-    - name: 'Add {{ extra_path }} to PATH'
+    - name: 'Append {{ extra_path }} to PATH'
       when: lookup('file', conf_path) is search('^\s*PATH\s*=')
       lineinfile:
         path: '{{ conf_path }}'
         regexp: 'PATH=(["])((?!.*?{{ extra_path }}).*?)(["])$'
         line: 'PATH=\1\2:{{ extra_path }}\3'
-        backrefs: yes
+        backrefs: true
 
 # Ansible - How to add/modify PATH variable in CentOS?
 # https://stackoverflow.com/questions/56560173/ansible-how-to-add-modify-path-variable-in-centos/
+
+# before
+# PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+#
+# after
+# PATH="/usr/sbin:/usr/bin:/sbin:/bin:/usr/pgsql-10/bin"
+
+# before
+# ok: [localhost] =>
+#   msg: PATH does not exist
+#
+# after
+# PATH="/usr/pgsql-10/bin"

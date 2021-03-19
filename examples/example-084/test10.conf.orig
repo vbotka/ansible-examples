@@ -1,2 +1,1 @@
-/log/apache2/*.log {
 /var/log/apache2/*.log {

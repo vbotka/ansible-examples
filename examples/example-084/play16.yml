@@ -1,11 +1,15 @@
-- hosts: localhost
+- name: Simple backrefs regexp edit line.
+  hosts: localhost
   gather_facts: false
   tasks:
     - lineinfile:
-        path: /scratch/tmp/login.defs
+        path: files-16/login.defs
         regex: '^PASS_MAX_DAYS(\s+)(\S*)$'
         line: 'PASS_MAX_DAYS\g<1>90'
         backrefs: true
+
+# -PASS_MAX_DAYS    80
+# +PASS_MAX_DAYS    90
 
 # Ansible lineinfile (white spaces and state changes)
 # https://unix.stackexchange.com/questions/565058/ansible-lineinfile-white-spaces-and-state-changes/

@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: Simple backrefs regexp append to line.
+  hosts: localhost
   gather_facts: false
   vars:
     rootLoggerAppender: bla
@@ -9,6 +10,9 @@
         regexp: '^(log4j\.rootLogger=.*?)(, {{ rootLoggerAppender }})?$'
         line: '\1, {{ rootLoggerAppender }}'
         backrefs: true
+
+# -log4j.rootLogger=WARN, memory, servlet
+# +log4j.rootLogger=WARN, memory, servlet, bla
 
 # Appending attribute to EOL with ansible according to prefix
 # https://stackoverflow.com/questions/59213363/appending-attribute-to-eol-with-ansible-according-to-prefix/
