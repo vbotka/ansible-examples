@@ -1,0 +1,27 @@
+{
+    [
+        {
+            "config": "hostname r-sw01\n\ninterface Management1\n   ip address 10.10.24.10/24\n\ninterface Port-Channel20\n   description USR\n   switchport mode trunk\n\ninterface Ethernet99-100\n   description  USR_Po20\n   speed forced 25gfull\n",
+            "containerCount": 0,
+            "containers": [],
+            "dateTimeInLongFormat": 1615984781483,
+            "devices": [
+                "r-sw01"
+            ],
+            "editable": true,
+            "isAutoBuilder": "",
+            "isDefault": "no",
+            "isDraft": false,
+            "key": "configlet_71ef71",
+            "name": "r-sw01",
+            "netElementCount": 0,
+            "note": "",
+            "reconciled": false,
+            "sslConfig": false,
+            "type": "Static",
+            "typeStudioConfiglet": false,
+            "user": "chal",
+            "visible": true
+        }
+    ]
+}

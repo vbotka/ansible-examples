@@ -164,7 +164,7 @@ Various examples of Ansbile code.
 - Example 160. defined
 - Example 161. Test registered result
 - Example 162. join
-- Example 163. Python
+- Example 163. Execute ansible-playbook via Python subprocess.run
 - Example 164. validate
 - Example 165. ansible_facts
 - Example 166. serial

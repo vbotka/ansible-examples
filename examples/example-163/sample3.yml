@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ lookup('file', 'sample3.json')|to_json }}"
+      tags: [print_action]
+
+# ansible.cfg
+# stdout_callback = selective
+# nocolor = true
+
+# ./sample3.py test_11
+# b'# debug *******************************************************************************************************************\n  * test_11                                 - changed=False -------------------------------------------------------------\n    "{\\n    [\\n        {\\n            \\"config\\": \\"hostname r-sw01\\\\n\\\\ninterface Management1\\\\n   ip address 10.10.24.10/24\\\\n\\\\ninterface Port-Channel20\\\\n   description USR\\\\n   switchport mode trunk\\\\n\\\\ninterface Ethernet99-100\\\\n   description  USR_Po20\\\\n   speed forced 25gfull\\\\n\\",\\n            \\"containerCount\\": 0,\\n            \\"containers\\": [],\\n            \\"dateTimeInLongFormat\\": 1615984781483,\\n            \\"devices\\": [\\n                \\"r-sw01\\"\\n            ],\\n            \\"editable\\": true,\\n            \\"isAutoBuilder\\": \\"\\",\\n            \\"isDefault\\": \\"no\\",\\n            \\"isDraft\\": false,\\n            \\"key\\": \\"configlet_71ef71\\",\\n            \\"name\\": \\"r-sw01\\",\\n            \\"netElementCount\\": 0,\\n            \\"note\\": \\"\\",\\n            \\"reconciled\\": false,\\n            \\"sslConfig\\": false,\\n            \\"type\\": \\"Static\\",\\n            \\"typeStudioConfiglet\\": false,\\n            \\"user\\": \\"chal\\",\\n            \\"visible\\": true\\n        }\\n    ]\\n}"\n\n# STATS *******************************************************************************************************************\ntest_11    : ok=1\tchanged=0\tfailed=0\tunreachable=0\trescued=0\tignored=0\n'
+#
