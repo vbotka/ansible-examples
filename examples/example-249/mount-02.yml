@@ -1,0 +1,59 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    dirs:
+      - /export/archive
+      - /usr/lib
+    root:
+      - /
+  tasks:
+
+    - debug:
+        msg: "{{ item }} {{ dirs|map('regex_search', '^' ~ item)|list }}"
+      loop: "{{ _mounts }}"
+      vars:
+        _mounts: "{{ ansible_mounts|
+                     map(attribute='mount')|
+                     difference(root)|list }}"
+
+# ok: [localhost] => (item=/boot/efi) => 
+#   msg: /boot/efi [None, None]
+# ok: [localhost] => (item=/export) => 
+#   msg: /export ['/export', None]
+
+    - debug:
+        msg:
+          - "{{ _mounts }}"
+          - "{{ _regex }}"
+          - "{{ item|regex_search(_regex) }}"
+          - "{{ item|regex_search(_regex) != None }}"
+      loop: "{{ dirs }}"
+      vars:
+        _mounts: "{{ ansible_mounts|map(attribute='mount')|difference(root)|list }}"
+        _regex: "^({{ _mounts|join('|') }})"
+
+#   msg:
+#   - - /boot/efi
+#     - /export
+#   - ^(/boot/efi|/export)
+#   - /export
+#   - true
+# ok: [localhost] => (item=/usr/lib) => 
+#   msg:
+#   - - /boot/efi
+#     - /export
+#   - ^(/boot/efi|/export)
+#   - ''
+#   - false
+
+    - debug:
+        msg: "{{ item }} is mounted"
+      loop: "{{ dirs }}"
+      when: item|regex_search(_regex) != None
+      vars:
+        _mounts: "{{ ansible_mounts|map(attribute='mount')|difference(root)|list }}"
+        _regex: "^({{ _mounts|join('|') }})"
+
+# ok: [localhost] => (item=/export/archive) => 
+#   msg: /export/archive is mounted
+# skipping: [localhost] => (item=/usr/lib)

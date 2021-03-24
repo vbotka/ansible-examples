@@ -250,7 +250,7 @@ Various examples of Ansbile code.
 - Example 246. Concatenate strings
 - Example 247. Managing lists
 - Example 248. Python
-- Example 249. mount
+- Example 249. ansible_mounts
 - Example 250. callback log_plays
 - Example 251. parse output
 - Example 252. ansible_interfaces

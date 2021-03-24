@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    dirs:
+      - /export/archive
+      - /usr/lib
+    root:
+      - /
+  tasks:
+
+    - debug:
+        msg: "{{ ansible_mounts|map(attribute='mount')|list }}"
+
+#   msg:
+#   - /
+#   - /boot/efi
+#   - /export
+  
+    - debug:
+        var: _regex
+      vars:
+        _regex: "^({{ ansible_mounts|map(attribute='mount')|difference(root)|join('|') }})"
+
+#   _regex: ^(/boot/efi|/export)
+
+    - debug:
+        msg: "{{ item }} is mount point"
+      loop: "{{ dirs }}"
+      when: item|regex_search(_regex) != None
+      vars:
+        _regex: "^({{ ansible_mounts|map(attribute='mount')|difference(root)|join('|') }})"
+
+# ok: [localhost] => (item=/export/archive) => 
+#   msg: /export/archive is mount point
+# skipping: [localhost] => (item=/usr/lib)
