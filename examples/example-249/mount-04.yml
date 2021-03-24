@@ -1,0 +1,84 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    widgets:
+      - /usr/local/apps/widget
+      - /usr/share/apps/widget
+      - /scratch/apps/widget
+    my_ansible_mounts:
+      - mount: /
+      - mount: /boot/efi
+      - mount: /usr
+      - mount: /usr/local
+    root:
+      - /
+  tasks:
+    - debug:
+        msg: "{{ my_ansible_mounts|map(attribute='mount')|list }}"
+  
+    - debug:
+        msg: "{{ my_ansible_mounts|map(attribute='mount')|difference(root) }}"
+  
+    - set_fact:
+        _mlist: []
+    - set_fact:
+        _mlist: "{{ _mlist + [{'dict': item.0, 'mount': item.1}] }}"
+      with_nested:
+        - "{{ widgets }}"
+        - "{{ my_ansible_mounts|map(attribute='mount')|difference(root) }}"
+      when: item.0|regex_search('^' ~ item.1) != None
+    - set_fact:
+        _mdict: {}
+    - set_fact:
+        _mdict: "{{ _mdict|combine({item.0: item.1|
+                                            map(attribute='mount')|
+                                            map('regex_replace', '/', '-')|
+                                            list}) }}"
+      loop: "{{ _mlist|groupby('dict') }}"
+    - debug:
+        var: _mdict
+
+#  _mdict:
+#    /usr/local/apps/widget:
+#    - -usr
+#    - -usr-local
+#    /usr/share/apps/widget:
+#    - -usr
+
+    - debug:
+        msg: |-
+          {% if _mdict[item]|default([])|length > 0 %}
+          [Unit]
+          Description = Start the widget
+          After = network.target{% for i in _mdict[item] %} {{ i[1:] }}.mount{% endfor %}
+
+
+          {% endif %}
+          [Service]
+          Type = simple
+          ExecStart = {{ item }}
+      loop: "{{ widgets }}"
+
+# ok: [localhost] => (item=/usr/local/apps/widget) =>
+#   msg: |-
+#     [Unit]
+#     Description = Start the widget
+#     After = network.target usr.mount usr-local.mount
+#   
+#     [Service]
+#     Type = simple
+#     ExecStart = /usr/local/apps/widget
+# ok: [localhost] => (item=/usr/share/apps/widget) => 
+#   msg: |-
+#     [Unit]
+#     Description = Start the widget
+#     After = network.target usr.mount
+#   
+#     [Service]
+#     Type = simple
+#     ExecStart = /usr/share/apps/widget
+# ok: [localhost] => (item=/scratch/apps/widget) => 
+#   msg: |-
+#     [Service]
+#     Type = simple
+#     ExecStart = /scratch/apps/widget

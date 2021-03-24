@@ -1,7 +1,7 @@
 ---
 
 - name: "Example 1"
-  hosts: test_01
+  hosts: test_11
 
   vars:
     source_path: "/scratch/le-utils/"
