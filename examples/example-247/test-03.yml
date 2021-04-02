@@ -1,0 +1,42 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    first_list:
+      - - a: 1
+        - b: 1
+      - - a: 2
+        - b: 2
+
+  tasks:
+
+    - debug:
+        msg: "{{ _dict|from_yaml }}"
+      loop: "{{ first_list }}"
+      vars:
+        _dict: |
+          {% for i in item %}
+          {% for k,v in i.items() %}
+          {{ k }}: {{ v }}
+          {% endfor %}
+          {% endfor %}
+      tags: test
+
+    - set_fact:
+        final_list: "{{ final_list|default([]) + [_dict|from_yaml] }}"
+      loop: "{{ first_list }}"
+      vars:
+        _dict: |
+          {% for i in item %}
+          {% for k,v in i.items() %}
+          {{ k }}: {{ v }}
+          {% endfor %}
+          {% endfor %}
+
+    - debug:
+        var: final_list
+
+    - debug:
+        var: item|type_debug
+      loop: "{{ final_list }}"

@@ -1,0 +1,3 @@
+* test_03, test_04, test_05
+  Create dictionary from list of strings using delimiter with Ansible
+  https://stackoverflow.com/questions/66914502/create-dictionary-from-list-of-strings-using-delimiter-with-ansible

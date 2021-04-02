@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    first_list:
+    - - a: 1
+      - b: 1
+    - - a: 2
+      - b: 2
+
+  tasks:
+
+    - set_fact:
+        final_list: "{{ first_list|list2dict }}"
+    - debug:
+        var: final_list
+
+#   final_list:
+#   - a: 1
+#     b: 1
+#   - a: 2
+#     b: 2
