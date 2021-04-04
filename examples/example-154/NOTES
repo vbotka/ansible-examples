@@ -1,2 +1,7 @@
 * play5.yml
   https://groups.google.com/g/ansible-project/c/6_9HgiLY8Lk/m/ZZIj4pXIAQAJ
+
+* play6.yml, play7.yml
+  Ansible conditional task processing
+  https://stackoverflow.com/questions/66944165/ansible-conditional-task-processing/
+

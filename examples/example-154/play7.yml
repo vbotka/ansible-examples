@@ -1,0 +1,66 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        _break: "{{ '123.456.000' in groups.webservers1|
+                       map('extract', hostvars, 'ansible_host')|
+                       list }}"
+      run_once: true
+
+- hosts: webservers1
+  gather_facts: false
+  tasks:
+    - meta: end_play
+      when: _break|bool
+    - debug:
+        msg: Start webservers1
+
+- hosts: webservers2
+  gather_facts: false
+  tasks:
+    - meta: end_play
+      when: _break|bool
+    - debug:
+        msg: Start webservers2
+
+
+# PLAY [all] ****************************************************************************************
+# 
+# TASK [set_fact] ***********************************************************************************
+# ok: [srv1]
+# 
+# PLAY [webservers1] ********************************************************************************
+# 
+# PLAY [webservers2] ********************************************************************************
+# 
+# PLAY RECAP ****************************************************************************************
+# srv1: ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+ 
+# or
+ 
+# PLAY [all] ****************************************************************************************
+# 
+# TASK [set_fact] ***********************************************************************************
+# ok: [srv1]
+# 
+# PLAY [webservers1] ********************************************************************************
+# 
+# TASK [debug] **************************************************************************************
+# ok: [srv1] => 
+#   msg: Start webservers1
+# ok: [srv2] => 
+#   msg: Start webservers1
+# 
+# PLAY [webservers2] ********************************************************************************
+# 
+# TASK [debug] **************************************************************************************
+# ok: [srv3] => 
+#   msg: Start webservers2
+# ok: [srv4] => 
+#   msg: Start webservers2
+# 
+# PLAY RECAP ****************************************************************************************
+# srv1 : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# srv2 : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# srv3 : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+# srv4 : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
