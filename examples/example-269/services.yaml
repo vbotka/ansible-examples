@@ -1,0 +1,7 @@
+- debug:
+    msg: stop service
+  when: ask.user_input == 'stop'
+
+- debug:
+    msg: start service
+  when: ask.user_input == 'start'

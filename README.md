@@ -270,6 +270,7 @@ Various examples of Ansbile code.
 - Example 266. Role defaults
 - Example 267. json_query issue to_yaml|from_yaml
 - Example 268. batch filter
+- Example 269. variable in tags
 
 ## License
 

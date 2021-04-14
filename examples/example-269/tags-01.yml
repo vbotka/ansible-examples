@@ -1,0 +1,27 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: ask stop / start
+      pause:
+        prompt: "please type start or stop"
+        echo: true
+      register: ask
+      changed_when: true
+      notify: service
+      tags: [restarting, never]
+  handlers:
+    - name: service
+      include_tasks: services.yaml
+
+# There is no point to use tags on handlers. A handler is either
+# notified or not. Use conditions if you want to run handlers
+# conditionally, e.g.
+# 
+# shell> cat services.yaml
+# - debug:
+#     msg: stop service
+#       when: ask.user_input == 'stop'
+# 
+# - debug:
+#     msg: start service
+#       when: ask.user_input == 'start'
