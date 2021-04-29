@@ -1,3 +1,7 @@
-Ansible: Loop over a list of services and disable those from a list of
-unwanted services which are actually present
-https://stackoverflow.com/questions/51137660/ansible-loop-over-a-list-of-services-and-disable-those-from-a-list-of-unwanted
+* Module service_facts doesn't work with FreeBSD
+  ansible/lib/ansible/modules/service_facts.py
+  service_modules = (ServiceScanService, SystemctlScanService, AIXScanService, OpenBSDScanService)
+
+* Ansible: Loop over a list of services and disable those from a list
+  of unwanted services which are actually present
+  https://stackoverflow.com/questions/51137660/ansible-loop-over-a-list-of-services-and-disable-those-from-a-list-of-unwanted

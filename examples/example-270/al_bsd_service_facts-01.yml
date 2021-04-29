@@ -1,0 +1,25 @@
+---
+
+- hosts: plane
+  gather_facts: false
+  vars:
+    al_debug: false
+    al_bsd_service_paths:
+      - /usr/local/etc/rc.d/cupsd
+      - /etc/rc.d/zfs
+      - /usr/local/etc/rc.d/apache24
+  tasks:
+    - include_role:
+        name: vbotka.ansible_lib
+        tasks_from: al_bsd_service_facts.yml
+    - debug:
+        var: al_ansible_facts_services
+...
+
+#  al_ansible_facts_services:
+#    apache24:
+#      state: running
+#    cupsd:
+#      state: stopped
+#    zfs:
+#      state: unknown

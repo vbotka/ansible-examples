@@ -271,6 +271,7 @@ Various examples of Ansbile code.
 - Example 267. json_query issue to_yaml|from_yaml
 - Example 268. batch filter
 - Example 269. variable in tags
+- Example 270. al_bsd_service_facts (vbotka.ansible_lib)
 
 ## License
 
