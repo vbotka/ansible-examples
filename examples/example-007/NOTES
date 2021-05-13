@@ -1,3 +1,6 @@
+* synchronize4.yml
+  Test delegate_to
+
 * Feature request: make synchronize module idempotent by using the rsync "--dry-run" flag #37501
   https://github.com/ansible/ansible/issues/37501
 

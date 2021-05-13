@@ -1,0 +1,20 @@
+- hosts: test_11
+  gather_facts: false
+  become: false
+  tasks:
+
+    - name: "from localhost:/tmp/test-file to test_11:/tmp/test-file"
+      synchronize:
+        src: /tmp/test-file
+        dest: /tmp/test-file
+
+      # admin@localhost must be able to connect admin@test_11
+
+    - name: "from test_12:/tmp/test-file to test_11:/tmp/test-file"
+      synchronize:
+        src: /tmp/test-file
+        dest: /tmp/test-file
+      delegate_to: test_12
+
+      # admin@test12 must be able to connect admin@test_11
+      # admin@test_11: Permission denied (publickey)
