@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    date1: 06/01/2021 00:10:15.434
+    date2: 06/01/2021 00:10:26.667
+  tasks:
+    - debug:
+        msg: |
+          {{ date2|to_datetime('%m/%d/%Y %H:%M:%S.%f') }}
+          {{ date1|to_datetime('%m/%d/%Y %H:%M:%S.%f') }}
+    - debug:
+        msg: "{{ (date2|to_datetime('%m/%d/%Y %H:%M:%S.%f') -
+                  date1|to_datetime('%m/%d/%Y %H:%M:%S.%f')).total_seconds() }}"

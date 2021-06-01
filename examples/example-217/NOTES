@@ -1,3 +1,7 @@
+* datetime-02.yml
+  Date time difference using Ansible
+  https://stackoverflow.com/questions/67782945/date-time-difference-using-ansible
+
 * datetime-01.yml
   Calculate number of days between two variable (one a set variable, the other from fact)
   https://stackoverflow.com/questions/65520845/calculate-number-of-days-between-two-variable-one-a-set-variable-the-other-fro/
@@ -5,3 +9,4 @@
 * date-02.yml
   Reading variable values set in a role
   https://groups.google.com/g/ansible-project/c/4UeNj7-ZLdo/m/o4ZM1yQjAgAJ
+--
