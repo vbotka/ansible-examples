@@ -272,6 +272,7 @@ Various examples of Ansbile code.
 - Example 268. batch filter
 - Example 269. variable in tags
 - Example 270. al_bsd_service_facts (vbotka.ansible_lib)
+- Example 271. inventory_hostnames
 
 ## License
 

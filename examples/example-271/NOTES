@@ -1,0 +1,3 @@
+* test-01.yml
+  Ansible double loop with number increment
+  https://stackoverflow.com/questions/67856605/ansible-double-loop-with-number-increment

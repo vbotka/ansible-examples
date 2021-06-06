@@ -1,0 +1,19 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "[{{ item }}] cert_alias: {{ ansible_loop.index }}"
+      loop: "{{ query('inventory_hostnames', 'java') }}"
+      loop_control:
+        extended: true
+      run_once: true
+
+# shell> cat hosts
+# [java]
+# srv1
+# srv2
+# srv3
+      
+#  msg: '[srv1] cert_alias: 1'
+#  msg: '[srv2] cert_alias: 2'
+#  msg: '[srv3] cert_alias: 3'
