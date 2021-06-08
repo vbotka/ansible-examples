@@ -1,0 +1,39 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ item }} is Truthy: [{{ item is truthy }}] is Falsy: [{{ item is falsy }}]"
+      loop:
+        - true
+        - yes
+        - on
+        - false
+        - no
+        - off
+      tags: t1
+
+#  msg: 'True is Truthy: [True] is Falsy: [False]'
+#  msg: 'True is Truthy: [True] is Falsy: [False]'
+#  msg: 'True is Truthy: [True] is Falsy: [False]'
+#  msg: 'False is Truthy: [False] is Falsy: [True]'
+#  msg: 'False is Truthy: [False] is Falsy: [True]'
+#  msg: 'False is Truthy: [False] is Falsy: [True]'
+
+    - debug:
+        msg: "{{ item }} is Truthy: [{{ item is truthy }}] is Falsy: [{{ item is falsy }}]"
+      loop:
+        - "true"
+        - "yes"
+        - "on"
+        - "false"
+        - "no"
+        - "off"
+      tags: t2
+
+#  msg: 'true is Truthy: [True] is Falsy: [False]'
+#  msg: 'yes is Truthy: [True] is Falsy: [False]'
+#  msg: 'on is Truthy: [True] is Falsy: [False]'
+#  msg: 'false is Truthy: [True] is Falsy: [False]'
+#  msg: 'no is Truthy: [True] is Falsy: [False]'
+#  msg: 'off is Truthy: [True] is Falsy: [False]'
