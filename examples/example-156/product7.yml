@@ -1,0 +1,72 @@
+- hosts: all
+  gather_facts: false
+  vars:
+    _groups: [group1, group2, group3]
+    _hosts: [0, 1, 2]
+    _dgroups: [my_group1, my_group2, my_group3]
+    _groups_hosts: "{{ query('cartesian', _hosts, _groups)|
+                       batch(_dgroups|length) }}"
+    my_groups: "{{ dict(_dgroups|zip(_groups_hosts)) }}"
+  tasks:
+    - add_host:
+        name: "{{ groups[item.1.1][item.1.0] }}"
+        groups: my_group
+      with_subelements:
+        - "{{ my_groups|dict2items }}"
+        - value
+      run_once: true
+
+- hosts: my_group
+  gather_facts: false
+  serial: 3
+  order: inventory
+  tasks:
+    - debug:
+        var: inventory_hostname
+
+# shell> cat hosts7 
+# [group1]
+# server1
+# server2
+# server3
+# 
+# [group2]
+# server4
+# server5
+# server6
+# 
+# [group3]
+# server7
+# server8
+# server9
+
+
+# PLAY [my_group] *************
+# 
+# TASK [debug] ****************
+# ok: [server1] => 
+#   inventory_hostname: server1
+# ok: [server7] => 
+#   inventory_hostname: server7
+# ok: [server4] => 
+#   inventory_hostname: server4
+# 
+# PLAY [my_group] *************
+# 
+# TASK [debug] ****************
+# ok: [server2] => 
+#   inventory_hostname: server2
+# ok: [server5] => 
+#   inventory_hostname: server5
+# ok: [server8] => 
+#   inventory_hostname: server8
+# 
+# PLAY [my_group] *************
+# 
+# TASK [debug] ****************
+# ok: [server3] => 
+#   inventory_hostname: server3
+# ok: [server6] => 
+#   inventory_hostname: server6
+# ok: [server9] => 
+#   inventory_hostname: server9

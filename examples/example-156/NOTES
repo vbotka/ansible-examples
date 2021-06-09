@@ -1,3 +1,7 @@
+* products7.yml
+  Play and task execution with multiple groups and servers with ansible
+  https://stackoverflow.com/questions/67889454/play-and-task-execution-with-multiple-groups-and-servers-with-ansible
+
 * product6.yml
   Ansible make list from two list (attribute to first list from two)
   https://stackoverflow.com/questions/65449757/ansible-make-list-from-two-list-attribute-to-first-list-from-two/
