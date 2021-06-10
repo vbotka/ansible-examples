@@ -1,0 +1,41 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+
+    - debug:
+        msg: "{{ msg.split('/n') }}"
+      vars:
+        msg: |-
+          ansible_os_family [{{ ansible_os_family }}]
+          ansible_distribution [{{ ansible_distribution }}]
+          ansible_distribution_release [{{ ansible_distribution_release }}]
+     
+    - debug:
+        var: _file
+      vars:
+        _file: "{{ lookup('ansible.builtin.first_found', params) }}"
+        params:
+          files:
+            - "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+            - "{{ ansible_distribution }}.yml"
+            - "{{ ansible_os_family }}.yml"
+            - default.yml
+            - defaults.yml
+          paths: "{{ playbook_dir }}/vars/defaults"
+          skip: true
+#     when: _file|length > 0
+      register: result
+
+    - debug:
+        var: result
+
+# TASK [debug] *****************************************************************
+# ok: [localhost] => 
+#   _file: []
+# 
+# TASK [debug] *****************************************************************
+# ok: [localhost] => 
+#   result:
+#     _file: []
+#     changed: false
+#     failed: false
