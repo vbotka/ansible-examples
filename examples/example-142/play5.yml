@@ -1,0 +1,84 @@
+---
+- name: "ansible.builtin.include_vars
+         does not work with registered result #74970"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+# shell> cat testvars.yml
+# ---
+# test: "{{ foo }}"
+# foo: bar
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - block:
+        - ansible.builtin.include_vars:
+            file: testvars.yml
+          register: result
+        - debug:
+            var: foo
+        - debug:
+            var: test
+      tags: t1a
+
+#   foo: bar
+#   test: '{{ foo }}'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - block:
+        - ansible.builtin.include_vars:
+            file: testvars.yml
+        - debug:
+            var: foo
+        - debug:
+            var: test
+      tags: t1b
+
+#   foo: bar
+#   test: bar
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - block:
+        - ansible.builtin.include_vars:
+            file: testvars.yml
+          register: result
+        - debug:
+            var: test
+      tags: t2a
+
+#   test: '{{ foo }}'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - block:
+        - ansible.builtin.include_vars:
+            file: testvars.yml
+        - debug:
+            var: test
+      tags: t2b
+
+#   test: bar
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    - block:
+        - include_vars:
+            file: testvars.yml
+          register: result
+        - debug:
+            var: result
+        - debug:
+            var: test
+      tags: t3
+
+#   result:
+#     ansible_facts:
+#       foo: bar
+#       test: '{{ foo }}'
+#     ansible_included_var_files:
+#     - /scratch/ansible-examples/examples/example-142/testvars.yml
+#     changed: false
+#     failed: false
+# 
+#   test: '{{ foo }}'
+
+# EOF
+...

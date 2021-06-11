@@ -1,0 +1,3 @@
+* play5.yml
+  ansible.builtin.include_vars does not work with registered result #74970
+  https://github.com/ansible/ansible/issues/74970
