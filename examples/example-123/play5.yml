@@ -1,0 +1,28 @@
+# blockinfile: Add newline to the end marker if missing at the last line #75009
+# https://github.com/ansible/ansible/issues/75009
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - blockinfile:
+        path: /tmp/test.txt
+        block: |
+          test line
+
+# shell> cat /tmp/test.txt
+# # BEGIN ANSIBLE MANAGED BLOCK
+# test line
+# # END ANSIBLE MANAGED BLOCK>
+
+# --- before: /tmp/test.txt (content)
+# +++ after: /tmp/test.txt (content)
+# @@ -1,3 +1,6 @@
+#  # BEGIN ANSIBLE MANAGED BLOCK
+#   test line
+#   -# END ANSIBLE MANAGED BLOCK
+#   \ No newline at end of file
+#   +# END ANSIBLE MANAGED BLOCK
+#   +# BEGIN ANSIBLE MANAGED BLOCK
+#   +test line
+#   +# END ANSIBLE MANAGED BLOCK
