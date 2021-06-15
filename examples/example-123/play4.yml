@@ -1,0 +1,44 @@
+# How to add a newline to the end of a file?
+# https://unix.stackexchange.com/questions/31947/how-to-add-a-newline-to-the-end-of-a-file
+# Add a newline only if it doesn't exist
+# https://stackoverflow.com/questions/10082204/add-a-newline-only-if-it-doesnt-exist
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: KO.
+      blockinfile:
+        path: "/tmp/test-4.txt"
+        block: |
+          "|exec /usr/local/bin/procmail"
+      tags: t1
+
+# @@ -1,3 +1,6 @@
+#  # BEGIN ANSIBLE MANAGED BLOCK
+#  "|exec /usr/local/bin/procmail"
+# -# END ANSIBLE MANAGED BLOCK
+# \ No newline at end of file
+# +# END ANSIBLE MANAGED BLOCK
+# +# BEGIN ANSIBLE MANAGED BLOCK
+# +"|exec /usr/local/bin/procmail"
+# +# END ANSIBLE MANAGED BLOCK
+
+    - name: Linux OK. FreeBSD KO.
+      command:
+        cmd: >
+          sed -i -e '/.$/a\' /tmp/test-4.txt
+      tags: t2
+
+    - name: KO.
+      replace:
+        path: "/tmp/test-4.txt"
+        regexp: '^(.*)$'
+        replace: '\1\n'
+      tags: t3
+
+    - name: FreeBSD OK.
+      command:
+        cmd: >
+          gsed -i -e '/.$/a\' /tmp/test-4.txt
+      tags: t4

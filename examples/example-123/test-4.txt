@@ -1,0 +1,3 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+"|exec /usr/local/bin/procmail"
+# END ANSIBLE MANAGED BLOCK
