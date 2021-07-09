@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    mydict:
+      key1: val1
+      key2: val2
+      key3:
+        subkey1: subval1
+        subkey2: subval2
+  tasks:
+    - set_fact:
+        mlist: "{{ mydict|dict_normalize }}"
+    - debug:
+        var: mlist
+    - debug:
+        msg: "{{ dict(mlist.0|zip(mlist.1)) }}"
+    - debug:
+        msg: "{{ dict(_keys|zip(mlist.1)) }}"
+      vars:
+        _regex: '^(.*)\.(.*)$'
+        _replace: '\2'
+        _keys: "{{ mlist.0|map('regex_replace', _regex, _replace)|list }}"

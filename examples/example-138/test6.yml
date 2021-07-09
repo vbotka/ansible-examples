@@ -1,0 +1,41 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    mydict:
+      key1: val1
+      key2: val2
+      key3:
+        subkey1: subval1
+        subkey2: subval2
+
+  tasks:
+    - set_fact:
+        mlist: "{{ mydict|dict_normalize }}"
+    - set_fact:
+        mydict_flat: "{{ dict(mlist.0|zip(mlist.1)) }}"
+    - debug:
+        var: mydict_flat
+
+#   mydict_flat:
+#     key1: val1
+#     key2: val2
+#     key3.subkey1: subval1
+#     key3.subkey2: subval2
+
+    - debug:
+        msg: "{{ mydict|json_query(item) }}"
+      loop: "{{ mydict_flat|list }}"
+
+#   msg: val1
+#   msg: val2
+#   msg: subval1
+#   msg: subval2
+
+    - debug:
+        msg: "{{ mydict_flat[item] }}"
+      loop: "{{ mydict_flat|list }}"
+
+#   msg: val1
+#   msg: val2
+#   msg: subval1
+#   msg: subval2

@@ -1,0 +1,61 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    mydict:
+      key1: val1
+      key2: val2
+      key3:
+        subkey1: subval1
+        subkey2: subval2
+        subkey3:
+          sub2key1: sub2val1
+          sub2key2: sub2val2
+          
+  tasks:
+    - set_fact:
+        mlist: "{{ mydict|dict_normalize }}"
+    - debug:
+        var: mlist
+    - debug:
+        msg: "{{ dict(mlist.0|zip(mlist.1)) }}"
+    - debug:
+        msg: "{{ dict(_keys|zip(mlist.1)) }}"
+      vars:
+        _regex: '^(.*)\.(.*)$'
+        _replace: '\2'
+        _keys: "{{ mlist.0|map('regex_replace', _regex, _replace)|list }}"
+
+# from pandas.io.json import json_normalize
+# 
+# def dict_normalize(d):
+#     df = json_normalize(d)
+#     l = [df.columns.values.tolist()] + df.values.tolist()
+#     return(l)
+# 
+# class FilterModule(object):
+#     def filters(self):
+#         return {
+#             'dict_normalize': dict_normalize,
+#         }
+
+#  mlist:
+#  - - key1
+#    - key2
+#    - key3.subkey1
+#    - key3.subkey2
+#  - - val1
+#    - val2
+#    - subval1
+#    - subval2
+
+#  msg:
+#    key1: val1
+#    key2: val2
+#    key3.subkey1: subval1
+#    key3.subkey2: subval2
+
+#  msg:
+#    key1: val1
+#    key2: val2
+#    subkey1: subval1
+#    subkey2: subval2
