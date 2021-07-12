@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Idempotent donwload
+      get_url:
+        url: https://www.plane.g2.netng.org/test.txt
+        dest: "{{ playbook_dir }}/download"
+        validate_certs: false
+      tags: t1
+
+    - name: Idempotent donwload inc. checksum
+      get_url:
+        url: https://www.plane.g2.netng.org/test.txt
+        dest: "{{ playbook_dir }}/download"
+        checksum: "sha256:e8769eb8ba30e572086503d2cdd9f607d004d1e9555e81fb14f2bbdeb8c5a98a"
+        validate_certs: false
+      tags: t2

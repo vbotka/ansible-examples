@@ -1,0 +1,14 @@
+* get-url-01.yml
+  The module is idempoitent despite the fact that the file is always downloaded.
+  See: Fix docs get_url dest comment. Checksum does not prevent download. #73185
+  https://github.com/ansible/ansible/pull/73185#issuecomment-878180864
+  For the record. The file is unconditionally downloaded but the description of
+  the parameters indicates the possibility of avoiding the download
+  * checksum: "... if checksum equals destination_checksum, the file download
+    would be skipped ..."
+  * dest: "... If dest is a directory, the file will always be downloaded ..."
+  * force: "... If no, the file will only be downloaded if the destination does
+    not exist. Generally should be yes only for small local files. "
+  It would probably be better to say: "The file will always be downloaded."
+
+# EOF

@@ -274,6 +274,7 @@ Various examples of Ansbile code.
 - Example 270. al_bsd_service_facts (vbotka.ansible_lib)
 - Example 271. inventory_hostnames
 - Example 272. truthy, falsy
+- Example 273. get_url
 
 ## License
 
