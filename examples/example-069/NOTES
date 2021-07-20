@@ -1,1 +1,27 @@
+* How to get column name from column values in Ansible
+  https://stackoverflow.com/questions/68449847/how-to-get-column-name-from-column-values-in-ansible/68450705#68450705
 
+    days_dict:
+    aday:
+    - 12-2-2021
+    - 13-3-2021
+    - 15-6-2021
+    bday:
+    - 12-2-2021
+    - 12-9-2021
+    - 12-9-2021
+    cday:
+    - 12-2-2021
+    - 13-1-2021
+    - 16-2-2021
+
+    - set_fact:
+        cols_today: "{{ days_dict|dict2items|json_query(my_query) }}"
+      vars:
+        today: '13-1-2021'
+        my_query: "[?value.contains(@, '{{ today }}')].key"
+
+    cols_today:
+    - cday
+
+# EOF
