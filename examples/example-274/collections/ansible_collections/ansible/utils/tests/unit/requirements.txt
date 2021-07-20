@@ -1,4 +1,0 @@
-unittest2 ; python_version < '2.7'
-jsonschema ; python_version >= '2.7'
-ttp
-textfsm

@@ -1,7 +1,0 @@
-shippable/posix/group2
-skip/python2
-skip/freebsd
-skip/macos
-skip/osx
-skip/rhel8.2
-skip/rhel8.3

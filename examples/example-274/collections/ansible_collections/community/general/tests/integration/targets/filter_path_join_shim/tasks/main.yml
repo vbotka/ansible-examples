@@ -1,7 +1,0 @@
----
-- name: "Test path_join filter"
-  assert:
-    that:
-      - "['a', 'b'] | community.general.path_join == 'a/b'"
-      - "['a', '/b'] | community.general.path_join == '/b'"
-      - "[''] | community.general.path_join == ''"

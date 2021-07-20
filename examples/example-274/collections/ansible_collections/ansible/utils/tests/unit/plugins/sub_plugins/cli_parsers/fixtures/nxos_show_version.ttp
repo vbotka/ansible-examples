@@ -1,7 +1,0 @@
-<group>
-  NXOS: version {{ os }}
-  NXOS image file is: {{ boot_image }}
-Kernel uptime is {{ uptime | ORPHRASE }}
-  cisco Nexus9000 {{ platform }} Chassis
-</group>
-"""

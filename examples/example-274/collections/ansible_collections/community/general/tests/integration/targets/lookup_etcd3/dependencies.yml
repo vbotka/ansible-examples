@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  tasks:
-    - name: Setup etcd3
-      import_role:
-        name: setup_etcd3
