@@ -1,0 +1,13 @@
+{
+	"type" : "object",
+	"patternProperties": {
+		"^.*": {
+			"type": "object",
+			"properties": {
+				"enabled": {
+					"enum": [true]
+				}
+			}
+		}
+	}
+}

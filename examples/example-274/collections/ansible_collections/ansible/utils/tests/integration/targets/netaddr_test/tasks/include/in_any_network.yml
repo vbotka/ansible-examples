@@ -1,0 +1,17 @@
+---
+- name: "in_any_network: :Check if 10.1.1.1 is in the provided network list"
+  assert:
+    that:
+      - "{{ '10.1.1.1' is ansible.utils.in_any_network networks }}"
+
+- name: "in_any_network: Check if 8.8.8.8 is not in the provided network list"
+  assert:
+    that: "{{ '8.8.8.8' is not ansible.utils.in_any_network networks }}"
+
+- name: "in_any_network: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check: "{{ '192.168.4.56' is ansible.utils.in_any_network networks }}"
+
+- name: "in_any_network: Assert invalidness"
+  assert:
+    that: "{{ criteria_check == false }}"

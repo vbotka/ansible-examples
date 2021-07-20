@@ -1,0 +1,8 @@
+Parsing semi-structured text with Ansible
+=========================================
+https://docs.ansible.com/ansible/latest/network/user_guide/cli_parsing.html
+
+Parsing with the native parsing engine
+--------------------------------------
+https://docs.ansible.com/ansible/latest/network/user_guide/cli_parsing.html#parsing-with-the-native-parsing-engine
+

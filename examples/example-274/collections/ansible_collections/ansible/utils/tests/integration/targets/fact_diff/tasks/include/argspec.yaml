@@ -1,0 +1,28 @@
+---
+- name: Check argspec validation
+  ansible.utils.fact_diff:
+  ignore_errors: true
+  register: result
+
+- assert:
+    that: "{{ string in result.msg }}"
+  loop:
+    - "missing required arguments:"
+    - before
+    - after
+  loop_control:
+    loop_var: string
+
+- name: Check argspec validation, skip_lines must be a dict
+  ansible.utils.fact_diff:
+    before: hostvars[inventory_hostname]
+    after: hostvars[inventory_hostname]
+    plugin:
+      vars:
+        skip_lines:
+          a_dict: false
+  ignore_errors: true
+  register: result
+
+- assert:
+    that: "{{ 'unable to convert to list' in result.msg }}"

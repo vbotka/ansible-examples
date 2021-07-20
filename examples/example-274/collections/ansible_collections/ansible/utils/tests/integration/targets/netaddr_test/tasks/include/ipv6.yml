@@ -1,0 +1,24 @@
+---
+- name: "ipv6: Check if fe80::216:3eff:fee4:16f3 is a valid IPV6 address"
+  assert:
+    that: "{{ 'fe80::216:3eff:fee4:16f3' is ansible.utils.ipv6 }}"
+
+- name: "ipv6: Check if 2001:db8:a::/64 is a valid IPV6 address"
+  assert:
+    that: "{{ '2001:db8:a::/64' is ansible.utils.ipv6 }}"
+
+- name: "ipv6: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check1: "{{ '10.1.1.1' is ansible.utils.ipv6 }}"
+
+- name: "ipv6: Assert invalidness"
+  assert:
+    that: "{{ criteria_check1 == false }}"
+
+- name: "ipv6: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check2: "{{ 'string' is ansible.utils.ipv6 }}"
+
+- name: "ipv6: Assert invalidness"
+  assert:
+    that: "{{ criteria_check2 == false }}"

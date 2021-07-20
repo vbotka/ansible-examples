@@ -1,0 +1,24 @@
+---
+- name: "mac: Check if 02:16:3e:e4:16:f3 is a valid MAC address"
+  assert:
+    that: "{{ '02:16:3e:e4:16:f3' is ansible.utils.mac }}"
+
+- name: "mac: Check if 02-16-3e-e4-16-f3 is a valid MAC address"
+  assert:
+    that: "{{ '02-16-3e-e4-16-f3' is ansible.utils.mac }}"
+
+- name: "mac: Check if 0216.3ee4.16f3 is a valid MAC address"
+  assert:
+    that: "{{ '0216.3ee4.16f3' is ansible.utils.mac }}"
+
+- name: "mac: Check if 02163ee416f3 is a valid MAC address"
+  assert:
+    that: "{{ '02163ee416f3' is ansible.utils.mac }}"
+
+- name: "mac: Check invalidness"
+  ansible.builtin.set_fact:
+    criteria_check: "{{ 'string' is ansible.utils.mac }}"
+
+- name: "mac: Assert invalidness"
+  assert:
+    that: "{{ criteria_check == false }}"

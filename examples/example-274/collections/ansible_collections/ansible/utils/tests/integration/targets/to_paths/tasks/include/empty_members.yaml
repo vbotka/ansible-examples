@@ -1,0 +1,40 @@
+---
+- ansible.builtin.set_fact:
+    a:
+      b: []
+      c: {}
+      d:
+        e: [{}, {}]
+      f:
+        g: [[], []]
+    empty_list: []
+    empty_mapping: {}
+
+- name: Test filter and lookup plugin with empty list and mapping
+  assert:
+    that: "{{ item.result == item.expected }}"
+  loop:
+    - result: "{{ a|ansible.utils.to_paths }}"
+      expected:
+        b: []
+        c: {}
+        d.e[0]: {}
+        d.e[1]: {}
+        f.g[0]: []
+        f.g[1]: []
+    - result: "{{ lookup('ansible.utils.to_paths', a) }}"
+      expected:
+        b: []
+        c: {}
+        d.e[0]: {}
+        d.e[1]: {}
+        f.g[0]: []
+        f.g[1]: []
+    - result: "{{ empty_list|ansible.utils.to_paths }}"
+      expected: []
+    - result: "{{ lookup('ansible.utils.to_paths', empty_list) }}"
+      expected: []
+    - result: "{{ empty_mapping|ansible.utils.to_paths }}"
+      expected: {}
+    - result: "{{ lookup('ansible.utils.to_paths', empty_mapping) }}"
+      expected: {}

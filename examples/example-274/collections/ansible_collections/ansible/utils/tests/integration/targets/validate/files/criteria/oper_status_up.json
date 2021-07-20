@@ -1,0 +1,14 @@
+{
+	"type" : "object",
+	"patternProperties": {
+		"^.*": {
+			"type": "object",
+			"properties": {
+				"oper_status": {
+					"type": "string",
+					"pattern": "up"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,56 @@
+{
+    "nf:rpc-reply": {
+        "@xmlns": "http://www.cisco.com/nxos:1.0:if_manager",
+        "@xmlns:nf": "urn:ietf:params:xml:ns:netconf:base:1.0",
+        "nf:data": {
+            "show": {
+                "interface": {
+                    "__XML__OPT_Cmd_show_interface___readonly__": {
+                        "__readonly__": {
+                            "TABLE_interface": {
+                                "ROW_interface": {
+                                    "admin_state": "up",
+                                    "eth_autoneg": "on",
+                                    "eth_bia_addr": "5e00.000b.0000",
+                                    "eth_bw": "1000000",
+                                    "eth_dly": "10",
+                                    "eth_duplex": "full",
+                                    "eth_ethertype": "0x0000",
+                                    "eth_hw_addr": "5e00.000b.0000",
+                                    "eth_hw_desc": "Ethernet",
+                                    "eth_ip_addr": "10.8.38.74",
+                                    "eth_ip_mask": "24",
+                                    "eth_ip_prefix": "10.8.38.0",
+                                    "eth_mdix": "off",
+                                    "eth_mode": "routed",
+                                    "eth_mtu": "1500",
+                                    "eth_reliability": "188",
+                                    "eth_rxload": "1",
+                                    "eth_speed": "1000 Mb/s",
+                                    "eth_txload": "1",
+                                    "interface": "mgmt0",
+                                    "medium": "broadcast",
+                                    "state": "up",
+                                    "vdc_lvl_in_avg_bytes": "816",
+                                    "vdc_lvl_in_avg_pkts": "0",
+                                    "vdc_lvl_in_bcast": "3124022",
+                                    "vdc_lvl_in_bytes": "966991855",
+                                    "vdc_lvl_in_mcast": "1743445",
+                                    "vdc_lvl_in_pkts": "7716327",
+                                    "vdc_lvl_in_ucast": "2848860",
+                                    "vdc_lvl_out_avg_bytes": "272",
+                                    "vdc_lvl_out_avg_pkts": "0",
+                                    "vdc_lvl_out_bcast": "3",
+                                    "vdc_lvl_out_bytes": "325131723",
+                                    "vdc_lvl_out_mcast": "155378",
+                                    "vdc_lvl_out_pkts": "3004554",
+                                    "vdc_lvl_out_ucast": "2849173"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

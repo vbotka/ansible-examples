@@ -1,0 +1,12 @@
+---
+- name: "private: Check if 10.1.1.1 is a private IP address"
+  assert:
+    that: "{{ '10.1.1.1' is ansible.utils.private }}"
+
+- name: "private: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check: "{{ '8.8.8.8' is ansible.utils.private }}"
+
+- name: "private: Assert invalidness"
+  assert:
+    that: "{{ criteria_check == false }}"

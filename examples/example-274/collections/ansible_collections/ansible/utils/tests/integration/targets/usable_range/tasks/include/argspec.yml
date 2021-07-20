@@ -1,0 +1,77 @@
+---
+- name: Check argspec validation with filter (missing arg)
+  ansible.builtin.set_fact:
+    _result1: "{{ '' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result1
+
+- assert:
+    that: "{{ msg in result1.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"
+
+- name: Check argspec validation with filter (random string arg)
+  ansible.builtin.set_fact:
+    _result2: "{{ 'helloworld' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result2
+
+- assert:
+    that: "{{ msg in result2.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"
+
+- name: Check argspec validation with filter (invalid arg for expansion)
+  ansible.builtin.set_fact:
+    _result3: "{{ '192.168.1.25/24' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result3
+
+- assert:
+    that: "{{ msg in result3.msg }}"
+  vars:
+    msg: "has host bits set"
+
+- name: Check argspec validation with filter (invalid format for arg)
+  ansible.builtin.set_fact:
+    _result4: "{{ '192.0.2.0/23/24' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result4
+
+- assert:
+    that: "{{ msg in result4.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"
+
+- name: Check argspec validation with filter (invalid format for arg)
+  ansible.builtin.set_fact:
+    _result5: "{{ '::/20/30' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result5
+
+- assert:
+    that: "{{ msg in result5.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"
+
+- name: Check argspec validation with filter (invalid netmask)
+  ansible.builtin.set_fact:
+    _result6: "{{ '10.0.0.0/322' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result6
+
+- assert:
+    that: "{{ msg in result6.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"
+
+- name: Check argspec validation with filter (invalid netmask)
+  ansible.builtin.set_fact:
+    _result7: "{{ '2001:db8:abcd:0012::0/129' | ansible.utils.usable_range }}"
+  ignore_errors: true
+  register: result7
+
+- assert:
+    that: "{{ msg in result7.msg }}"
+  vars:
+    msg: "does not appear to be an IPv4 or IPv6 network"

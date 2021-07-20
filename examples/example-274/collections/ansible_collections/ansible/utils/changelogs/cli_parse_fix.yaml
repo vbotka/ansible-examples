@@ -1,0 +1,4 @@
+---
+bugfixes:
+  - Fix ansible.utils.cli_parse action plugin to support old cli_parse sub-plugin
+    structure in ansible.netcommon collection.

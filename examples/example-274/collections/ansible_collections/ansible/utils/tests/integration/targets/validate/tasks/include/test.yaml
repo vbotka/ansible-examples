@@ -1,0 +1,89 @@
+---
+- name: validate data in json format using jsonschema (invalid data)
+  ansible.builtin.set_fact:
+    is_data_valid: "{{ show_interfaces is ansible.utils.validate(engine='ansible.utils.jsonschema', criteria=[oper_status, enable_check, crc_error_check], draft='draft7') }}"
+
+- assert:
+    that:
+      - "is_data_valid == false"
+
+- name: validate data in json format using jsonschema (valid data)
+  ansible.builtin.set_fact:
+    is_data_valid: "{{ show_interfaces is ansible.utils.validate(criteria=in_rate_check) }}"
+
+- assert:
+    that:
+      - "is_data_valid == true"
+
+- name: test invalid plugin configuration option, passed within filter plugin
+  ansible.builtin.set_fact:
+    is_data_valid: "{{ show_interfaces is ansible.utils.validate(criteria=in_rate_check, draft='draft0') }}"
+  ignore_errors: true
+  register: result
+
+- assert:
+    that:
+      - "'value of draft must be one of: draft3, draft4, draft6, draft7, got: draft0' in result.msg"
+
+- name: invalid engine value
+  ansible.builtin.set_fact:
+    data_criteria_checks: "{{ show_interfaces is ansible.utils.validate(criteria=in_rate_check, engine='ansible.utils.sample') }}"
+  ignore_errors: true
+  register: result
+
+- assert:
+    that:
+      - "'errors' not in result"
+      - "result['failed'] == true"
+      - "'For engine \\'ansible.utils.sample\\' error loading the corresponding validate plugin' in result.msg"
+
+- name: invalid data value
+  ansible.builtin.set_fact:
+    data_criteria_checks: "{{ 'invalid data' is ansible.utils.validate(criteria=in_rate_check) }}"
+  ignore_errors: true
+  register: result
+
+- assert:
+    that:
+      - "result['failed'] == true"
+      - "'\\'data\\' option value is invalid' in result.msg"
+
+- name: invalid criteria value
+  ansible.builtin.set_fact:
+    data_criteria_checks: "{{ show_interfaces is ansible.utils.validate(criteria='invalid data') }}"
+  ignore_errors: true
+  register: result
+
+- assert:
+    that:
+      - "result['failed'] == true"
+      - "'\\'criteria\\' option value is invalid' in result.msg"
+
+- name: read data and criteria from file
+  ansible.builtin.set_fact:
+   data: "{{ lookup('ansible.builtin.file', 'data/show_interface.json') }}"
+   oper_status_up_criteria: "{{ lookup('ansible.builtin.file', 'criteria/oper_status_up.json') }}"
+   enabled_check_criteria: "{{ lookup('ansible.builtin.file', 'criteria/enabled_check.json') }}"
+   crc_error_check_criteria: "{{ lookup('ansible.builtin.file', 'criteria/crc_error_check.json') }}"
+   in_rate_check_criteria: "{{ lookup('ansible.builtin.file', 'criteria/in_rate_check.json') }}"
+
+- name: validate data using jsonschema engine (invalid data read from file)
+  ansible.builtin.set_fact:
+    is_data_valid: "{{ show_interfaces is ansible.utils.validate(engine='ansible.utils.jsonschema', criteria=[oper_status_up_criteria, enabled_check_criteria, crc_error_check_criteria], draft='draft7') }}"
+
+- assert:
+    that:
+      - "is_data_valid == false"
+
+- name: validate data using jsonschema engine (invalid data read from file)
+  ansible.builtin.set_fact:
+    is_data_valid: "{{ show_interfaces is ansible.utils.validate(criteria=in_rate_check_criteria) }}"
+
+
+- name: validate data using jsonschema engine (valid data read from file)
+  ansible.builtin.set_fact:
+    data_criteria_checks: "{{ data|ansible.utils.validate(in_rate_check_criteria) }}"
+
+- assert:
+    that:
+      - "is_data_valid == true"

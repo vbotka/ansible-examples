@@ -1,0 +1,19 @@
+---
+- ansible.builtin.set_fact:
+    nxos_textfsm_text_parsed: "{{ lookup('ansible.builtin.file', '{{ role_path }}/output/nxos_show_version_textfsm_parsed.json') | from_json }}"
+
+- name: "{{ parser }} Pass text and command"
+  ansible.utils.cli_parse:
+    text: "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/nxos_show_version.txt') }}"
+    parser:
+      name: ansible.utils.textfsm
+      template_path: "{{ role_path }}/templates/nxos_show_version.textfsm"
+  register: nxos_textfsm_text
+
+- name: "{{ parser }} Confirm response"
+  assert:
+    that: "{{ item }}"
+  with_items:
+    - "{{ nxos_textfsm_text['parsed'] == nxos_textfsm_text['parsed'] }}"
+    - "{{ nxos_textfsm_text['parsed'][0]['BOOT_IMAGE'] is defined }}"
+    - "{{ nxos_textfsm_text['parsed'][0] == nxos_textfsm_text_parsed }}"

@@ -1,0 +1,54 @@
+---
+- ansible.builtin.set_fact:
+    nxos_ttp_text_parsed: "{{ lookup('ansible.builtin.file', '{{ role_path }}/output/nxos_show_interface_ttp_parsed.json') | from_json }}"
+
+- name: "{{ parser }} Pass text and template_path"
+  ansible.utils.cli_parse:
+    text: "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/nxos_show_interface.txt') }}"
+    parser:
+      name: ansible.utils.ttp
+      template_path: "{{ role_path }}/templates/nxos_show_interface.ttp"
+    set_fact: POpqMQoJWTiDpEW
+  register: nxos_ttp_text
+
+- name: "{{ parser }} Confirm response"
+  assert:
+    that:
+    - "{{ POpqMQoJWTiDpEW is defined }}"
+    - "{{ nxos_ttp_text['parsed'][0][0] | selectattr('interface', 'search', 'mgmt0') | list | length }}"
+    - "{{ nxos_ttp_text['parsed'] == nxos_ttp_text_parsed }}"
+
+
+- name: "{{ parser }} Pass text and custom variable"
+  ansible.utils.cli_parse:
+    text:  "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/nxos_show_interface.txt') }}"
+    parser:
+      name: ansible.utils.ttp
+      template_path: "{{ role_path }}/templates/nxos_show_interface.ttp"
+      vars:
+        ttp_vars:
+          extra_var: some_text
+  register: nxos_ttp_vars
+
+- name: "{{ parser }} Confirm modified results"
+  assert:
+    that: "{{ item }}"
+  with_items:
+    - "{{ nxos_ttp_vars['parsed'][0][0][0]['var'] == 'some_text' }}"
+
+- name: "{{ parser }} Pass text and ttp_results modified"
+  ansible.utils.cli_parse:
+    text:  "{{ lookup('ansible.builtin.file', '{{ role_path }}/files/nxos_show_interface.txt') }}"
+    parser:
+      name: ansible.utils.ttp
+      template_path: "{{ role_path }}/templates/nxos_show_interface.ttp"
+      vars:
+        ttp_results:
+          format: yaml
+  register: nxos_ttp_results
+
+- name: "{{ parser }} Confirm modified results"
+  assert:
+    that: "{{ item }}"
+  with_items:
+    - "{{ (nxos_ttp_results['parsed'][0]|from_yaml)[0] | selectattr('interface', 'search', 'mgmt0') | list | length }}"

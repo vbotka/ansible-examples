@@ -1,0 +1,22 @@
+{
+	"type" : "object",
+	"patternProperties": {
+		"^.*": {
+			"type": "object",
+			"properties": {
+				"counters": {
+					"properties": {
+						"rate": {
+                          "properties": {
+                            "in_rate": {
+                              "type": "number",
+                              "maximum": 0
+                            }
+                          }
+						}
+                    }
+				}
+			}
+		}
+	}
+}

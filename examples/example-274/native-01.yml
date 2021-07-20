@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    version_check:
+      stdout: 'ExecStart={ path=/home/bin/ide-1.0.1 ; argv[]=/home/bin/ide-1.0.1 start }'
+  tasks:
+
+    - ansible.utils.cli_parse:
+        text: "{{ version_check.stdout }}"
+        parser:
+          name: ansible.netcommon.native
+          template_path: templates/property.yml
+        set_fact: property
+    - debug:
+        var: property
+
+#  shell> cat templates/property.yml
+#  ---
+#  - example: 'ExecStart={ path=/home/bin/ide-1.0.1 ; argv[]=/home/bin/ide-1.0.1 start }'
+#    getval: '(?P<property>\S+)={\s*(?P<key1>\S+)=(?P<val1>\S+)\s*;\s*(?P<key2>\S+)=(?P<val2>\S+)\s(?P<state>\S+)\s*}'
+#      result:
+#        "{{ property }}":
+#          "{{ key1 }}": "{{ val1 }}"
+#          "{{ key2 }}": "{{ val2 }}"
+#          state: "{{ state }}"
+
+#   getval Python regex
+#   \S .... non-whitespace
+#   \s .... whitespace
+
+
+
+#  ok: [localhost] => 
+#    property:
+#      ExecStart:
+#        argv[]: /home/bin/ide-1.0.1
+#        path: /home/bin/ide-1.0.1
+#        state: start

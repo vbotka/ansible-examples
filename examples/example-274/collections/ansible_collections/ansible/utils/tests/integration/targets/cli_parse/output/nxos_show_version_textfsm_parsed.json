@@ -1,0 +1,7 @@
+{
+    "BOOT_IMAGE": "bootflash:///titanium-d1-kickstart.7.3.0.D1.1.bin",
+    "LAST_REBOOT_REASON": "",
+    "OS": "7.3(0)D1(1)",
+    "PLATFORM": "OSv",
+    "UPTIME": "110 day(s), 12 hour(s), 32 minute(s), 10 second(s)"
+}

@@ -275,6 +275,7 @@ Various examples of Ansbile code.
 - Example 271. inventory_hostnames
 - Example 272. truthy, falsy
 - Example 273. get_url
+- Example 274. cli_parse
 
 ## License
 

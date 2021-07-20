@@ -1,0 +1,54 @@
+---
+- name: "{{ parser }} validate argspec"
+  ansible.utils.cli_parse:
+    text: ""
+    parser:
+      name: ansible.utils.json
+      template_path: ""
+      command: ls
+  register: argfail
+  ignore_errors: true
+
+- name: "{{ parser }} Check argspec fail"
+  assert:
+    that: "argfail['errors'] == 'parameters are mutually exclusive: command|template_path found in parser'"
+
+- name: "{{ parser }} validate argspec"
+  ansible.utils.cli_parse:
+    text: ""
+    command: ls
+    parser:
+      name: ansible.utils.json
+      command: ""
+  register: argfail
+  ignore_errors: true
+
+- name: "{{ parser }} Check argspec fail"
+  assert:
+    that: "argfail['errors'] == 'parameters are mutually exclusive: command|text'"
+
+- name: "{{ parser }} validate argspec"
+  ansible.utils.cli_parse:
+    parser:
+      name: ansible.netcommon.json
+      command: ""
+  register: argfail
+  ignore_errors: true
+
+- name: "{{ parser }} Check argspec fail"
+  assert:
+    that: "argfail['errors'] == 'one of the following is required: command, text'"
+
+
+- name: "{{ parser }} validate argspec"
+  ansible.utils.cli_parse:
+    text: ""
+    parser:
+      name: not_fqdn
+      command: ""
+  register: argfail
+  ignore_errors: true
+
+- name: "{{ parser }} Check arspec fail"
+  assert:
+    that: "argfail['msg'] == 'Parser name should be provided as a full name including collection'"

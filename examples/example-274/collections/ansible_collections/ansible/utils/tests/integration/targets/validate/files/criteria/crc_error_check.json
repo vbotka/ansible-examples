@@ -1,0 +1,18 @@
+{
+	"type" : "object",
+	"patternProperties": {
+		"^.*": {
+			"type": "object",
+			"properties": {
+				"counters": {
+					"properties": {
+						"in_crc_errors": {
+                      		"type": "number",
+                      		"maximum": 0
+						}
+                    }
+				}
+			}
+		}
+	}
+}

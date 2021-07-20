@@ -1,0 +1,78 @@
+---
+show_interfaces:
+  GigabitEthernet0/0/0/0:
+    auto_negotiate: false
+    counters:
+      in_crc_errors: 0
+      in_errors: 0
+      rate:
+        in_rate: 0
+        out_rate: 0
+    description: configured using Ansible
+    duplex_mode: full
+    enabled: true
+    line_protocol: up
+    mtu: 1514
+    oper_status: down
+    type: GigabitEthernet
+  GigabitEthernet0/0/0/1:
+    auto_negotiate: false
+    counters:
+      in_crc_errors: 10
+      in_errors: 0
+      rate:
+        in_rate: 0
+        out_rate: 0
+    description: '# interface is configures with Ansible'
+    duplex_mode: full
+    enabled: false
+    line_protocol: up
+    mtu: 1514
+    oper_status: up
+    type: GigabitEthernet
+
+oper_status:
+  type: object
+  patternProperties:
+    ^.*:
+      type: object
+      properties:
+        oper_status:
+          type: string
+          pattern: up
+
+enable_check:
+  type: object
+  patternProperties:
+    ^.*:
+      type: object
+      properties:
+        enabled:
+          enum:
+            - true
+
+crc_error_check:
+  type: object
+  patternProperties:
+    ^.*:
+      type: object
+      properties:
+        counters:
+          properties:
+            in_crc_errors:
+              type: number
+              maximum: 0
+
+in_rate_check:
+  type: object
+  patternProperties:
+    ^.*:
+      type: object
+      properties:
+        counters:
+          properties:
+            rate:
+              properties:
+                in_rate:
+                  type: number
+                  maximum: 0

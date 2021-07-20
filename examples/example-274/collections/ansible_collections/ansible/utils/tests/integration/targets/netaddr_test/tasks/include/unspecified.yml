@@ -1,0 +1,28 @@
+---
+- name: "unspecified: Check if 0.0.0.0 is an unspecified IP address"
+  assert:
+    that: "{{ '0.0.0.0' is ansible.utils.unspecified }}"
+
+- name: "unspecified: Check if 0:0:0:0:0:0:0:0 is an unspecified IP address"
+  assert:
+    that: "{{ '0:0:0:0:0:0:0:0' is ansible.utils.unspecified }}"
+
+- name: "unspecified: Check if :: is an unspecified IP address"
+  assert:
+    that: "{{ '::' is ansible.utils.unspecified }}"
+
+- name: "unspecified: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check1: "{{ '127.0.0.1' is ansible.utils.unspecified }}"
+
+- name: "unspecified: Assert invalidness"
+  assert:
+    that: "{{ criteria_check1 == false }}"
+
+- name: "unspecified: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check2: "{{ '::1' is ansible.utils.unspecified }}"
+
+- name: "unspecified: Assert invalidness"
+  assert:
+    that: "{{ criteria_check2 == false }}"

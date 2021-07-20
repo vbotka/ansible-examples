@@ -1,0 +1,78 @@
+---
+- name: Set a short name
+  ansible.builtin.set_fact:
+    os: "{{ ansible_distribution|d }}"
+
+- include_tasks: argspec.yaml
+  vars:
+    parser: "({{ inventory_hostname }}/argspec)"
+
+- include_tasks: "nxos_json.yaml"
+  vars:
+    parser: "(nxos/json)"
+  tags:
+    - json
+
+- include_tasks: "nxos_textfsm.yaml"
+  vars:
+    parser: "(nxos/textfsm)"
+  tags:
+    - textfsm
+
+- include_tasks: "nxos_ttp.yaml"
+  vars:
+    parser: "(nxos/ttp)"
+  tags:
+    - ttp
+
+- include_tasks: "nxos_xml.yaml"
+  vars:
+    parser: "(nxos/xml)"
+  tags:
+    - xml
+
+- name: debug os
+  debug:
+    msg: "{{ os }}"
+
+- include_tasks: "centos_textfsm.yaml"
+  vars:
+    parser: "(centos/textfsm)"
+  when: os == 'centos'
+  tags:
+    - textfsm
+
+- include_tasks: "centos_ttp.yaml"
+  vars:
+    parser: "(centos/ttp)"
+  when: os == 'centos'
+  tags:
+    - ttp
+
+- include_tasks: "fedora_textfsm.yaml"
+  vars:
+    parser: "(fedora/textfsm)"
+  when: os == 'fedora'
+  tags:
+    - textfsm
+
+- include_tasks: "fedora_ttp.yaml"
+  vars:
+    parser: "(fedora/ttp)"
+  when: os == 'fedora'
+  tags:
+    - ttp
+
+- include_tasks: "ubuntu_textfsm.yaml"
+  vars:
+    parser: "(ubuntu/textfsm)"
+  when: os == 'ubuntu'
+  tags:
+    - textfsm
+
+- include_tasks: "ubuntu_ttp.yaml"
+  vars:
+    parser: "(ubuntu/ttp)"
+  when: os == 'ubuntu'
+  tags:
+    - ttp

@@ -1,0 +1,20 @@
+---
+- name: "supernet_of: Check if 10.0.0.0/8 is a supernet of 10.1.1.0/24"
+  assert:
+    that: "{{ '10.0.0.0/8' is ansible.utils.supernet_of '10.1.1.0/24' }}"
+
+- name: "supernet_of: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check1: "{{ '10.1.1.0/24' is ansible.utils.supernet_of '10.0.0.0/8' }}"
+
+- name: "supernet_of: Assert invalidness"
+  assert:
+    that: "{{ criteria_check1 == false }}"
+
+- name: "supernet_of: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check2: "{{ '10.0.0.0/8' is ansible.utils.supernet_of '192.168.1.0/24' }}"
+
+- name: "supernet_of: Assert invalidness"
+  assert:
+    that: "{{ criteria_check2 == false }}"

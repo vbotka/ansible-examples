@@ -1,0 +1,12 @@
+black==19.3b0 ; python_version > '3.5'
+coverage==4.5.4
+flake8
+mock ; python_version < '3.5'
+pytest-xdist
+yamllint
+
+# The follow are 3rd party libs for cli_parse
+ntc_templates
+# 21.4 changed the output of an error message we check in tests
+pyats >= 21.4 ; python_version >= '3.6'
+genie >= 21.4 ; python_version >= '3.6'

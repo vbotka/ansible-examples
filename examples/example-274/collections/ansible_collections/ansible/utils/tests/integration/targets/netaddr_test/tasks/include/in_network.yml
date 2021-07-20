@@ -1,0 +1,32 @@
+---
+- name: "in_network: Check if 10.1.1.1 is in 10.0.0.0/8"
+  assert:
+    that: "{{ '10.1.1.1' is ansible.utils.in_network '10.0.0.0/8' }}"
+
+- name: "in_network: Check if 10.1.1.1 is not in 192.168.1.0/24"
+  assert:
+    that: "{{ '10.1.1.1' is not ansible.utils.in_network '192.168.1.0/24' }}"
+
+- name: "in_network: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check1: "{{ '8.8.8.8' is ansible.utils.in_network '10.0.0.0/8' }}"
+
+- name: "in_network: Assert invalidness"
+  assert:
+    that: "{{ criteria_check1 == false }}"
+
+- name: "in_network: Check if 2001:db8:a::123 is in 2001:db8:a::/64"
+  assert:
+    that: "{{ '2001:db8:a::123' is ansible.utils.in_network '2001:db8:a::/64' }}"
+
+- name: "in_network: Check if 2001:db8:a::123 is not in 10.0.0.0/8"
+  assert:
+    that: "{{ '2001:db8:a::123' is not ansible.utils.in_network '10.0.0.0/8' }}"
+
+- name: "in_network: Test invalidness"
+  ansible.builtin.set_fact:
+    criteria_check2: "{{ '2001:db8:a::123' is not ansible.utils.in_network '2001:db8:a::/64' }}"
+
+- name: "in_network: Assert invalidness"
+  assert:
+    that: "{{ criteria_check2 == false }}"
