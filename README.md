@@ -276,6 +276,7 @@ Various examples of Ansbile code.
 - Example 272. truthy, falsy
 - Example 273. get_url
 - Example 274. cli_parse
+- Example 275. throttle
 
 ## License
 

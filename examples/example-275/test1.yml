@@ -1,0 +1,60 @@
+- hosts: host1,host2,host3
+  gather_facts: false
+  tasks:
+    - command: sleep 1
+      register: result
+    - debug:
+        msg: "{{ inventory_hostname }} task1
+              {{ result.start }} - {{ result.end }}"
+    - command: sleep 1
+      register: result
+      throttle: 1
+    - debug:
+        msg: "{{ inventory_hostname }} task2
+              {{ result.start }} - {{ result.end }}"
+    - command: sleep 1
+      register: result
+    - debug:
+        msg: "{{ inventory_hostname }} task3
+              {{ result.start }} - {{ result.end }}"
+
+# TASK [command] ***********************************************************
+# changed: [host2]
+# changed: [host1]
+# changed: [host3]
+
+# TASK [debug] *************************************************************
+# ok: [host2] => 
+#   msg: host2 task1 2021-07-23 09:38:20.061477 - 2021-07-23 09:38:21.101997
+# ok: [host1] => 
+#   msg: host1 task1 2021-07-23 09:38:20.269239 - 2021-07-23 09:38:21.300045
+# ok: [host3] => 
+#   msg: host3 task1 2021-07-23 09:38:20.278509 - 2021-07-23 09:38:21.304940
+
+# TASK [command] ***********************************************************
+# changed: [host1]
+# changed: [host2]
+# changed: [host3]
+
+# TASK [debug] *************************************************************
+# ok: [host1] => 
+#   msg: host1 task2 2021-07-23 09:38:22.439447 - 2021-07-23 09:38:23.473050
+# ok: [host2] => 
+#   msg: host2 task2 2021-07-23 09:38:24.553847 - 2021-07-23 09:38:25.602080
+# ok: [host3] => 
+#   msg: host3 task2 2021-07-23 09:38:26.700721 - 2021-07-23 09:38:27.778249
+
+# TASK [command] ***********************************************************
+# changed: [host1]
+# changed: [host2]
+# changed: [host3]
+
+# TASK [debug] *************************************************************
+# ok: [host1] => 
+#   msg: host1 task3 2021-07-23 09:38:29.265003 - 2021-07-23 09:38:30.301711
+# ok: [host3] => 
+#   msg: host3 task3 2021-07-23 09:38:29.401230 - 2021-07-23 09:38:30.418355
+# ok: [host2] => 
+#   msg: host2 task3 2021-07-23 09:38:29.310664 - 2021-07-23 09:38:30.329002
+
+# EOF
