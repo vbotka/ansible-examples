@@ -1,0 +1,54 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ d1|json_query('[].keys(@)') }}"
+      vars:
+        d1:
+          - {a: 1, b: 2}
+          - {c: 1, d: 2}
+
+#  msg:
+#  - - a
+#    - b
+#  - - c
+#    - d
+
+    - debug:
+        msg: "{{ d1|json_query('[].X[].keys(@)') }}"
+      vars:
+        d1:
+          - X:
+              0: {a: 1, b: 2}
+              1: {c: 1, d: 2}
+          - X:
+              2: {e: 1, f: 2}
+              3: {g: 1, h: 2}
+
+#  msg:
+#  - - 0
+#    - 1
+#  - - 2
+#    - 3
+
+    - debug:
+        msg: "{{ d1|json_query('[].X[].*.keys(@)') }}"
+      vars:
+        d1:
+          - X:
+              0: {a: 1, b: 2}
+              1: {c: 1, d: 2}
+          - X:
+              2: {e: 1, f: 2}
+              3: {g: 1, h: 2}
+
+#  msg:
+#  - - - a
+#      - b
+#    - - c
+#      - d
+#  - - - e
+#      - f
+#    - - g
+#      - h
