@@ -1,0 +1,60 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - lineinfile:
+        path: "etc/{{ item }}"
+        regex: '^{{ mount }}(\s+)({{ ipr }})*({{ optionsr }})*(\s*)(.*)$'
+        line: '{{ mount }}\g<1>{{ ip }}{{ options }} \g<5>'
+        backrefs: true
+      vars:
+        mount: /srv/files
+        ipr: '172\.16\.0\.14'
+        ip: '172.16.0.14'
+        optionsr: '\(.*?\)'
+        options: '(root_squash,no_subtree_check)'
+      loop:
+        - export1
+        - export2
+        - export3
+      tags: t1
+
+    - command: "cat etc/{{ item }}"
+      register: result
+      loop: [export1, export2, export3]
+      check_mode: false
+      tags: t2
+    - set_fact:
+        content: "{{ dict(_files|zip(_lines)) }}"
+      vars:
+        _lines: "{{ result.results|map(attribute='stdout_lines')|list }}"
+        _files: "{{ result.results|map(attribute='item')|list }}"
+      tags: t2
+    - debug:
+        var: content
+      tags: t2
+
+    - debug:
+        msg: "{{ mount }} is missing in {{ item }}"
+      vars:
+        mount: /srv/files
+        ip: '172.16.0.14'
+        options: '(root_squash,no_subtree_check)'
+      loop: "{{ content|list }}"
+      when: content[item]|select('search', mount)|length == 0
+      tags: t3
+
+    - lineinfile:
+        path: "etc/{{ item }}"
+        line: '{{ mount }} {{ ip }}{{ options }} '
+      vars:
+        mount: /srv/files
+        ipr: '172\.16\.0\.14'
+        ip: '172.16.0.14'
+        optionsr: '\(root_squash,no_subtree_check\)'
+        options: '(root_squash,no_subtree_check)'
+      loop: "{{ content|list }}"
+      when: content[item]|select('search', mount)|length == 0
+      tags: t3
+
+# /srv/files    172.16.0.14(rw,no_root_squash,no_subtree_check)

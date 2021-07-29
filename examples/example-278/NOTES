@@ -1,0 +1,15 @@
+* test-1.yml
+
+  shell> grep ansible_managed ansible.cfg
+  ansible_managed = {file} {host} {uid}
+
+  shell> ssh admin@test_11 cat template-1.txt
+  # template-1.txt.j2 master user1>
+
+  SEE ALSO
+  * ansible_managed: {file} expands to filename only #75321
+    https://github.com/ansible/ansible/issues/75321
+  * DEFAULT_MANAGED_STR
+    https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-managed-str
+
+# EOF

@@ -1,0 +1,2 @@
+/srv/download    172.16.0.14(rw,no_root_squash,no_subtree_check)
+/srv/files 172.16.0.14(root_squash,no_subtree_check) 

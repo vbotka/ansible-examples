@@ -1,0 +1,4 @@
+---
+master_root_dir: /scratch
+master_collection_dir: "{{ master_root_dir }}/dev/ansible/collections"
+master_community_general_dir: "{{ master_collection_dir }}/ansible_collections/community/general"

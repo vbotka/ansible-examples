@@ -1,0 +1,7 @@
+---
+- hosts: test_11
+  gather_facts: false
+  tasks:
+    - template:
+        src: template-1.txt.j2
+        dest: template-1.txt

@@ -1,0 +1,93 @@
+---
+- name: Master setup
+  hosts: master
+  gather_facts: false
+
+  tasks:
+
+    - name: Get minimal setup
+      ansible.builtin.setup:
+        gather_subset: min
+      become: true
+    - name: Fail if not Linux
+      ansible.builtin.assert:
+        that: ansible_system == "Linux"
+
+    - block:
+        - name: Get release
+          ansible.builtin.command: cat /etc/os-release
+          register: result
+          changed_when: false
+        - ansible.builtin.debug:
+            var: result.stdout
+      when: debug|default(false)|bool
+
+    - name: Install packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+      loop: ['git', 'ansible', 'ansible-test']
+      become: true
+      when: install|default(true)|bool
+
+    - name: Create dir
+      ansible.builtin.file:
+        state: directory
+        path: "{{ master_community_general_dir }}"
+
+    - name: Get vbotka/community.general.git
+      ansible.builtin.git:
+        repo: https://github.com/vbotka/community.general.git
+        version: ucl
+        dest: "{{ master_community_general_dir }}"
+    - name: Set upstream
+      community.general.git_config:
+        repo: "{{ master_community_general_dir }}"
+        scope: local
+        name: remote.upstream.url
+        value: https://github.com/ansible-collections/community.general.git
+
+    - name: Get vbotka/uclcmd.git
+      ansible.builtin.git:
+        repo: https://github.com/vbotka/uclcmd.git
+        version: ansible
+        dest: "{{ master_root_dir }}/uclcmd"
+    - name: Set upstream
+      community.general.git_config:
+        repo: "{{ master_root_dir }}/uclcmd"
+        scope: local
+        name: remote.upstream.url
+        value: https://github.com/allanjude/uclcmd
+
+    - name: Link uclcmd to vbotka.uclcmd
+      ansible.builtin.file:
+        state: link
+        src: "{{ master_root_dir }}/uclcmd"
+        dest: "{{ master_root_dir }}/vbotka.uclcmd"
+
+    - name: Copy ansible.cfg from example
+      ansible.builtin.copy:
+        remote_src: true
+        force: false
+        src: "{{ master_root_dir }}/uclcmd/contrib/ansible/ansible.cfg.example"
+        dest: "{{ master_root_dir }}/uclcmd/contrib/ansible/ansible.cfg"
+
+    - name: Update collections_paths
+      community.general.ini_file:
+        path: "{{ master_root_dir }}/uclcmd/contrib/ansible/ansible.cfg"
+        section: defaults
+        option: collections_paths
+        value: "{{ cpaths|join(':') }}"
+      vars:
+        cpaths:
+          - $PWD/collections
+          - "{{ master_collection_dir }}"
+          - /usr/share/ansible/collections
+
+    - name: Copy hosts from example
+      ansible.builtin.copy:
+        remote_src: true
+        force: false
+        src: "{{ master_root_dir }}/uclcmd/contrib/ansible/hosts.example"
+        dest: "{{ master_root_dir }}/uclcmd/contrib/ansible/hosts"
+
+...

@@ -277,6 +277,9 @@ Various examples of Ansbile code.
 - Example 273. get_url
 - Example 274. cli_parse
 - Example 275. throttle
+- Example 276. Development of a module (community.general.ucl)
+- Example 277. lineinfile can't modify a line using backrefs or add the line if missing
+- Example 278. ansible_managed
 
 ## License
 

@@ -1,0 +1,97 @@
+Ansible module ucl testing
+##########################
+
+1) Run tests included in the repo
+   https://github.com/allanjude/uclcmd
+2) Testing your newly-created module
+   https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html#testing-your-newly-created-module
+
+
+1) Run tests included in the repo
+=================================
+
+Ansible module *ucl* is a wrapper around the utility *uclcmd*. To
+test the functionality of the module use the tests included in the
+project https://github.com/allanjude/uclcmd. The instructions below
+show how to configure the inventory *hosts* and the configuration
+*ansible.cfg*, install requirements, and run the playbooks that will
+configure the controller (master) and the remote hosts (clients).
+
+
+Install requirements
+--------------------
+
+  shell> ansible-galaxy install -r requirements.yml
+  ...
+  community.general (3.4.0) was installed successfully
+
+
+Setup master
+-----------
+Install packages, create directories, and clone repos.
+
+  shell> ansible-playbook setup-master.yml -e debug=true
+  ...
+    result.stdout: |-
+      NAME="CentOS Linux"
+      VERSION="8"
+
+
+Setup client
+------------
+Install packages, create directories, and clone repos.
+
+  shell> ansible-playbook setup-client.yml -e debug=true
+  ...
+    result.stdout: |-
+      NAME=FreeBSD
+      VERSION=13.0-RELEASE
+  
+
+Login to the master and cd to uclcmd/contrib/ansible
+----------------------------------------------------
+
+  shell> ssh admin@test_24
+  [admin@test_24 ~]$ cd /scratch/vbotka.uclcmd/contrib/ansible/
+
+Update the configuration and inventory and check the syntax of the
+playbook.
+
+  [admin@test_24 ansible]$ ansible-playbook run_tests.yml --syntax-check
+
+  playbook: run_tests.yml
+
+Proceed according uclcmd/contrib/ansible/README
+
+
+2) Testing your newly-created module
+====================================
+
+At master, install docker
+-------------------------
+https://docs.docker.com/engine/install/centos/
+
+* Install packages
+
+  [root@test_24 general]# pwd
+  /scratch/dev/ansible/collections/ansible_collections/community/general
+  [root@test_24 general]# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  [root@test_24 general]# yum install docker-ce docker-ce-cli containerd.io --allowerasing
+  [root@test_24 general]# yum list installed | grep docker
+  containerd.io.x86_64                  1.4.8-3.1.el8                           @docker-ce-stable
+  docker-ce.x86_64                      3:20.10.7-3.el8                         @docker-ce-stable
+  docker-ce-cli.x86_64                  1:20.10.7-3.el8                         @docker-ce-stable
+  docker-ce-rootless-extras.x86_64      20.10.7-3.el8                           @docker-ce-stable
+  docker-scan-plugin.x86_64             0.8.0-3.el8                             @docker-ce-stable
+  [root@test_24 general]# systemctl start docker
+
+* Add *admin* to the group *docker*
+
+* Test docker
+
+  [admin@test_24 general]$ docker run hello-world
+
+Create virtual environment and run *ansible-test*
+-------------------------------------------------
+
+<WIP>

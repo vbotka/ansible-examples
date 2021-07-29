@@ -1,0 +1,47 @@
+---
+
+- name: Client setup
+  hosts: client
+  gather_facts: false
+
+  tasks:
+
+    - name: Get minimal setup
+      ansible.builtin.setup:
+        gather_subset: min
+    - name: Fail if not FreeBSD
+      ansible.builtin.assert:
+        that: ansible_system == "FreeBSD"
+
+    - block:
+        - name: Get release
+          ansible.builtin.command: cat /etc/os-release
+          register: result
+          changed_when: false
+        - ansible.builtin.debug:
+            var: result.stdout
+      when: debug|default(false)|bool
+
+    - name: Install packages
+      community.general.pkgng:
+        name: "{{ item }}"
+      loop: ['git', 'uclcmd']
+      when: install|default(true)|bool
+
+    - name: Create dir
+      ansible.builtin.file:
+        state: directory
+        path: "{{ client_root_dir }}/uclcmd"
+
+    - name: Get vbotka/uclcmd.git
+      ansible.builtin.git:
+        repo: https://github.com/vbotka/uclcmd.git
+        dest: "{{ client_root_dir }}/uclcmd"
+        version: ansible
+
+    - name: Link uclcmd to vbotka.uclcmd
+      ansible.builtin.file:
+        state: link
+        src: "{{ client_root_dir }}/uclcmd"
+        dest: "{{ client_root_dir }}/vbotka.uclcmd"
+...
