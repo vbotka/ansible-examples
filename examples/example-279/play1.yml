@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - lineinfile:
+        path: files/test1.txt
+        regexp: '^line2(.*)$'
+        line: 'line2 replace'
+      register: result
+    - debug:
+        var: result
+
+# shell> ansible-playbook play20.yml -CD
+#
+# --- before: files/test1.txt (content)
+# +++ after: files/test1.txt (content)
+# @@ -1,3 +1,3 @@
+#  line1
+#  -line2
+#  +line2 replace
+#   line3
+#
+#   result:
+#     backup: ''
+#       changed: true
+
+# shell> ansible-playbook play20.yml -C
+#
+#   result:
+#     backup: ''
+#       changed: true

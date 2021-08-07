@@ -1,0 +1,18 @@
+Shall a module return 'changed: true' if running '--check --diff' and there are potential changes?
+-----------------------------------------------------------------------
+
+Yes, see shell> ansible-playbook play1.yml --check --diff
+
+See: Declaring check mode support
+https://docs.ansible.com/ansible/latest/dev_guide/developing_program_flow_modules.html#declaring-check-mode-support
+
+module = AnsibleModule(argument_spec,
+                       supports_check_mode=True)
+
+The module can determine whether it is called in check mode by
+checking the boolean value module.check_mode. If it evaluates to True,
+the module must take care not to do any modification.
+
+If supports_check_mode=False is specified, which is the default value,
+the module will exit in check mode with skipped=True and message
+remote module (<insert module name here>) does not support check mode.
