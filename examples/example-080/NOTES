@@ -2,5 +2,8 @@
   Specifying multiple groups as hosts from different inventories in an Ansible playbook
   https://stackoverflow.com/questions/65330793/specifying-multiple-groups-as-hosts-from-different-inventories-in-an-ansible-pla/
 
+* play16.yml play17.yml
+  Managing “nested” group in Ansible YAML inventory files
+  https://stackoverflow.com/questions/68746910/managing-nested-group-in-ansible-yaml-inventory-files/68751316#68751316
 
   

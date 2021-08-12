@@ -1,0 +1,61 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: hosts-16a
+        name: inventory
+      tags: always
+
+    - debug:
+        msg: "{{ lookup('ansible.utils.to_paths', inventory) }}"
+      tags: t1
+
+#  msg:
+#    all.cluster_one.compute[0]: host4
+#    all.cluster_one.compute[1]: host5
+#    all.cluster_one.compute[2]: host6
+#    all.cluster_one.controller[0]: host1
+#    all.cluster_one.controller[1]: host2
+#    all.cluster_one.controller[2]: host3
+#    all.cluster_two.controller[0]: host11
+#    all.cluster_two.controller[1]: host12
+#    all.cluster_two.controller[2]: host13
+
+    - debug:
+        msg: "controller: {{ inventory|json_query('*.*.controller')|flatten }}"
+      tags: t2
+
+#  msg: 'controller: [''host1'', ''host2'', ''host3'', ''host11'', ''host12'', ''host13'']'
+
+    - debug:
+        msg: "all: {{ inventory|json_query('*.*.*')|flatten }}"
+      tags: t3
+
+#  msg: 'all: [''host1'', ''host2'', ''host3'', ''host4'', ''host5'',
+#              ''host6'', ''host11'', ''host12'', ''host13'']'
+
+    - debug:
+        msg: "{{ item }}: {{ inventory|json_query('*.' ~ item ~ '.*')|flatten }}"
+      loop: "{{ inventory.all.keys()|list }}"
+      tags: t4
+
+#  msg: 'cluster_one: [''host1'', ''host2'', ''host3'', ''host4'', ''host5'', ''host6'']'
+#  msg: 'cluster_two: [''host11'', ''host12'', ''host13'']'
+
+# shell> cat hosts-16a
+# all:
+#   cluster_one:
+#     controller:
+#       - host1
+#       - host2
+#       - host3
+#     compute:
+#       - host4
+#       - host5
+#       - host6
+#   cluster_two:
+#     controller:
+#       - host11
+#       - host12
+#       - host13

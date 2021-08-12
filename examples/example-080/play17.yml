@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    inv: "{{ lookup('file', '_hosts-16a')|from_yaml }}"
+  tasks:
+    - name: all
+      set_fact:
+        _groups: "{{ _groups|d({})|combine({'all': _hosts}) }}"
+      vars:
+        _hosts: "{{ inv.all|json_query('*.*')|flatten }}"
+    - name: clusters
+      set_fact:
+        _groups: "{{ _groups|combine({item: _hosts}) }}"
+      loop: "{{ inv.all.keys()|list }}"
+      vars:
+        _hosts: "{{ inv.all|json_query(item ~ '.*')|flatten }}"
+    - name: sub_clusters
+      set_fact:
+        _groups: "{{ _groups|combine(item, list_merge='append') }}"
+      loop: "{{ inv.all|json_query('*') }}"
+    - debug:
+        var: _groups
+
+    - add_host:
+        name: "{{ item.1 }}"
+        groups: "{{ item.0.key }}"
+      with_subelements:
+        - "{{ _groups|dict2items }}"
+        - value
+    - debug:
+        var: groups

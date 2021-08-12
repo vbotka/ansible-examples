@@ -1,5 +1,5 @@
 - hosts: test_01
-  gather_facts: no
+  gather_facts: false
   tasks:
     - command: "/home/admin/createFacts.sh {{ env }}"
       register: result
