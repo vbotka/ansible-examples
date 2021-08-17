@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    l1:
+      - d1: {a: 1, b: 1}
+      - d2: {a: 2, b: 2}
+      - d3: {a: 3, b: 3}
+    l2:
+      - d1: {a: 1, b: 1}
+      - d1: {a: 2, b: 2}
+      - d1: {a: 3, b: 3}
+
+    l3:
+      - d1: {c: 9}
+
+  tasks:
+
+    - debug:
+        msg: "{{ l1|combine|to_yaml }}"
+      tags: t1
+
+#  msg: |-
+#    d1: {a: 1, b: 1}
+#    d2: {a: 2, b: 2}
+#    d3: {a: 3, b: 3}
+
+    - debug:
+        msg: "{{ l2|combine|to_yaml }}"
+      tags: t2
+
+#  msg: | -
+#    d1: {a: 3, b: 3}
+
+    - debug:
+        msg: "{{ l1|combine(l3)|to_yaml }}"
+      tags: t3
+
+#  msg: |-
+#    d1: {c: 9}
+#    d2: {a: 2, b: 2}
+#    d3: {a: 3, b: 3}
+
+    - debug:
+        msg: "{{ l2|combine(l3)|to_yaml }}"
+      tags: t4
+
+#  msg: |-
+#    d1: {c: 9}
