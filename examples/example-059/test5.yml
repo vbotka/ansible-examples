@@ -6,7 +6,7 @@
     vals: [7000, 7003]
     vals_all: [7000, 7001, 7002, 7003, 7004]
     vals_missing: "{{ vals_all|difference(vals)|length }}"
-    
+
   tasks:
     - set_fact:
         vals2: "{{ vals }}"
@@ -17,17 +17,17 @@
         val: "{{ [vals_all|difference(vals2)|random] }}"
         vals2: "{{ vals2 + [vals] }}"
 
-# ok: [localhost] => (item=1) => 
+# ok: [localhost] => (item=1) =>
 #   ansible_loop_var: item
 #   item: '1'
 #   val:
 #   - 7001
-# ok: [localhost] => (item=2) => 
+# ok: [localhost] => (item=2) =>
 #   ansible_loop_var: item
 #   item: '2'
 #   val:
 #   - 7004
-# ok: [localhost] => (item=3) => 
+# ok: [localhost] => (item=3) =>
 #   ansible_loop_var: item
 #   item: '3'
 #   val:

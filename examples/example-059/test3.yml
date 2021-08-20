@@ -41,7 +41,7 @@
 #    - 7002
 #    - 7004
 #  - '1'
-        
+
     - set_fact:
         vals2: "{{ vals2|default(vals) }}"
     - set_fact:

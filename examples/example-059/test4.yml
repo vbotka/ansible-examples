@@ -6,7 +6,7 @@
     vals: [7000, 7003]
     vals_all: [7000, 7001, 7002, 7003, 7004]
     vals_missing: "{{ vals_all|difference(vals)|length }}"
-    
+
   tasks:
     - set_fact:
         vals2: "{{ vals }}"
