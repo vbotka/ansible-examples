@@ -1,0 +1,38 @@
+---
+
+- name: "y,Y,n,N are not truthies"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    list1:
+      - true
+      - yes
+      - Y
+      - y
+      - x
+    list2:
+      - false
+      - no
+      - N
+      - n
+      - x
+  tasks:
+    - debug:
+        msg: "{{ item }} is Truthy [{{ item is truthy }}]"
+      loop: "{{ list1 }}"
+      tags: t1
+
+    - debug:
+        msg: "{{ item }} is Truthy [{{ item is truthy }}]"
+      loop: "{{ list2 }}"
+      tags: t2
+
+    - debug:
+        msg: "{{ item }} is Falsy [{{ item is falsy }}]"
+      loop: "{{ list1 }}"
+      tags: f1
+
+    - debug:
+        msg: "{{ item }} is Falsy [{{ item is falsy }}]"
+      loop: "{{ list2 }}"
+      tags: f2

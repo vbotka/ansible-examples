@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    opt:
+      label: Label for debug
+      param:
+        msg1: test
+        msg2:
+          s1: test
+          s2: test
+  tasks:
+    - template:
+        src: template-04b.j2
+        dest: test.yml

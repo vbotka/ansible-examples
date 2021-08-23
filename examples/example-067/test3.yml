@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  vars_prompt:
+    - name: is_sudoer
+      prompt: Is the new user a sudoer (Y/N)?
+      private: no
+  tasks:
+    - debug:
+        msg: User is sudoer
+      when: is_sudoer|lower == 'y'

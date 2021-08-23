@@ -1,0 +1,18 @@
+#jinja2: trim_blocks: False
+---
+- ansible.builtin.set_fact:
+    _crash: true
+
+- block:
+    - name: "{{ opt.label }}"
+      debug:
+{%- for k,v in (opt.param|default({})).items() -%}
+{%- if v is mapping %}
+        {{ k }}:
+{%- for sk,sv in v.items() %}
+          {{ sk }}: {{ sv }}
+{%- endfor %}
+{%-  else %}
+        {{ k }}: {{ v }}
+{%- endif %}
+{%- endfor %}

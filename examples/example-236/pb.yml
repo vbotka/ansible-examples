@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - include_tasks: test.yml
