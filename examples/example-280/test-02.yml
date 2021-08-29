@@ -4,3 +4,6 @@
   tasks:
     - debug:
         var: inventory_hostname
+
+# ok: [10.192.2.6] => 
+#   inventory_hostname: 10.192.2.6

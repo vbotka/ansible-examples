@@ -3,8 +3,44 @@
   gather_facts: false
   tasks:
 
+# shell> cat hosts-01
+# ---
+# all:
+#   hosts:
+#   children:
+#     bob_server:
+#       hosts: 10.192.2.6
+#       vars:
+#         app_type: bob
+#     alice_server:
+#       hosts: 10.192.2.53
+#       vars:
+#         app_type: alice
+
     - command: ansible-inventory -i hosts-01 --list
       register: result
+    - debug:
+        var: result.stdout
+
+#  result.stdout:
+#    _meta:
+#      hostvars:
+#        10.192.2.53:
+#          app_type: alice
+#        10.192.2.6:
+#          app_type: bob
+#    alice_server:
+#      hosts:
+#      - 10.192.2.53
+#    all:
+#      children:
+#      - alice_server
+#      - bob_server
+#      - ungrouped
+#    bob_server:
+#      hosts:
+#      - 10.192.2.6
+
     - set_fact:
         my_inventory: "{{ result.stdout|from_yaml }}"
     - debug:
@@ -13,6 +49,7 @@
 #  my_inventory.bob_server.hosts:
 #  - 10.192.2.6
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     - include_vars:
         file: hosts-01
         name: my_hosts
