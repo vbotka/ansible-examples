@@ -281,6 +281,7 @@ Various examples of Ansbile code.
 - Example 277. lineinfile can't modify a line using backrefs or add the line if missing
 - Example 278. ansible_managed
 - Example 279. Development of a module (supports_check_mode and changed)
+- Example 280. ansible.utils.to_paths – Flatten object into a dictionary of paths and values
 
 ## License
 

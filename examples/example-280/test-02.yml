@@ -1,0 +1,6 @@
+---
+- hosts: bob_server
+  gather_facts: false
+  tasks:
+    - debug:
+        var: inventory_hostname

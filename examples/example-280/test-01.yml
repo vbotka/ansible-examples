@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - command: ansible-inventory -i hosts-01 --list
+      register: result
+    - set_fact:
+        my_inventory: "{{ result.stdout|from_yaml }}"
+    - debug:
+        var: my_inventory.bob_server.hosts
+
+#  my_inventory.bob_server.hosts:
+#  - 10.192.2.6
+
+    - include_vars:
+        file: hosts-01
+        name: my_hosts
+    - set_fact:
+        my_paths: "{{ lookup('ansible.utils.to_paths', my_hosts) }}"
+    - debug:
+        var: my_paths
+
+#  my_paths:
+#    all.children.alice_server.hosts: 10.192.2.53
+#    all.children.alice_server.vars.app_type: alice
+#    all.children.bob_server.hosts: 10.192.2.6
+#    all.children.bob_server.vars.app_type: bob
+#    all.hosts: null
+
+    - set_fact:
+        bob_server_hosts: "{{ my_paths|
+                              dict2items|
+                              selectattr('key', 'match', '^.*bob_server\\.hosts$')|
+                              items2dict }}"
+    - debug:
+        var: bob_server_hosts
+
+#  bob_server_hosts:
+#    all.children.bob_server.hosts: 10.192.2.6
+
+    - set_fact:
+        bob_server_ips: "{{ bob_server_hosts.values()|list }}"
+    - debug:
+        var: bob_server_ips
+
+#  bob_server_ips:
+#  - 10.192.2.6
