@@ -1,0 +1,4 @@
+---
+# The keyword *hosts* must be in the included code
+
+- import_playbook: playbook12.yml

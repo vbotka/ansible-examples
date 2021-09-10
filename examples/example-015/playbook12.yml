@@ -1,0 +1,5 @@
+- name: playbook 12
+  hosts: localhost
+  tasks:
+    - debug:
+        msg: OK
