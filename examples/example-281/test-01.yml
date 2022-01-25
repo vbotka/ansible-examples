@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ myservers|map('community.general.dict_kv', 'server') }}"
+      vars:
+        myservers:
+          - server1
+          - server2
+
+# ok: [localhost] =>
+#   msg:
+#    - server: server1
+#    - server: server2
