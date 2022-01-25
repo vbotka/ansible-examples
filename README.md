@@ -283,6 +283,7 @@ Various examples of Ansbile code.
 - Example 279. Development of a module (supports_check_mode and changed)
 - Example 280. ansible.utils.to_paths – Flatten object into a dictionary of paths and values
 - Example 281. community.general.dict_kv
+- Example 282. community.general.groupby_as_dict
 
 ## License
 

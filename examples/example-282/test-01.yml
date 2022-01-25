@@ -1,0 +1,90 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    my_mounts:
+      - device: /dev/nvme0n1p6
+        mount: /
+        fstype: ext4
+      - device: /dev/nvme0n1p7
+        mount: /export
+        fstype: ext4
+      - device: /dev/nvme0n1p2
+        mount: /boot/efi
+        fstype: vfat
+
+  tasks:
+
+    - debug:
+        msg: "{{ my_mounts|community.general.groupby_as_dict('device') }}"
+      tags: t1
+
+#  msg:
+#    /dev/nvme0n1p2:
+#      device: /dev/nvme0n1p2
+#      fstype: vfat
+#      mount: /boot/efi
+#    /dev/nvme0n1p6:
+#      device: /dev/nvme0n1p6
+#      fstype: ext4
+#      mount: /
+#    /dev/nvme0n1p7:
+#      device: /dev/nvme0n1p7
+#      fstype: ext4
+#      mount: /export
+
+    - debug:
+        msg: "{{ dict(my_mounts|map(attribute='device')|zip(my_mounts)) }}"
+      tags: t2
+
+#  msg:
+#    /dev/nvme0n1p2:
+#      device: /dev/nvme0n1p2
+#      fstype: vfat
+#      mount: /boot/efi
+#    /dev/nvme0n1p6:
+#      device: /dev/nvme0n1p6
+#      fstype: ext4
+#      mount: /
+#    /dev/nvme0n1p7:
+#      device: /dev/nvme0n1p7
+#      fstype: ext4
+#      mount: /export
+
+    - debug:
+        msg: "{{ my_mounts|community.general.groupby_as_dict('mount') }}"
+      tags: t3
+
+#  msg:
+#    /:
+#      device: /dev/nvme0n1p6
+#      fstype: ext4
+#      mount: /
+#    /boot/efi:
+#      device: /dev/nvme0n1p2
+#      fstype: vfat
+#      mount: /boot/efi
+#    /export:
+#      device: /dev/nvme0n1p7
+#      fstype: ext4
+#      mount: /export
+
+    - debug:
+        msg: "{{ dict(my_mounts|map(attribute='mount')|zip(my_mounts)) }}"
+      tags: t4
+
+#  msg:
+#    /:
+#      device: /dev/nvme0n1p6
+#      fstype: ext4
+#      mount: /
+#    /boot/efi:
+#      device: /dev/nvme0n1p2
+#      fstype: vfat
+#      mount: /boot/efi
+#    /export:
+#      device: /dev/nvme0n1p7
+#      fstype: ext4
+#      mount: /export
