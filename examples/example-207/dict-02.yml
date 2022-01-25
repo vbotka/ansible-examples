@@ -1,14 +1,14 @@
+---
 - hosts: localhost
   gather_facts: false
   vars:
     my_tags: {
-    "Name": "test-db-system-2",
-    "aws:cloudformation:logical-id": "DBInstance",
-    "aws:cloudformation:stack-id": "arn:aws:cloudformation:us-east-1:123456789012:stack/test-db-system-2/0115v0a0-5d44-17e8-a024-503ama4a5qd1",
-    "aws:cloudformation:stack-name": "test-db-system-2",
-    "dbsystem:stack": "test-db-system-2",
-    "dbsystem:type": "db"
-}      
+      "Name": "test-db-system-2",
+      "aws:cloudformation:logical-id": "DBInstance",
+      "aws:cloudformation:stack-id": "arn:aws:cloudformation:us-east-1:123456789012:stack/test-db-system-2/0115v0a0-5d44-17e8-a024-503ama4a5qd1",
+      "aws:cloudformation:stack-name": "test-db-system-2",
+      "dbsystem:stack": "test-db-system-2",
+      "dbsystem:type": "db"}
   tasks:
     - debug:
         var: my_tags
@@ -26,9 +26,9 @@
 # https://stackoverflow.com/questions/50514383/ansible-remove-item-from-dict/
 
 # Use rejectattr. For example gives
-# 
+#
 #     "my_tags1": {
-#         "Name": "test-db-system-2", 
-#         "dbsystem:stack": "test-db-system-2", 
+#         "Name": "test-db-system-2",
+#         "dbsystem:stack": "test-db-system-2",
 #         "dbsystem:type": "db"
 #     }
