@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug:
+        msg: "{{ myservers|map('community.general.dict_kv', 'server')|
+                           map('combine', common_config)|
+                           list }}"
+      vars:
+        myservers:
+          - server1
+          - server2
+        common_config:
+          type: host
+          db: all
+
+# ok: [localhost] =>
+#  msg:
+#    - db: all
+#      server: server1
+#      type: host
+#    - db: all
+#      server: server2
+#      type: host
