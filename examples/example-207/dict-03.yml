@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ _vals|map('zip', _keys)|
+                       to_yaml }}"
+      vars:
+        _keys: [k1, k2, k3]
+        _vals:
+          - [foo, 23, a]
+          - [bar, 42, b]
+      tags: t1
+
+#  msg: |-
+#    - - [foo, k1]
+#      - [23, k2]
+#      - [a, k3]
+#    - - [bar, k1]
+#      - [42, k2]
+#      - [b, k3]
+
+    - debug:
+        msg: "{{ _vals|map('zip', _keys)|
+                       map('map', 'reverse')|
+                       to_yaml }}"
+      vars:
+        _keys: [k1, k2, k3]
+        _vals:
+          - [foo, 23, a]
+          - [bar, 42, b]
+      tags: t2
+
+#  msg: |-
+#    - - [k1, foo]
+#      - [k2, 23]
+#      - [k3, a]
+#    - - [k1, bar]
+#      - [k2, 42]
+#      - [k3, b]
+
+    - debug:
+        msg: "{{ _vals|map('zip', _keys)|
+                       map('map', 'reverse')|
+                       map('community.general.dict')|
+                       to_yaml }}"
+      vars:
+        _keys: [k1, k2, k3]
+        _vals:
+          - [foo, 23, a]
+          - [bar, 42, b]
+      tags: t3
+
+#  msg: |-
+#    - {k1: foo, k2: 23, k3: a}
+#    - {k1: bar, k2: 42, k3: b}
