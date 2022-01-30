@@ -25,13 +25,13 @@
 # https://stackoverflow.com/questions/59351567/how-do-i-extract-values-from-a-width-delimited-table-in-ansible/
 
 # The task simplified by custom plugins gives the same result
-# 
+#
 # - set_fact:
 #     sql_list: "{{ command_out.stdout_lines[1:]|
 #                   map('string_split')|
 #                   map('list_dict_zip_rev', keys)|
 #                   list }}"
-# 
+#
 # $ cat filter_plugins/string_filters.py
 # def string_split(s, *i):
 #     if len(i) == 0:
@@ -40,13 +40,13 @@
 #         return s.split(i[0])
 #     else:
 #         return s.split(i[0], i[1])
-# 
+#
 # def list_dict_zip_rev(l,k):
 #     return dict((y,x) for x,y in  zip(l,k))
-# 
+#
 # class FilterModule(object):
 #     ''' Ansible filters.'''
-# 
+#
 #     def filters(self):
 #         return {
 #             'list_dict_zip_rev' : list_dict_zip_rev,

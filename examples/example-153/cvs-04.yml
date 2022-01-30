@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  become: no
+  become: false
   tasks:
     - name: read data CSV
       read_csv:

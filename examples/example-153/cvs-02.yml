@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  become: no
+  become: false
   tasks:
     - name: read data CSV
       read_csv:
@@ -18,19 +18,41 @@
               {{ item.value.ip }}"
       loop: "{{ vms.dict|dict2items }}"
 
-# Using variables in ansible script after fetching from csv files inside a loop
-# https://serverfault.com/questions/992178/using-variables-in-ansible-script-after-fetching-from-csv-files-inside-a-loop/
-    
-# Use read_csv – Read a CSV file module. For example the playbook
-# with the file
-# 
-# $ cat vms.csv
+# shell> cat cvs-02-data.csv
 # hostname,partition,ip
 # hostname1,/dev/sda1,10.1.0.21
 # hostname2,/dev/sda1,10.1.0.22
 # hostname3,/dev/sda1,10.1.0.23
+
+#  vms.dict:
+#    hostname1:
+#      hostname: hostname1
+#      ip: 10.1.0.21
+#      partition: /dev/sda1
+#    hostname2:
+#      hostname: hostname2
+#      ip: 10.1.0.22
+#      partition: /dev/sda1
+#    hostname3:
+#      hostname: hostname3
+#      ip: 10.1.0.23
+#      partition: /dev/sda1
+
+
+# Using variables in ansible script after fetching from csv files inside a loop
+# https://serverfault.com/questions/992178/using-variables-in-ansible-script-after-fetching-from-csv-files-inside-a-loop/
+
+# Use read_csv – Read a CSV file module. For example the playbook
+# with the file
+
+# $ cat cvs-02-data.csv
+# hostname,partition,ip
+# hostname1,/dev/sda1,10.1.0.21
+# hostname2,/dev/sda1,10.1.0.22
+# hostname3,/dev/sda1,10.1.0.23
+
 # gives
-# 
+#
 #   msg: 'hostname1: hostname1, /dev/sda1, 10.1.0.21'
 #   msg: 'hostname2: hostname2, /dev/sda1, 10.1.0.22'
 #   msg: 'hostname3: hostname3, /dev/sda1, 10.1.0.23'

@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  become: no
+  become: false
   tasks:
     - name: read data CSV
       read_csv:
@@ -14,18 +14,18 @@
 
 #    "vms.list": [
 #        {
-#            "hostname": "hostname1", 
-#            "ip": "10.1.0.21", 
+#            "hostname": "hostname1",
+#            "ip": "10.1.0.21",
 #            "partition": "/dev/sda1"
-#        }, 
+#        },
 #        {
-#            "hostname": "hostname2", 
-#            "ip": "10.1.0.22", 
+#            "hostname": "hostname2",
+#            "ip": "10.1.0.22",
 #            "partition": "/dev/sda1"
-#        }, 
+#        },
 #        {
-#            "hostname": "hostname3", 
-#            "ip": "10.1.0.23", 
+#            "hostname": "hostname3",
+#            "ip": "10.1.0.23",
 #            "partition": "/dev/sda1"
 #        }
 #    ]
