@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+# Both t1 and t2 give the same result. The difference is that in t1
+# 'jc' is running at client but in t2 'jc' is running in the filter at
+# the controller.
+
+  tasks:
+
+# The module shell will crash if 'jc' is not installed at the client
+# stderr: '/bin/sh: jc: not found'
+
+    - name: jc must be installed at the client
+      shell: ifconfig | jc --ifconfig
+      register: result
+      tags: t1
+    - debug:
+        msg: "{{ _ifconfig|json_query('[].[name, type, state]') }}"
+      vars:
+        _ifconfig: "{{ result.stdout|from_yaml }}"
+      tags: t1
+
+# The filter jc will crash if 'jc' is not installed at the controller
+
+    - name: jc must be installed at the controller
+      shell: ifconfig
+      register: result
+      tags: t2
+    - debug:
+        msg: "{{ _ifconfig|json_query('[].[name, type, state]') }}"
+      vars:
+        _ifconfig: "{{ result.stdout|community.general.jc('ifconfig') }}"
+      tags: t2
+
+#  msg:
+#  - - docker0
+#    - Ethernet
+#    - - UP
+#      - BROADCAST
+#      - MULTICAST
+#  - - eth0
+#    - Ethernet
+#    - - UP
+#      - BROADCAST
+#      - MULTICAST
+#  - - eth1
+#    - Ethernet
+#    - - UP
+#      - BROADCAST
+#      - RUNNING
+#      - MULTICAST
+#  - - lo
+#    - Local Loopback
+#    - - UP
+#      - LOOPBACK
+#      - RUNNING
+#  - - wlan0
+#    - Ethernet
+#    - - UP
+#      - BROADCAST
+#      - MULTICAST
+#  - - xenbr0
+#    - Ethernet
+#    - - UP
+#      - BROADCAST
+#      - MULTICAST
