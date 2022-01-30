@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - debug:
+        msg: "{{ ('/etc', path, 'subdir', file) | community.general.path_join }}"
+      vars:
+        path: x
+        file: name.ext
+
+# msg: /etc/x/subdir/name.ext

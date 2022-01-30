@@ -286,6 +286,7 @@ Various examples of Ansbile code.
 - Example 282. community.general.groupby_as_dict
 - Example 283. community.general.version_sort
 - Example 284. community.general.jc
+- Example 285. community.general.path_join
 
 ## License
 
