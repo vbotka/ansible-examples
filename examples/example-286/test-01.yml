@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    list1:
+      - name: foo
+        extra: true
+      - name: bar
+        extra: false
+      - name: meh
+        extra: true
+    list2:
+      - name: foo
+        path: /foo
+      - name: baz
+        path: /baz
+
+  tasks:
+
+    - debug:
+        msg: "{{ list1 | community.general.lists_mergeby(list2, 'name') }}"
+
+#  msg:
+#  - extra: false
+#    name: bar
+#  - name: baz
+#    path: /baz
+#  - extra: true
+#    name: foo
+#    path: /foo
+#  - extra: true
+#    name: meh

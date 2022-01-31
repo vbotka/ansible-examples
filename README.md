@@ -287,6 +287,7 @@ Various examples of Ansbile code.
 - Example 283. community.general.version_sort
 - Example 284. community.general.jc
 - Example 285. community.general.path_join
+- Example 286. community.general.lists_mergeby
 
 ## License
 

@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    list1:
+      - name: foo
+        extra: true
+      - name: foo
+        extra: false
+      - name: meh
+        extra: true
+
+  tasks:
+
+    - debug:
+        msg: "{{ list1 | community.general.lists_mergeby( list1, 'name') }}"
+
+#  msg:
+#  - extra: false
+#    name: foo
+#  - extra: true
+#    name: meh
