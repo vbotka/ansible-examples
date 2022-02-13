@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   tasks:
     - include_vars: develop/group_var/all.yml
@@ -5,3 +6,33 @@
         var: global
     - debug:
         var: docker
+
+# ok: [localhost] =>
+#   global:
+#     rel1:
+#       deployment:
+#         webui:
+#           dockerName: rel1
+#     rel2:
+#       deployment:
+#         webui:
+#           dockerName: rel2
+
+# ok: [localhost] =>
+#   docker:
+#     registery: xxxx
+
+# shell> cat develop/group_var/all.yml
+# global: "{{ lookup('file', 'global/group_var/all.yml')|from_yaml }}"
+# docker:
+#   registery: "xxxx"
+#
+# shell> cat global/group_var/all.yml
+# rel1:
+#   deployment:
+#     webui:
+#       dockerName: "rel1"
+# rel2:
+#   deployment:
+#     webui:
+#       dockerName: "rel2"
