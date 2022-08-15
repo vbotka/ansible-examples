@@ -48,9 +48,10 @@
 # * Limit the play to a particular host
 #   shell> ansible-playbook pb.yml -e stop_job=true -t stop_job --limit host03
 # * The particular record in the cache will be obsolete if the job
-#   terminates without intervention. It's not necessary to remove
-#   it. Both tasks *stop_job* and *async_job* will skip terminated
-#   jobs. The next *start_job* will update the particular record in
+#   terminates without intervention. The task *stop_job* will skip
+#   terminated jobs and keep the cache untouched but the task
+#   *async_job* will update the cache. If you don't run *async_job*
+#   the next *start_job* will update the particular record in
 #   cache. (TODO: update *sanity_job* to preen cache).
 #
 # Example of a script:
@@ -73,6 +74,7 @@
 # Tested on: Ubuntu 20.4, ansible 2.12.7
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# https://github.com/vbotka/ansible-examples/blob/master/examples/example-287/pb.yml
 
 - hosts: all
   become: true
@@ -100,7 +102,7 @@
   tasks:
 
     - import_tasks: tasks/cache_read.yml
-      tags: [cache_read, always]
+      tags: always
 
     - import_tasks: tasks/debug.yml
       when: debug|d(false)|bool
@@ -138,14 +140,9 @@
       when: stop_job|d(false)|bool
       tags: stop_job
 
-    - meta: flush_handlers
-
-    - import_tasks: tasks/cache_write.yml
-      tags: [cache_write, always]
-
   handlers:
 
     - import_tasks: handlers/logger.yml
     - import_tasks: handlers/log.yml
     - import_tasks: handlers/rsyslog.yml
-    - import_tasks: handlers/update_cache.yml
+    - import_tasks: handlers/cache_update.yml

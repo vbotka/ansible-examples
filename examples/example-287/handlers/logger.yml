@@ -17,4 +17,5 @@
     msg: >-
       [{{ inventory_hostname }}] stopped
       pid: {{ my_cache[my_script].job_pid }}
+      {{ stop_msg|d('') }}
   delegate_to: localhost

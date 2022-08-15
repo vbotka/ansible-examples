@@ -15,9 +15,6 @@
     - name: Start job. PID read.
       command: "cat {{ pid_path }}/{{ my_pid }}"
       register: start_job_pid
-    - debug:
-        var: my_cache
-      when: debug|d(false)|bool
     - name: Start job. Add record to my_cache.
       set_fact:
         my_cache: "{{ my_cache|combine(my_record, recursive=True) }}"
