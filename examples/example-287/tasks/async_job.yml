@@ -1,0 +1,11 @@
+- name: Check on an async job
+  async_status:
+    jid: "{{ my_cache[my_script].ansible_job_id }}"
+  register: job_result
+  notify: stop job
+  until: job_result.finished
+  retries: "{{ _async.retries }}"
+  delay: "{{ _async.delay }}"
+- debug:
+    var: job_result
+  when: debug|d(false)|bool

@@ -1,0 +1,6 @@
+- name: Stop job. Update record in my_cache.
+  listen: stop job
+  set_fact:
+    my_cache: "{{ my_cache|combine(my_record, recursive=False) }}"
+  vars:
+    my_record: "{{ {my_script: {'running': false}} }}"

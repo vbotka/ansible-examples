@@ -1,0 +1,93 @@
+- name: Sanity job. Run pgrep
+  block:
+    - name: Sanity job. Run pgrep. rc=1 'No processes matched' will be rescued.
+      command: "pgrep -f {{ bin_path }}/{{ my_script }}"
+      register: sanity_job_result
+    - debug:
+        var: sanity_job_result
+      when: debug|d(false)|bool
+    - name: Sanity job. Set job_exists.
+      set_fact:
+        job_exists: true
+        job_pid: "{{ sanity_job_result.stdout }}"
+  rescue:
+    - debug:
+        var: ansible_failed_result
+      when: debug|d(false)|bool
+    - name: Sanity job. Rescue. Set job_exists.
+      set_fact:
+        job_exists: false
+        job_pid: 'undef'
+      when: ansible_failed_result.rc == 1
+
+- name: Sanity job. PID stat
+  block:
+    - name: Sanity job. PID file stats
+      stat:
+        path: "{{ pid_path }}/{{ my_pid }}"
+      register: sanity_file_result
+    - debug:
+        var: sanity_file_result
+      when: debug|d(false)|bool
+    - name: Sanity job. Set file_exists and file_pid
+      set_fact:
+        file_exists: "{{ sanity_file_result.stat.exists }}"
+        file_pid: 'undef'
+    - name: Sanity job. Read PID file
+      command: "cat {{ pid_path }}/{{ my_pid }}"
+      register: file_pid_result
+      when: file_exists
+    - debug:
+        var: file_pid_result
+      when: debug|d(false)|bool
+    - name: Sanity job. Set file_pid
+      set_fact:
+        file_pid: "{{ file_pid_result.stdout }}"
+      when: file_exists
+
+- debug:
+    msg: |-
+      job_exists: {{ job_exists }}
+      job_pid: {{ job_pid }}
+      file_exists: {{ file_exists }}
+      file_pid: {{ file_pid }}
+  when: debug|d(false)|bool
+
+- name: Sanity job. Assert PID file exists.
+  block:
+    - name: Sanity job. Assert PID file exists. Job exists.
+      assert:
+        that: job_exists
+        fail_msg: >-
+          [ERR] PID file { pid_path }}/{{ my_pid }} exists but
+          job {{ bin_path }}/{{ my_script }} is not running.
+    - name: Sanity job. Assert PID file exists. job PID match.
+      assert:
+        that: file_pid == job_pid
+        fail_msg: >-
+          [ERR] PID in file {{ file_pid  }} job PID {{ job_pid }} mismatch.
+  when: file_exists
+
+- name: Sanity job. Assert PID file not exist. Job not exist.
+  assert:
+    that: not job_exists
+    fail_msg: >-
+      [ERR] PID file { pid_path }}/{{ my_pid }} does not exist but
+      job {{ bin_path }}/{{ my_script }} is running.
+  when: not file_exists
+
+- name: Sanity job. Assert job exists. PID file exists.
+  assert:
+    that: file_exists
+    fail_msg: >-
+      [ERR] job {{ bin_path }}/{{ my_script }} is running but
+      PID file { pid_path }}/{{ my_pid }} does not exist.
+  when: job_exists
+
+- name: Sanity job. Assert job not exist. PID file not exist.
+  assert:
+    that: not file_exists
+    fail_msg: >-
+      [ERR] job {{ bin_path }}/{{ my_script }} is not running but
+      PID file { pid_path }}/{{ my_pid }} exists.
+  when: not job_exists

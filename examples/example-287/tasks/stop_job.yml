@@ -1,0 +1,27 @@
+- name: Stop job
+  block:
+    - name: Stop job. PID read.
+      command:
+        cmd: "cat {{ pid_path }}/{{ my_pid }}"
+        removes: "{{ pid_path }}/{{ my_pid }}"
+      register: stop_job_pid
+    - name: Stop job. Set job_pid
+      set_fact:
+        job_pid: "{{ stop_job_pid.stdout }}"
+    - name: Stop job
+      command:
+        cmd: "kill -{{ signal }} {{ job_pid }}"
+        removes: "{{ pid_path }}/{{ my_pid }}"
+      register: stop_job_result
+      notify: stop job
+  rescue:
+    - debug:
+        var: ansible_failed_result
+      when: debug|d(false)|bool
+    - name: Stop job. Set job_pid NOTEXIST
+      set_fact:
+        job_pid: 'NOTEXIST'
+  always:
+    - debug:
+        var: stop_job_result
+      when: debug|d(false)|bool

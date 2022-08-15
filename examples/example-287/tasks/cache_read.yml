@@ -1,0 +1,24 @@
+- name: Read my_cache_all
+  block:
+    - name: Read my_cache_all. Will be created if missing.
+      include_vars: "{{ cache }}"
+      run_once: true
+    - name: Set my_cache
+      set_fact:
+        my_cache: "{{ my_cache_all[inventory_hostname]|d({}) }}"
+  rescue:
+    - name: Create cache file
+      copy:
+        dest: "{{ cache }}"
+        content: |
+          my_cache_all: {}
+      run_once: true
+      delegate_to: localhost
+    - name: Set empty my_cache and my_cache_all
+      set_fact:
+        my_cache_all: {}
+        my_cache: {}
+  always:
+    - debug:
+        var: my_cache
+      when: debug|d(false)|bool

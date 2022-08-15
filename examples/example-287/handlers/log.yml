@@ -1,0 +1,24 @@
+- name: start job log
+  listen: start job
+  when: not logger.enable
+  lineinfile:
+    path: "{{ log }}"
+    line: "{{ msg }}"
+  vars:
+    msg: >-
+      {{ '%Y-%m-%d %H:%M:%S'|strftime }} [{{ inventory_hostname }}] started
+      pid: {{ my_cache[my_script].job_pid }}
+      ansible_job_id: {{ my_cache[my_script].ansible_job_id }}
+  delegate_to: localhost
+
+- name: stop job log
+  listen: stop job
+  when: not logger.enable
+  lineinfile:
+    path: "{{ log }}"
+    line: "{{ msg }}"
+  vars:
+    msg: >-
+      {{ '%Y-%m-%d %H:%M:%S'|strftime }} [{{ inventory_hostname }}] stopped
+      pid: {{ job_pid }}
+  delegate_to: localhost

@@ -1,0 +1,6 @@
+- name: Create log file
+  file:
+    state: touch
+    path: "{{ log }}"
+  delegate_to: localhost
+  run_once: true

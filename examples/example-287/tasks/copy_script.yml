@@ -1,0 +1,5 @@
+- name: Copy script
+  copy:
+    src: "{{ my_script }}"
+    dest: "{{ bin_path }}/{{ my_script }}"
+    mode: a+x

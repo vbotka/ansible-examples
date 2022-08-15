@@ -1,0 +1,31 @@
+- name: Start job
+  block:
+    - name: Start job concurrently
+      command: "{{ bin_path }}/{{ my_script }}"
+      async: "{{ _async.time_out }}"
+      poll: 0
+      register: start_job_result
+      notify: start job
+    - debug:
+        var: start_job_result
+      when: debug|d(false)|bool
+    - name: Start job. Wait for PID file
+      wait_for:
+        path: "{{ pid_path }}/{{ my_pid }}"
+    - name: Start job. PID read.
+      command: "cat {{ pid_path }}/{{ my_pid }}"
+      register: start_job_pid
+    - debug:
+        var: my_cache
+      when: debug|d(false)|bool
+    - name: Start job. Add record to my_cache.
+      set_fact:
+        my_cache: "{{ my_cache|combine(my_record, recursive=True) }}"
+      vars:
+        my_record: "{{ {my_script:
+                       {'job_pid': start_job_pid.stdout,
+                        'ansible_job_id': start_job_result.ansible_job_id,
+                        'running': true}} }}"
+    - debug:
+        var: my_cache
+      when: debug|d(false)|bool

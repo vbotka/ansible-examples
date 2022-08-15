@@ -1,0 +1,10 @@
+- name: Configure rsyslog
+  copy:
+    dest: "{{ logger.conf }}"
+    content: |
+      {{ logger.facility }}.*			-{{ logger.log }}
+    mode: 0644
+    validate: rsyslogd -N 1 -f %s
+  notify: rsyslog restart
+  run_once: true
+  delegate_to: localhost

@@ -1,0 +1,151 @@
+---
+# All rights reserved (c) 2022, Vladimir Botka <vbotka@gmail.com>
+# Simplified BSD License, https://opensource.org/licenses/BSD-2-Clause
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Synopsis: Run script asynchronously and test signals
+#
+# By default the playbook does nothing. See the list of the control
+# variables below
+#
+# List of control variables:
+#   - debug ............ Enable debug output.
+#   - create_log ....... Create log-file. Run once to enable logging to file.
+#   - create_logger .... Configure logger. Run once to enable logging by rsyslog.
+#   - copy_script ...... Copy script to remote hosts.
+#   - remove_pid ....... Remove PID files at the remote hosts.
+#   - start_job ........ Start job asynchronously.
+#   - async_job ........ Wait until module async_status finds the job finished.
+#   - stop_job ......... Stop job by sending signal (default: SIGINT).
+#   - sanity_job ....... Test sanity. Fail on inconsistency.
+#
+# Logging:
+# By default the playbook writes log to the file *log* at the
+# controller. Optionally, set logger.enable=true and write to
+# logger. Optionally, configure logger.
+#
+# Best practice:
+# * Create log (Optionally configure logger)
+#   shell> ansible-playbook pb.yml -e create_log=true -t create_log
+# * Copy the script to remote hosts
+#   shell> ansible-playbook pb.yml -e copy_script=true -t copy_script
+# * Test sanity
+#   shell> ansible-playbook pb.yml -e debug=true -e sanity_job=true -t sanity_job
+# * Run the script
+#   shell> ansible-playbook pb.yml -e debug=true -e start_job=true -t start_job
+# * Display the data in cache
+#   shell> ansible-playbook pb.yml -e debug=true -t debug
+# * Wait until module async_status finds the job finished, or stop the job
+#   by sending signal (default: SIGINT)
+#   shell> ansible-playbook pb.yml -e debug=true -e async_job=true -t async_job
+#   shell> ansible-playbook pb.yml -e debug=true -e stop_job=true -t stop_job
+#
+# Hints:
+# * Minimize the output by disabling skipped and ok tasks
+#   shell> ANSIBLE_DISPLAY_SKIPPED_HOSTS=false ANSIBLE_DISPLAY_OK_HOSTS=false
+# * Minimize the output by disabling debug (debug=false is default)
+#   shell> ansible-playbook pb.yml -e debug=false
+# * Limit the play to a particular host
+#   shell> ansible-playbook pb.yml -e stop_job=true -t stop_job --limit host03
+# * The particular record in the cache will be obsolete if the job
+#   terminates without intervention. It's not necessary to remove
+#   it. Both tasks *stop_job* and *async_job* will skip terminated
+#   jobs. The next *start_job* will update the particular record in
+#   cache. (TODO: update *sanity_job* to preen cache).
+#
+# Example of a script:
+# #!/bin/sh
+# PIDFILE=/var/run/sleep90.pid
+# [ -f $PIDFILE ] && exit 0
+# trap 'rm ${PIDFILE}
+# exit 0' SIGINT SIGTERM
+# echo $$ > ${PIDFILE}
+# i=1
+# while [ $i -lt 90 ]
+# do
+#     sleep 1
+#     i=$(($i+1))
+# done
+# cat ${PIDFILE}
+# rm ${PIDFILE}
+# exit 0
+#
+# Tested on: Ubuntu 20.4, ansible 2.12.7
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+- hosts: all
+  become: true
+  gather_facts: false
+
+  vars:
+
+    my_script: sleep90.sh
+    my_pid: sleep90.pid
+    bin_path: /root/bin
+    pid_path: /var/run
+    signal: INT
+    logger:
+      enable: true
+      facility: local6
+      log: /var/log/ansibletest.log
+      conf: /etc/rsyslog.d/90-ansibletest.conf
+    log: /tmp/ansible-test.log
+    cache: /tmp/ansible-test.cache
+    _async:
+      time_out: 120
+      retries: 9
+      delay: 10
+
+  tasks:
+
+    - import_tasks: tasks/cache_read.yml
+      tags: [cache_read, always]
+
+    - import_tasks: tasks/debug.yml
+      when: debug|d(false)|bool
+      tags: debug
+
+    - import_tasks: tasks/create_logger.yml
+      when: create_logger|d(false)|bool
+      tags: create_logger
+
+    - import_tasks: tasks/create_log.yml
+      when: create_log|d(false)|bool
+      tags: create_log
+
+    - import_tasks: tasks/copy_script.yml
+      when: copy_script|d(false)|bool
+      tags: copy_script
+
+    - import_tasks: tasks/remove_pid.yml
+      when: remove_pid|d(false)|bool
+      tags: remove_pid
+
+    - import_tasks: tasks/sanity_job.yml
+      when: sanity_job|d(false)|bool
+      tags: sanity_job
+
+    - import_tasks: tasks/start_job.yml
+      when: start_job|d(false)|bool
+      tags: start_job
+
+    - import_tasks: tasks/async_job.yml
+      when: async_job|d(false)|bool
+      tags: async_job
+
+    - import_tasks: tasks/stop_job.yml
+      when: stop_job|d(false)|bool
+      tags: stop_job
+
+    - meta: flush_handlers
+
+    - import_tasks: tasks/cache_write.yml
+      tags: [cache_write, always]
+
+  handlers:
+
+    - import_tasks: handlers/logger.yml
+    - import_tasks: handlers/log.yml
+    - import_tasks: handlers/rsyslog.yml
+    - import_tasks: handlers/update_cache.yml

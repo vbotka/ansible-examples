@@ -1,0 +1,5 @@
+- name: rsyslog restart
+  service:
+    name: rsyslog
+    state: restarted
+  delegate_to: localhost

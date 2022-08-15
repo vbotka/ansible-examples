@@ -288,6 +288,7 @@ Various examples of Ansbile code.
 - Example 284. community.general.jc
 - Example 285. community.general.path_join
 - Example 286. community.general.lists_mergeby
+- Example 287. Job management. async, async_status, kill, logger, cache, ...
 
 ## License
 

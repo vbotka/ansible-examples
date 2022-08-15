@@ -1,0 +1,4 @@
+- name: Remove PID file
+  file:
+    state: absent
+    path: "{{ pid_path }}/{{ my_pid }}"
