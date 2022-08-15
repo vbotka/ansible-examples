@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - import_tasks: tasks/debug1.yml
+      when: debug1|d(false)|bool
+      tags: debug1
+
+    - import_tasks: tasks/debug2.yml
+      when: debug2|d(false)|bool
+      tags: debug2
+
+    - import_tasks: tasks/debug3.yml
+      tags: always
+
+  handlers:
+    - import_tasks: handlers/my_handler.yml
+
+# shell> ansible-playbook pb4.yml -e debug2=true -t debug2 | grep msg:
+#   msg: task 2
+#   msg: task 3
+#   msg: handler
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - import_tasks: tasks/debug1.yml
+      when: debug1|d(false)|bool
+      tags: debug1
+
+    - import_tasks: tasks/debug2.yml
+      when: debug2|d(false)|bool
+      tags: debug2
+
+    - meta: flush_handlers
+      
+    - import_tasks: tasks/debug3.yml
+      tags: always
+
+  handlers:
+    - import_tasks: handlers/my_handler.yml
+
+#   msg: task 2
+#   msg: task 3    # [ERR] handler should run before task 3
+#   msg: handler

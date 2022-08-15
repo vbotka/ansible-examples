@@ -1,0 +1,57 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: task 1
+      tags: debug1
+
+    - debug:
+        msg: task 2
+      changed_when: true
+      notify: my handler
+      tags: debug2
+
+    - debug:
+        msg: task 3
+      tags: always
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+# shell> ansible-playbook pb5.yml -t debug2 | grep msg:
+#   msg: task 2
+#   msg: task 3
+#   msg: handler
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: task 1
+      tags: debug1
+
+    - debug:
+        msg: task 2
+      changed_when: true
+      notify: my handler
+      tags: debug2
+
+    - meta: flush_handlers
+
+    - debug:
+        msg: task 3
+      tags: always
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+#   msg: task 2
+#   msg: task 3    # [ERR] handler should run before task 3
+#   msg: handler

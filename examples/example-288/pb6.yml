@@ -1,0 +1,65 @@
+---
+- name: 1.Sequence task1, task2, handler
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        msg: task 1
+      changed_when: true
+      notify: my handler
+      tags: debug
+
+    - debug:
+        msg: task 2
+      tags: always
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+- name: 2.Sequence task1, handler, task2
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        msg: task 1
+      changed_when: true
+      notify: my handler
+      tags: debug
+
+    - meta: flush_handlers
+      tags: always       # [SOLVED] add explicit 'always'
+
+    - debug:
+        msg: task 2
+      tags: always
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+# [ERR] With the tag the module *meta: flush_handlers* does not work
+# 
+# shell> ansible-playbook pb6.yml -t debug | grep msg:
+#   msg: task 1
+#   msg: task 2
+#   msg: handler
+#   msg: task 1
+#   msg: task 2          # [ERR] handler should run before task 2
+#   msg: handler
+
+# [OK] Without the tag the plays work as expected
+#
+# shell> ansible-playbook pb6.yml | grep msg:
+#   msg: task 1
+#   msg: task 2
+#   msg: handler
+#   msg: task 1
+#   msg: handler
+#   msg: task 2

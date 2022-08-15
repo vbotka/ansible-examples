@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - import_tasks: tasks/debug1.yml
+    - import_tasks: tasks/debug2.yml
+    - import_tasks: tasks/debug3.yml
+
+  handlers:
+    - import_tasks: handlers/my_handler.yml
+
+# shell> ansible-playbook pb2.yml | grep msg:
+#   msg: task 1
+#   msg: task 2
+#   msg: task 3
+#   msg: handler
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - import_tasks: tasks/debug1.yml
+    - import_tasks: tasks/debug2.yml
+    - meta: flush_handlers
+    - import_tasks: tasks/debug3.yml
+
+  handlers:
+    - import_tasks: handlers/my_handler.yml
+
+#   msg: task 1
+#   msg: task 2
+#   msg: handler
+#   msg: task 3

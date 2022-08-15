@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: task 1
+    - debug:
+        msg: task 2
+      changed_when: true
+      notify: my handler
+    - debug:
+        msg: task 3
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+# shell> ansible-playbook pb1.yml | grep msg:
+#   msg: task 1
+#   msg: task 2
+#   msg: task 3
+#   msg: handler
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: task 1
+    - debug:
+        msg: task 2
+      changed_when: true
+      notify: my handler
+    - meta: flush_handlers
+    - debug:
+        msg: task 3
+
+  handlers:
+    - name: my handler
+      debug:
+        msg: handler
+
+#   msg: task 1
+#   msg: task 2
+#   msg: handler
+#   msg: task 3

@@ -1,0 +1,4 @@
+- debug:
+    msg: task 2
+  changed_when: true
+  notify: my handler
