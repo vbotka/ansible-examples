@@ -118,8 +118,7 @@ test_12: ok=6    changed=0    unreachable=0    failed=0    skipped=9    rescued=
 test_13: ok=6    changed=0    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0
 ```
 
-## Example 2. Run the scripts at the remote hosts and wait until
-   module async_status finds the job finished
+## Example 2. Run the scripts at the remote hosts and wait until module async_status finds the job finished
 
 
 ### Run the scripts at the remote hosts
@@ -237,8 +236,7 @@ my_cache_all:
 ```
 
 
-## Example 3. Run the scripts at the remote hosts, terminates the job at host_12, and wait until
-   module async_status finds the other jobs finished
+## Example 3. Run the scripts at the remote hosts, terminate the job at host_12, and wait until module async_status finds the other jobs finished
 
 
 ### Run the scripts at the remote hosts
