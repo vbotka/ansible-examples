@@ -6,7 +6,8 @@
     line: "{{ msg }}"
   vars:
     msg: >-
-      {{ '%Y-%m-%d %H:%M:%S'|strftime }} [{{ inventory_hostname }}] started
+      {{ '%Y-%m-%d %H:%M:%S'|strftime }}
+      [{{ inventory_hostname }}] started
       pid: {{ my_cache[my_script].job_pid }}
       ansible_job_id: {{ my_cache[my_script].ansible_job_id }}
   delegate_to: localhost
@@ -19,6 +20,8 @@
     line: "{{ msg }}"
   vars:
     msg: >-
-      {{ '%Y-%m-%d %H:%M:%S'|strftime }} [{{ inventory_hostname }}] stopped
+      {{ '%Y-%m-%d %H:%M:%S'|strftime }}
+      [{{ inventory_hostname }}] stopped
       pid: {{ job_pid }}
+      {{ stop_msg|d('') }}
   delegate_to: localhost

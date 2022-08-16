@@ -6,7 +6,7 @@
     msg: >-
       [{{ inventory_hostname }}] started
       pid: {{ my_cache[my_script].job_pid }}
-      ansible_job_id: {{ my_cache[my_script].ansible_job_id }}
+      [async] ansible_job_id: {{ my_cache[my_script].ansible_job_id }}
   delegate_to: localhost
 
 - name: stop job logger

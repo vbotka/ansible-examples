@@ -2,5 +2,6 @@
   file:
     state: touch
     path: "{{ log }}"
+    mode: "{{ log_mode }}"
   delegate_to: localhost
   run_once: true

@@ -5,6 +5,7 @@
         cmd: "cat {{ pid_path }}/{{ my_pid }}"
         removes: "{{ pid_path }}/{{ my_pid }}"
       register: stop_job_pid
+      changed_when: false
     - name: Stop job. Set job_pid
       set_fact:
         job_pid: "{{ stop_job_pid.stdout }}"
@@ -18,13 +19,14 @@
       set_fact:
         stop_msg: '[SIG{{ signal }}] rc: {{ stop_job_pid.rc }}'
   rescue:
-    - debug:
+    - name: Display ansible_failed_result
+      debug:
         var: ansible_failed_result
       when: debug|d(false)|bool
-    - name: Stop job. Set job_pid NOTEXIST
-      set_fact:
-        job_pid: 'NOTEXIST'
+    - name: End host
+      meta: end_host
   always:
-    - debug:
+    - name: Display stop_job_result
+      debug:
         var: stop_job_result
       when: debug|d(false)|bool

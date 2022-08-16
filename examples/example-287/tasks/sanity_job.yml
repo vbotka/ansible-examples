@@ -1,32 +1,33 @@
 - name: Sanity job. Run pgrep
   block:
-    - name: Sanity job. Run pgrep. rc=1 'No processes matched' will be rescued.
+    - name: Sanity job. Run pgrep
       command: "pgrep -f {{ bin_path }}/{{ my_script }}"
       register: sanity_job_result
-    - debug:
+      failed_when: sanity_job_result.rc > 1
+      changed_when: false
+    - name: Display sanity_job_result
+      debug:
         var: sanity_job_result
       when: debug|d(false)|bool
-    - name: Sanity job. Set job_exists.
+    - name: Sanity job. Set job_exists and job_pid
       set_fact:
-        job_exists: true
-        job_pid: "{{ sanity_job_result.stdout }}"
+        job_exists: "{{ (sanity_job_result.rc == 0)|ternary(true, false) }}"
+        job_pid: "{{ (sanity_job_result.rc == 0)|ternary(sanity_job_result.stdout, 'undef') }}"
   rescue:
-    - debug:
+    - name: Display ansible_failed_result
+      debug:
         var: ansible_failed_result
       when: debug|d(false)|bool
-    - name: Sanity job. Rescue. Set job_exists.
-      set_fact:
-        job_exists: false
-        job_pid: 'undef'
-      when: ansible_failed_result.rc == 1
-
-- name: Sanity job. PID stat
+    - name: End host
+      meta: end_host
+- name: Sanity job. PID file stat
   block:
-    - name: Sanity job. PID file stats
+    - name: Sanity job. PID file stat
       stat:
         path: "{{ pid_path }}/{{ my_pid }}"
       register: sanity_file_result
-    - debug:
+    - name: Display sanity_file_result
+      debug:
         var: sanity_file_result
       when: debug|d(false)|bool
     - name: Sanity job. Set file_exists and file_pid
@@ -37,7 +38,8 @@
       command: "cat {{ pid_path }}/{{ my_pid }}"
       register: file_pid_result
       when: file_exists
-    - debug:
+    - name: Display file_pid_result
+      debug:
         var: file_pid_result
       when: debug|d(false)|bool
     - name: Sanity job. Set file_pid
@@ -45,7 +47,8 @@
         file_pid: "{{ file_pid_result.stdout }}"
       when: file_exists
 
-- debug:
+- name: Display variables
+  debug:
     msg: |-
       job_exists: {{ job_exists }}
       job_pid: {{ job_pid }}
@@ -75,19 +78,3 @@
       [ERR] PID file { pid_path }}/{{ my_pid }} does not exist but
       job {{ bin_path }}/{{ my_script }} is running.
   when: not file_exists
-
-- name: Sanity job. Assert job exists. PID file exists.
-  assert:
-    that: file_exists
-    fail_msg: >-
-      [ERR] job {{ bin_path }}/{{ my_script }} is running but
-      PID file { pid_path }}/{{ my_pid }} does not exist.
-  when: job_exists
-
-- name: Sanity job. Assert job not exist. PID file not exist.
-  assert:
-    that: not file_exists
-    fail_msg: >-
-      [ERR] job {{ bin_path }}/{{ my_script }} is not running but
-      PID file { pid_path }}/{{ my_pid }} exists.
-  when: not job_exists

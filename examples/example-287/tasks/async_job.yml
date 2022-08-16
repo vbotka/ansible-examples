@@ -7,7 +7,8 @@
   retries: "{{ _async.retries }}"
   delay: "{{ _async.delay }}"
   when: my_cache[my_script].running
-- debug:
+- name: Display async_job_result
+  debug:
     var: async_job_result
   when: debug|d(false)|bool
 - name: Set stop_msg

@@ -6,7 +6,8 @@
       poll: 0
       register: start_job_result
       notify: start job
-    - debug:
+    - name: Display start_job_result
+      debug:
         var: start_job_result
       when: debug|d(false)|bool
     - name: Start job. Wait for PID file
@@ -15,7 +16,8 @@
     - name: Start job. PID read.
       command: "cat {{ pid_path }}/{{ my_pid }}"
       register: start_job_pid
-    - name: Start job. Add record to my_cache.
+      changed_when: false
+    - name: Start job. Add record to my_cache.  # noqa var-spacing
       set_fact:
         my_cache: "{{ my_cache|combine(my_record, recursive=True) }}"
       vars:
@@ -23,6 +25,7 @@
                        {'job_pid': start_job_pid.stdout,
                         'ansible_job_id': start_job_result.ansible_job_id,
                         'running': true}} }}"
-    - debug:
+    - name: Display my_cache
+      debug:
         var: my_cache
       when: debug|d(false)|bool

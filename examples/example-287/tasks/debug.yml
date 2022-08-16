@@ -1,4 +1,5 @@
-- debug:
+- name: Display my_cache_all
+  debug:
     msg: |-
       my_cache_all:
         {{ my_cache_all|to_nice_yaml|indent(2) }}

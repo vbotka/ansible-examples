@@ -1,4 +1,4 @@
-- name: Stop job. 91.Update record in my_cache.
+- name: Stop job. 91.Update record in my_cache.  # noqa var-spacing
   set_fact:
     my_cache: "{{ my_cache|combine(my_record, recursive=False) }}"
   vars:
@@ -16,6 +16,7 @@
 - name: Stop job. 93.Write my_cache_all
   copy:
     dest: "{{ cache }}"
+    mode: "{{ cache_mode }}"
     content: |
       my_cache_all:
         {{ my_cache_all|to_nice_yaml|indent(2) }}
@@ -34,6 +35,7 @@
 - name: Start job. 93.Write my_cache_all
   copy:
     dest: "{{ cache }}"
+    mode: "{{ cache_mode }}"
     content: |
       my_cache_all:
         {{ my_cache_all|to_nice_yaml|indent(2) }}

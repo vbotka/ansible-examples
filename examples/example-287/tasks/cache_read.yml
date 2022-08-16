@@ -10,6 +10,7 @@
     - name: Create cache file
       copy:
         dest: "{{ cache }}"
+        mode: "{{ cache_mode }}"
         content: |
           my_cache_all: {}
       run_once: true
@@ -19,6 +20,7 @@
         my_cache_all: {}
         my_cache: {}
   always:
-    - debug:
+    - name: Display my_cache
+      debug:
         var: my_cache
       when: debug|d(false)|bool
