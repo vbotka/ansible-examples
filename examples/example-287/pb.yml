@@ -3,10 +3,10 @@
 # Simplified BSD License, https://opensource.org/licenses/BSD-2-Clause
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Synopsis: Run script asynchronously and test signals
+# Synopsis: Run script asynchronously and use signals
 #
-# By default the playbook does nothing. See the list of the control
-# variables below
+# Run the selected groups of tasks. See the list of the control
+# variables below. By default the playbook does nothing.
 #
 # List of control variables:
 #   - debug ............ Enable debug output.
