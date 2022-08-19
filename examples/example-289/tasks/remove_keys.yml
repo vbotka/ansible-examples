@@ -1,0 +1,128 @@
+---
+- name: 1.remove_keys
+  block:
+    - name: 1.remove_keys debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 1.remove_keys assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2']) }}"
+    target:
+      - {p3: a}
+      - {p3: b}
+      - {p3: c}
+  tags: remove_keys
+
+- name: 2.map remove_keys
+  block:
+    - name: 2.map remove_keys debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: map remove_keys assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l2|map('ansible.utils.remove_keys', target=['p1', 'p2'])|
+                   list }}"
+    target:
+      - - {p3: a}
+        - {p3: b}
+        - {p3: c}
+      - - {p3: a}
+        - {p3: b}
+        - {p3: c}
+      - - {p3: a}
+        - {p3: b}
+        - {p3: c}
+  tags: map_remove_keys
+
+- name: 3.remove_keys starts_with
+  block:
+    - name: 3.remove_keys starts_with debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 3.remove_keys assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
+                                             matching_parameter= 'starts_with') }}"
+    target:
+      - {p3: a}
+      - {p3: b}
+      - {p3: c}
+  tags: remove_keys_starts_with_2
+
+- name: 4.remove_keys starts_with 'p'
+  block:
+    - name: 4.remove_keys starts_with 'p' debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 4.remove_keys assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['p'],
+                                             matching_parameter= 'starts_with') }}"
+    target: []
+  tags: remove_keys_starts_with_1
+
+- name: 5.remove_keys ends_with
+  block:
+    - name: 5.remove_keys ends_with
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 5.remove_keys ends_with assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
+                                             matching_parameter= 'ends_with') }}"
+    target:
+      - {p3: a}
+      - {p3: b}
+      - {p3: c}
+  tags: remove_keys_ends_with_2
+
+- name: 6.remove_keys ends_with '2'
+  block:
+    - name: 6.remove_keys ends_with '2' debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 6.remove_keys ends_with '2' assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['2'],
+                                             matching_parameter= 'ends_with') }}"
+    target:
+      - {p1: a, p3: a}
+      - {p1: b, p3: b}
+      - {p1: c, p3: c}
+  tags: remove_keys_ends_with_1
+
+- name: 7.remove_keys regex
+  block:
+    - name: 7.remove_keys regex debug
+      debug:
+        var: result|to_yaml
+      when: debug_test|d(false)|bool
+    - name: 7.remove_keys regex assert
+      assert:
+        that: result == target
+  vars:
+    result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
+                                             matching_parameter= 'regex') }}"
+    target:
+      - {p3: a}
+      - {p3: b}
+      - {p3: c}
+  tags: remove_keys_regex

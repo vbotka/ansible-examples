@@ -1,0 +1,39 @@
+---
+- name: keep keys, replace keys, remove keys
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    l1:
+      - {p1: a, p2: a, p3: a}
+      - {p1: b, p2: b, p3: b}
+      - {p1: c, p2: c, p3: c}
+    l2:
+      - - {p1: a, p2: a, p3: a}
+        - {p1: b, p2: b, p3: b}
+        - {p1: c, p2: c, p3: c}
+      - - {p1: a, p2: a, p3: a}
+        - {p1: b, p2: b, p3: b}
+        - {p1: c, p2: c, p3: c}
+      - - {p1: a, p2: a, p3: a}
+        - {p1: b, p2: b, p3: b}
+        - {p1: c, p2: c, p3: c}
+    l3:
+      - {p1_key_o1: a, p2_key_o2: a, p3_key_o3: a}
+      - {p1_key_o4: b, p2_key_o5: b, p3_key_o6: b}
+      - {p1_key_o7: c, p2_key_o8: c, p3_key_o9: c}
+        
+  tasks:
+
+    - name: keep_keys
+      import_tasks: "{{ playbook_dir }}/tasks/keep_keys.yml"
+      tags: keep_keys_all
+
+    - name: remove_keys
+      import_tasks: "{{ playbook_dir }}/tasks/remove_keys.yml"
+      tags: remove_keys_all
+
+    - name: replace_keys
+      import_tasks: "{{ playbook_dir }}/tasks/replace_keys.yml"
+      tags: replace_keys_all

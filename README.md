@@ -290,6 +290,7 @@ Various examples of Ansbile code.
 - Example 286. community.general.lists_mergeby
 - Example 287. Job management. async, async_status, kill, logger, cache, ...
 - Example 288. meta: flush_handlers
+- Example 289. ansible.utils.keep_keys, ansible.utils.remove_keys, ansible.utils.replace_keys
 
 ## License
 
