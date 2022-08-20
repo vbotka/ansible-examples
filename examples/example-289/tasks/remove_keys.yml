@@ -11,9 +11,9 @@
   vars:
     result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2']) }}"
     target:
-      - {p3: a}
-      - {p3: b}
-      - {p3: c}
+      - { p3: a }
+      - { p3: b }
+      - { p3: c }
   tags: remove_keys
 
 - name: 2.map remove_keys
@@ -29,15 +29,15 @@
     result: "{{ l2|map('ansible.utils.remove_keys', target=['p1', 'p2'])|
                    list }}"
     target:
-      - - {p3: a}
-        - {p3: b}
-        - {p3: c}
-      - - {p3: a}
-        - {p3: b}
-        - {p3: c}
-      - - {p3: a}
-        - {p3: b}
-        - {p3: c}
+      - - { p3: a }
+        - { p3: b }
+        - { p3: c }
+      - - { p3: a }
+        - { p3: b }
+        - { p3: c }
+      - - { p3: a }
+        - { p3: b }
+        - { p3: c }
   tags: map_remove_keys
 
 - name: 3.remove_keys starts_with
@@ -53,9 +53,9 @@
     result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
                                              matching_parameter= 'starts_with') }}"
     target:
-      - {p3: a}
-      - {p3: b}
-      - {p3: c}
+      - { p3: a }
+      - { p3: b }
+      - { p3: c }
   tags: remove_keys_starts_with_2
 
 - name: 4.remove_keys starts_with 'p'
@@ -86,9 +86,9 @@
     result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
                                              matching_parameter= 'ends_with') }}"
     target:
-      - {p3: a}
-      - {p3: b}
-      - {p3: c}
+      - { p3: a }
+      - { p3: b }
+      - { p3: c }
   tags: remove_keys_ends_with_2
 
 - name: 6.remove_keys ends_with '2'
@@ -104,9 +104,9 @@
     result: "{{ l1|ansible.utils.remove_keys(target=['2'],
                                              matching_parameter= 'ends_with') }}"
     target:
-      - {p1: a, p3: a}
-      - {p1: b, p3: b}
-      - {p1: c, p3: c}
+      - { p1: a, p3: a }
+      - { p1: b, p3: b }
+      - { p1: c, p3: c }
   tags: remove_keys_ends_with_1
 
 - name: 7.remove_keys regex
@@ -122,7 +122,7 @@
     result: "{{ l1|ansible.utils.remove_keys(target=['p1', 'p2'],
                                              matching_parameter= 'regex') }}"
     target:
-      - {p3: a}
-      - {p3: b}
-      - {p3: c}
+      - { p3: a }
+      - { p3: b }
+      - { p3: c }
   tags: remove_keys_regex
