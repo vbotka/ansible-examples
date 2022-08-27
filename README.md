@@ -115,7 +115,7 @@ Various examples of Ansbile code.
 - Example 111. combine
 - Example 112. union
 - Example 113. groups
-- Example 114. items2dict
+- Example 114. items2dict; vbotka.ansible.community.general filter items2dict2
 - Example 115. action_warnings
 - Example 116. env - read the value of environment variables
 - Example 117. index
@@ -238,7 +238,7 @@ Various examples of Ansbile code.
 - Example 234. passwordstore
 - Example 235. slurp
 - Example 236. Jinja template formatting
-- Example 237. Integration tests vbotka.ansible.community.general
+- Example 237. Integration tests vbotka.ansible.community.general filter any2items
 - Example 238. sysctl
 - Example 239. assert
 - Example 240. hpilo_info

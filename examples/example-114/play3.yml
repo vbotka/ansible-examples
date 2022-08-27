@@ -42,6 +42,10 @@
       run_once: true
       tags: t4
     - debug:
+        var: nodes2
+      run_once: true
+      tags: t4
+    - debug:
         msg: Do something useful here
       when: nodes2[inventory_hostname]
       tags: t4
