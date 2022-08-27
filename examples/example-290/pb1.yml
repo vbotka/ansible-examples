@@ -1,0 +1,42 @@
+- hosts: localhost
+
+  vars:
+
+    d1: {"x": "Hello", "y": "world", "contextMap": {"a": 1, "b": 2}}
+
+    # You can merge the attribute contextMap with the whole
+    # dictionary. But, it's not possible to get rid of the attribute
+    # contextMap atm (see the result below). There is an open feature
+    # request 'Ability to set and delete based on a jmespath #121'.
+
+    d2: "{{ d1|json_query('merge(@, contextMap)') }}"
+
+    # There is a workaround using jq (see the result of the commnand
+    # below).
+
+    cmd: jq '. + .contextMap | del(.contextMap)'
+
+  tasks:
+
+    - debug:
+        var: d2|to_yaml
+
+#  d2|to_yaml: |-
+#    a: 1
+#    b: 2
+#    contextMap: {a: 1, b: 2}
+#    x: Hello
+#    y: world
+
+    - command:
+        cmd: "{{ cmd }}"
+        stdin: "{{ d1|to_json }}"
+      register: out
+    - debug:
+        var: out.stdout|from_yaml
+
+#  out.stdout|from_yaml:
+#    a: 1
+#    b: 2
+#    x: Hello
+#    y: world

@@ -1,0 +1,18 @@
+- hosts: localhost
+
+  vars:
+
+    d1: {"x": "Hello", "y": "world"}
+
+    # If the attribute *contextMap* is optional use *not_null*
+
+    d2: "{{ d1|json_query(d2_query) }}"
+    d2_query: 'merge({"x": x}, not_null(contextMap, `{}`))'
+
+  tasks:
+
+    - debug:
+        var: d2|to_nice_yaml
+
+#  d2|to_nice_yaml: |-
+#    x: Hello
