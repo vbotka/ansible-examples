@@ -1,9 +1,14 @@
-* filter_list.yml
-  Integration tests vbotka.ansible.community.general/tests/integration/targets/
-  https://github.com/vbotka/community.general
+# Filter any2items
 
-* any2items.yml
-  Examples of filter any2items. Branch devel
-  https://github.com/vbotka/community.general
-  https://github.com/vbotka/community.general/blob/main/plugins/filter/list.py
+git: https://github.com/vbotka/community.general
+branch: feature-filter-any2items
+raw: https://raw.githubusercontent.com/vbotka/community.general/feature-filter-any2items/plugins/filter/any2items.py
+
+## Source
+
+https://github.com/vbotka/community.general/blob/feature-filter-any2items/plugins/filter/any2items.py
+
+## Examples of filter any2items.
+
+any2items.yml
 
