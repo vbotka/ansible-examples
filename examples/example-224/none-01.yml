@@ -12,27 +12,86 @@
       vars:
         files: []
       
-    - debug:
+    - name: 3. Shall be skipped
+      debug:
         msg: 3. Shall be skipped
       when: files|default(None)|bool
 
-    - debug:
+    - name: 4. Shall be skipped
+      debug:
         msg: 4. Shall be skipped
       when: files|bool
       vars:
         files: []
 
     - debug:
-        msg: 5. files is not empty
+        msg: 5a. Not empty variable is True
+      when: files
+      vars:
+        files: '123'
+    - debug:
+        msg: 5b. Empty variable is Fasle
+      when: not files
+      vars:
+        files: ''
+    - name: '5c. Convert files: [1, 2, 3] to bool is False'
+      debug:
+        var: files|bool
+      vars:
+        files: [1, 2, 3]
+    - debug:
+        msg: 5d. Shall be skipped
       when: files|bool
       vars:
-        files: [1,2,3]
+        files: [1, 2, 3]
+    - debug:
+        msg: 5e. files is not empty
+      when: files
+      vars:
+        files: [1, 2, 3]
 
     - debug:
-        msg: 6. File is None
+        msg: 6. files is None
       when: files|default(None) == None
 
     - debug:
-        msg: 7. KO
-      when: files != None
+        msg: 7a. files is null
+      when: not files
+      vars:
+        files: null
+    - debug:
+        msg: 7b. files is !!null
+      when: not files
+      vars:
+        files: !!null
+
+    - name: '8. (var1: null) == (var2: !!null) == (var3: !!null null) == (var4:)'
+      debug:
+        msg: |-
+          var1: {{ var1 }}
+          var1|type_debug: {{ var1|type_debug }}
+          var2: {{ var2 }}
+          var2|type_debug: {{ var2|type_debug }}
+          var3: {{ var3 }}
+          var3|type_debug: {{ var3|type_debug }}
+          var4: {{ var4 }}
+          var4|type_debug: {{ var4|type_debug }}
+          var1 == var2: {{ var1 == var2 }}
+          var2 == var3: {{ var2 == var3 }}
+          var3 == var4: {{ var3 == var4 }}
+      vars:
+        var1: null
+        var2: !!null
+        var3: !!null null
+        var4:
+
+    - debug:
+        msg: 9a. files is undefined
+      when: files is undefined
+    - debug:
+        msg: 9b. files is not defined
+      when: files is not defined
+    - debug:
+        msg: 9c. KO
+      when: files == None
       # FAILED! => {"msg": "The conditional check 'files != None' failed.
