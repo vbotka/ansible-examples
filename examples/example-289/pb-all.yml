@@ -1,0 +1,12 @@
+---
+- name: Integration targets keep keys, replace keys, remove keys
+  hosts: localhost
+  gather_facts: false
+
+  # Test integration
+  # shell: ANSIBLE_ROLES_PATH=/scratch/vbotka.ansible.utils/tests/integration/targets
+
+  roles:
+    - {role: utils_keep_keys, tags: utils_keep_keys}
+    - {role: utils_replace_keys, tags: utils_replace_keys}
+    - {role: utils_remove_keys, tags: utils_remove_keys}
