@@ -1,0 +1,21 @@
+---
+- name: replace_keys test 9.
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    l3:
+      - {p1_key_o1: a, p2_key_o2: a, p3_key_o3: a}
+      - {p1_key_o4: b, p2_key_o5: b, p3_key_o6: b}
+      - {p1_key_o7: c, p2_key_o8: c, p3_key_o9: c}
+
+    result: "{{ l3|ansible.utils.replace_keys(target=_target,
+                                              matching_parameter='regex') }}"
+    _target:
+      - {before: '^(.*)_key_o2$', after: 'XY_key_o2'}
+
+  tasks:
+
+    - debug:
+        var: result|to_yaml
