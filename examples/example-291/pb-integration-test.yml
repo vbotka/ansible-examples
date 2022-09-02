@@ -1,0 +1,15 @@
+---
+- name: Integration tests of Ansible filter_core 
+  hosts: localhost
+  gather_facts: true
+
+  # Test integration
+  # shell> ANSIBLE_ROLES_PATH=/scratch/vbotka.ansible/test/integration/targets
+  # shell> export OUTPUT_DIR=/tmp/ansible.integration
+
+  vars:
+    output_dir: /tmp/ansible.integration
+    a: 1
+
+  roles:
+    - role: filter_core
