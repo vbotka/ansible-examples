@@ -18,7 +18,7 @@
         content: |
           # Ansible examples
 
-          Various examples of Ansbile code.
+          Various examples of Ansible code.
           
           {% for i in examples %}
           - [Example {{ "%3d" % (loop.index,) }}.]({{ url ~ "%03d" % (loop.index,) }}) {{ (i.1|trim)[1:-1] }}
