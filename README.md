@@ -1,6 +1,6 @@
 # Ansible examples
 
-Various examples of Ansbile code.
+Various examples of Ansible code.
 
 - [Example   1.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-001) Iterate dictionary in template
 - [Example   2.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-002) json_query basics
