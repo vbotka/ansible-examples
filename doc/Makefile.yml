@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    url: https://github.com/vbotka/ansible-examples/tree/master/examples/example-
+    examples: "{{ lookup('file', 'list_of_examples.yml')|
+                  from_yaml|
+                  map('split', sep='.', maxsplit=1)|
+                  list }}"
+
+  tasks:
+
+    - copy:
+        dest: ../README.md
+        backup: true
+        content: |
+          # Ansible examples
+
+          Various examples of Ansbile code.
+          
+          {% for i in examples %}
+          - [Example {{ "%3d" % (loop.index,) }}.]({{ url ~ "%03d" % (loop.index,) }}) {{ (i.1|trim)[1:-1] }}
+          {% endfor %}
+
+
+          ## License
+
+          [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
+
+
+          ## Author Information
+
+          [Vladimir Botka](https://botka.info)
