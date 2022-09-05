@@ -1,0 +1,32 @@
+# Ansible examples
+
+Various examples of Ansible code.
+
+
+## Index
+
+{% for group in ex_tags %}
+
+**{{ group.0 }}**
+{% for tag in  group.1|map(attribute='tags')|flatten|groupby('tag') %}
+  - {{ tag.0 }} {% for i in tag.1|map(attribute='ex')|list %}[{{ i }}]({{ url ~ "%03d" % (i|int,) }}),
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+
+## Contents
+
+{% for i in examples %}
+- [Example {{ "%3d" % (loop.index,) }}.]({{ url ~ "%03d" % (loop.index,) }}) {{ (i.1|trim)[1:-1] }}
+{% endfor %}
+
+
+## License
+
+[![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
+
+
+## Author Information
+
+[Vladimir Botka](https://botka.info)
