@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    mac_addresses:
+      - 00:22:64:12:34:5A
+      - 00:22:64:12:34:5B
+      - 00:23:B2:12:34:5A
+      - 00:23:B2:12:34:5B
+      - 00:A0:C6:12:34:5A
+      - 00:A0:C6:12:34:5B
+      - FF:FF:FF:FF:FF:FA
+      - FF:FF:FF:FF:FF:FB
+
+  tasks:
+
+    - debug:
+        msg: "{{ item }} {{ item|mac_vendor_lookup }}"
+      loop: "{{ mac_addresses }}"
+
+
+#  msg: 00:22:64:12:34:5A Hewlett Packard
+#  msg: 00:22:64:12:34:5B Hewlett Packard
+#  msg: 00:23:B2:12:34:5A Intelligent Mechatronic Systems Inc
+#  msg: 00:23:B2:12:34:5B Intelligent Mechatronic Systems Inc
+#  msg: 00:A0:C6:12:34:5A Qualcomm Inc.
+#  msg: 00:A0:C6:12:34:5B Qualcomm Inc.
+#  msg: FF:FF:FF:FF:FF:FA Prefix is not registered
+#  msg: FF:FF:FF:FF:FF:FB Prefix is not registered

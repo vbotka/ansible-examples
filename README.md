@@ -2,6 +2,7 @@
 
 Various examples of Ansible code.
 
+(This file is generated. Do not update it manually. See the section below.)
 
 ## Index
 
@@ -816,6 +817,29 @@ Various examples of Ansible code.
 - [Example 290.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-290) Ansible filter; json_query function merge; JmesPath support of 'spread' operator.
 - [Example 291.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-291) Devel; filter_core; Test integration target of forked github.com/ansible/ansible.
 - [Example 292.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-292) Custom filter; mac-vendor-lookup;
+
+
+## README.md
+
+To update this file go to the directory *doc*.
+
+* Update the file *list_of_examples.yml* if you want to update list of
+examples in the contents and tags in the index. The structure of a
+line in this file is
+
+```
+- Number of the example. "Section; tag; tag; ... tag; Comment."
+```
+
+* Update the template *templates/README.md.j2* to update the text.
+
+* Update README.md
+
+Just type make
+
+```Bash
+shell> ./make
+```
 
 
 ## License
