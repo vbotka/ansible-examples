@@ -6,10 +6,8 @@
   vars:
 
     url: https://github.com/vbotka/ansible-examples/tree/master/examples/example-
-    examples: "{{ lookup('file', 'list_of_examples.yml')|
-                  from_yaml|
-                  map('split', sep='.', maxsplit=1)|
-                  list }}"
+    examples: "{{ lookup('file', 'list_of_examples.yml')|from_yaml|
+                  map('split', sep='.', maxsplit=1)|list }}"
     ex_no: "{{ examples|map('first')|list }}"
     ex_txt: "{{ examples|map('last')|map('trim')|list }}"
     ex_tags: "{{ ex_no|zip(ex_txt)|map('examples_tags')|groupby('group') }}"

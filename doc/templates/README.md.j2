@@ -4,6 +4,7 @@ Various examples of Ansible code.
 
 (This file is generated. Do not update it manually. See the section below.)
 
+
 ## Index
 
 {% for group in ex_tags %}
@@ -18,31 +19,32 @@ Various examples of Ansible code.
 
 ## Contents
 
-{% for i in examples %}
-- [Example {{ "%3d" % (loop.index,) }}.]({{ url ~ "%03d" % (loop.index,) }}) {{ (i.1|trim)[1:-1] }}
+{% for i in ex_no|zip(ex_txt) %}
+- [Example {{ "%3d" % (i.0|int) }}.]({{ url ~ "%03d" % (i.0|int) }}) {{ i.1 }}
 {% endfor %}
 
 
-## README.md
+## Update README.md
 
-To update this file go to the directory *doc*.
+To update README.md file go to the directory *doc*.
 
-* Update the file *list_of_examples.yml* if you want to update list of
-examples in the contents and tags in the index. The structure of a
-line in this file is
+* Update the file *list_of_examples.yml* if you want to update the
+list of examples in the contents and tags in the index. The structure
+of a line in this file is follows. If the example belongs to more
+categories add more lines wiht he same number of the example. The
+comment is optional.
 
 ```
-- Number of the example. "Section; tag; tag; ... tag; Comment."
+     - Number_of_the_example. "Category; tag; tag; ... tag; Comment."
 ```
 
-* Update the template *templates/README.md.j2* to update the text.
+* Update the template *templates/README.md.j2* if you want to update
+  the text.
 
-* Update README.md
+* Just type *make* to update README.md
 
-Just type make
-
-```Bash
-shell> ./make
+```bash
+     shell> ./make
 ```
 
 
