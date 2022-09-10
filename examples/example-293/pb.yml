@@ -1,0 +1,11 @@
+---
+- name: UBUNTU20-CIS | Full role
+  hosts: localhost
+  gather_facts: true
+  become: true
+
+  # Test integration
+  # shell> ANSIBLE_ROLES_PATH=/scratch/
+
+  roles:
+    - role: vbotka.UBUNTU20-CIS

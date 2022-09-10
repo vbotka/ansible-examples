@@ -195,6 +195,7 @@ Various examples of Ansible code.
   - Custom modules [256](https://github.com/vbotka/ansible-examples/tree/master/examples/example-256),
   - Development of a module [279](https://github.com/vbotka/ansible-examples/tree/master/examples/example-279),
   - Job management (async, async_status, kill, logger, cache) [287](https://github.com/vbotka/ansible-examples/tree/master/examples/example-287),
+  - Role UBUNTU20-CIS [293](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293),
   - Supports_check_mode and changed [279](https://github.com/vbotka/ansible-examples/tree/master/examples/example-279),
   - filter_core [291](https://github.com/vbotka/ansible-examples/tree/master/examples/example-291),
   - vbotka.ansible.community.general filter any2items [237](https://github.com/vbotka/ansible-examples/tree/master/examples/example-237),
@@ -449,6 +450,7 @@ Various examples of Ansible code.
   - Referencing other dict keys in the same parent dict is not supported [129](https://github.com/vbotka/ansible-examples/tree/master/examples/example-129),
 
 **Role**
+  - CIS role UBUNTU20-CIS [293](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293),
   - Galaxy role vbotka.ansible_lib [270](https://github.com/vbotka/ansible-examples/tree/master/examples/example-270),
   - Galaxy role vbotka.config_light [148](https://github.com/vbotka/ansible-examples/tree/master/examples/example-148),
   - Role defaults [266](https://github.com/vbotka/ansible-examples/tree/master/examples/example-266),
@@ -516,6 +518,9 @@ Various examples of Ansible code.
   - host_vars [28](https://github.com/vbotka/ansible-examples/tree/master/examples/example-028),
   - hostvars [216](https://github.com/vbotka/ansible-examples/tree/master/examples/example-216),
   - vars_prompt, pause [36](https://github.com/vbotka/ansible-examples/tree/master/examples/example-036),
+
+**vbotka.ansible_lib**
+  - al_bsd_service_facts [270](https://github.com/vbotka/ansible-examples/tree/master/examples/example-270),
 
 
 ## Contents
@@ -791,6 +796,7 @@ Various examples of Ansible code.
 - [Example 267.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-267) "Ansible filter; json_query; json_query issue to_yaml|from_yaml;"
 - [Example 268.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-268) "Jinja filter; batch;"
 - [Example 269.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-269) "Tags; variable in tags;"
+- [Example 270.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-270) "vbotka.ansible_lib; al_bsd_service_facts; Collect BSD service facts."
 - [Example 270.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-270) "Role; al_bsd_service_facts; Galaxy role vbotka.ansible_lib;"
 - [Example 271.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-271) "Lookup; inventory_hostnames;"
 - [Example 272.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-272) "Basics; truthy; falsy;"
@@ -814,6 +820,8 @@ Various examples of Ansible code.
 - [Example 290.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-290) "Ansible filter; json_query function merge; JmesPath support of 'spread' operator."
 - [Example 291.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-291) "Devel; filter_core; Test integration target of forked github.com/ansible/ansible."
 - [Example 292.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-292) "Custom filter; mac-vendor-lookup;"
+- [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Role; CIS role UBUNTU20-CIS; Configure Ubuntu 20 machine to be CIS v2.1.0 compliant."
+- [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role;
 
 
 ## Update README.md

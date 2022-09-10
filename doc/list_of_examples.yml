@@ -269,6 +269,7 @@
 - 267. "Ansible filter; json_query; json_query issue to_yaml|from_yaml;"
 - 268. "Jinja filter; batch;"
 - 269. "Tags; variable in tags;"
+- 270. "vbotka.ansible_lib; al_bsd_service_facts; Collect BSD service facts."
 - 270. "Role; al_bsd_service_facts; Galaxy role vbotka.ansible_lib;"
 - 271. "Lookup; inventory_hostnames;"
 - 272. "Basics; truthy; falsy;"
@@ -292,3 +293,5 @@
 - 290. "Ansible filter; json_query function merge; JmesPath support of 'spread' operator."
 - 291. "Devel; filter_core; Test integration target of forked github.com/ansible/ansible."
 - 292. "Custom filter; mac-vendor-lookup;"
+- 293. "Role; CIS role UBUNTU20-CIS; Configure Ubuntu 20 machine to be CIS v2.1.0 compliant."
+- 293. "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role;
