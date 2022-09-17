@@ -1,0 +1,53 @@
+---
+- name: Test type of a variable
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+    - debug:
+        msg: |
+          {{ item }} is string: {{ _string }}
+          {{ item }} is iterable: {{ _iterable }}
+          {{ item }} is sequence: {{ _sequence }}
+          {{ item }} is mapping: {{ _mapping }}
+          {{ item }} is boolean: {{ _boolean }}
+      loop:
+        - "abc"
+        - [a, b, c]
+        - {a: 1, b: 2, c: 3}
+        - 123
+      vars:
+        _string: "{{ item is string }}"
+        _iterable: "{{ item is iterable }}"
+        _sequence: "{{ item is sequence }}"
+        _mapping: "{{ item is mapping }}"
+        _boolean: "{{ item is boolean }}"
+
+# ok: [localhost] => (item=abc) => 
+#   msg: |-
+#     abc is string: True
+#     abc is iterable: True
+#     abc is sequence: True
+#     abc is mapping: False
+#     abc is boolean: False
+# ok: [localhost] => (item=['a', 'b', 'c']) => 
+#   msg: |-
+#     ['a', 'b', 'c'] is string: False
+#     ['a', 'b', 'c'] is iterable: True
+#     ['a', 'b', 'c'] is sequence: True
+#     ['a', 'b', 'c'] is mapping: False
+#     ['a', 'b', 'c'] is boolean: False
+# ok: [localhost] => (item={'a': 1, 'b': 2, 'c': 3}) => 
+#   msg: |-
+#     {'a': 1, 'b': 2, 'c': 3} is string: False
+#     {'a': 1, 'b': 2, 'c': 3} is iterable: True
+#     {'a': 1, 'b': 2, 'c': 3} is sequence: True
+#     {'a': 1, 'b': 2, 'c': 3} is mapping: True
+#     {'a': 1, 'b': 2, 'c': 3} is boolean: False
+# ok: [localhost] => (item=123) => 
+#   msg: |-
+#     123 is string: False
+#     123 is iterable: False
+#     123 is sequence: False
+#     123 is mapping: False
+#     123 is boolean: False

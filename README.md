@@ -492,9 +492,14 @@ Various examples of Ansible code.
 
 **Test**
   - Galaxy role vbotka.linux_lib [91](https://github.com/vbotka/ansible-examples/tree/master/examples/example-091),
+  - boolean [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - bulk-set task arguments [89](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089),
   - items2dict2 [114](https://github.com/vbotka/ansible-examples/tree/master/examples/example-114),
+  - iterable [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
+  - mapping [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - race conditions [258](https://github.com/vbotka/ansible-examples/tree/master/examples/example-258),
+  - sequence [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
+  - string [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
 
 **Tools**
   - Debug tools [31](https://github.com/vbotka/ansible-examples/tree/master/examples/example-031),
@@ -821,7 +826,8 @@ Various examples of Ansible code.
 - [Example 291.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-291) "Devel; filter_core; Test integration target of forked github.com/ansible/ansible."
 - [Example 292.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-292) "Custom filter; mac-vendor-lookup;"
 - [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Role; CIS role UBUNTU20-CIS; Configure Ubuntu 20 machine to be CIS v2.1.0 compliant."
-- [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role;
+- [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role."
+- [Example 294.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294) "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 
 
 ## Update README.md
