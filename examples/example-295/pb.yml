@@ -1,0 +1,26 @@
+---
+- name: Test index in nested Jinja loops.
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: |
+          {% for i in range(3) %}
+          i: {{ i }} index i: {{ loop.index }}
+          {% for j in range(2) %}
+            j: {{ j }} index j: {{ loop.index }}
+          {% endfor %}
+          {% endfor %}
+
+# ok: [localhost] => 
+#   msg: |-
+#     i: 0 index_i: 1
+#       j: 0 index_j: 1
+#       j: 1 index_j: 2
+#     i: 1 index_i: 2
+#       j: 0 index_j: 1
+#       j: 1 index_j: 2
+#     i: 2 index_i: 3
+#       j: 0 index_j: 1
+#       j: 1 index_j: 2

@@ -231,6 +231,7 @@ Various examples of Ansible code.
 **Jinja**
   - Jinja template formatting [236](https://github.com/vbotka/ansible-examples/tree/master/examples/example-236),
   - Jinja tests [265](https://github.com/vbotka/ansible-examples/tree/master/examples/example-265),
+  - loop.index [295](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295),
   - lstrip_blocks [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
   - trim_blocks [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
   - white-space control [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
@@ -828,6 +829,7 @@ Various examples of Ansible code.
 - [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Role; CIS role UBUNTU20-CIS; Configure Ubuntu 20 machine to be CIS v2.1.0 compliant."
 - [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role."
 - [Example 294.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294) "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
+- [Example 295.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295) "Jinja; loop.index; Test index in nested Jinja loops."
 
 
 ## Update README.md

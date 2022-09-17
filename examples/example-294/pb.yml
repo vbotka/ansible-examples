@@ -1,7 +1,7 @@
 ---
 - name: Test type of a variable
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
 
   tasks:
     - debug:

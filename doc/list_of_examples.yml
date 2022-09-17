@@ -296,3 +296,4 @@
 - 293. "Role; CIS role UBUNTU20-CIS; Configure Ubuntu 20 machine to be CIS v2.1.0 compliant."
 - 293. "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role."
 - 294. "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
+- 295. "Jinja; loop.index; Test index in nested Jinja loops."
