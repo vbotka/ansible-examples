@@ -1,12 +1,41 @@
----
 - hosts: localhost
   gather_facts: false
+
   tasks:
 
-    - debug:
-        msg: "{{ ('/etc', path, 'subdir', file) | community.general.path_join }}"
+    - assert:
+        that: result == ok
+        success_msg: "[OK]  No.1 result: {{ result }} ok: {{ ok }}"
+        fail_msg: "[ERR] No.1 result: {{ result }} ok: {{ ok }}"
       vars:
-        path: x
-        file: name.ext
+        l1: [ a, b, c]
+        result: "{{ l1|community.general.path_join }}"
+        ok: 'a/b/c'
 
-# msg: /etc/x/subdir/name.ext
+    - assert:
+        that: result == ok
+        success_msg: "[OK]  No.2 result: {{ result }} ok: {{ ok }}"
+        fail_msg: "[ERR] No.2 result: {{ result }} ok: {{ ok }}"
+      vars:
+        l1: [ /a, b, c]
+        result: "{{ l1|community.general.path_join }}"
+        ok: '/a/b/c'
+
+    - assert:
+        that: result == ok
+        success_msg: "[OK]  No.3 result: {{ result }} ok: {{ ok }}"
+        fail_msg: "[ERR] No.3 result: {{ result }} ok: {{ ok }}"
+      vars:
+        l1: [ /a, b/, c]
+        result: "{{ l1|community.general.path_join }}"
+        ok: '/a/b/c'
+
+    - assert:
+        that: result == ok
+        success_msg: "[OK]  No.4 result: {{ result }} ok: {{ ok }}"
+        fail_msg: "[ERR] No.4 result: {{ result }} ok: {{ ok }}"
+      vars:
+        l1: [ /a, b/, c/]
+        l2: "{{ l1|community.general.path_join }}"
+        result: "{{ [l2, 'd']|community.general.path_join }}"
+        ok: '/a/b/c/d'

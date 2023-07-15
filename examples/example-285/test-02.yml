@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - assert:
+        that: result == ok
+        success_msg: "[OK]  No.1 result: {{ result }} ok: {{ ok }}"
+        fail_msg: "[ERR] No.1 result: {{ result }} ok: {{ ok }}"
+      vars:
+        path: x
+        file: name.ext
+        l1: ['/etc', '{{ path }}', 'subdir', '{{ file }}']
+        result: "{{ l1|community.general.path_join }}"
+        ok: '/etc/x/subdir/name.ext'
