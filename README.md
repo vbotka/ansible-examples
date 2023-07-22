@@ -495,14 +495,13 @@ Various examples of Ansible code.
   - boolean [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - bulk-set task arguments [89](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089),
   - Galaxy role vbotka.linux_lib [91](https://github.com/vbotka/ansible-examples/tree/master/examples/example-091),
+  - is all [296](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296),
   - items2dict2 [114](https://github.com/vbotka/ansible-examples/tree/master/examples/example-114),
   - iterable [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - mapping [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - race conditions [258](https://github.com/vbotka/ansible-examples/tree/master/examples/example-258),
   - sequence [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - string [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
-
-**Test, is all**
 
 **Tools**
   - Debug tools [31](https://github.com/vbotka/ansible-examples/tree/master/examples/example-031),
@@ -832,7 +831,7 @@ Various examples of Ansible code.
 - [Example 293.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293) "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role."
 - [Example 294.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294) "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 - [Example 295.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295) "Jinja; loop.index; Test index in nested Jinja loops."
-- [Example 296.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296) "Test, is all; Testing if all list values are True."
+- [Example 296.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296) "Test; is all; Testing if all list values are True."
 
 
 ## Update README.md
