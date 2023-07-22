@@ -297,3 +297,4 @@
 - 293. "Devel; Role UBUNTU20-CIS; Execute development branches and integrations tests of a forked role."
 - 294. "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 - 295. "Jinja; loop.index; Test index in nested Jinja loops."
+- 296. "Test, is all; Testing if all list values are True."

@@ -1,0 +1,32 @@
+---
+- name: Test is (not) all.
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - debug:
+        msg: "{{ l1 }} is all: {{ l1 is all }}"
+      vars:
+        l1: [true, true, true]
+
+    - debug:
+        msg: "{{ l1 }} is all: {{ l1 is all }}"
+      vars:
+        l1: [true, true, false]
+
+    - debug:
+        msg: "{{ l1 }} is not all: {{ l1 is not all }}"
+      vars:
+        l1: [true, true, true]
+
+    - debug:
+        msg: "{{ l1 }} is not all: {{ l1 is not all }}"
+      vars:
+        l1: [true, true, false]
+
+
+#  msg: '[True, True, True] is all: True'
+#  msg: '[True, True, False] is all: False'
+#  msg: '[True, True, True] is not all: False'
+#  msg: '[True, True, False] is not all: True'
