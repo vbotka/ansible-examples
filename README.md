@@ -491,6 +491,9 @@ Various examples of Ansible code.
   - import_playbook and tags [19](https://github.com/vbotka/ansible-examples/tree/master/examples/example-019),
   - variable in tags [269](https://github.com/vbotka/ansible-examples/tree/master/examples/example-269),
 
+**Template**
+  - INI [297](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297),
+
 **Test**
   - boolean [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - bulk-set task arguments [89](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089),
@@ -832,6 +835,7 @@ Various examples of Ansible code.
 - [Example 294.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294) "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 - [Example 295.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295) "Jinja; loop.index; Test index in nested Jinja loops."
 - [Example 296.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296) "Test; is all; Testing if all list values are True."
+- [Example 297.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297) "Template; INI; General INI template. Optional case-sensitive sections (default=False)."
 
 
 ## Update README.md
