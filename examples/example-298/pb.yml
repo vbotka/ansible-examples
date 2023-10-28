@@ -1,0 +1,42 @@
+---
+- name: Test INI template
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    config1:
+      default:
+        key1: val1
+        key2: val2
+      general:
+        key3: val3
+      custom:
+        key4: val4
+        key5: val5
+
+    config2:
+      default:
+        key1: val1
+        key2:
+
+  tasks:
+
+    - debug:
+        msg: "{{ lookup('template', 'default_dict-INI.j2') }}"
+      vars:
+        ini: "{{ config1 }}"
+      tags: c1
+
+    - debug:
+        msg: "{{ lookup('template', 'default_dict-INI.j2') }}"
+      vars:
+        ini: "{{ config1 }}"
+        extra_space: true
+      tags: c2
+
+    - debug:
+        msg: "{{ lookup('template', 'default_dict-INI.j2') }}"
+      vars:
+        ini: "{{ config2 }}"
+      tags: c3

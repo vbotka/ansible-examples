@@ -493,6 +493,7 @@ Various examples of Ansible code.
 
 **Template**
   - INI [297](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297),
+[298](https://github.com/vbotka/ansible-examples/tree/master/examples/example-298),
 
 **Test**
   - boolean [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
@@ -835,7 +836,8 @@ Various examples of Ansible code.
 - [Example 294.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294) "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 - [Example 295.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295) "Jinja; loop.index; Test index in nested Jinja loops."
 - [Example 296.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296) "Test; is all; Testing if all list values are True."
-- [Example 297.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297) "Template; INI; General INI template. Optional case-sensitive sections (default=False)."
+- [Example 297.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297) "Template; INI; General INI template. Data in list. Optional case-sensitive sections (default=False)."
+- [Example 298.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-298) "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
 
 
 ## Update README.md
