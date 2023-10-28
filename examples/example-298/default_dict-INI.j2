@@ -1,0 +1,14 @@
+# {{ ansible_managed }}. Template: {{ template_path }}
+
+{% set space=extra_space|d(false)|ternary(' ', '') %}
+{% for section, conf in ini.items() %}
+[{{ section }}]
+{% for key, value in conf.items() %}
+{% if value %}
+{{ key }}{{ space }}={{ space }}{{ value }}
+{% else %}
+{{ key }}
+{% endif %}
+{% endfor %}
+
+{% endfor %}

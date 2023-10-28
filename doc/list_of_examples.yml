@@ -298,4 +298,5 @@
 - 294. "Test; string; iterable; sequence; mapping; boolean; Test type of variable."
 - 295. "Jinja; loop.index; Test index in nested Jinja loops."
 - 296. "Test; is all; Testing if all list values are True."
-- 297. "Template; INI; General INI template. Optional case-sensitive sections (default=False)."
+- 297. "Template; INI; General INI template. Data in list. Optional case-sensitive sections (default=False)."
+- 298. "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
