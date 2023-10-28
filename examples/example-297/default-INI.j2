@@ -1,0 +1,9 @@
+# {{ ansible_managed }}. Template: {{ template_path }}
+
+{% for section, conf in ini|groupby('section', case_sensitive=ini_cs|d(False)) %}
+[{{ section }}]
+{% for i in conf %}
+{{ i.line }}
+{% endfor %}
+
+{% endfor %}

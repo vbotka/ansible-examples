@@ -1,0 +1,41 @@
+---
+- name: Test INI template
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    config1:
+      - {section: default, line: 'key1 = val1'}
+      - {section: default, line: 'key2 = val2'}
+      - {section: general, line: 'key3 = val3'}
+      - {section: custom, line: 'key4 = val4'}
+      - {section: custom, line: 'key5 = val5'}
+
+    config2:
+      - {section: default, line: 'key1 = val1'}
+      - {section: Default, line: 'key2 = val2'}
+      - {section: general, line: 'key3 = val3'}
+      - {section: custom, line: 'key4 = val4'}
+      - {section: custom, line: 'key5 = val5'}
+
+  tasks:
+
+    - debug:
+        msg: "{{ lookup('template', 'default-INI.j2') }}"
+      vars:
+        ini: "{{ config1 }}"
+      tags: c1
+
+    - debug:
+        msg: "{{ lookup('template', 'default-INI.j2') }}"
+      vars:
+        ini: "{{ config2 }}"
+        ini_cs: True
+      tags: c2
+
+    - debug:
+        msg: "{{ lookup('template', 'default-INI.j2') }}"
+      vars:
+        ini: "{{ config2 }}"
+      tags: c3
