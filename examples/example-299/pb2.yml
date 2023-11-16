@@ -1,0 +1,16 @@
+---
+- hosts: node1,node2,-node3
+
+  tasks:
+
+    - debug:
+        var: ansible_play_hosts_all|select('fqdn_valid')
+      run_once: true
+
+    - assert:
+        that: hosts_invalid|length == 0
+        fail_msg: "[ERR] Invalid FQDN: {{ hosts_invalid }}"
+      vars:
+        hosts_valid: "{{ ansible_play_hosts_all|select('fqdn_valid') }}"
+        hosts_invalid: "{{ ansible_play_hosts_all|difference(hosts_valid) }}"
+      run_once: true
