@@ -178,6 +178,9 @@ Various examples of Ansible code.
 **Custom module**
   - Python subprocess.run [163](https://github.com/vbotka/ansible-examples/tree/master/examples/example-163),
 
+**Custom test**
+  - fqdn_valid [299](https://github.com/vbotka/ansible-examples/tree/master/examples/example-299),
+
 **Data structure**
   - Block Scalar Styles [196](https://github.com/vbotka/ansible-examples/tree/master/examples/example-196),
   - JSON [179](https://github.com/vbotka/ansible-examples/tree/master/examples/example-179),
@@ -838,6 +841,7 @@ Various examples of Ansible code.
 - [Example 296.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296) "Test; is all; Testing if all list values are True."
 - [Example 297.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297) "Template; INI; General INI template. Data in list. Optional case-sensitive sections (default=False)."
 - [Example 298.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-298) "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
+- [Example 299.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-299) "Custom test; fqdn_valid; Validates fully-qualified domain names against RFC 1123."
 
 
 ## Update README.md

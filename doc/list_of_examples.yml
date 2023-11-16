@@ -300,3 +300,4 @@
 - 296. "Test; is all; Testing if all list values are True."
 - 297. "Template; INI; General INI template. Data in list. Optional case-sensitive sections (default=False)."
 - 298. "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
+- 299. "Custom test; fqdn_valid; Validates fully-qualified domain names against RFC 1123."

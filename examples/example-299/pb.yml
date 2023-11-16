@@ -1,0 +1,43 @@
+---
+- name: Test fqdn_valid
+  hosts: localhost
+
+  vars:
+
+    names1:
+      - srv.example.com
+      - 9rv.example.com
+      - -rv.example.com
+      - srv
+      - 9rv
+      - -rv
+      - s_v
+    names2: [9rv, -rv, s_v]
+    names3: [9rv, srv.x, s_v.x.y, s_v-.x.y]
+
+  tasks:
+
+    - name: "Default min_labels=1, allow_underscores=False"
+      debug:
+        msg: |
+          {% for name in names1 %}
+          {{ name }} {{ name is fqdn_valid }}
+          {% endfor %}
+      tags: t1
+
+    - name: "allow_underscores=True, default min_labels=1"
+      debug:
+        msg: |
+          {% for name in names2 %}
+          {{ name }} {{ name is fqdn_valid(allow_underscores=True) }}
+          {% endfor %}
+      tags: t2
+
+    - name: "min_labels=2, allow_underscores=True"
+      debug:
+        msg: |
+          {% for name in names3 %}
+          {{ name }} {{ name is fqdn_valid(min_labels=2,
+                                           allow_underscores=True) }}
+          {% endfor %}
+      tags: t3
