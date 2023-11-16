@@ -5,12 +5,12 @@ Synopsis: Test validity of hostname
 Requires: https://pypi.org/project/fqdn/
 
 > Validates fully-qualified domain names against RFC 1123, so that
-  they are acceptable to modern bowsers
+  they are acceptable to modern browsers
 
 Source: https://github.com/ypcrts/fqdn
 
 
-## Reference implementatioin fqdn_test.py
+## Reference implementation fqdn_test.py
 
 ```bash
 fqdn_test <hostname> [min_labels] [allow_underscores]
@@ -36,8 +36,8 @@ invalid FQDN -srv
 
 ## Ansible test fqdn_valid
 
-See: test_plugins/fqdn_valid.py
-See and run: pb.yml
+* See: test_plugins/fqdn_valid.py
+* See and run: pb.yml
 
 
 ### min_labels=1, allow_underscores=False
