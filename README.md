@@ -328,7 +328,6 @@ Various examples of Ansible code.
   - ansible.builtin.cron [231](https://github.com/vbotka/ansible-examples/tree/master/examples/example-231),
   - ansible.builtin.debug [168](https://github.com/vbotka/ansible-examples/tree/master/examples/example-168),
   - ansible.builtin.expect [72](https://github.com/vbotka/ansible-examples/tree/master/examples/example-072),
-  - ansible.builtin.fail [90](https://github.com/vbotka/ansible-examples/tree/master/examples/example-090),
   - ansible.builtin.fetch [203](https://github.com/vbotka/ansible-examples/tree/master/examples/example-203),
   - ansible.builtin.file [130](https://github.com/vbotka/ansible-examples/tree/master/examples/example-130),
   - ansible.builtin.find [37](https://github.com/vbotka/ansible-examples/tree/master/examples/example-037),
@@ -388,7 +387,6 @@ Various examples of Ansible code.
   - dconf [92](https://github.com/vbotka/ansible-examples/tree/master/examples/example-092),
   - debug [168](https://github.com/vbotka/ansible-examples/tree/master/examples/example-168),
   - expect [72](https://github.com/vbotka/ansible-examples/tree/master/examples/example-072),
-  - fail [90](https://github.com/vbotka/ansible-examples/tree/master/examples/example-090),
   - fetch [203](https://github.com/vbotka/ansible-examples/tree/master/examples/example-203),
   - file [130](https://github.com/vbotka/ansible-examples/tree/master/examples/example-130),
   - find [37](https://github.com/vbotka/ansible-examples/tree/master/examples/example-037),
@@ -501,7 +499,7 @@ Various examples of Ansible code.
 **Test**
   - boolean [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - bulk-set task arguments [89](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089),
-  - Galaxy role vbotka.linux_lib [91](https://github.com/vbotka/ansible-examples/tree/master/examples/example-091),
+  - Galaxy role vbotka.linux_lib [90](https://github.com/vbotka/ansible-examples/tree/master/examples/example-090),
   - is all [296](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296),
   - items2dict2 [114](https://github.com/vbotka/ansible-examples/tree/master/examples/example-114),
   - iterable [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
@@ -628,8 +626,7 @@ Various examples of Ansible code.
 - [Example  87.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-087) "Basics; async; Asynchronous actions and polling;"
 - [Example  88.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-088) "Jinja filter; groupby; Group a sequence of objects by a common attribute."
 - [Example  89.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089) "Test; bulk-set task arguments;"
-- [Example  90.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-090) "Module; fail; ansible.builtin.fail;"
-- [Example  91.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-091) "Test; Galaxy role vbotka.linux_lib;"
+- [Example  90.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-090) "Test; Galaxy role vbotka.linux_lib;"
 - [Example  92.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-092) "Module; dconf; community.general.dconf;"
 - [Example  93.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-093) "Basics; Handlers;"
 - [Example  94.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-094) "Module; copy; ansible.builtin.copy;"
