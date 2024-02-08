@@ -1,0 +1,85 @@
+---
+
+- name: Alternate options to community.general.merge_variables
+  hosts: localhost
+
+# community.general.merge_variables lookup – merge variables with a certain suffix
+# https://docs.ansible.com/ansible/latest/collections/community/general/merge_variables_lookup.html#community-general-merge-variables-lookup-merge-variables-with-a-certain-suffix
+#
+# Examples
+
+  vars:
+
+    test_init_list:
+      - "list init item 1"
+      - "list init item 2"
+    testa__test_list:
+      - "test a item 1"
+
+    testb__test_list:
+      - "test b item 1"
+
+    example_a: "{{ lookup('community.general.merge_variables',
+                          '__test_list',
+                          pattern_type='suffix',
+                          initial_value=test_init_list) }}"
+
+    # alternate option
+    example_b: "{{ test_init_list +
+                   q('vars', *q('varnames', '^.*__test_list$'))|flatten }}"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    testa__test_dict: {ports: [1]}
+    testb__test_dict: {ports: [3]}
+
+    example_c: "{{ lookup('community.general.merge_variables',
+                          '__test_dict',
+                          pattern_type='suffix') }}"
+
+    # alternate option
+    example_d: "{{ q('vars', *q('varnames', '^.*__test_dict$'))|
+                   combine(recursive=true, list_merge='append') }}"
+
+
+                   
+  tasks:
+
+    - debug:
+        var: example_a
+
+#     example_a:
+#     - list init item 1
+#     - list init item 2
+#     - test a item 1
+#     - test b item 1
+  
+    - debug:
+        var: example_b
+
+#     example_b:
+#     - list init item 1
+#     - list init item 2
+#     - test a item 1
+#     - test b item 1
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  
+    - debug:
+        var: example_c
+
+#     example_c:
+#       ports:
+#       - 1
+#       - 3
+
+    - debug:
+        var: example_d
+
+#     example_d:
+#       ports:
+#       - 1
+#       - 3
+
+# EOF
+...

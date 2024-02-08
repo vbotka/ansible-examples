@@ -281,12 +281,14 @@ Various examples of Ansible code.
   - ansible.builtin.indexed_items [170](https://github.com/vbotka/ansible-examples/tree/master/examples/example-170),
   - ansible.utils.to_paths [280](https://github.com/vbotka/ansible-examples/tree/master/examples/example-280),
   - community.general.dig [169](https://github.com/vbotka/ansible-examples/tree/master/examples/example-169),
+  - community.general.merge_variables [300](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300),
   - dig [169](https://github.com/vbotka/ansible-examples/tree/master/examples/example-169),
   - env [116](https://github.com/vbotka/ansible-examples/tree/master/examples/example-116),
   - file [210](https://github.com/vbotka/ansible-examples/tree/master/examples/example-210),
   - fileglob [106](https://github.com/vbotka/ansible-examples/tree/master/examples/example-106),
   - first_found [120](https://github.com/vbotka/ansible-examples/tree/master/examples/example-120),
   - inventory_hostnames [271](https://github.com/vbotka/ansible-examples/tree/master/examples/example-271),
+  - merge_variables [300](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300),
   - password [145](https://github.com/vbotka/ansible-examples/tree/master/examples/example-145),
   - pipe [184](https://github.com/vbotka/ansible-examples/tree/master/examples/example-184),
   - subelements [40](https://github.com/vbotka/ansible-examples/tree/master/examples/example-040),
@@ -842,6 +844,7 @@ Various examples of Ansible code.
 - [Example 297.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-297) "Template; INI; General INI template. Data in list. Optional case-sensitive sections (default=False)."
 - [Example 298.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-298) "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
 - [Example 299.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-299) "Custom test; fqdn_valid; Validates fully-qualified domain names against RFC 1123."
+- [Example 300.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300) "Lookup; merge_variables; community.general.merge_variables; Merge variables with a certain pattern."
 
 
 ## Update README.md
