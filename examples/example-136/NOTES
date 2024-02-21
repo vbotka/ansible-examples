@@ -1,1 +1,3 @@
+* vars7.yml - #69799 Modified "vars:" not visible inside include_role.
+  https://github.com/ansible/ansible/issues/69799
 
