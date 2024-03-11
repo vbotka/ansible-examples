@@ -19,6 +19,7 @@ Various examples of Ansible code.
   - community.general.dict_kv [281](https://github.com/vbotka/ansible-examples/tree/master/examples/example-281),
   - community.general.groupby_as_dict [282](https://github.com/vbotka/ansible-examples/tree/master/examples/example-282),
   - community.general.jc [284](https://github.com/vbotka/ansible-examples/tree/master/examples/example-284),
+  - community.general.lists_difference [301](https://github.com/vbotka/ansible-examples/tree/master/examples/example-301),
   - community.general.lists_mergeby [286](https://github.com/vbotka/ansible-examples/tree/master/examples/example-286),
   - community.general.path_join [285](https://github.com/vbotka/ansible-examples/tree/master/examples/example-285),
   - community.general.version_sort [283](https://github.com/vbotka/ansible-examples/tree/master/examples/example-283),
@@ -47,6 +48,7 @@ Various examples of Ansible code.
   - json_query function merge [290](https://github.com/vbotka/ansible-examples/tree/master/examples/example-290),
   - json_query functions [140](https://github.com/vbotka/ansible-examples/tree/master/examples/example-140),
   - json_query issue to_yaml|from_yaml [267](https://github.com/vbotka/ansible-examples/tree/master/examples/example-267),
+  - lists_difference [301](https://github.com/vbotka/ansible-examples/tree/master/examples/example-301),
   - password_hash [76](https://github.com/vbotka/ansible-examples/tree/master/examples/example-076),
   - product [156](https://github.com/vbotka/ansible-examples/tree/master/examples/example-156),
   - quote [183](https://github.com/vbotka/ansible-examples/tree/master/examples/example-183),
@@ -845,6 +847,7 @@ Various examples of Ansible code.
 - [Example 298.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-298) "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
 - [Example 299.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-299) "Custom test; fqdn_valid; Validates fully-qualified domain names against RFC 1123."
 - [Example 300.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300) "Lookup; merge_variables; community.general.merge_variables; Merge variables with a certain pattern."
+- [Example 301.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-301) "Ansible filter; lists_difference; community.general.lists_difference; Difference of lists with a predictive order."
 
 
 ## Update README.md

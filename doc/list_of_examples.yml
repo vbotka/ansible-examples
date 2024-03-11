@@ -302,3 +302,4 @@
 - 298. "Template; INI; General INI template. Data in dictionary. No value allowed. Optional extra space (default=False)."
 - 299. "Custom test; fqdn_valid; Validates fully-qualified domain names against RFC 1123."
 - 300. "Lookup; merge_variables; community.general.merge_variables; Merge variables with a certain pattern."
+- 301. "Ansible filter; lists_difference; community.general.lists_difference; Difference of lists with a predictive order."
