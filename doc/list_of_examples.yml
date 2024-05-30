@@ -304,3 +304,4 @@
 - 300. "Lookup; merge_variables; community.general.merge_variables; Merge variables with a certain pattern."
 - 301. "Ansible filter; lists_difference; community.general.lists_difference; Difference of lists with a predictive order."
 - 302. "Ansible filter; lists_intersect; community.general.lists_intersect; Intersection of lists with a predictive order."
+- 303. "Custom filter; keep_keys; ansible.utils.keep_keys; Keep specific keys from dictionaries in a list."

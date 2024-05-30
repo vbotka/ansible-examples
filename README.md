@@ -173,9 +173,11 @@ Various examples of Ansible code.
   - remote_user [205](https://github.com/vbotka/ansible-examples/tree/master/examples/example-205),
 
 **Custom filter**
+  - ansible.utils.keep_keys [303](https://github.com/vbotka/ansible-examples/tree/master/examples/example-303),
   - combine_lossless [262](https://github.com/vbotka/ansible-examples/tree/master/examples/example-262),
   - dict_flatten [138](https://github.com/vbotka/ansible-examples/tree/master/examples/example-138),
   - dict_utils [138](https://github.com/vbotka/ansible-examples/tree/master/examples/example-138),
+  - keep_keys [303](https://github.com/vbotka/ansible-examples/tree/master/examples/example-303),
   - mac-vendor-lookup [292](https://github.com/vbotka/ansible-examples/tree/master/examples/example-292),
   - netaddr_iter_iprange [254](https://github.com/vbotka/ansible-examples/tree/master/examples/example-254),
 
@@ -851,6 +853,7 @@ Various examples of Ansible code.
 - [Example 300.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300) "Lookup; merge_variables; community.general.merge_variables; Merge variables with a certain pattern."
 - [Example 301.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-301) "Ansible filter; lists_difference; community.general.lists_difference; Difference of lists with a predictive order."
 - [Example 302.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-302) "Ansible filter; lists_intersect; community.general.lists_intersect; Intersection of lists with a predictive order."
+- [Example 303.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-303) "Custom filter; keep_keys; ansible.utils.keep_keys; Keep specific keys from dictionaries in a list."
 
 
 ## Update README.md
