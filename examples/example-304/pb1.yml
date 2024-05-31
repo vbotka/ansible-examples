@@ -1,0 +1,73 @@
+- name: Test plugins/filter/remove_keys.py
+  hosts: localhost
+
+  vars:
+
+    # ansible.utils.remove_keys - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    t: [k0, k1]
+
+    l1:
+      - {k0: A, k1: B, k2: [""], k3: foo}
+      - {k0: C, k1: D, k2: [""], k3: bar}
+    r1: "{{ l1 | ansible.utils.remove_keys(target=t) }}"
+
+    l9:
+      - {k0: A, k1: B, k2: [X], k3: foo}
+      - {k0: C, k1: D, k2: [Y], k3: bar}
+    r9: "{{ l9 | ansible.utils.remove_keys(target=t) }}"
+
+    l2:
+      - {k0: A, k1: B, k2: C, k3: foo}
+      - {k0: C, k1: D, k2: C, k3: bar}
+    r2: "{{ l2 | ansible.utils.remove_keys(target=t) }}"
+
+    # my_keep_keys - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    l3:
+      - {k0_x0: A0, k1_x1: B0, k2_x2: [C0], k3_x3: foo}
+      - {k0_x0: A1, k1_x1: B1, k2_x2: [C1], k3_x3: bar}
+    tq: [k0_x0, k1_x1]
+    rq: "{{ l3 | my_remove_keys(target=tq) }}"
+    ts: [k0, k1]
+    rs: "{{ l3 | my_remove_keys(target=ts, matching_parameter='starts_with') }}"
+    te: [x0, x1]
+    re: "{{ l3 | my_remove_keys(target=te, matching_parameter='ends_with') }}"
+    tl: ["^.*[01]_x.*$"]
+    rl: "{{ l3 | my_remove_keys(target=tl, matching_parameter='regex') }}"
+    tr: "^.*[01]_x.*$"
+    rr: "{{ l3 | my_remove_keys(target=tr, matching_parameter='regex') }}"
+
+  tasks:
+
+    - debug:
+        var: r1
+      tags: r1
+      
+    - debug:
+        var: r2
+      tags: r2
+
+    - debug:
+        var: r9
+      tags: r9
+
+    - debug:
+        var: rq
+      tags: rq
+
+    - debug:
+        var: rs
+      tags: rs
+
+    - debug:
+        var: re
+      tags: re
+
+    - debug:
+        var: rl
+      tags: rl
+
+    - debug:
+        var: rr
+      tags: rr
