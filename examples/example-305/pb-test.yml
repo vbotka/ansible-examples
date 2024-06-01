@@ -1,0 +1,4 @@
+- name: ansible.community.general/tests/integration/targets/filter_replace_keys
+  hosts: localhost
+  roles:
+    - filter_replace_keys
