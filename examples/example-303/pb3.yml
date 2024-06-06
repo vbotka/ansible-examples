@@ -1,0 +1,77 @@
+- name: Test plugins/filter/keep_keys.py (tests/integration/targets/filter_keep_keys)
+  hosts: localhost
+
+  vars:
+
+    targets:
+      - {mp: equal, tt: [k0_x0, k1_x1]}
+      - {mp: starts_with, tt: [k0, k1]}
+      - {mp: ends_with, tt: [x0, x1]}
+      - {mp: regex, tt: ['^.*[01]_x.*$']}
+
+    list1:
+      - {k0_x0: A0, k1_x1: B0, k2_x2: [C0], k3_x3: foo}
+      - {k0_x0: A1, k1_x1: B1, k2_x2: [C1], k3_x3: bar}
+
+    result1:
+       - {k0_x0: A0, k1_x1: B0}
+       - {k0_x0: A1, k1_x1: B1}
+
+  tasks:
+
+    - name: Debug ansible_version
+      ansible.builtin.debug:
+        var: ansible_version
+      when: not quite_test | d(true) | bool
+      tags: ansible_version
+
+    - name: Test keep keys equal (default)
+      ansible.builtin.assert:
+        that:
+          - (rr | difference(result1) | length) == 0
+        success_msg: |
+          [OK]  result:
+          {{ rr | to_yaml }}
+        fail_msg: |
+          [ERR] result:
+          {{ rr | to_yaml }}
+        quiet: "{{ quite_test | d(true) | bool }}"
+      vars:
+        rr: "{{ list1 | community.general.keep_keys(target=tt) }}"
+        tt: [k0_x0, k1_x1]
+      tags: equal_default
+
+    - name: Test keep keys regex string
+      ansible.builtin.assert:
+        that:
+          - (rr | difference(result1) | length) == 0
+        success_msg: |
+          [OK]  result:
+          {{ rr | to_yaml }}
+        fail_msg: |
+          [ERR] result:
+          {{ rr | to_yaml }}
+        quiet: "{{ quite_test | d(true) | bool }}"
+      vars:
+        rr: "{{ list1 | community.general.keep_keys(target=tt, matching_parameter=mp) }}"
+        mp: regex
+        tt: '^.*[01]_x.*$'
+      tags: regex_string
+
+    - name: Test keep keys matching_parameter list
+      ansible.builtin.assert:
+        that:
+          - (rr | difference(result1) | length) == 0
+        success_msg: |
+          [OK]  result:
+          {{ rr | to_yaml }}
+        fail_msg: |
+          [ERR] result:
+          {{ rr | to_yaml }}
+        quiet: "{{ quite_test | d(true) | bool }}"
+      loop: "{{ targets }}"
+      loop_control:
+        label: "{{ item.mp }}: {{ item.tt }}"
+      vars:
+        rr: "{{ list1 | community.general.keep_keys(target=item.tt, matching_parameter=item.mp) }}"
+      tags: matching_parameter lists
