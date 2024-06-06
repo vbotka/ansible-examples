@@ -1,0 +1,207 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+# Some results below are manually formatted for better readability. The
+# dictionaries' keys will be sorted alphabetically in real output.
+
+    - name: Example 1. Merge two lists. The results r1 and r2 are the same.
+      ansible.builtin.debug:
+        msg: |
+          r1: {{ r1 }}
+          r2: {{ r2 }}
+      vars:
+        list1:
+          - {index: a, value: 123}
+          - {index: b, value: 4}
+        list2:
+          - {index: a, foo: bar}
+          - {index: c, foo: baz}
+        r1: "{{ list1 | community.general.lists_mergeby(list2, 'index') }}"
+        r2: "{{ [list1, list2] | community.general.lists_mergeby('index') }}"
+      tags: t1
+
+#  r1:
+#    - {index: a, foo: bar, value: 123}
+#    - {index: b, value: 4}
+#    - {index: c, foo: baz}
+#  r2:
+#    - {index: a, foo: bar, value: 123}
+#    - {index: b, value: 4}
+#    - {index: c, foo: baz}
+
+    - name: Example 2. Merge three lists
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, value: 123}
+          - {index: b, value: 4}
+        list2:
+          - {index: a, foo: bar}
+          - {index: c, foo: baz}
+        list3:
+          - {index: d, foo: qux}
+        r: "{{ [list1, list2, list3] | community.general.lists_mergeby('index') }}"
+      tags: t2
+
+#  r:
+#    - {index: a, foo: bar, value: 123}
+#    - {index: b, value: 4}
+#    - {index: c, foo: baz}
+#    - {index: d, foo: qux}
+
+    - name: Example 3. Merge single list. The result is the same as 2.
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, value: 123}
+          - {index: b, value: 4}
+          - {index: a, foo: bar}
+          - {index: c, foo: baz}
+          - {index: d, foo: qux}
+        r: "{{ [list1, []] | community.general.lists_mergeby('index') }}"
+      tags: t3
+
+#  r:
+#    - {index: a, foo: bar, value: 123}
+#    - {index: b, value: 4}
+#    - {index: c, foo: baz}
+#    - {index: d, foo: qux}
+
+    - name: Example 4. Merge two lists. Replace lists by default.
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: [X1, X2]}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: [Y1, Y2]}
+          - {index: b, foo: [Y1, Y2]}
+        r: "{{ [list1, list2] | community.general.lists_mergeby('index') }}"
+      tags: t4
+
+#  r:
+#    - {index: a, foo: [Y1, Y2]}
+#    - {index: b, foo: [Y1, Y2]}
+
+    - name: Example 5. Merge two lists. Append nested lists.
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: [X1, X2]}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: [Y1, Y2]}
+          - {index: b, foo: [Y1, Y2]}
+        r: "{{ [list1, list2] | community.general.lists_mergeby('index', list_merge='append') }}"
+      tags: t5
+
+#  r:
+#    - {index: a, foo: [X1, X2, Y1, Y2]}
+#    - {index: b, foo: [X1, X2, Y1, Y2]}
+
+    - name: Example 6. Merge two lists. Default recursive=false
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: {x: 1, y: 2}}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: {y: 3, z: 4}}
+          - {index: b, foo: [Y1, Y2]}
+        r: "{{ [list1, list2] | community.general.lists_mergeby('index') }}"
+      tags: t6
+
+#  r:
+#    - {index: a, foo: {y: 3, z: 4}}
+#    - {index: b, foo: [Y1, Y2]}
+
+    - name: Example 7. Merge two lists. recursive=true
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: {x: 1, y: 2}}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: {y: 3, z: 4}}
+          - {index: b, foo: [Y1, Y2]}
+        r: "{{ [list1, list2] | community.general.lists_mergeby('index', recursive=true) }}"
+      tags: t7
+
+#  r:
+#    - {index: a, foo: {x:1, y: 3, z: 4}}
+#    - {index: b, foo: [Y1, Y2]}
+
+    - name: Example 8. Merge three lists. recursive=true
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: {x: 1, y: 2}}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: {y: 3, z: 4}}
+          - {index: b, foo: [Y1, Y2]}
+        list3:
+          - {index: c, foo: qux}
+        r: "{{ [list1, list2] | community.general.lists_mergeby(list3, 'index', recursive=true) }}"
+      tags: t8
+
+#  r:
+#    - {index: a, foo: {x:1, y: 3, z: 4}}
+#    - {index: b, foo: [Y1, Y2]}
+#    - {index: c, foo: qux}
+
+    - name: Example 9. Merge two lists of lists. recursive=true
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: {x: 1, y: 2}}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: {y: 3, z: 4}}
+          - {index: b, foo: [Y1, Y2]}
+        list3:
+          - {index: c, foo: qux}
+        list4:
+          - {index: d, foo: rux}
+        r: "{{ [list1, list2] | community.general.lists_mergeby([list3, list4], 'index', recursive=true) }}"
+      tags: t9
+
+#  r:
+#    - {index: a, foo: {x:1, y: 3, z: 4}}
+#    - {index: b, foo: [Y1, Y2]}
+#    - {index: c, foo: qux}
+#    - {index: d, foo: rux}
+
+    - name: Example 10. Merge lists of lists and two lists. recursive=true
+      ansible.builtin.debug:
+        var: r
+      vars:
+        list1:
+          - {index: a, foo: {x: 1, y: 2}}
+          - {index: b, foo: [X1, X2]}
+        list2:
+          - {index: a, foo: {y: 3, z: 4}}
+          - {index: b, foo: [Y1, Y2]}
+        list3:
+          - {index: c, foo: qux}
+        list4:
+          - {index: d, foo: rux}
+        r: "{{ [list1, list2] | community.general.lists_mergeby(list3, list4, 'index', recursive=true) }}"
+      tags: t10
+
+#  r:
+#    - {index: a, foo: {x:1, y: 3, z: 4}}
+#    - {index: b, foo: [Y1, Y2]}
+#    - {index: c, foo: qux}
+#    - {index: d, foo: rux}

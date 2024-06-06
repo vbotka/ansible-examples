@@ -1,0 +1,4 @@
+- name: ansible.community.general/tests/integration/targets/filter_lists_mergeby
+  hosts: localhost
+  roles:
+    - filter_lists_mergeby
