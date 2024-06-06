@@ -1,0 +1,11 @@
+- name: The callback is always awx_display
+  hosts: localhost
+
+  # See: set ANSIBLE_CALLBACK_PLUGINS in envvars is not working. #219
+  # https://github.com/ansible/ansible-runner/issues/219
+
+  tasks:
+
+    - debug:
+        msg: "{{ lookup('config', 'DEFAULT_STDOUT_CALLBACK') }}"
+        # msg: "{{ lookup('ansible.builtin.config', 'DEFAULT_STDOUT_CALLBACK') }}"
