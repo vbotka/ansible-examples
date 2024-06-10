@@ -1,0 +1,52 @@
+- hosts: localhost
+
+  vars:
+
+    data:
+      - leagues:
+          - {id: 2294162, sport: S}
+          - {id: 8541851, sport: S}
+      - leagues: []
+      - leagues:
+          - {id: 2228013, sport: B}
+
+    _query: '[].leagues[].[sport, id]'
+    o: "{{ data | json_query(_query) }}"
+
+    g: "{{ data |
+           map(attribute='leagues') | flatten |
+           groupby('sport') }}"
+    s: "{{ g | map('first') }}"
+    i: "{{ g | map('last') | map('map', attribute='id') | map('join', '%') }}"
+    r: "{{ i | zip(s) | map('join', '&ttgIds=')}}"
+    x: "{{ r | product(['@']) | map('join') }}"
+      
+  tasks:
+
+    - debug:
+        var: o | to_yaml
+
+# o:
+#   - [S, 2294162]
+#   - [S, 8541851]
+#   - [B, 2228013]
+
+    - debug:
+        var: s | to_yaml
+
+# s: [B, S]        
+        
+    - debug:
+        var: i | to_yaml
+
+# i: ['2228013', 2294162%8541851]
+        
+    - debug:
+        var: r | to_yaml
+
+# r: [2228013&ttgIds=B, 2294162%8541851&ttgIds=S]
+        
+    - debug:
+        var: x | to_yaml
+
+# x: [2228013&ttgIds=B@, 2294162%8541851&ttgIds=S@]
