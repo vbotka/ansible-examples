@@ -8,6 +8,9 @@ Various examples of Ansible code.
 ## Index
 
 
+**Ansible contribution**
+  - community.general [306](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306),
+
 **Ansible filter**
   - ansible.netcommon.ipaddr [254](https://github.com/vbotka/ansible-examples/tree/master/examples/example-254),
   - ansible.utils.hwaddr [197](https://github.com/vbotka/ansible-examples/tree/master/examples/example-197),
@@ -860,6 +863,7 @@ Various examples of Ansible code.
 - [Example 303.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-303) "Custom filter; keep_keys; ansible.utils.keep_keys; Keep specific keys from dictionaries in a list."
 - [Example 304.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-304) "Custom filter; remove_keys; ansible.utils.remove_keys; Remove specific keys from dictionaries in a list."
 - [Example 305.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-305) "Custom filter; replace_keys; ansible.utils.replace_keys; Replace specific keys in a list of dictionaries."
+- [Example 306.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306) "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries"
 
 
 ## Update README.md

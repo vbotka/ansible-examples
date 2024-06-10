@@ -307,3 +307,4 @@
 - 303. "Custom filter; keep_keys; ansible.utils.keep_keys; Keep specific keys from dictionaries in a list."
 - 304. "Custom filter; remove_keys; ansible.utils.remove_keys; Remove specific keys from dictionaries in a list."
 - 305. "Custom filter; replace_keys; ansible.utils.replace_keys; Replace specific keys in a list of dictionaries."
+- 306. "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries"
