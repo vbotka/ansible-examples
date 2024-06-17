@@ -1,0 +1,40 @@
+- hosts: localhost
+
+  vars:
+
+    data: {
+      "name": "John",
+      "age": null,
+      "email": "john.doe@example.com",
+      "phone": null
+      }
+
+    result1: "{{ data | json_query('*') }}"
+    result2: "{{ data | json_query('*.not_null(@)') }}"
+    
+    result3: "{{ data | dict2items |
+                 json_query('[?not_null(value)]') |
+                 items2dict }}"
+
+  tasks:
+
+    - debug:
+        var: result1
+
+#  result1:
+#  - John
+#  - john.doe@example.com
+
+    - debug:
+        var: result2
+
+#  result2:
+#  - John
+#  - john.doe@example.com
+
+    - debug:
+        var: result3
+
+#  result3:
+#    email: john.doe@example.com
+#    name: John
