@@ -26,6 +26,7 @@ Various examples of Ansible code.
   - community.general.lists_intersect [302](https://github.com/vbotka/ansible-examples/tree/master/examples/example-302),
   - community.general.lists_mergeby [286](https://github.com/vbotka/ansible-examples/tree/master/examples/example-286),
   - community.general.path_join [285](https://github.com/vbotka/ansible-examples/tree/master/examples/example-285),
+  - community.general.remove_keys [307](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307),
   - community.general.version_sort [283](https://github.com/vbotka/ansible-examples/tree/master/examples/example-283),
   - d() [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
   - default [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
@@ -864,6 +865,7 @@ Various examples of Ansible code.
 - [Example 304.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-304) "Custom filter; remove_keys; ansible.utils.remove_keys; Remove specific keys from dictionaries in a list."
 - [Example 305.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-305) "Custom filter; replace_keys; ansible.utils.replace_keys; Replace specific keys in a list of dictionaries."
 - [Example 306.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306) "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries"
+- [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list
 
 
 ## Update README.md
