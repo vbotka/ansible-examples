@@ -1,0 +1,20 @@
+- hosts: localhost
+
+  vars:
+
+    member:
+      - {name: test2, orig: test2}
+      - {name: test1, orig: test1}
+
+    names1: "{{ member | community.general.remove_keys(target=['orig']) }}"
+    names2: "{{ member | community.general.keep_keys(target=['name']) }}"
+    names3: "{{ member | ansible.utils.remove_keys(target=['orig']) }}"
+
+  tasks:
+
+    - debug:
+        var: names1
+    - debug:
+        var: names2
+    - debug:
+        var: names3
