@@ -1,0 +1,25 @@
+- hosts: all
+  gather_facts: false
+
+  pre_tasks:
+
+    - debug:
+        msg: |
+          groups.all {{ groups.all }}
+          ansible_hosts {{ ansible_hosts }}
+      vars:
+        ansible_hosts: "{{ groups.all | map('extract', hostvars, 'ansible_host') }}"
+      run_once: true
+
+    - assert:
+        that: groups.all|length == ansible_hosts|unique|length
+        fail_msg: ERR ansible_host not unique.
+      vars:
+        ansible_hosts: "{{ groups.all | map('extract', hostvars, 'ansible_host') }}"
+      run_once: true
+
+  tasks:
+
+    - debug:
+        msg: Start play.
+      run_once: true

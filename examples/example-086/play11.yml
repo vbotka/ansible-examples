@@ -1,0 +1,12 @@
+- hosts: all
+  gather_facts: false
+  remote_user: admin
+
+  tasks:
+
+    - debug:
+        var: inventory_hostname
+    - command: hostname
+      register: out
+    - debug:
+        var: out.stdout
