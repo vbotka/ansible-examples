@@ -1,0 +1,53 @@
+- name: Test community.general.keep_keys
+  hosts: localhost
+
+  vars:
+
+    input_parameters:
+      mssql:
+        edition: standard
+        language: en
+        setupconfig:
+          action: Install
+          agtsvcaccount: {type: System User, username: SQL_Agt, vault: credvault, visibility: false}
+          agtsvcstartuptype: Automatic
+          features: [SQLENGINE]
+          forcereboot: false
+          instancename: MSSQLINSTANCE
+          npenabled: true
+          sapwd: {type: Database, username: sa, vault: credvault, visibility: false}
+          securitymode: SQL
+          sqlcollation: SQL_Latin1_General_CP1_CI_AS
+          sqlsvcaccount: {type: System User, username: SQL_Svc, vault: credvault, visibility: false}
+          sqlsvcstartuptype: Automatic
+          sqlsysadminaccounts: [Administrator]
+          tcpenabled: true
+        version: '2022'
+
+    account_identifiers: ['sapwd', 'sqlsvcaccount', 'agtsvcaccount', 'ftsvcaccount', 'rssvcaccount',
+                          'assvcaccount','issvcaccount']
+    accounts: "{{ [input_parameters.mssql.setupconfig] |
+                  community.general.keep_keys(target=account_identifiers) |
+                  first }}"
+  tasks:
+
+    - debug:
+        var: accounts | to_yaml
+
+    - debug:
+        msg: "{{ item.value.vault }}"
+      loop: "{{ accounts | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+
+# accounts | to_yaml: |-
+#   agtsvcaccount: {type: System User, username: SQL_Agt, vault: credvault, visibility: false}
+#   sapwd: {type: Database, username: sa, vault: credvault, visibility: false}
+#   sqlsvcaccount: {type: System User, username: SQL_Svc, vault: credvault, visibility: false}
+
+# ok: [localhost] => (item=agtsvcaccount) => 
+#   msg: credvault
+# ok: [localhost] => (item=sapwd) => 
+#   msg: credvault
+# ok: [localhost] => (item=sqlsvcaccount) => 
+#   msg: credvault
