@@ -29,6 +29,7 @@
     accounts: "{{ [input_parameters.mssql.setupconfig] |
                   community.general.keep_keys(target=account_identifiers) |
                   first }}"
+
   tasks:
 
     - debug:
@@ -51,3 +52,9 @@
 #   msg: credvault
 # ok: [localhost] => (item=sqlsvcaccount) => 
 #   msg: credvault
+
+    - debug:
+        msg: "{{ item.value.username }}"
+      loop: "{{ accounts | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
