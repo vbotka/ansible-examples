@@ -1,0 +1,30 @@
+- hosts: test_01
+  gather_facts: false
+  remote_user: admin
+
+  tasks:
+
+    - command: whoami
+      register: out
+    - debug:
+        var: out.stdout
+
+    - command: whoami
+      register: out
+      become: true
+    - debug:
+        var: out.stdout
+
+    - command: whoami
+      register: out
+      become: true
+      become_user: nobody
+    - debug:
+        var: out.stdout
+
+    - command: echo $HOME
+      register: out
+      become: true
+      become_user: nobody
+    - debug:
+        var: out.stdout
