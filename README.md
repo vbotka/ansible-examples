@@ -331,6 +331,9 @@ Various examples of Ansible code.
   - compare integers [263](https://github.com/vbotka/ansible-examples/tree/master/examples/example-263),
   - Jinja math [10](https://github.com/vbotka/ansible-examples/tree/master/examples/example-010),
 
+**Methods**
+  - keys() [308](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308),
+
 **Module**
   - add_host [134](https://github.com/vbotka/ansible-examples/tree/master/examples/example-134),
   - ansible.builtin.add_host [134](https://github.com/vbotka/ansible-examples/tree/master/examples/example-134),
@@ -865,7 +868,8 @@ Various examples of Ansible code.
 - [Example 304.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-304) "Custom filter; remove_keys; ansible.utils.remove_keys; Remove specific keys from dictionaries in a list."
 - [Example 305.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-305) "Custom filter; replace_keys; ansible.utils.replace_keys; Replace specific keys in a list of dictionaries."
 - [Example 306.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306) "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries"
-- [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list
+- [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list"
+- [Example 308.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308) "Methods; keys(); Get list of the dictionarys' keys"
 
 
 ## Update README.md

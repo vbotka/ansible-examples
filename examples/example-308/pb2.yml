@@ -1,0 +1,27 @@
+- hosts: localhost
+
+  vars:
+
+    deploy_env:
+      dev:
+        schemas:
+          year1: [main, custom]
+          year2: [main, custom, security]
+          year3: [main, custom]
+
+  tasks:
+
+    - debug:
+        var: item
+      loop: "{{ deploy_env.dev.schemas | list }}"
+
+# ok: [localhost] => (item=year1) => 
+#   ansible_loop_var: item
+#   item: year1
+# ok: [localhost] => (item=year2) => 
+#   ansible_loop_var: item
+#   item: year2
+# ok: [localhost] => (item=year3) => 
+#   ansible_loop_var: item
+#   item: year3
+ 
