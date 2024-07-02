@@ -7,14 +7,14 @@ Various examples of Ansible code.
 ## Contents
 
 {% for group in ex_tags %}
-* [{{ group.0 }}](#{{ group.0 }})
+* [{{ group.0 }}](#{{ group.0 | split | join('_') }})
 {% endfor %}
 
 ## Index
 
 {% for group in ex_tags %}
 
-### <a name="{{ group.0 }}"></a>{{ group.0 }}
+<a name="{{ group.0 | split | join ('_') }}"></a>{{ group.0 }}
 {% for tag in  group.1|map(attribute='tags')|flatten|groupby('tag') %}
   - {{ tag.0 }} {% for i in tag.1|map(attribute='ex')|list %}[{{ i }}]({{ url ~ "%03d" % (i|int,) }}),
 {% endfor %}
