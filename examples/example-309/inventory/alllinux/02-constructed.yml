@@ -1,0 +1,7 @@
+plugin: ansible.builtin.constructed
+use_extra_vars: true
+use_vars_plugins: true
+compose:
+  my_hosts_allow: play_allow[my_play|d('default')]
+groups:
+  my_hosts: inventory_hostname in my_hosts_allow

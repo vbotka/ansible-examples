@@ -1,0 +1,10 @@
+alllinux:
+  hosts:
+    test_01:
+    test_02:
+    test_03:
+  vars:
+    play_allow:
+      default: []
+      playbook_01: [test_01, test_02]
+      playbook_02: [test_02, test_03]

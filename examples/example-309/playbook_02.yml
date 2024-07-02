@@ -1,0 +1,5 @@
+- name: playbook_02
+  hosts: my_hosts
+  tasks:
+    - debug:
+        msg: Start play

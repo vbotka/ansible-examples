@@ -245,6 +245,9 @@ Various examples of Ansible code.
   - Dynamic inventory [125](https://github.com/vbotka/ansible-examples/tree/master/examples/example-125),
   - hosts [86](https://github.com/vbotka/ansible-examples/tree/master/examples/example-086),
 
+**Inventory plugin**
+  - ansible.builtin.constructed [309](https://github.com/vbotka/ansible-examples/tree/master/examples/example-309),
+
 **Jinja**
   - Jinja template formatting [236](https://github.com/vbotka/ansible-examples/tree/master/examples/example-236),
   - Jinja tests [265](https://github.com/vbotka/ansible-examples/tree/master/examples/example-265),
@@ -867,9 +870,10 @@ Various examples of Ansible code.
 - [Example 303.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-303) "Custom filter; keep_keys; ansible.utils.keep_keys; Keep specific keys from dictionaries in a list."
 - [Example 304.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-304) "Custom filter; remove_keys; ansible.utils.remove_keys; Remove specific keys from dictionaries in a list."
 - [Example 305.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-305) "Custom filter; replace_keys; ansible.utils.replace_keys; Replace specific keys in a list of dictionaries."
-- [Example 306.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306) "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries"
-- [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list"
-- [Example 308.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308) "Methods; keys(); Get list of the dictionarys' keys"
+- [Example 306.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306) "Ansible contribution; community.general; Update chapter merging_lists_of_dictionaries."
+- [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list."
+- [Example 308.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308) "Methods; keys(); Get list of the dictionarys' keys."
+- [Example 309.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-309) "Inventory plugin; ansible.builtin.constructed; Create allowed hosts group."
 
 
 ## Update README.md
