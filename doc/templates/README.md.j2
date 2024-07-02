@@ -4,12 +4,17 @@ Various examples of Ansible code.
 
 (This file is generated. Do not update it manually. See the section below.)
 
+## Contents
+
+{% for group in ex_tags %}
+:ref:`group_{{ group.0 }}`
+{% endfor %}
 
 ## Index
 
 {% for group in ex_tags %}
-
-**{{ group.0 }}**
+.. _group_{{ group.0 }}:
+### {{ group.0 }}
 {% for tag in  group.1|map(attribute='tags')|flatten|groupby('tag') %}
   - {{ tag.0 }} {% for i in tag.1|map(attribute='ex')|list %}[{{ i }}]({{ url ~ "%03d" % (i|int,) }}),
 {% endfor %}
@@ -17,7 +22,7 @@ Various examples of Ansible code.
 {% endfor %}
 
 
-## Contents
+## Examples
 
 {% for i in ex_no|zip(ex_txt) %}
 - [Example {{ "%3d" % (i.0|int) }}.]({{ url ~ "%03d" % (i.0|int) }}) {{ i.1 }}
