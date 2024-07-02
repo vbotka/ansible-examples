@@ -1,7 +1,7 @@
-def examples_tags(l):
+def examples_tags(lst):
 
-    tags = [{'ex': l[0], 'tag': t.strip()} for t in l[1][1:-1].split(';')[1:-1]]
-    group = l[1][1:-1].split(';')[0]
+    tags = [{'ex': lst[0], 'tag': t.strip()} for t in lst[1][1:-1].split(';')[1:-1]]
+    group = lst[1][1:-1].split(';')[0]
     return {'group': group, 'tags': tags}
 
 

@@ -15,8 +15,8 @@ Various examples of Ansible code.
 {% for group in ex_tags %}
 
 <a name="{{ group.0 | split | join ('_') }}"></a>{{ group.0 }}
-{% for tag in  group.1|map(attribute='tags')|flatten|groupby('tag') %}
-  - {{ tag.0 }} {% for i in tag.1|map(attribute='ex')|list %}[{{ i }}]({{ url ~ "%03d" % (i|int,) }}),
+{% for tag in  group.1 | map(attribute='tags') | flatten | groupby('tag') %}
+  - {{ tag.0 }} {% for i in tag.1 | map(attribute='ex') | list %}[{{ i }}]({{ url ~ "%03d" % (i|int,) }}),
 {% endfor %}
 {% endfor %}
 {% endfor %}
@@ -24,7 +24,7 @@ Various examples of Ansible code.
 
 ## Examples
 
-{% for i in ex_no|zip(ex_txt) %}
+{% for i in ex_no | zip(ex_txt) %}
 - [Example {{ "%3d" % (i.0|int) }}.]({{ url ~ "%03d" % (i.0|int) }}) {{ i.1 }}
 {% endfor %}
 
