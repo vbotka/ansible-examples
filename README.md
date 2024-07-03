@@ -77,6 +77,7 @@ Various examples of Ansible code.
   - community.general.dict_kv [281](https://github.com/vbotka/ansible-examples/tree/master/examples/example-281),
   - community.general.groupby_as_dict [282](https://github.com/vbotka/ansible-examples/tree/master/examples/example-282),
   - community.general.jc [284](https://github.com/vbotka/ansible-examples/tree/master/examples/example-284),
+  - community.general.keep_keys [310](https://github.com/vbotka/ansible-examples/tree/master/examples/example-310),
   - community.general.lists_difference [301](https://github.com/vbotka/ansible-examples/tree/master/examples/example-301),
   - community.general.lists_intersect [302](https://github.com/vbotka/ansible-examples/tree/master/examples/example-302),
   - community.general.lists_mergeby [286](https://github.com/vbotka/ansible-examples/tree/master/examples/example-286),
@@ -929,6 +930,7 @@ Various examples of Ansible code.
 - [Example 307.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307) "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list."
 - [Example 308.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308) "Methods; keys(); Get list of the dictionarys' keys."
 - [Example 309.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-309) "Inventory plugin; ansible.builtin.constructed; Create allowed hosts group."
+- [Example 310.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-310) "Ansible filter; community.general.keep_keys; Keep specific keys from dictionaries in a list."
 
 
 ## Update README.md

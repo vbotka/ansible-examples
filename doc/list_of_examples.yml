@@ -311,3 +311,4 @@
 - 307. "Ansible filter; community.general.remove_keys; Remove specific keys from dictionaries in a list."
 - 308. "Methods; keys(); Get list of the dictionarys' keys."
 - 309. "Inventory plugin; ansible.builtin.constructed; Create allowed hosts group."
+- 310. "Ansible filter; community.general.keep_keys; Keep specific keys from dictionaries in a list."

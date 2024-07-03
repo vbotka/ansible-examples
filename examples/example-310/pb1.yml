@@ -1,0 +1,53 @@
+- hosts: localhost
+
+  vars:
+
+    data:
+      - m: first
+        n:
+          - {x: 10, y: 11, z: 12}
+          - {x: 20, y: 21, z: 22}
+      - m: second
+        n:
+          - {x: 30, y: 31, z: 32}
+          - {x: 40, y: 41, z: 33}
+
+    t: [x, y]
+    rl: "{{ data |
+            map(attribute='n') |
+            map('community.general.keep_keys', target=t) }}"
+    rd: "{{ rl | map('community.general.dict_kv', 'n' ) }}"
+
+    r2: "{{ data |
+            json_query('[].values(@)[?type(@) == `array`]') }}"
+
+  tasks:
+
+    - debug:
+        var: rl | to_yaml
+
+# rl:
+#   - - {x: 10, y: 11}
+#     - {x: 20, y: 21}
+#   - - {x: 30, y: 31}
+#     - {x: 40, y: 41}
+
+    - debug:
+        var: rd | to_yaml
+
+# rd:
+#   - n:
+#     - {x: 10, y: 11}
+#     - {x: 20, y: 21}
+#   - n:
+#     - {x: 30, y: 31}
+#     - {x: 40, y: 41}
+
+    - debug:
+        var: r2 | to_yaml
+
+# r2:
+#   - - - {x: 10, y: 11, z: 12}
+#       - {x: 20, y: 21, z: 22}
+#   - - - {x: 30, y: 31, z: 32}
+#       - {x: 40, y: 41, z: 33}
