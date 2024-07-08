@@ -1,0 +1,138 @@
+- hosts: localhost
+
+  vars:
+
+    data:
+      - nill
+      - None
+      - '123'
+      - "123"
+      - 123
+      - 123.45
+      - [a, b, c]
+      - {a: 1}
+      - {a: 1, b: 2}
+      - [{a: 1}, {b: 2}]
+      - true
+      - False
+      - yes
+      - No
+
+  tasks:
+
+    # str
+    - name: str
+      debug:
+        msg: "{{ 'abc' | type_debug }}"
+      tags: t1_str
+    
+    - name: str
+      debug:
+        msg: "{{ 'abc' | my_reveal_ansible_type }}"
+      tags: t1_str
+
+    # AnsibleUnicode
+    - name: AnsibleUnicode
+      debug:
+        msg: "{{ data | type_debug }}"
+      vars:
+        data: abc
+      tags: t1_uni
+    
+    - name: AnsibleUnicode
+      debug:
+        msg: "{{ data.k1 | type_debug }}"
+      vars:
+        data:
+          k1: abc
+      tags: t1_uni
+    
+    - name: AnsibleUnicode
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: abc
+      tags: t1_uni
+
+    - debug:
+        msg: |
+          {% for i in data %}
+          {{ i }} {{ i | type_debug }} {{ i | my_reveal_ansible_type }}
+          {% endfor %}
+      tags: t1
+
+    - name: list[dict]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: [{a: 1}, {b: 2}]
+      tags: t2
+
+    - name: dict[AnsibleUnicode, int]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: {a: 1, b: 2}
+      tags: t3
+
+    - name: dict[int, AnsibleUnicode]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: {1: a, 2: b}
+      tags: t4
+
+    - name: dict[AnsibleUnicode|int, AnsibleUnicode]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: {1: a, b: b}
+      tags: t5
+
+    - name: dict[AnsibleUnicode, AnsibleUnicode|bool|dict|float|int|list]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data:
+          a: 1
+          b: 1.1
+          c: abc
+          d: true
+          e: [x, y, z]
+          f: {x: 1, y: 2}
+      tags: t6
+
+    - name: list[AnsibleUnicode|bool|dict|float|int|list]
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data:
+          - 1
+          - 2
+          - 1.1
+          - abc
+          - true
+          - [x, y, z]
+          - {x: 1, y: 2}
+      tags: t7
+
+    - name: list
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: []
+      tags: t8
+
+    - name: dict
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: {}
+      tags: t9
+
+    - name: int
+      debug:
+        msg: "{{ data | my_reveal_ansible_type }}"
+      vars:
+        data: 123
+      tags: t10

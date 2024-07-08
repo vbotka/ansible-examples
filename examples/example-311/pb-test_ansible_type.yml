@@ -1,0 +1,4 @@
+- name: Integration tests community.general.test_ansible_type
+  hosts: localhost
+  roles:
+    - test_ansible_type

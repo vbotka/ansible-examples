@@ -1,0 +1,59 @@
+- hosts: localhost
+
+  vars:
+
+    target: [key, other]
+    data:
+      - nm: first
+        ld:
+          - {key: 1, other: other1, foo: bar}
+          - {key: 2, other: other2, foo: bar}
+      - nm: second
+        ld:
+          - {key: 3, other: other3, foo: bar}
+          - {key: 4, other: other4, foo: bar}
+
+    sel: "{{ data | map('dict2items') |
+             map('selectattr', 'value', 'community.general.ansible_type', 'list[dict]') |
+             flatten }}"
+    val: "{{ sel | map(attribute='value') |
+             map('community.general.keep_keys', target=target) }}"
+    res: |
+      {% filter from_yaml %}
+      {% for k,v in sel|map(attribute='key')|zip(val) %}
+      - {{ k }}: {{ v }}
+      {% endfor %}
+      {% endfilter %}
+    re2: |
+      {% filter from_yaml %}
+      {% for i in sel %}
+      - {{ i.key }}: {{ i.value|community.general.keep_keys(target=target) }}
+      {% endfor %}
+      {% endfilter %}
+
+  tasks:
+
+    - debug:
+        var: sel | to_yaml
+    - debug:
+        var: val | to_yaml
+    - debug:
+        var: res | to_yaml
+    - debug:
+        var: re2 | to_yaml
+
+#  res | to_yaml: |-
+#    - ld:
+#      - {key: 1, other: other1}
+#      - {key: 2, other: other2}
+#    - ld:
+#      - {key: 3, other: other3}
+#      - {key: 4, other: other4}
+
+#  re2 | to_yaml: |-
+#    - ld:
+#      - {key: 1, other: other1}
+#      - {key: 2, other: other2}
+#    - ld:
+#      - {key: 3, other: other3}
+#      - {key: 4, other: other4}

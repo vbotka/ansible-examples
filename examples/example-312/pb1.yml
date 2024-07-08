@@ -1,0 +1,77 @@
+- name: Jinja2 list of lists.
+  hosts: localhost
+  
+  vars:
+
+    keys: ['32.10', '50.10', '36.10']
+    results:
+      - {hostname: host1, ip: 10.32.1.32}
+      - {hostname: host2, ip: 10.50.6.71}
+      - {hostname: host3, ip: 10.36.254.41}
+      - {hostname: host4, ip: 10.36.254.42}
+
+    vals: |
+      {% for k in keys|map('split', '.')|map('reverse')|map('join', '.') %}
+      - {{ results | selectattr('ip', 'match', k) }}
+      {% endfor %}
+    rev: "{{ dict(keys|zip(vals|from_yaml)) }}"
+
+    re2: "{{ dict(keys |
+                  zip(vals |
+                      from_yaml |
+                      map('items2dict',
+                          key_name='hostname',
+                          value_name='ip'))) }}"
+    re3: "{{ dict(keys |
+                  zip(vals |
+                      from_yaml |
+                      map('items2dict',
+                          value_name='hostname',
+                          key_name='ip'))) }}"
+    
+
+  tasks:
+
+    - debug:
+        var: vals
+
+# vals: |-
+#   - [{'hostname': 'host1', 'ip': '10.32.1.32'}]
+#   - [{'hostname': 'host2', 'ip': '10.50.6.71'}]
+#   - [{'hostname': 'host3', 'ip': '10.36.254.41'}, {'hostname': 'host4', 'ip': '10.36.254.42'}]
+        
+    - debug:
+        var: rev | to_yaml
+
+# rev | to_yaml: |-
+#   '32.10':
+#   - {hostname: host1, ip: 10.32.1.32}
+#   '36.10':
+#   - {hostname: host3, ip: 10.36.254.41}
+#   - {hostname: host4, ip: 10.36.254.42}
+#   '50.10':
+#   - {hostname: host2, ip: 10.50.6.71}
+
+    - debug:
+        var: re2
+
+# re2:
+#   '32.10':
+#     host1: 10.32.1.32
+#   '36.10':
+#     host3: 10.36.254.41
+#     host4: 10.36.254.42
+#   '50.10':
+#     host2: 10.50.6.71
+        
+    - debug:
+        var: re3
+
+# re3:
+#   '32.10':
+#     10.32.1.32: host1
+#   '36.10':
+#     10.36.254.41: host3
+#     10.36.254.42: host4
+#   '50.10':
+#     10.50.6.71: host2

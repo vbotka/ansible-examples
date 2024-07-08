@@ -1,0 +1,172 @@
+- hosts: localhost
+
+  vars:
+
+    data:
+      - nill
+      - None
+      - '123'
+      - "123"
+      - 123
+      - 123.45
+      - [a, b, c]
+      - {a: 1}
+      - {a: 1, b: 2}
+      - [{a: 1}, {b: 2}]
+      - true
+      - False
+      - yes
+      - No
+
+  tasks:
+
+    - name: Test
+      vars:
+        alias:
+          AnsibleUnicode: str
+      tags: t0
+      block:
+
+        - set_fact:
+            data_types: "{{ data | map('my_reveal_ansible_type', alias=alias) }}" 
+        - debug:
+            msg: "{{ item.0 }} {{ item.1 }}"
+          loop: "{{ data | zip(data_types) }}"
+          when: debug | d(false) | bool
+
+        - assert:
+            that: item.0 is my_ansible_type(item.1, alias=alias)
+            fail_msg: "{{ item.0 }} is {{ item.0 | my_reveal_ansible_type(alias=alias) }}"
+          loop: "{{ data | zip(data_types) }}"
+    
+    - name: str
+      debug:
+        msg: |
+          {{ 'abc' | my_reveal_ansible_type }}
+          {{ 'abc' is my_ansible_type('str') }}
+      tags: t1
+    
+    - name: AnsibleUnicode
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: AnsibleUnicode
+        data: abc
+      tags: t1
+
+    - name: list[dict]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: list[dict]
+        data: [{a: 1}, {b: 2}]
+      tags: t2
+
+    - name: list[dict|str]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type(alias) }}
+          {{ data is my_ansible_type(dtype, alias) }}
+      vars:
+        dtype: list[dict|str]
+        data: [{a: 1}, {b: 2}, foo]
+        alias:
+          AnsibleUnicode: str
+      tags: t2
+
+    - name: dict[AnsibleUnicode, int]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: dict[AnsibleUnicode, int]
+        data: {a: 1, b: 2}
+      tags: t3
+
+    - name: dict[int, AnsibleUnicode]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: dict[int, AnsibleUnicode]
+        data: {1: a, 2: b}
+      tags: t4
+
+    - name: dict[AnsibleUnicode|int, AnsibleUnicode]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: dict[AnsibleUnicode|int, AnsibleUnicode]
+        data: {1: a, b: b}
+      tags: t5
+
+    - name: dict[AnsibleUnicode, list|AnsibleUnicode|float|dict|bool|int]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: dict[AnsibleUnicode, AnsibleUnicode|bool|dict|float|int|list]
+        data:
+          a: 1
+          b: 1.1
+          c: abc
+          d: true
+          e: [x, y, z]
+          f: {x: 1, y: 2}
+      tags: t6
+
+    - name: list[AnsibleUnicode|bool|dict|float|int|list]
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: list[AnsibleUnicode|bool|dict|float|int|list]
+        data:
+          - 1
+          - 2
+          - 1.1
+          - abc
+          - true
+          - [x, y, z]
+          - {x: 1, y: 2}
+      tags: t7
+
+    - name: list
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: list
+        data: []
+      tags: t8
+
+    - name: dict
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: dict
+        data: {}
+      tags: t9
+
+    - name: int
+      debug:
+        msg: |
+          {{ data | my_reveal_ansible_type }}
+          {{ data is my_ansible_type(dtype) }}
+      vars:
+        dtype: int
+        data: 123
+      tags: t10

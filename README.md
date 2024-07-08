@@ -83,6 +83,7 @@ Various examples of Ansible code.
   - community.general.lists_mergeby [286](https://github.com/vbotka/ansible-examples/tree/master/examples/example-286),
   - community.general.path_join [285](https://github.com/vbotka/ansible-examples/tree/master/examples/example-285),
   - community.general.remove_keys [307](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307),
+  - community.general.reveal_ansible_type [311](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311),
   - community.general.version_sort [283](https://github.com/vbotka/ansible-examples/tree/master/examples/example-283),
   - d() [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
   - default [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
@@ -143,6 +144,7 @@ Various examples of Ansible code.
   - Connection [218](https://github.com/vbotka/ansible-examples/tree/master/examples/example-218),
 
 <a name="Ansible_test"></a>Ansible test
+  - community.general.ansible_type [311](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311),
   - defined [160](https://github.com/vbotka/ansible-examples/tree/master/examples/example-160),
   - exists [214](https://github.com/vbotka/ansible-examples/tree/master/examples/example-214),
   - in [206](https://github.com/vbotka/ansible-examples/tree/master/examples/example-206),
@@ -159,6 +161,7 @@ Various examples of Ansible code.
   - Boolean [151](https://github.com/vbotka/ansible-examples/tree/master/examples/example-151),
   - Callback [150](https://github.com/vbotka/ansible-examples/tree/master/examples/example-150),
   - Compare dictionaries [253](https://github.com/vbotka/ansible-examples/tree/master/examples/example-253),
+  - dict [312](https://github.com/vbotka/ansible-examples/tree/master/examples/example-312),
   - Expansion of expressions [149](https://github.com/vbotka/ansible-examples/tree/master/examples/example-149),
   - Expansion of variables [139](https://github.com/vbotka/ansible-examples/tree/master/examples/example-139),
   - falsy [272](https://github.com/vbotka/ansible-examples/tree/master/examples/example-272),
@@ -931,6 +934,9 @@ Various examples of Ansible code.
 - [Example 308.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-308) "Methods; keys(); Get list of the dictionarys' keys."
 - [Example 309.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-309) "Inventory plugin; ansible.builtin.constructed; Create allowed hosts group."
 - [Example 310.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-310) "Ansible filter; community.general.keep_keys; Keep specific keys from dictionaries in a list."
+- [Example 311.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311) "Ansible test; community.general.ansible_type; Validate Ansible type."
+- [Example 311.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311) "Ansible filter; community.general.reveal_ansible_type; Return Ansible type."
+- [Example 312.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-312) "Basics; dict;"
 
 
 ## Update README.md

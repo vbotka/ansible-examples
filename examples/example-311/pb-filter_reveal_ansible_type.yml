@@ -1,0 +1,4 @@
+- name: Integration tests community.general.filter_reveal_ansible_type
+  hosts: localhost
+  roles:
+    - filter_reveal_ansible_type

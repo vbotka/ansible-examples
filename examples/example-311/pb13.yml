@@ -1,0 +1,48 @@
+- hosts: localhost
+
+  vars:
+
+    target: [key, other]
+    data:
+      - nm: first
+        lc:
+          - {keyX: 1, otherX: other1, foo: bar}
+          - {keyX: 2, otherX: other2, foo: bar}
+        ld:
+          - {key: 1, other: other1, foo: bar}
+          - {key: 2, other: other2, foo: bar}
+      - nm: second
+        lc:
+          - {keyX: 1, otherX: other1, foo: bar}
+          - {keyX: 2, otherX: other2, foo: bar}
+        ld:
+          - {key: 3, other: other3, foo: bar}
+          - {key: 4, other: other4, foo: bar}
+
+    sel: "{{ data | map('dict2items') |
+             map('selectattr', 'value', 'community.general.ansible_type', 'list[dict]') |
+             flatten }}"
+    res: |
+      {% filter from_yaml %}
+      {% for i in sel %}
+      {% set v = i.value|community.general.keep_keys(target=target) %}
+      {% if v|select %}
+      - {{ i.key }}: {{ v }}
+      {% endif %}
+      {% endfor %}
+      {% endfilter %}
+
+  tasks:
+
+    - debug:
+        var: sel | to_yaml
+    - debug:
+        var: res | to_yaml
+
+#  res:
+#    - ld:
+#      - {key: 1, other: other1}
+#      - {key: 2, other: other2}
+#    - ld:
+#      - {key: 3, other: other3}
+#      - {key: 4, other: other4}
