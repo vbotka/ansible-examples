@@ -171,6 +171,7 @@ Various examples of Ansible code.
   - Inventory [80](https://github.com/vbotka/ansible-examples/tree/master/examples/example-080),
   - Jinja2 [204](https://github.com/vbotka/ansible-examples/tree/master/examples/example-204),
   - Lazy evaluation [131](https://github.com/vbotka/ansible-examples/tree/master/examples/example-131),
+[313](https://github.com/vbotka/ansible-examples/tree/master/examples/example-313),
   - lookup plugins [39](https://github.com/vbotka/ansible-examples/tree/master/examples/example-039),
   - Loop [176](https://github.com/vbotka/ansible-examples/tree/master/examples/example-176),
   - MySQL command [61](https://github.com/vbotka/ansible-examples/tree/master/examples/example-061),
@@ -937,6 +938,7 @@ Various examples of Ansible code.
 - [Example 311.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311) "Ansible test; community.general.ansible_type; Validate Ansible type."
 - [Example 311.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311) "Ansible filter; community.general.reveal_ansible_type; Return Ansible type."
 - [Example 312.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-312) "Basics; dict;"
+- [Example 313.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-313) "Basics; lazy evaluation; Reevaluate a variable on each access."
 
 
 ## Update README.md

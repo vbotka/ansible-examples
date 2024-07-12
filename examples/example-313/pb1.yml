@@ -1,0 +1,35 @@
+- hosts: localhost
+
+  vars:
+
+    var1: "{{ 99999999 | random }}"
+
+  tasks:
+
+    - debug:
+        var: hostvars.localhost.var1
+
+    - debug: msg="{{ var1 }}"
+    - debug: msg="{{ var1 }}"
+    - debug: msg="{{ var1 }}"
+    - debug:
+        var: hostvars.localhost.var1
+
+    - set_fact:
+        var1: "{{ var1 }}"
+    - debug:
+        var: hostvars.localhost.var1
+
+    - debug: msg="{{ var1 }}"
+    - debug: msg="{{ var1 }}"
+    - debug: msg="{{ var1 }}"
+
+    - set_fact:
+        var1: "{{ var1 }}"
+    - debug:
+        var: hostvars.localhost.var1
+
+    - set_fact:
+        var1: "{{ 99999999 | random }}"
+    - debug:
+        var: hostvars.localhost.var1

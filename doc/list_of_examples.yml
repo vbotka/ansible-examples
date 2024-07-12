@@ -315,3 +315,4 @@
 - 311. "Ansible test; community.general.ansible_type; Validate Ansible type."
 - 311. "Ansible filter; community.general.reveal_ansible_type; Return Ansible type."
 - 312. "Basics; dict;"
+- 313. "Basics; lazy evaluation; Reevaluate a variable on each access."
