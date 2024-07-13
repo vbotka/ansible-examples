@@ -105,6 +105,7 @@ Various examples of Ansible code.
 [43](https://github.com/vbotka/ansible-examples/tree/master/examples/example-043),
 [69](https://github.com/vbotka/ansible-examples/tree/master/examples/example-069),
 [267](https://github.com/vbotka/ansible-examples/tree/master/examples/example-267),
+[314](https://github.com/vbotka/ansible-examples/tree/master/examples/example-314),
   - json_query filter contains [43](https://github.com/vbotka/ansible-examples/tree/master/examples/example-043),
 [69](https://github.com/vbotka/ansible-examples/tree/master/examples/example-069),
   - json_query function merge [290](https://github.com/vbotka/ansible-examples/tree/master/examples/example-290),
@@ -939,6 +940,7 @@ Various examples of Ansible code.
 - [Example 311.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311) "Ansible filter; community.general.reveal_ansible_type; Return Ansible type."
 - [Example 312.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-312) "Basics; dict;"
 - [Example 313.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-313) "Basics; lazy evaluation; Reevaluate a variable on each access."
+- [Example 314.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-314) "Ansible filter; json_query; Nested JSON objects."
 
 
 ## Update README.md
