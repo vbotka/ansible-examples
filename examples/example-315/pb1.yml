@@ -1,0 +1,19 @@
+- hosts: ca
+  gather_facts: false
+  remote_user: asadmin
+  become: true
+
+  tasks:
+
+    - ansible.builtin.command: uname -v
+      register: result
+    - ansible.builtin.debug:
+        var: result.stdout
+
+    - community.general.pkgng:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - security/py-cryptography
+        - security/py-openssl
+        - security/py-acme

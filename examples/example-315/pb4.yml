@@ -1,0 +1,6 @@
+- hosts: ca
+  gather_facts: true
+  remote_user: asadmin
+  become: true
+  roles:
+    - pkgng

@@ -1,0 +1,19 @@
+- hosts: ca
+  gather_facts: false
+  remote_user: asadmin
+  become: true
+
+  tasks:
+
+    - ansible.builtin.command: uname -v
+      register: result
+    - ansible.builtin.debug:
+        var: result.stdout
+
+    - community.general.pkgng:
+        name: security/py-openssl
+        state: latest
+        use_globs: false
+      register: result
+    - debug:
+        var: result

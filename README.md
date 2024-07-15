@@ -941,6 +941,7 @@ Various examples of Ansible code.
 - [Example 312.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-312) "Basics; dict;"
 - [Example 313.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-313) "Basics; lazy evaluation; Reevaluate a variable on each access."
 - [Example 314.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-314) "Ansible filter; json_query; Nested JSON objects."
+- [Example 315.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-315) "Devel; Debugging modules."
 
 
 ## Update README.md
