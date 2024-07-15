@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<results>
+  <ComputerSystem>
+    <Attribute Name="IPv4">10.10.10.10</Attribute>
+  </ComputerSystem>
+</results>

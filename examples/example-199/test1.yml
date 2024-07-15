@@ -1,8 +1,11 @@
 - hosts: localhost
   connection: local
+  gather_facts: false
+
   tasks:
-    - xml:
-        path: /scratch/tmp/foo.xml
+
+    - community.general.xml:
+        path: foo.xml
         xpath: /results/ComputerSystem
       register: result
     - debug:

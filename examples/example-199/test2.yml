@@ -3,6 +3,7 @@
   gather_facts: false
 
   vars:
+
     xml_file: config2.xml
     comp:
       iDRAC.Embedded.1: [
@@ -12,7 +13,8 @@
         {name: "LCD.1#Configuration", val: "OS System Name"}]
 
   tasks:
-    - xml:
+
+    - community.general.xml:
         path: "{{ xml_file }}"
         xpath: '/SystemConfiguration/Component[@FQDD="{{ item.0.key }}"]/Attribute[@Name="{{ item.1.name }}"]'
         value: '{{ item.1.val }}'
