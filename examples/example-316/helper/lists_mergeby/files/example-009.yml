@@ -1,0 +1,11 @@
+---
+
+- name: 9. Merge single list by common attribute 'name'
+  include_vars:
+    dir: example-009_vars
+- debug:
+    var: list3
+  when: debug | d(false) | bool
+- template:
+    src: list3.out.j2
+    dest: example-009.out

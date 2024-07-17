@@ -1,0 +1,46 @@
+---
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 1) Run all examples and create example-XXX.out
+# shell> ansible-playbook playbook.yml -e examples_one=true
+#
+# 2) Optionally, for testing, create examples_all.rst
+# shell> ansible-playbook playbook.yml -e examples_all=true
+#
+# 3) Create docs REST files
+# shell> ansible-playbook playbook.yml -e merging_lists_of_dictionaries=true
+#
+# Notes:
+# * Use YAML callback, e.g. set ANSIBLE_STDOUT_CALLBACK=community.general.yaml
+# * Use sphinx-view to render and review the REST files
+#   shell> sphinx-view <path_to_helper>/examples_all.rst
+# * Proofread and copy completed docs *.rst files into the directory rst.
+# * Then delete the *.rst and *.out files from this directory. Do not
+#   add *.rst and *.out in this directory to the version control.
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - include_tasks: "{{ item }}"
+      loop: "{{ q('fileglob', 'files/*.yml') | sort }}"
+      loop_control:
+        label: "{{ item | basename | splitext | first }}"
+      when: examples_one | d(false) | bool
+
+    - block:
+        - include_vars: vars/examples.yml
+        - template:
+            src: examples_all.rst.j2
+            dest: examples_all.rst
+      when: examples_all | d(false) | bool
+
+    - block:
+        - include_vars: vars/examples.yml
+        - template:
+            src: filter_guide_abstract_informations_merging_lists_of_dictionaries.rst.j2
+            dest: filter_guide_abstract_informations_merging_lists_of_dictionaries.rst
+      when: merging_lists_of_dictionaries | d(false) | bool

@@ -1,0 +1,5 @@
+---
+list3: "{{ [list1, list2] |
+           community.general.lists_mergeby('name',
+                                           recursive=true,
+                                           list_merge='keep') }}"
