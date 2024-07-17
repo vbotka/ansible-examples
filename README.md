@@ -273,6 +273,7 @@ Various examples of Ansible code.
   - Custom modules [256](https://github.com/vbotka/ansible-examples/tree/master/examples/example-256),
   - Debugging modules [315](https://github.com/vbotka/ansible-examples/tree/master/examples/example-315),
   - Development of a module [279](https://github.com/vbotka/ansible-examples/tree/master/examples/example-279),
+  - Docsite helpers [316](https://github.com/vbotka/ansible-examples/tree/master/examples/example-316),
   - filter_core [291](https://github.com/vbotka/ansible-examples/tree/master/examples/example-291),
   - Job management (async, async_status, kill, logger, cache) [287](https://github.com/vbotka/ansible-examples/tree/master/examples/example-287),
   - Role UBUNTU20-CIS [293](https://github.com/vbotka/ansible-examples/tree/master/examples/example-293),
@@ -943,6 +944,7 @@ Various examples of Ansible code.
 - [Example 313.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-313) "Basics; lazy evaluation; Reevaluate a variable on each access."
 - [Example 314.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-314) "Ansible filter; json_query; Nested JSON objects."
 - [Example 315.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-315) "Devel; Debugging modules;"
+- [Example 316.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-316) "Devel; Docsite helpers;"
 
 
 ## Update README.md
