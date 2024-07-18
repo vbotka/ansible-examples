@@ -319,3 +319,4 @@
 - 314. "Ansible filter; json_query; Nested JSON objects."
 - 315. "Devel; Debugging modules;"
 - 316. "Devel; Docsite helpers;"
+- 317. "Lint; ansible-lint; key-order[task]."

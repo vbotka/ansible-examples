@@ -1,0 +1,17 @@
+- name: Test 1
+  hosts: localhost
+
+  tasks:
+
+    - name: Test tags after the block
+      block:
+
+        - name: Ddebug
+          ansible.builtin.debug:
+            msg: task 1
+        - name: Debug
+          ansible.builtin.debug:
+            msg: task 2
+
+      # when: debug | d(true) | bool
+      tags: t1

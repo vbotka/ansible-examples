@@ -36,6 +36,7 @@ Various examples of Ansible code.
 * [Jinja filter](#Jinja_filter)
 * [Jinja function](#Jinja_function)
 * [Jinja template](#Jinja_template)
+* [Lint](#Lint)
 * [List](#List)
 * [Lookup](#Lookup)
 * [Loop](#Loop)
@@ -352,6 +353,9 @@ Various examples of Ansible code.
   - if then else [191](https://github.com/vbotka/ansible-examples/tree/master/examples/example-191),
   - set [73](https://github.com/vbotka/ansible-examples/tree/master/examples/example-073),
   - template [75](https://github.com/vbotka/ansible-examples/tree/master/examples/example-075),
+
+<a name="Lint"></a>Lint
+  - ansible-lint [317](https://github.com/vbotka/ansible-examples/tree/master/examples/example-317),
 
 <a name="List"></a>List
   - Add item to list [99](https://github.com/vbotka/ansible-examples/tree/master/examples/example-099),
@@ -945,6 +949,7 @@ Various examples of Ansible code.
 - [Example 314.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-314) "Ansible filter; json_query; Nested JSON objects."
 - [Example 315.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-315) "Devel; Debugging modules;"
 - [Example 316.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-316) "Devel; Docsite helpers;"
+- [Example 317.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-317) "Lint; ansible-lint; key-order[task]."
 
 
 ## Update README.md
