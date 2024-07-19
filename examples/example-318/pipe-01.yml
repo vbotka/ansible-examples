@@ -1,0 +1,14 @@
+- hosts: localhost
+  gather_facts: False
+  
+  tasks:
+
+    - set_fact:
+        needrestart: "{{ lookup('pipe', cmd) | from_yaml }}"
+      vars:
+        cmd: cat needrestart.txt
+
+    - debug:
+        var: needrestart
+    - debug:
+        var: needrestart['NEEDRESTART-VER']

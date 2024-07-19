@@ -320,3 +320,4 @@
 - 315. "Devel; Debugging modules;"
 - 316. "Devel; Docsite helpers;"
 - 317. "Lint; ansible-lint; key-order[task]."
+- 318. "Lookup; pipe; read local file."

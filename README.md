@@ -375,6 +375,7 @@ Various examples of Ansible code.
   - merge_variables [300](https://github.com/vbotka/ansible-examples/tree/master/examples/example-300),
   - password [145](https://github.com/vbotka/ansible-examples/tree/master/examples/example-145),
   - pipe [184](https://github.com/vbotka/ansible-examples/tree/master/examples/example-184),
+[318](https://github.com/vbotka/ansible-examples/tree/master/examples/example-318),
   - subelements [40](https://github.com/vbotka/ansible-examples/tree/master/examples/example-040),
   - to_paths [280](https://github.com/vbotka/ansible-examples/tree/master/examples/example-280),
   - with_indexed_items [170](https://github.com/vbotka/ansible-examples/tree/master/examples/example-170),
@@ -950,6 +951,7 @@ Various examples of Ansible code.
 - [Example 315.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-315) "Devel; Debugging modules;"
 - [Example 316.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-316) "Devel; Docsite helpers;"
 - [Example 317.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-317) "Lint; ansible-lint; key-order[task]."
+- [Example 318.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-318) "Lookup; pipe; read local file."
 
 
 ## Update README.md
