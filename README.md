@@ -73,6 +73,7 @@ Various examples of Ansible code.
   - ansible.utils.keep_keys [289](https://github.com/vbotka/ansible-examples/tree/master/examples/example-289),
   - ansible.utils.remove_keys [289](https://github.com/vbotka/ansible-examples/tree/master/examples/example-289),
   - ansible.utils.replace_keys [289](https://github.com/vbotka/ansible-examples/tree/master/examples/example-289),
+  - basename [319](https://github.com/vbotka/ansible-examples/tree/master/examples/example-319),
   - cartesian [156](https://github.com/vbotka/ansible-examples/tree/master/examples/example-156),
   - combine [111](https://github.com/vbotka/ansible-examples/tree/master/examples/example-111),
   - community.general.dict_kv [281](https://github.com/vbotka/ansible-examples/tree/master/examples/example-281),
@@ -952,6 +953,7 @@ Various examples of Ansible code.
 - [Example 316.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-316) "Devel; Docsite helpers;"
 - [Example 317.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-317) "Lint; ansible-lint; key-order[task]."
 - [Example 318.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-318) "Lookup; pipe; read local file."
+- [Example 319.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-319) "Ansible filter; basename; Returns the last name component of a path."
 
 
 ## Update README.md

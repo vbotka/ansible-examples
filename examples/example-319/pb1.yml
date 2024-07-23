@@ -1,0 +1,32 @@
+- hosts: all
+
+  vars:
+
+    files: "{{ query('fileglob', '/tmp/ansible/files/*') }}"
+    names: "{{ files | map('basename') | map('splitext') | map('first') }}"
+    names_files: "{{ dict(names | zip(files)) }}"
+    dirs: "{{ out.files | map(attribute='path') | map('basename') }}"
+
+  tasks:
+
+    - block:
+        - debug:
+            var: files
+        - debug:
+            var: names
+        - debug:
+            var: names_files
+      run_once: true
+
+    - find:
+        paths: /home
+        file_type: directory
+      register: out
+    - debug:
+        var: dirs
+
+    - copy:
+        src: "{{ item.value }}"
+        dest: "/home/{{ item.key }}/file"
+      loop: "{{ names_files | dict2items }}"
+      when: item.key in dirs
