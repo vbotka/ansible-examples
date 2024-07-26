@@ -171,6 +171,7 @@ Various examples of Ansible code.
   - Fibonacci [70](https://github.com/vbotka/ansible-examples/tree/master/examples/example-070),
   - Filters [32](https://github.com/vbotka/ansible-examples/tree/master/examples/example-032),
   - Handlers [93](https://github.com/vbotka/ansible-examples/tree/master/examples/example-093),
+[321](https://github.com/vbotka/ansible-examples/tree/master/examples/example-321),
   - Inventory [80](https://github.com/vbotka/ansible-examples/tree/master/examples/example-080),
   - Jinja2 [204](https://github.com/vbotka/ansible-examples/tree/master/examples/example-204),
   - Lazy evaluation [131](https://github.com/vbotka/ansible-examples/tree/master/examples/example-131),
@@ -956,6 +957,7 @@ Various examples of Ansible code.
 - [Example 318.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-318) "Lookup; pipe; read local file."
 - [Example 319.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-319) "Ansible filter; basename; Returns the last name component of a path."
 - [Example 320.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-320) "Jinja; White space control; Add dash to remove blank lines."
+- [Example 321.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-321) "Basics; Handlers; Notify handler on the block."
 
 
 ## Update README.md

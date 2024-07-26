@@ -1,0 +1,38 @@
+- hosts: localhost
+
+
+  tasks:
+
+    - name: Notify handler on the block
+      notify: handler_1
+      block:
+
+        - file:
+            state: touch
+            path: foo.bar
+          register: out1
+
+        - file:
+            state: touch
+            path: foo.baz
+          register: out2
+
+  handlers:
+
+    - name: handler_1
+      debug:
+        msg: |
+          out1.changed: {{ out1.changed }}
+          out2.changed: {{ out2.changed }}
+
+# TASK [file] ******************************
+# changed: [localhost]
+# 
+# TASK [file] ******************************
+# changed: [localhost]
+# 
+# RUNNING HANDLER [handler_1] **************
+# ok: [localhost] => 
+#   msg: |-
+#     out1.changed: True
+#     out2.changed: True

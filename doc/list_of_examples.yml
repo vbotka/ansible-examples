@@ -323,3 +323,4 @@
 - 318. "Lookup; pipe; read local file."
 - 319. "Ansible filter; basename; Returns the last name component of a path."
 - 320. "Jinja; White space control; Add dash to remove blank lines."
+- 321. "Basics; Handlers; Notify handler on the block."
