@@ -319,6 +319,7 @@ Various examples of Ansible code.
   - loop.index [295](https://github.com/vbotka/ansible-examples/tree/master/examples/example-295),
   - lstrip_blocks [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
   - trim_blocks [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
+  - White space control [320](https://github.com/vbotka/ansible-examples/tree/master/examples/example-320),
   - white-space control [100](https://github.com/vbotka/ansible-examples/tree/master/examples/example-100),
 
 <a name="Jinja_filter"></a>Jinja filter
@@ -954,6 +955,7 @@ Various examples of Ansible code.
 - [Example 317.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-317) "Lint; ansible-lint; key-order[task]."
 - [Example 318.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-318) "Lookup; pipe; read local file."
 - [Example 319.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-319) "Ansible filter; basename; Returns the last name component of a path."
+- [Example 320.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-320) "Jinja; White space control; Add dash to remove blank lines."
 
 
 ## Update README.md

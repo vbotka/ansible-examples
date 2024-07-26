@@ -322,3 +322,4 @@
 - 317. "Lint; ansible-lint; key-order[task]."
 - 318. "Lookup; pipe; read local file."
 - 319. "Ansible filter; basename; Returns the last name component of a path."
+- 320. "Jinja; White space control; Add dash to remove blank lines."

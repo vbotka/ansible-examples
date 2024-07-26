@@ -1,0 +1,43 @@
+- hosts: localhost
+
+  vars:
+
+    grp:
+      - {length: 1, flag: x}
+      - {length: 2}
+      - {length: 3, flag: f}
+      - {length: 4, flag: f}
+
+  tasks:
+
+    - debug:
+        msg: |
+          {% for m in grp %}
+              {{ m.length }}
+              xyz
+          {% if m.flag is defined and m.flag == "f" %}
+              yes f {% endif %}    
+          {% endfor %}
+      tags: t1
+
+    - debug:
+        msg: |
+          {% for m in grp %}
+              {{ m.length }}
+              xyz
+          {% if m.flag is defined and m.flag == "f" %}
+              yes f
+          {% endif -%}    
+          {% endfor %}
+      tags: t2
+
+    - debug:
+        msg: |
+          {% for m in grp %}
+              {{ m.length }}
+              xyz
+          {% if m.flag|d('') == "f" %}
+              yes f
+          {% endif -%}    
+          {% endfor %}
+      tags: t3

@@ -1,0 +1,21 @@
+- hosts: localhost
+
+  tasks:
+
+    - replace:
+        path: mk_iptables
+        regexp: "{{ regexp }}"
+        replace: "{{ replace }}"
+      vars:
+        regexp: |
+          ^(iptables-save.*)(?<! \| grep -v "f2b")$
+        replace: |
+          \1 | grep -v "f2b"
+
+# --- before: mk_iptables
+# +++ after: mk_iptables
+# @@ -1,3 +1,3 @@
+#  START
+# -iptables-save foo bar
+# +iptables-save foo bar | grep -v "f2b"
+#  END
