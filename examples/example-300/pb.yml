@@ -11,13 +11,13 @@
   vars:
 
     test_init_list:
-      - "list init item 1"
-      - "list init item 2"
+      - list init item 1
+      - list init item 2
     testa__test_list:
-      - "test a item 1"
+      - test a item 1
 
     testb__test_list:
-      - "test b item 1"
+      - test b item 1
 
     example_a: "{{ lookup('community.general.merge_variables',
                           '__test_list',
@@ -26,7 +26,7 @@
 
     # alternate option
     example_b: "{{ test_init_list +
-                   q('vars', *q('varnames', '^.*__test_list$'))|flatten }}"
+                   q('vars', *q('varnames', '^.*__test_list$')) | flatten }}"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -40,8 +40,6 @@
     # alternate option
     example_d: "{{ q('vars', *q('varnames', '^.*__test_dict$'))|
                    combine(recursive=true, list_merge='append') }}"
-
-
                    
   tasks:
 

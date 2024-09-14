@@ -1,0 +1,53 @@
+---
+
+- name: In Ansible, how to combine variables from separate files into one array?
+  # https://stackoverflow.com/questions/35554415/
+  hosts: localhost
+
+  vars:
+
+    # Without override='ignore' the lookup will crash. See the note
+    # below.
+    apps: "{{ lookup('community.general.merge_variables',
+                     'incl_vars_',
+                     pattern_type='prefix',
+                     override='ignore') }}"
+                   
+  tasks:
+
+    - name: Load var files
+      include_vars:
+        file: "{{ item }}"
+        name: "incl_vars_{{ item | basename | splitext | first }}"
+      with_fileglob:
+        - vars/*.yml
+
+    - debug:
+        msg: "{{ lookup('vars', item) }}"
+      loop: "{{ query('varnames', '^incl_vars_(.*)$') }}"
+
+    - debug:
+        var: apps
+
+# The lookup merge_variables overrides dictionaries.
+#
+# ok: [localhost] => 
+# apps:
+#   git_repo: https://github.com/philgyford/app2.git
+#   name: app2
+       
+# Note:
+#
+# The default override='error' causes the lookup merge_variables to
+# crash.
+#        
+# fatal: [localhost]: FAILED! => msg: 'An unhandled exception occurred
+# while templating ''{{ lookup(''community.general.merge_variables'',
+# ''incl_vars_'', pattern_type=''prefix'') }}''. Error was a <class
+# ''ansible.errors.AnsibleError''>, original message: An unhandled
+# exception occurred while running the lookup plugin
+# ''community.general.merge_variables''. Error was a <class
+# ''ansible.errors.AnsibleError''>, original message: The key ''name''
+# with value ''app1'' will be overwritten with value ''app2'' from
+# ''incl_vars_app2.name''. The key ''name'' with value ''app1'' will
+# be overwritten with value ''app2'' from ''incl_vars_app2.name'''
