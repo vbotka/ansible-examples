@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+
+  vars:
+
+    allowed_roles: [member, read, update]
+
+    user_roles:
+      - {name: foo, roles: [admin, member, read]}
+      - {name: bar, roles: [member, read]}
+      - {name: baz, roles: [member, update]}
+
+    result: "{{ user_roles | selectattr('roles', 'subset', allowed_roles) }}"
+    resul2: "{{ user_roles | selectattr('roles', 'issubset', allowed_roles) }}"
+
+  tasks:
+
+    - debug:
+        var: result | to_yaml
+
+# result:
+#   - name: bar
+#     roles: [member, read]
+#   - name: baz
+#     roles: [member, update]
+
+    - debug:
+        var: resul2 | to_yaml
+
+# resul2:
+#   - name: bar
+#     roles: [member, read]
+#   - name: baz
+#     roles: [member, update]

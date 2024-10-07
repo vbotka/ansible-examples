@@ -596,12 +596,14 @@ Various examples of Ansible code.
   - bulk-set task arguments [89](https://github.com/vbotka/ansible-examples/tree/master/examples/example-089),
   - Galaxy role vbotka.linux_lib [91](https://github.com/vbotka/ansible-examples/tree/master/examples/example-091),
   - is all [296](https://github.com/vbotka/ansible-examples/tree/master/examples/example-296),
+  - issubset [322](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322),
   - items2dict2 [114](https://github.com/vbotka/ansible-examples/tree/master/examples/example-114),
   - iterable [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - mapping [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - race conditions [258](https://github.com/vbotka/ansible-examples/tree/master/examples/example-258),
   - sequence [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
   - string [294](https://github.com/vbotka/ansible-examples/tree/master/examples/example-294),
+  - subset [322](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322),
 
 <a name="Tools"></a>Tools
   - Debug tools [31](https://github.com/vbotka/ansible-examples/tree/master/examples/example-031),
@@ -958,6 +960,7 @@ Various examples of Ansible code.
 - [Example 319.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-319) "Ansible filter; basename; Returns the last name component of a path."
 - [Example 320.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-320) "Jinja; White space control; Add dash to remove blank lines."
 - [Example 321.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-321) "Basics; Handlers; Notify handler on the block."
+- [Example 322.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322) "Test; subset; issubset; First list is a subset of the second list."
 
 
 ## Update README.md

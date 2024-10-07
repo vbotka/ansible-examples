@@ -324,3 +324,4 @@
 - 319. "Ansible filter; basename; Returns the last name component of a path."
 - 320. "Jinja; White space control; Add dash to remove blank lines."
 - 321. "Basics; Handlers; Notify handler on the block."
+- 322. "Test; subset; issubset; First list is a subset of the second list."
