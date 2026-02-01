@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - getent:
+        database: passwd
+      check_mode: false
+
+    - debug:
+        var: vars
+      when: debug | d(false) | bool
+
+    - debug:
+        var: ansible_facts.getent_passwd
+      when: debug | d(false) | bool
+
+    - debug:
+        var: ansible_check_mode
+
+    - debug:
+        var: ansible_facts.getent_passwd.keys()

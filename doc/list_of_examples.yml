@@ -325,3 +325,4 @@
 - 320. "Jinja; White space control; Add dash to remove blank lines."
 - 321. "Basics; Handlers; Notify handler on the block."
 - 322. "Test; subset; issubset; First list is a subset of the second list."
+- 323. "Ansible keyword; check_mode;"

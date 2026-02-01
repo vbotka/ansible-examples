@@ -132,7 +132,6 @@ Various examples of Ansible code.
 <a name="Ansible_keyword"></a>Ansible keyword
   - become [105](https://github.com/vbotka/ansible-examples/tree/master/examples/example-105),
   - block [146](https://github.com/vbotka/ansible-examples/tree/master/examples/example-146),
-  - check_mode [323](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323),
   - environment [230](https://github.com/vbotka/ansible-examples/tree/master/examples/example-230),
   - post_tasks [229](https://github.com/vbotka/ansible-examples/tree/master/examples/example-229),
   - pre_tasks [229](https://github.com/vbotka/ansible-examples/tree/master/examples/example-229),
@@ -962,7 +961,6 @@ Various examples of Ansible code.
 - [Example 320.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-320) "Jinja; White space control; Add dash to remove blank lines."
 - [Example 321.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-321) "Basics; Handlers; Notify handler on the block."
 - [Example 322.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322) "Test; subset; issubset; First list is a subset of the second list."
-- [Example 323.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323) "Ansible keyword; check_mode;"
 
 
 ## Update README.md
