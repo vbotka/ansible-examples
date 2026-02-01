@@ -1,8 +1,0 @@
-# check_mode
-# https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_checkmode.html
-
-```bash
-shell> ansible-doc -t test -l | grep subset
-ansible.builtin.issubset        is the list a subset of this other list
-ansible.builtin.subset          is the list a subset of this other list
-```
