@@ -1,0 +1,9 @@
+freebsd_test ansible_host=10.10.1.14
+
+[test]
+freebsd_test
+
+[test:vars]
+ansible_user=admin
+ansible_become=true
+ansible_python_interpreter=auto_silent

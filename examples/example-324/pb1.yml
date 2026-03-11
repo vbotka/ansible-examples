@@ -1,0 +1,32 @@
+---
+- name: Add new group foo to FreeBSD.
+  hosts: freebsd_test
+
+  tasks:
+
+    - getent:
+        database: group
+        
+    - debug:
+        var: ansible_facts.getent_group.guest.1
+
+    - group:
+        name: foo
+
+
+# (penv) > ansible-playbook pb1.yml
+# 
+# PLAY [freebsd_test] *************************************************************************************************
+# 
+# TASK [getent] *******************************************************************************************************
+# ok: [freebsd_test]
+# 
+# TASK [debug] ********************************************************************************************************
+# ok: [freebsd_test] => 
+#     ansible_facts.getent_group.guest.1: '31'
+# 
+# TASK [group] ********************************************************************************************************
+# changed: [freebsd_test]
+# 
+# PLAY RECAP **********************************************************************************************************
+# freebsd_test               : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

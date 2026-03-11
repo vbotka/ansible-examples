@@ -489,6 +489,7 @@ Various examples of Ansible code.
   - flush_handlers [288](https://github.com/vbotka/ansible-examples/tree/master/examples/example-288),
   - get_url [273](https://github.com/vbotka/ansible-examples/tree/master/examples/example-273),
   - getent [48](https://github.com/vbotka/ansible-examples/tree/master/examples/example-048),
+  - group [324](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324),
   - group_by [108](https://github.com/vbotka/ansible-examples/tree/master/examples/example-108),
   - import_role [124](https://github.com/vbotka/ansible-examples/tree/master/examples/example-124),
   - include_role [124](https://github.com/vbotka/ansible-examples/tree/master/examples/example-124),
@@ -963,6 +964,7 @@ Various examples of Ansible code.
 - [Example 321.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-321) "Basics; Handlers; Notify handler on the block."
 - [Example 322.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322) "Test; subset; issubset; First list is a subset of the second list."
 - [Example 323.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323) "Ansible keyword; check_mode;"
+- [Example 324.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324) "Module; group; Test FreeBSD."
 
 
 ## Update README.md
