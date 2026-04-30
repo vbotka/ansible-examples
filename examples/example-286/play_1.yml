@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    ansible_python_interpreter: auto_silent
+
+    project:
+      logserv_1:
+        class: [logserv]
+        vmm: iocage_01
+      http_1:
+        class: [http, logclient]
+        vmm: iocage_02
+      db_1:
+        class: [db, logclient]
+        vmm: iocage_02
+      http_2:
+        class: [http, logclient]
+        vmm: iocage_04
+      db_2:
+        class: [db, logclient]
+        vmm: iocage_04
+    
+    l1: "{{ project | dict2items
+                    | map(attribute='value') }}"
+    project_vmm: "{{ l1 | community.general.lists_mergeby(l1, 'vmm', list_merge='append_rp')
+                        | items2dict(key_name='vmm', value_name='class') }}"
+
+  tasks:
+
+    - debug:
+        var: project_vmm
+
+#    project_vmm:
+#        iocage_01:
+#        - logserv
+#        iocage_02:
+#        - http
+#        - db
+#        - logclient
+#        iocage_04:
+#        - http
+#        - db
+#        - logclient
