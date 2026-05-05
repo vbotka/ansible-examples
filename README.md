@@ -26,7 +26,6 @@ Various examples of Ansible code.
 * [Deprecated](#Deprecated)
 * [Devel](#Devel)
 * [Dictionary](#Dictionary)
-* [Filter](#Filter)
 * [Handlers](#Handlers)
 * [Import](#Import)
 * [Include](#Include)
@@ -291,9 +290,6 @@ Various examples of Ansible code.
   - Iterate dictionary in template [1](https://github.com/vbotka/ansible-examples/tree/master/examples/example-001),
   - Select items from dictionary [12](https://github.com/vbotka/ansible-examples/tree/master/examples/example-012),
 
-<a name="Filter"></a>Filter
-  - dictsort [325](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325),
-
 <a name="Handlers"></a>Handlers
   - notify [187](https://github.com/vbotka/ansible-examples/tree/master/examples/example-187),
 
@@ -330,6 +326,7 @@ Various examples of Ansible code.
 
 <a name="Jinja_filter"></a>Jinja filter
   - batch [268](https://github.com/vbotka/ansible-examples/tree/master/examples/example-268),
+  - dictsort [325](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325),
   - escape [74](https://github.com/vbotka/ansible-examples/tree/master/examples/example-074),
   - format [244](https://github.com/vbotka/ansible-examples/tree/master/examples/example-244),
   - groupby [88](https://github.com/vbotka/ansible-examples/tree/master/examples/example-088),
@@ -969,7 +966,7 @@ Various examples of Ansible code.
 - [Example 322.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322) "Test; subset; issubset; First list is a subset of the second list."
 - [Example 323.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323) "Ansible keyword; check_mode;"
 - [Example 324.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324) "Module; group; Test FreeBSD."
-- [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Filter; dictsort; Sort a dict and yield (key, value) pairs."
+- [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
 
 
 ## Update README.md
