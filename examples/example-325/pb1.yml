@@ -1,0 +1,42 @@
+---
+- name: Test Jinja filter dictsort.
+  hosts: localhost
+
+  vars:
+
+    d1:
+      foo: x
+      bar: y
+      baz: z
+
+  tasks:
+
+    - debug:
+        var: result
+      vars:
+        result: "{{ d1 | dictsort }}"
+
+# result:
+#   - - bar
+#     - y
+#   - - baz
+#     - z
+#   - - foo
+#     - x
+
+    - debug:
+        var: result
+      vars:
+        result: "{{ d1 | dictsort | map('join', '=') }}"
+
+# result:
+# - bar=y
+# - baz=z
+# - foo=x
+
+    - debug:
+        var: result
+      vars:
+        result: "{{ d1 | dictsort | map('join', '=') | join(',') }}"
+
+# result: bar=y,baz=z,foo=x

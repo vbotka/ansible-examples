@@ -26,6 +26,7 @@ Various examples of Ansible code.
 * [Deprecated](#Deprecated)
 * [Devel](#Devel)
 * [Dictionary](#Dictionary)
+* [Filter](#Filter)
 * [Handlers](#Handlers)
 * [Import](#Import)
 * [Include](#Include)
@@ -289,6 +290,9 @@ Various examples of Ansible code.
   - Iterate dictionary in play [3](https://github.com/vbotka/ansible-examples/tree/master/examples/example-003),
   - Iterate dictionary in template [1](https://github.com/vbotka/ansible-examples/tree/master/examples/example-001),
   - Select items from dictionary [12](https://github.com/vbotka/ansible-examples/tree/master/examples/example-012),
+
+<a name="Filter"></a>Filter
+  - dictsort [325](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325),
 
 <a name="Handlers"></a>Handlers
   - notify [187](https://github.com/vbotka/ansible-examples/tree/master/examples/example-187),
@@ -965,6 +969,7 @@ Various examples of Ansible code.
 - [Example 322.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-322) "Test; subset; issubset; First list is a subset of the second list."
 - [Example 323.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323) "Ansible keyword; check_mode;"
 - [Example 324.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324) "Module; group; Test FreeBSD."
+- [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Filter; dictsort; Sort a dict and yield (key, value) pairs."
 
 
 ## Update README.md
