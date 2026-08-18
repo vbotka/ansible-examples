@@ -1,0 +1,16 @@
+- name: Test roles.
+  hosts: localhost
+
+  tasks:
+
+    - include_role:
+        name: role_A
+        tasks_from: tasks_A2
+
+    - include_role:
+        name: role_A
+        tasks_from: tasks_A1
+
+    - include_role:
+        name: role_B
+        tasks_from: main

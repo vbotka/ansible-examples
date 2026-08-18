@@ -1,0 +1,2 @@
+- import_tasks: tasks_B1.yml
+- import_tasks: tasks_B2.yml

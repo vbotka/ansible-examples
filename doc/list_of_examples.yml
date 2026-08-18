@@ -328,3 +328,4 @@
 - 323. "Ansible keyword; check_mode;"
 - 324. "Module; group; Test FreeBSD."
 - 325. "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
+- 326. "Ansible filter; subelements; ansible.builtin.subelements; Loop include_role with subelements tasks_from."

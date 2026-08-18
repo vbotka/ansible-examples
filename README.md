@@ -68,6 +68,7 @@ Various examples of Ansible code.
   - community.general [306](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306),
 
 <a name="Ansible_filter"></a>Ansible filter
+  - ansible.builtin.subelements [326](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326),
   - ansible.netcommon.ipaddr [254](https://github.com/vbotka/ansible-examples/tree/master/examples/example-254),
   - ansible.utils.hwaddr [197](https://github.com/vbotka/ansible-examples/tree/master/examples/example-197),
   - ansible.utils.keep_keys [289](https://github.com/vbotka/ansible-examples/tree/master/examples/example-289),
@@ -122,6 +123,7 @@ Various examples of Ansible code.
   - shuffle [202](https://github.com/vbotka/ansible-examples/tree/master/examples/example-202),
   - splitext [192](https://github.com/vbotka/ansible-examples/tree/master/examples/example-192),
   - strftime [217](https://github.com/vbotka/ansible-examples/tree/master/examples/example-217),
+  - subelements [326](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326),
   - ternary [180](https://github.com/vbotka/ansible-examples/tree/master/examples/example-180),
   - to_datetime [217](https://github.com/vbotka/ansible-examples/tree/master/examples/example-217),
   - to_nice_json [26](https://github.com/vbotka/ansible-examples/tree/master/examples/example-026),
@@ -967,6 +969,7 @@ Various examples of Ansible code.
 - [Example 323.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-323) "Ansible keyword; check_mode;"
 - [Example 324.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324) "Module; group; Test FreeBSD."
 - [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
+- [Example 326.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326) "Ansible filter; subelements; ansible.builtin.subelements; Loop include_role with subelements tasks_from."
 
 
 ## Update README.md

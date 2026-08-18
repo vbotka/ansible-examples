@@ -1,0 +1,40 @@
+- name: Test subelements.
+  hosts: localhost
+
+  vars:
+
+    project:
+      role_A: [tasks_A2, tasks_A1]
+      role_B: [main]
+
+  tasks:
+
+    - include_role:
+        name: "{{ item.0.key }}"
+        tasks_from: "{{ item.1 | d(omit) }}"
+      loop: "{{ project | dict2items | subelements('value') }}"
+      loop_control:
+        label: "{{ item.0.key }}: {{ item.1 }}"
+
+# PLAY [Test subelements.] *****************************************
+# 
+# TASK [include_role : {{ item.0.key }}] ***************************
+# included: role_A for localhost => (item=role_A: tasks_A2)
+# included: role_A for localhost => (item=role_A: tasks_A1)
+# included: role_B for localhost => (item=role_B: main)
+# 
+# TASK [role_A : debug] ********************************************
+# ok: [localhost] => 
+#     msg: tasks A2
+# 
+# TASK [role_A : debug] ********************************************
+# ok: [localhost] => 
+#     msg: tasks A1
+# 
+# TASK [role_B : debug] ********************************************
+# ok: [localhost] => 
+#     msg: tasks B1
+# 
+# TASK [role_B : debug] ********************************************
+# ok: [localhost] => 
+#     msg: tasks B2
