@@ -11,7 +11,7 @@
 
     - include_role:
         name: "{{ item.0.key }}"
-        tasks_from: "{{ item.1 | d(omit) }}"
+        tasks_from: "{{ item.1 }}"
       loop: "{{ project | dict2items | subelements('value') }}"
       loop_control:
         label: "{{ item.0.key }}: {{ item.1 }}"
