@@ -1,0 +1,50 @@
+- name: Remove keys with certain values.
+  hosts: localhost
+
+  tasks:
+
+    - debug:
+        msg: |
+          {{ input | dict2items
+                   | rejectattr("value", "none")
+                   | items2dict }}
+      vars:
+        input:
+          foo: bar
+          baz: bam
+          bam: ~
+
+    - debug:
+        msg: |
+          {{ input | map("dict2items")
+                   | map("rejectattr", "value", "none")
+                   | map("items2dict")
+                   | list }}
+      vars:
+        input:
+          - foo: bar
+            baz: bam
+            bam: ~
+          - foo:
+            bar: baz
+            baz:
+
+# (penv) > ansible-playbook pb-test-1.yml
+# 
+# PLAY [Remove keys with certain values.] *****************************************************************************
+# 
+# TASK [debug] ********************************************************************************************************
+# ok: [localhost] => 
+#     msg:
+#         baz: bam
+#         foo: bar
+# 
+# TASK [debug] ********************************************************************************************************
+# ok: [localhost] => 
+#     msg:
+#     -   baz: bam
+#         foo: bar
+#     -   bar: baz
+# 
+# PLAY RECAP **********************************************************************************************************
+# localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

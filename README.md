@@ -68,6 +68,7 @@ Various examples of Ansible code.
   - community.general [306](https://github.com/vbotka/ansible-examples/tree/master/examples/example-306),
 
 <a name="Ansible_filter"></a>Ansible filter
+  - ansible.builtin.rejectattr [327](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327),
   - ansible.builtin.subelements [326](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326),
   - ansible.netcommon.ipaddr [254](https://github.com/vbotka/ansible-examples/tree/master/examples/example-254),
   - ansible.utils.hwaddr [197](https://github.com/vbotka/ansible-examples/tree/master/examples/example-197),
@@ -120,6 +121,7 @@ Various examples of Ansible code.
   - product [156](https://github.com/vbotka/ansible-examples/tree/master/examples/example-156),
   - quote [183](https://github.com/vbotka/ansible-examples/tree/master/examples/example-183),
   - regex_replace [135](https://github.com/vbotka/ansible-examples/tree/master/examples/example-135),
+  - rejectattr [327](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327),
   - shuffle [202](https://github.com/vbotka/ansible-examples/tree/master/examples/example-202),
   - splitext [192](https://github.com/vbotka/ansible-examples/tree/master/examples/example-192),
   - strftime [217](https://github.com/vbotka/ansible-examples/tree/master/examples/example-217),
@@ -970,6 +972,7 @@ Various examples of Ansible code.
 - [Example 324.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-324) "Module; group; Test FreeBSD."
 - [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
 - [Example 326.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326) "Ansible filter; subelements; ansible.builtin.subelements; Loop include_role with subelements tasks_from."
+- [Example 327.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327) "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
 
 
 ## Update README.md
