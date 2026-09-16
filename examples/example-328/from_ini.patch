@@ -1,0 +1,82 @@
+--- a/plugins/filter/from_ini.py
++++ b/plugins/filter/from_ini.py
+@@ -25,6 +25,12 @@
+     default:
+       - "="
+       - ":"
+     version_added: 12.4.0
++  convert_bool:
++    description: Whether to convert boolean strings (e.g. C(true), C(false), C(yes), C(no)) to native booleans.
++    type: boolean
++    default: false
++    version_added: 12.5.0
+ seealso:
+   - plugin: community.general.to_ini
+     plugin_type: filter
+@@ -48,6 +54,19 @@
+ from ansible.errors import AnsibleFilterError
+ from ansible.module_utils.common.collections import is_sequence
++from ansible.module_utils.parsing.convert_bool import BOOLEANS_FALSE, BOOLEANS_TRUE, boolean
++
++
++def _convert_value(val):
++    if isinstance(val, str):
++        lowered = val.strip().lower()
++        if lowered in BOOLEANS_TRUE:
++            return True
++        if lowered in BOOLEANS_FALSE:
++            return False
++    return val
+ 
+ 
+ class IniParser(ConfigParser):
+     """Implements a configparser which is able to return a dict"""
+@@ -59,17 +78,21 @@
+         else:
+             super().__init__(interpolation=None, delimiters=delimiters)
+         self.optionxform = str
+ 
+-    def as_dict(self):
++    def as_dict(self, convert_bool=False):
+         d = dict(self._sections)
+         for k in d:
+             d[k] = dict(self._defaults, **d[k])
+             d[k].pop("__name__", None)
++            if convert_bool:
++                d[k] = {key: _convert_value(val) for key, val in d[k].items()}
+ 
+         if self._defaults:
+             d["DEFAULT"] = dict(self._defaults)
++            if convert_bool:
++                d["DEFAULT"] = {key: _convert_value(val) for key, val in d["DEFAULT"].items()}
+ 
+         return d
+ 
+ 
+-def from_ini(obj, delimiters=None):
++def from_ini(obj, delimiters=None, convert_bool=False):
+     """Read the given string as INI file and return a dict"""
+ 
+     if not isinstance(obj, str):
+@@ -82,7 +105,12 @@
+             raise AnsibleFilterError(
+                 f"from_ini's delimiters parameter must be a sequence of strings, got {delimiters!r}"
+             )
++    try:
++        convert_bool = boolean(convert_bool)
++    except (TypeError, ValueError) as ex:
++        raise AnsibleFilterError(
++            f"from_ini's convert_bool parameter must be a boolean, got {convert_bool!r}"
++        ) from ex
+ 
+     parser = IniParser(delimiters=delimiters)
+ 
+@@ -91,7 +119,7 @@
+     except Exception as ex:
+         raise AnsibleFilterError(f"from_ini failed to parse given string: {ex}", orig_exc=ex) from ex
+ 
+-    return parser.as_dict()
++    return parser.as_dict(convert_bool=convert_bool)
+ 
+ 
+ class FilterModule:

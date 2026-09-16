@@ -1,0 +1,72 @@
+- name: Test community.general.from_ini
+  hosts: localhost
+
+  vars:
+
+    conf_dict: "{{ conf.content | b64decode
+                                | community.general.from_ini }}"
+
+    conf_update:
+      defaults:
+        interpreter_python: auto_silent
+
+    conf_updated: "{{ [conf_dict, conf_update] | combine(recursive=true) }}"
+
+  tasks:
+
+    - name: Slurp an INI file
+      register: conf
+      slurp:
+        src: ansible.cfg
+
+    - name: Display the INI file as dictionary
+      debug:
+        var: conf_dict
+
+    - name: Update the dictionary
+      debug:
+        var: conf_updated
+
+    - name: Convert the updated dictionary to INI
+      debug:
+        msg: |
+          {{ conf_updated | community.general.to_ini }}
+
+# TASK [Display the INI file as dictionary] ***************************************************
+# ok: [localhost] => 
+#     conf_dict:
+#         connection:
+#             pipelining: 'true'
+#         defaults:
+#             callback_result_format: yaml
+#             display_skipped_hosts: 'false'
+#             gathering: explicit
+#             inventory: $PWD/hosts
+#             roles_path: $PWD/roles
+# 
+# TASK [Update the dictionary] ****************************************************************
+# ok: [localhost] => 
+#     conf_updated:
+#         connection:
+#             pipelining: 'true'
+#         defaults:
+#             callback_result_format: yaml
+#             display_skipped_hosts: 'false'
+#             gathering: explicit
+#             interpreter_python: auto_silent
+#             inventory: $PWD/hosts
+#             roles_path: $PWD/roles
+# 
+# TASK [Convert the updated dictionary to INI] ************************************************
+# ok: [localhost] => 
+#     msg: |-
+#         [defaults]
+#         callback_result_format = yaml
+#         display_skipped_hosts = false
+#         gathering = explicit
+#         inventory = $PWD/hosts
+#         roles_path = $PWD/roles
+#         interpreter_python = auto_silent
+# 
+#         [connection]
+#         pipelining = true

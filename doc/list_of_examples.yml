@@ -330,3 +330,5 @@
 - 325. "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
 - 326. "Ansible filter; subelements; ansible.builtin.subelements; Loop include_role with subelements tasks_from."
 - 327. "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
+- 328. "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
+- 329. "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."

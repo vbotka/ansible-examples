@@ -1,0 +1,38 @@
+- name: Test community.general.from_ini
+  hosts: localhost
+
+  vars:
+
+    conf_dict: "{{ conf.content | b64decode
+                                | community.general.from_ini }}"
+
+  tasks:
+
+    - name: Slurp an INI file
+      register: conf
+      ansible.builtin.slurp:
+        src: ansible.cfg
+
+    - name: Display the INI file as dictionary
+      ansible.builtin.debug:
+        var: conf_dict
+
+    - name: Display the type of pipelining
+      ansible.builtin.debug:
+        var: conf_dict.connection.pipelining | type_debug
+
+# TASK [Display the INI file as dictionary] ***************************************************
+# ok: [localhost] => 
+#     conf_dict:
+#         connection:
+#             pipelining: 'true'
+#         defaults:
+#             callback_result_format: yaml
+#             display_skipped_hosts: 'false'
+#             gathering: explicit
+#             inventory: $PWD/hosts
+#             roles_path: $PWD/roles
+# 
+# TASK [Display the type of pipelining] *******************************************************
+# ok: [localhost] => 
+#     conf_dict.connection.pipelining | type_debug: str

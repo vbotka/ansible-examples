@@ -79,6 +79,7 @@ Various examples of Ansible code.
   - cartesian [156](https://github.com/vbotka/ansible-examples/tree/master/examples/example-156),
   - combine [111](https://github.com/vbotka/ansible-examples/tree/master/examples/example-111),
   - community.general.dict_kv [281](https://github.com/vbotka/ansible-examples/tree/master/examples/example-281),
+  - community.general.from_ini [328](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328),
   - community.general.groupby_as_dict [282](https://github.com/vbotka/ansible-examples/tree/master/examples/example-282),
   - community.general.jc [284](https://github.com/vbotka/ansible-examples/tree/master/examples/example-284),
   - community.general.keep_keys [310](https://github.com/vbotka/ansible-examples/tree/master/examples/example-310),
@@ -88,6 +89,7 @@ Various examples of Ansible code.
   - community.general.path_join [285](https://github.com/vbotka/ansible-examples/tree/master/examples/example-285),
   - community.general.remove_keys [307](https://github.com/vbotka/ansible-examples/tree/master/examples/example-307),
   - community.general.reveal_ansible_type [311](https://github.com/vbotka/ansible-examples/tree/master/examples/example-311),
+  - community.general.to_ini [329](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329),
   - community.general.version_sort [283](https://github.com/vbotka/ansible-examples/tree/master/examples/example-283),
   - d() [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
   - default [245](https://github.com/vbotka/ansible-examples/tree/master/examples/example-245),
@@ -98,6 +100,7 @@ Various examples of Ansible code.
   - difference [98](https://github.com/vbotka/ansible-examples/tree/master/examples/example-098),
   - extract [174](https://github.com/vbotka/ansible-examples/tree/master/examples/example-174),
   - flatten [119](https://github.com/vbotka/ansible-examples/tree/master/examples/example-119),
+  - from_ini [328](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328),
   - from_yaml [26](https://github.com/vbotka/ansible-examples/tree/master/examples/example-026),
 [173](https://github.com/vbotka/ansible-examples/tree/master/examples/example-173),
   - from_yaml_all [173](https://github.com/vbotka/ansible-examples/tree/master/examples/example-173),
@@ -128,6 +131,7 @@ Various examples of Ansible code.
   - subelements [326](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326),
   - ternary [180](https://github.com/vbotka/ansible-examples/tree/master/examples/example-180),
   - to_datetime [217](https://github.com/vbotka/ansible-examples/tree/master/examples/example-217),
+  - to_ini [329](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329),
   - to_nice_json [26](https://github.com/vbotka/ansible-examples/tree/master/examples/example-026),
   - to_yaml [173](https://github.com/vbotka/ansible-examples/tree/master/examples/example-173),
   - union [112](https://github.com/vbotka/ansible-examples/tree/master/examples/example-112),
@@ -973,6 +977,8 @@ Various examples of Ansible code.
 - [Example 325.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-325) "Jinja filter; dictsort; Sort a dict and yield (key, value) pairs."
 - [Example 326.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-326) "Ansible filter; subelements; ansible.builtin.subelements; Loop include_role with subelements tasks_from."
 - [Example 327.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327) "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
+- [Example 328.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328) "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
+- [Example 329.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329) "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
 
 
 ## Update README.md
