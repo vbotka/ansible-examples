@@ -1,0 +1,15 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - set_fact:
+        log: "Running on {{ inventory_hostname }} ..."
+
+    - name: Gather results from target hosts
+      delegate_to: localhost
+      run_once: true
+      block:
+        - debug:
+            msg: |
+              {% for h in ansible_limit | split(',') %}
+              {{ h }}: {{ hostvars[h]['log'] | d('UNDEF') }}
+              {% endfor %}

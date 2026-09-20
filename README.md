@@ -635,6 +635,7 @@ Various examples of Ansible code.
   - Precedence of the variables [33](https://github.com/vbotka/ansible-examples/tree/master/examples/example-033),
   - Scope of variables [158](https://github.com/vbotka/ansible-examples/tree/master/examples/example-158),
   - Special variables [17](https://github.com/vbotka/ansible-examples/tree/master/examples/example-017),
+[330](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330),
   - Substitution [188](https://github.com/vbotka/ansible-examples/tree/master/examples/example-188),
   - Test names in a block [23](https://github.com/vbotka/ansible-examples/tree/master/examples/example-023),
   - vars_prompt, pause [36](https://github.com/vbotka/ansible-examples/tree/master/examples/example-036),
@@ -979,6 +980,7 @@ Various examples of Ansible code.
 - [Example 327.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327) "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
 - [Example 328.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328) "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
 - [Example 329.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329) "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
+- [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Vars; Special variables; ansible_limit".
 
 
 ## Update README.md
