@@ -1,0 +1,14 @@
+How is the --limit option used?
+===============================
+
+Action Flag	Honors --limit	Behavior
+--------------------------------------------------------------------------------
+--list	        Yes	        Filters exported hosts across JSON, YAML,
+                                and TOML formats.
+
+--host <name>	No	        Bypasses the subset filter to query the exact
+                                target host directly via self.inventory.get_hosts(context.CLIARGS['host']).
+
+--graph	        No	        Traverses static group definitions recursively
+                                (group.hosts) rather than the active filtered
+				list.
