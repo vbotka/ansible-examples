@@ -332,4 +332,4 @@
 - 327. "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
 - 328. "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
 - 329. "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
-- 330. "Vars; Special variables; ansible_limit".
+- 330. "Special variables; ansible_limit; Limit selected hosts."

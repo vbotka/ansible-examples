@@ -572,6 +572,7 @@ Various examples of Ansible code.
   - service_facts [9](https://github.com/vbotka/ansible-examples/tree/master/examples/example-009),
 
 <a name="Special_variables"></a>Special variables
+  - ansible_limit [330](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330),
   - ansible_play_batch [255](https://github.com/vbotka/ansible-examples/tree/master/examples/example-255),
   - ansible_play_hosts [255](https://github.com/vbotka/ansible-examples/tree/master/examples/example-255),
   - ansible_play_hosts_all [255](https://github.com/vbotka/ansible-examples/tree/master/examples/example-255),
@@ -635,7 +636,6 @@ Various examples of Ansible code.
   - Precedence of the variables [33](https://github.com/vbotka/ansible-examples/tree/master/examples/example-033),
   - Scope of variables [158](https://github.com/vbotka/ansible-examples/tree/master/examples/example-158),
   - Special variables [17](https://github.com/vbotka/ansible-examples/tree/master/examples/example-017),
-[330](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330),
   - Substitution [188](https://github.com/vbotka/ansible-examples/tree/master/examples/example-188),
   - Test names in a block [23](https://github.com/vbotka/ansible-examples/tree/master/examples/example-023),
   - vars_prompt, pause [36](https://github.com/vbotka/ansible-examples/tree/master/examples/example-036),
@@ -980,7 +980,7 @@ Various examples of Ansible code.
 - [Example 327.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-327) "Ansible filter; rejectattr; ansible.builtin.rejectattr; Remove keys with certain values."
 - [Example 328.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328) "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
 - [Example 329.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329) "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
-- [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Vars; Special variables; ansible_limit".
+- [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Special variables; ansible_limit; Limit selected hosts."
 
 
 ## Update README.md
