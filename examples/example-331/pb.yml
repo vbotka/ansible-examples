@@ -1,0 +1,15 @@
+- hosts: all
+
+  tasks:
+
+    - name: Query inventory.
+      delegate_to: localhost
+      run_once: true
+      register:
+        my_inventory: _task.result.stdout | from_yaml
+      command: ansible-inventory -i hosts --list --export
+
+    - name: Display inventory.
+      run_once: true
+      debug:
+        var: my_inventory

@@ -317,6 +317,7 @@ Various examples of Ansible code.
   - Test indentation of a block [13](https://github.com/vbotka/ansible-examples/tree/master/examples/example-013),
 
 <a name="Inventory"></a>Inventory
+  - ansible-inventory [330](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330),
   - Dynamic inventory [125](https://github.com/vbotka/ansible-examples/tree/master/examples/example-125),
   - hosts [86](https://github.com/vbotka/ansible-examples/tree/master/examples/example-086),
 
@@ -981,6 +982,7 @@ Various examples of Ansible code.
 - [Example 328.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-328) "Ansible filter; from_ini; community.general.from_ini; Converts INI text input into a dictionary."
 - [Example 329.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329) "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
 - [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Special variables; ansible_limit; Limit selected hosts."
+- [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Inventory; ansible-inventory; Get inventory."
 
 
 ## Update README.md
