@@ -10,7 +10,8 @@
         parser:
           name: ansible.netcommon.native
           template_path: templates/property.yml
-        set_fact: property
+      register: property
+
     - debug:
         var: property
 
@@ -29,10 +30,11 @@
 #   \s .... whitespace
 
 
-
-#  ok: [localhost] => 
-#    property:
-#      ExecStart:
-#        argv[]: /home/bin/ide-1.0.1
-#        path: /home/bin/ide-1.0.1
-#        state: start
+#   property:
+#       changed: false
+#       failed: false
+#       parsed:
+#           ExecStart:
+#               argv[]: /home/bin/ide-1.0.1
+#               path: /home/bin/ide-1.0.1
+#               state: start

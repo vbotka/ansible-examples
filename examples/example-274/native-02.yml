@@ -1,0 +1,75 @@
+---
+- name: Parse Cisco Switch Stack Boot Variables
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+
+    raw_cli_output: |
+      ---------------------------
+      Switch 1
+      ---------------------------
+      Current Boot Variables:
+      BOOT variable = flash:packages_01.conf;
+
+      Boot Variables on next reload:
+      BOOT variable = flash:packages_02.conf;
+      Manual Boot = no
+      ---------------------------
+      Switch 2
+      ---------------------------
+      Current Boot Variables:
+      BOOT variable = flash:packages_A.conf;
+
+      Boot Variables on next reload:
+      BOOT variable = flash:packages_B.conf;
+      Manual Boot = yes
+      Enable Break = no
+
+  tasks:
+
+    - name: Parse output using TextFSM
+      register: boot_info
+      ansible.utils.cli_parse:
+        text: "{{ raw_cli_output }}"
+        parser:
+          name: ansible.utils.textfsm
+          template_path: "{{ playbook_dir }}/templates/parse_boot.textfsm"
+
+    - name: Display structured result
+      ansible.builtin.debug:
+        var: boot_info.parsed
+
+    - name: Display dictionary
+      vars:
+        _keys: "{{ boot_info.parsed | map(attribute='SWITCH_ID') }}"
+        ios_boot_system: "{{ dict(_keys | zip(boot_info.parsed)) }}"
+      ansible.builtin.debug:
+        var: ios_boot_system
+
+
+#    boot_info.parsed:
+#      - CURRENT_BOOT: flash:packages_01.conf
+#        ENABLE_BREAK: ''
+#        MANUAL_BOOT: 'no'
+#        NEXT_BOOT: flash:packages_02.conf
+#        SWITCH_ID: '1'
+#      - CURRENT_BOOT: flash:packages_A.conf
+#        ENABLE_BREAK: 'no'
+#        MANUAL_BOOT: 'yes'
+#        NEXT_BOOT: flash:packages_B.conf
+#        SWITCH_ID: '2'
+
+#    ios_boot_system:
+#      '1':
+#        CURRENT_BOOT: flash:packages_01.conf
+#        ENABLE_BREAK: ''
+#        MANUAL_BOOT: 'no'
+#        NEXT_BOOT: flash:packages_02.conf
+#        SWITCH_ID: '1'
+#      '2':
+#        CURRENT_BOOT: flash:packages_A.conf
+#        ENABLE_BREAK: 'no'
+#        MANUAL_BOOT: 'yes'
+#        NEXT_BOOT: flash:packages_B.conf
+#        SWITCH_ID: '2'

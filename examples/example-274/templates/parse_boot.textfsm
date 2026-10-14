@@ -1,0 +1,16 @@
+Value Required SWITCH_ID (\d+)
+Value CURRENT_BOOT (\S+)
+Value NEXT_BOOT (\S+)
+Value MANUAL_BOOT (\S+)
+Value ENABLE_BREAK (\S+)
+
+Start
+  ^Switch\s+${SWITCH_ID}
+  ^\s*BOOT variable = ${CURRENT_BOOT};
+  ^Boot Variables on next reload: -> GetNextBoot
+
+GetNextBoot
+  ^\s*BOOT variable = ${NEXT_BOOT};
+  ^\s*Manual Boot\s*=\s*${MANUAL_BOOT}
+  ^\s*Enable Break\s*=\s*${ENABLE_BREAK}
+  ^--------------------------- -> Record Start
