@@ -4,7 +4,7 @@ Setup
 setup_distribution.yml
 ----------------------
 ```yaml
-gather_facts: yes
+gather_facts: no
 tasks:
   - setup:
       gather_subset: distribution
