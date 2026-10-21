@@ -1,6 +1,5 @@
-- name: Play 1
-  hosts: test_11,test_12,test_13
-  gather_facts: false
+- name: Play 1.
+  hosts: test
   tasks:
     - debug:
-        msg: Play 1 passed
+        msg: Play 1 passed.
