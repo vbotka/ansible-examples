@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - setup:
+        gather_subset: distribution
+
+    - debug:
+        msg: |
+          {% for i in ansible_facts | dict2items | selectattr('key', 'match', 'distribution_') %}
+          {{ i.key }}: {{ i.value }}
+          {% endfor %}
