@@ -471,6 +471,7 @@ Various examples of Ansible code.
   - blockinfile [123](https://github.com/vbotka/ansible-examples/tree/master/examples/example-123),
   - cisco.ios.ios_ping [226](https://github.com/vbotka/ansible-examples/tree/master/examples/example-226),
   - cli_parse [274](https://github.com/vbotka/ansible-examples/tree/master/examples/example-274),
+[332](https://github.com/vbotka/ansible-examples/tree/master/examples/example-332),
   - command [30](https://github.com/vbotka/ansible-examples/tree/master/examples/example-030),
 [35](https://github.com/vbotka/ansible-examples/tree/master/examples/example-035),
 [171](https://github.com/vbotka/ansible-examples/tree/master/examples/example-171),
@@ -983,6 +984,7 @@ Various examples of Ansible code.
 - [Example 329.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-329) "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
 - [Example 330.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-330) "Special variables; ansible_limit; Limit selected hosts."
 - [Example 331.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-331) "Inventory; ansible-inventory; Get inventory."
+- [Example 332.](https://github.com/vbotka/ansible-examples/tree/master/examples/example-332) "Module; cli_parse; textfsm, Parse boot configuration from a Cisco switch."
 
 
 ## Update README.md

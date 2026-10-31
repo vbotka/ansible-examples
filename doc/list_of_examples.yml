@@ -334,3 +334,4 @@
 - 329. "Ansible filter; to_ini; community.general.to_ini; Converts a dictionary to the INI file format."
 - 330. "Special variables; ansible_limit; Limit selected hosts."
 - 331. "Inventory; ansible-inventory; Get inventory."
+- 332. "Module; cli_parse; textfsm, Parse boot configuration from a Cisco switch."

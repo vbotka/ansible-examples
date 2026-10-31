@@ -1,0 +1,39 @@
+- name: Parse boot variables
+  hosts: localhost
+  gather_facts: false
+  vars:
+    command_stdout: |
+      ---------------------------
+      Switch 1
+      ---------------------------
+      Current Boot Variables:
+      BOOT variable = flash:packages_01.conf;
+
+      Boot Variables on next reload:
+      BOOT variable = flash:packages_02.conf;
+      Manual Boot = no
+      ---------------------------
+      Switch 2
+      ---------------------------
+      Current Boot Variables:
+      BOOT variable = flash:packages_A.conf;
+
+      Boot Variables on next reload:
+      BOOT variable = flash:packages_B.conf;
+      Manual Boot = yes
+      Enable Break = no;
+
+  tasks:
+
+    - ansible.utils.cli_parse:
+        text: "{{ command_stdout }}"
+        parser:
+          name: ansible.utils.textfsm
+          template_path: "{{ playbook_dir }}/templates/parse_boot.textfsm"
+      register: parsed_records
+
+    - ansible.builtin.debug:
+        var: parsed_records.parsed
+
+    - ansible.builtin.debug:
+        var: parsed_records.parsed | to_boot_dict

@@ -1,0 +1,22 @@
+Value Required SWITCH_ID (\d+)
+Value CURRENT_BOOT (flash:\S+)
+Value NEXT_BOOT (flash:\S+)
+Value MANUAL_BOOT (yes|no)
+Value ENABLE_BREAK (yes|no)
+
+Start
+  ^Switch\s+ -> Continue.Record
+  ^Switch\s+${SWITCH_ID}
+  ^Current Boot Variables: -> InCurrent
+  ^Boot Variables on next reload: -> InNext
+
+InCurrent
+  ^\s*BOOT variable\s*=\s*${CURRENT_BOOT};? -> Start
+
+InNext
+  ^\s*BOOT variable\s*=\s*${NEXT_BOOT};?
+  ^\s*Manual Boot\s*=\s*${MANUAL_BOOT}
+  ^\s*Enable Break\s*=\s*${ENABLE_BREAK};?
+  ^Switch\s+ -> Continue.Record
+  ^Switch\s+${SWITCH_ID} -> Start
+  ^Current Boot Variables: -> InCurrent
